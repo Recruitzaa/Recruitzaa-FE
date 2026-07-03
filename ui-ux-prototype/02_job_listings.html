@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Search Verified Jobs — Recruitzaa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #C14F16;
+      --primary-hover: #A94210;
+      --primary-light: #FEF3EE;
+      --dark: #1E2229;
+      --dark-muted: #2D323C;
+      --ink: #111827;
+      --slate: #4B5563;
+      --slate-muted: #9CA3AF;
+      --border: #E5E7EB;
+      --surface: #F8FAFC;
+      --white: #FFFFFF;
+      --success: #059669;
+      --radius-sm: 6px;
+      --radius: 8px;
+      --radius-lg: 12px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 16px -2px rgba(0, 0, 0, 0.1);
+      --t: 0.2s ease-in-out;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--surface); color: var(--ink); line-height: 1.5; padding-bottom: 60px; }
+
+    /* GLOBAL GRID CONTAINER */
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+    /* UTILITY BAR */
+    .top-utility-bar {
+      background: var(--dark); color: #9CA3AF; font-size: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08); padding: 8px 0;
+    }
+    .utility-container {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .portal-toggle { display: flex; gap: 20px; }
+    .portal-toggle-item { color: #D1D5DB; text-decoration: none; font-weight: 500; padding: 2px 0; border-bottom: 2px solid transparent; transition: all var(--t); white-space: nowrap; }
+    .portal-toggle-item.active, .portal-toggle-item:hover { color: #FFFFFF; border-bottom-color: var(--primary); }
+
+    /* NAVBAR */
+    header { background: #FFFFFF; border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100; }
+    .nav-container { height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand-logo img { height: 42px; object-fit: contain; display: block; }
+    
+    .nav-menu { display: flex; align-items: center; gap: 12px; list-style: none; flex-wrap: nowrap; }
+    .nav-item { position: relative; white-space: nowrap; }
+    .nav-link { padding: 8px 12px; font-size: 13.5px; font-weight: 500; color: var(--dark); text-decoration: none; border-radius: var(--radius-sm); transition: all var(--t); display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+    .nav-link:hover, .nav-link.active, .nav-item:hover .nav-link { color: var(--primary); background: var(--primary-light); }
+    .nav-caret { font-size: 9px; opacity: 0.6; }
+
+    /* MEGA MENU DROPDOWN */
+    .mega-menu {
+      position: absolute; top: 100%; left: -12px; width: 440px;
+      background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md); padding: 20px; display: none;
+      grid-template-columns: 1fr 1fr; gap: 16px; z-index: 200; margin-top: 8px;
+      white-space: normal;
+    }
+    .nav-item:hover .mega-menu { display: grid; }
+    .mm-col-title { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--slate-muted); letter-spacing: 0.5px; margin-bottom: 8px; }
+    .mm-item { display: block; padding: 8px; border-radius: var(--radius-sm); text-decoration: none; transition: background var(--t); }
+    .mm-item:hover { background: var(--surface); }
+    .mm-item-title { font-size: 13px; font-weight: 600; color: var(--dark); }
+    .mm-item-desc { font-size: 11px; color: var(--slate); margin-top: 2px; }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 16px; font-size: 13.5px; font-weight: 600; border-radius: var(--radius); border: 1px solid transparent; cursor: pointer; transition: all var(--t); text-decoration: none; font-family: inherit; white-space: nowrap; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-outline { border-color: var(--border); background: #fff; color: var(--dark); }
+    .btn-outline:hover { border-color: var(--slate); background: var(--surface); }
+
+    /* BREADCRUMB STRIP */
+    .breadcrumb-strip { background: var(--surface); border-bottom: 1px solid var(--border); padding: 10px 0; font-size: 12px; color: var(--slate); }
+    .breadcrumb-container { display: flex; align-items: center; gap: 8px; }
+    .bc-link { color: var(--slate); text-decoration: none; }
+    .bc-link:hover { color: var(--primary); }
+    .bc-sep { color: var(--slate-muted); }
+
+    /* SEARCH BANNER */
+    .search-banner { background: #FFFFFF; border-bottom: 1px solid var(--border); padding: 28px 0; }
+    .search-title { font-size: 22px; font-weight: 800; color: var(--dark); margin-bottom: 14px; }
+    .search-row { display: grid; grid-template-columns: 2fr 1.5fr 1fr auto; gap: 12px; }
+    .input-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 8px 12px; display: flex; flex-direction: column; }
+    .input-box label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--slate-muted); letter-spacing: 0.5px; }
+    .input-box input, .input-box select { border: none; outline: none; background: transparent; font-size: 13.5px; font-weight: 500; color: var(--ink); width: 100%; font-family: inherit; }
+
+    /* MAIN CONTENT */
+    .layout-container { margin-top: 32px; margin-bottom: 32px; display: grid; grid-template-columns: 280px 1fr; gap: 32px; }
+
+    /* FILTER SIDEBAR */
+    .filter-panel { background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm); height: fit-content; }
+    .filter-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .filter-head h3 { font-size: 15px; font-weight: 700; color: var(--dark); }
+    .filter-reset { font-size: 12px; color: var(--primary); font-weight: 600; text-decoration: none; cursor: pointer; }
+
+    .filter-group { margin-bottom: 24px; }
+    .filter-group-title { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--slate); letter-spacing: 0.5px; margin-bottom: 12px; }
+    .filter-option { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; font-size: 13px; color: var(--ink); cursor: pointer; }
+    .filter-option input { accent-color: var(--primary); width: 16px; height: 16px; margin-right: 8px; }
+    .filter-count { font-size: 11px; color: var(--slate-muted); background: var(--surface); padding: 2px 6px; border-radius: 4px; }
+
+    /* JOB LISTINGS AREA */
+    .job-results-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .results-count { font-size: 14px; color: var(--slate); }
+    .results-count strong { color: var(--dark); font-weight: 700; }
+
+    .sort-select { padding: 6px 12px; font-size: 13px; border: 1px solid var(--border); border-radius: var(--radius); background: #fff; color: var(--dark); font-family: inherit; }
+
+    /* JOB CARD */
+    .job-card {
+      background: #FFFFFF; border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 24px; margin-bottom: 16px;
+      box-shadow: var(--shadow-sm); transition: all var(--t); position: relative;
+    }
+    .job-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-1px); }
+    
+    .job-card-top { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 16px; }
+    .company-avatar {
+      width: 48px; height: 48px; border-radius: var(--radius);
+      background: var(--dark); color: #fff; font-weight: 800; font-size: 14px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .job-main-info { flex: 1; }
+    .job-title-text { font-size: 17px; font-weight: 700; color: var(--dark); margin-bottom: 4px; text-decoration: none; display: inline-block; }
+    .job-company-text { font-size: 13px; color: var(--slate); font-weight: 500; }
+
+    .job-match-pill {
+      background: var(--primary-light); color: var(--primary);
+      border: 1px solid rgba(193, 79, 22, 0.2); border-radius: 20px;
+      padding: 4px 12px; font-size: 12px; font-weight: 700;
+    }
+
+    .job-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .job-tag { font-size: 12px; font-weight: 500; color: var(--slate); background: var(--surface); padding: 4px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+    .job-tag.featured { background: var(--primary-light); color: var(--primary); border-color: rgba(193, 79, 22, 0.2); font-weight: 600; }
+
+    .job-card-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px solid var(--border); font-size: 13px; }
+    .job-salary { font-weight: 700; color: var(--dark); font-size: 14px; }
+    .job-post-date { color: var(--slate-muted); font-size: 12px; }
+
+    /* PAGINATION */
+    .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 40px; }
+    .page-num { width: 36px; height: 36px; border-radius: var(--radius); border: 1px solid var(--border); background: #fff; font-size: 13px; font-weight: 600; color: var(--dark); display: flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; }
+    .page-num.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    /* FLOATING STAKEHOLDER DEMO TOOLBAR - PINNED TO BOTTOM RIGHT */
+    .demo-nav-bar {
+      position: fixed; bottom: 12px; right: 20px; z-index: 9999;
+      background: rgba(30, 34, 41, 0.94); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 24px;
+      padding: 4px 10px; display: flex; align-items: center; gap: 4px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3); font-size: 11px;
+    }
+    .dnb-label { color: var(--primary); font-weight: 700; padding: 0 6px; text-transform: uppercase; letter-spacing: 0.5px; font-size: 10px; border-right: 1px solid rgba(255,255,255,0.15); }
+    .dnb-link { color: #D1D5DB; text-decoration: none; font-weight: 600; padding: 3px 8px; border-radius: 12px; transition: all var(--t); white-space: nowrap; }
+    .dnb-link:hover, .dnb-link.active { background: var(--primary); color: #fff; }
+  </style>
+</head>
+<body>
+
+  <!-- UTILITY BAR -->
+  <div class="top-utility-bar">
+    <div class="container utility-container">
+      <div class="portal-toggle">
+        <a href="02_job_listings.html" class="portal-toggle-item active">For Job Seekers</a>
+        <a href="06_auth.html" class="portal-toggle-item">For Employers & Enterprise Clients</a>
+      </div>
+      <div>Support Line: <strong>+91 70972 74644</strong> &nbsp;|&nbsp; <strong>talent@recruitzaa.com</strong></div>
+    </div>
+  </div>
+
+  <header>
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/logo.png" alt="Recruitzaa"/>
+      </a>
+      <ul class="nav-menu">
+        <li><a href="01_landing.html" class="nav-link">Home</a></li>
+        <li class="nav-item">
+          <a href="02_job_listings.html" class="nav-link active">Find Jobs <span class="nav-caret">▼</span></a>
+          <div class="mega-menu">
+            <div>
+              <div class="mm-col-title">By Category</div>
+              <a href="02_job_listings.html" class="mm-item">
+                <div class="mm-item-title">IT & Software Engineering</div>
+                <div class="mm-item-desc">3,420 Active Roles</div>
+              </a>
+              <a href="02_job_listings.html" class="mm-item">
+                <div class="mm-item-title">Remote Roles</div>
+                <div class="mm-item-desc">Work From Anywhere</div>
+              </a>
+            </div>
+            <div>
+              <div class="mm-col-title">Career Tools</div>
+              <a href="04_ai_hub.html" class="mm-item">
+                <div class="mm-item-title">ATS Resume Score</div>
+                <div class="mm-item-desc">Parseability Check</div>
+              </a>
+            </div>
+          </div>
+        </li>
+        <li><a href="04_ai_hub.html" class="nav-link">AI Career Hub</a></li>
+        <li><a href="03_dashboard.html" class="nav-link">Candidate Portal</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="06_auth.html" class="btn btn-outline">Sign In</a>
+        <a href="06_auth.html" class="btn btn-primary">Register</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB STRIP -->
+  <div class="breadcrumb-strip">
+    <div class="container breadcrumb-container">
+      <a href="01_landing.html" class="bc-link">Home</a>
+      <span class="bc-sep">/</span>
+      <span style="color:var(--dark); font-weight:600;">Find Verified Jobs</span>
+      <span class="bc-sep">/</span>
+      <span>IT & Software Engineering</span>
+    </div>
+  </div>
+
+  <div class="search-banner">
+    <div class="container">
+      <h1 class="search-title">Verified Job Opportunities</h1>
+      <div class="search-row">
+        <div class="input-box">
+          <label>Job Title / Skill</label>
+          <input type="text" value="React Native Developer"/>
+        </div>
+        <div class="input-box">
+          <label>Location</label>
+          <input type="text" value="Bangalore, KA"/>
+        </div>
+        <div class="input-box">
+          <label>Experience Level</label>
+          <select>
+            <option>Mid-Senior (3-6 yrs)</option>
+            <option>Senior (6-10 yrs)</option>
+            <option>Lead (10+ yrs)</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" style="height:100%; padding:0 24px;">Filter Results</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container layout-container">
+    <!-- FILTERS SIDEBAR -->
+    <div class="filter-panel">
+      <div class="filter-head">
+        <h3>Filter Listings</h3>
+        <span class="filter-reset">Reset All</span>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Work Mode</div>
+        <label class="filter-option"><span style="display:flex;align-items:center"><input type="checkbox" checked/> Remote</span><span class="filter-count">1,420</span></label>
+        <label class="filter-option"><span style="display:flex;align-items:center"><input type="checkbox" checked/> Hybrid</span><span class="filter-count">2,110</span></label>
+        <label class="filter-option"><span style="display:flex;align-items:center"><input type="checkbox"/> On-Site</span><span class="filter-count">1,291</span></label>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Employment Type</div>
+        <label class="filter-option"><span style="display:flex;align-items:center"><input type="checkbox" checked/> Full-Time Permanent</span><span class="filter-count">3,890</span></label>
+        <label class="filter-option"><span style="display:flex;align-items:center"><input type="checkbox"/> Contract Staffing</span><span class="filter-count">740</span></label>
+        <label class="filter-option"><span style="display:flex;align-items:center"><input type="checkbox"/> Executive Search</span><span class="filter-count">190</span></label>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Salary Range (LPA)</div>
+        <label class="filter-option"><span style="display:flex;align-items:center"><input type="checkbox"/> ₹10 LPA – ₹15 LPA</span><span class="filter-count">820</span></label>
+        <label class="filter-option"><span style="display:flex;align-items:center"><input type="checkbox" checked/> ₹15 LPA – ₹25 LPA</span><span class="filter-count">2,340</span></label>
+        <label class="filter-option"><span style="display:flex;align-items:center"><input type="checkbox"/> ₹25 LPA+</span><span class="filter-count">1,660</span></label>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Industry Sector</div>
+        <label class="filter-option"><span style="display:flex;align-items:center"><input type="checkbox" checked/> IT & Software Services</span><span class="filter-count">3,100</span></label>
+        <label class="filter-option"><span style="display:flex;align-items:center"><input type="checkbox"/> BFSI & Fintech</span><span class="filter-count">920</span></label>
+        <label class="filter-option"><span style="display:flex;align-items:center"><input type="checkbox"/> E-Commerce & Retail</span><span class="filter-count">800</span></label>
+      </div>
+    </div>
+
+    <!-- LISTINGS CONTENT -->
+    <div>
+      <div class="job-results-head">
+        <div class="results-count">Showing <strong>4,821</strong> verified opportunities</div>
+        <div>
+          <span style="font-size:13px; color:var(--slate); margin-right:8px;">Sort by:</span>
+          <select class="sort-select">
+            <option>AI Match Score (Highest First)</option>
+            <option>Date Posted (Newest)</option>
+            <option>Salary (High to Low)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- CARD 1 -->
+      <div class="job-card">
+        <div class="job-card-top">
+          <div class="company-avatar" style="background:#0F172A">INF</div>
+          <div class="job-main-info">
+            <a href="03_dashboard.html" class="job-title-text">Senior React Native Engineer</a>
+            <div class="job-company-text">Infosys Limited · Bangalore, KA (Hybrid)</div>
+          </div>
+          <div class="job-match-pill">94% AI Match</div>
+        </div>
+        <div class="job-tags">
+          <span class="job-tag featured">Priority Hiring</span>
+          <span class="job-tag">React Native</span>
+          <span class="job-tag">TypeScript</span>
+          <span class="job-tag">Redux Toolkit</span>
+          <span class="job-tag">5+ Years Exp</span>
+        </div>
+        <div class="job-card-bottom">
+          <div>
+            <span class="job-salary">₹18,00,000 – ₹26,00,000 LPA</span>
+            <span style="margin:0 8px; color:var(--border);">|</span>
+            <span class="job-post-date">Posted 2 hours ago</span>
+          </div>
+          <div>
+            <a href="04_ai_hub.html" class="btn btn-outline" style="margin-right:8px;">Check ATS Fit</a>
+            <a href="05_kanban.html" class="btn btn-primary">Track / Apply</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="job-card">
+        <div class="job-card-top">
+          <div class="company-avatar" style="background:#854D0E">ZOM</div>
+          <div class="job-main-info">
+            <a href="03_dashboard.html" class="job-title-text">Mobile Application Specialist</a>
+            <div class="job-company-text">Zomato Media Pvt. Ltd. · Gurugram, HR (Remote)</div>
+          </div>
+          <div class="job-match-pill">91% AI Match</div>
+        </div>
+        <div class="job-tags">
+          <span class="job-tag">React Native</span>
+          <span class="job-tag">iOS Pipeline</span>
+          <span class="job-tag">GraphQL</span>
+          <span class="job-tag">Expo</span>
+        </div>
+        <div class="job-card-bottom">
+          <div>
+            <span class="job-salary">₹20,00,000 – ₹30,00,000 LPA</span>
+            <span style="margin:0 8px; color:var(--border);">|</span>
+            <span class="job-post-date">Posted 5 hours ago</span>
+          </div>
+          <div>
+            <a href="04_ai_hub.html" class="btn btn-outline" style="margin-right:8px;">Check ATS Fit</a>
+            <a href="05_kanban.html" class="btn btn-primary">Track / Apply</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="job-card">
+        <div class="job-card-top">
+          <div class="company-avatar" style="background:#1E3A8A">FLP</div>
+          <div class="job-main-info">
+            <a href="03_dashboard.html" class="job-title-text">Lead Mobile Frontend Architect</a>
+            <div class="job-company-text">Flipkart Internet Pvt. Ltd. · Bangalore, KA (On-Site)</div>
+          </div>
+          <div class="job-match-pill">86% AI Match</div>
+        </div>
+        <div class="job-tags">
+          <span class="job-tag">React Native Architecture</span>
+          <span class="job-tag">Performance Tuning</span>
+          <span class="job-tag">Android / iOS</span>
+          <span class="job-tag">7+ Years Exp</span>
+        </div>
+        <div class="job-card-bottom">
+          <div>
+            <span class="job-salary">₹28,00,000 – ₹38,00,000 LPA</span>
+            <span style="margin:0 8px; color:var(--border);">|</span>
+            <span class="job-post-date">Posted 1 day ago</span>
+          </div>
+          <div>
+            <a href="04_ai_hub.html" class="btn btn-outline" style="margin-right:8px;">Check ATS Fit</a>
+            <a href="05_kanban.html" class="btn btn-primary">Track / Apply</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGINATION -->
+      <div class="pagination">
+        <a href="#" class="page-num active">1</a>
+        <a href="#" class="page-num">2</a>
+        <a href="#" class="page-num">3</a>
+        <a href="#" class="page-num">4</a>
+        <a href="#" class="page-num">→</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PERSISTENT DEMO SWITCHER TOOLBAR - PINNED TO BOTTOM RIGHT -->
+  <div class="demo-nav-bar">
+    <span class="dnb-label">Demo Routes</span>
+    <a href="01_landing.html" class="dnb-link">1. Landing</a>
+    <a href="02_job_listings.html" class="dnb-link active">2. Job Search</a>
+    <a href="03_dashboard.html" class="dnb-link">3. Dashboard</a>
+    <a href="04_ai_hub.html" class="dnb-link">4. AI Hub</a>
+    <a href="05_kanban.html" class="dnb-link">5. Kanban</a>
+    <a href="06_auth.html" class="dnb-link">6. Auth</a>
+    <a href="09_design_system.html" class="dnb-link">System</a>
+  </div>
+
+</body>
+</html>

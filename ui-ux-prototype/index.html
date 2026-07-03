@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recruitzaa — UI/UX Prototype Demo Suite</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #C14F16;
+      --primary-hover: #A94210;
+      --primary-light: #FEF3EE;
+      --dark: #1E2229;
+      --dark-muted: #2D323C;
+      --ink: #111827;
+      --slate: #4B5563;
+      --slate-muted: #9CA3AF;
+      --border: #E5E7EB;
+      --surface: #F8FAFC;
+      --white: #FFFFFF;
+      --radius-sm: 6px;
+      --radius: 8px;
+      --radius-lg: 12px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+      --t: 0.2s ease-in-out;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--surface); color: var(--ink); line-height: 1.5; min-height: 100vh; display: flex; flex-direction: column; padding-bottom: 60px; }
+
+    /* HEADER */
+    header { background: #FFFFFF; border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+    .header-container { max-width: 1280px; margin: 0 auto; height: 72px; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; }
+    .brand-logo img { height: 50px; object-fit: contain; }
+
+    /* HERO HUB */
+    .hero-hub { background: #FFFFFF; border-bottom: 1px solid var(--border); padding: 56px 32px; text-align: center; }
+    .hero-hub-container { max-width: 800px; margin: 0 auto; }
+    .hub-badge { display: inline-block; padding: 4px 12px; background: var(--primary-light); color: var(--primary); font-size: 12px; font-weight: 700; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; border: 1px solid rgba(193, 79, 22, 0.2); }
+    .hub-title { font-size: 36px; font-weight: 800; color: var(--dark); letter-spacing: -0.5px; margin-bottom: 12px; }
+    .hub-subtitle { font-size: 15px; color: var(--slate); line-height: 1.6; }
+
+    /* GRID */
+    .main-container { max-width: 1280px; margin: 48px auto; padding: 0 32px; flex: 1; width: 100%; }
+    .grid-title { font-size: 18px; font-weight: 700; color: var(--dark); margin-bottom: 20px; }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 24px; }
+
+    .demo-card {
+      background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 28px; box-shadow: var(--shadow-sm); transition: all var(--t);
+      display: flex; flex-direction: column; justify-content: space-between; text-decoration: none; color: inherit;
+    }
+    .demo-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+    .card-meta { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--primary); letter-spacing: 0.5px; margin-bottom: 6px; }
+    .card-heading { font-size: 18px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .card-body { font-size: 13px; color: var(--slate); line-height: 1.5; margin-bottom: 20px; }
+
+    .card-link-text { font-size: 13px; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 4px; }
+
+    footer { background: var(--dark); color: #9CA3AF; padding: 32px; text-align: center; font-size: 13px; margin-top: 64px; }
+
+    /* FLOATING STAKEHOLDER DEMO TOOLBAR */
+    .demo-nav-bar {
+      position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 9999;
+      background: rgba(30, 34, 41, 0.94); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 30px;
+      padding: 6px 12px; display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3); font-size: 12px;
+    }
+    .dnb-label { color: var(--primary); font-weight: 700; padding: 0 8px; text-transform: uppercase; letter-spacing: 0.5px; font-size: 11px; border-right: 1px solid rgba(255,255,255,0.15); }
+    .dnb-link { color: #D1D5DB; text-decoration: none; font-weight: 600; padding: 4px 10px; border-radius: 20px; transition: all var(--t); }
+    .dnb-link:hover, .dnb-link.active { background: var(--primary); color: #fff; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/logo.png" alt="Recruitzaa"/>
+      </a>
+      <span style="font-size:13px; font-weight:600; color:var(--slate);">Stakeholder Interactive Navigation Suite v2.6</span>
+    </div>
+  </header>
+
+  <div class="hero-hub">
+    <div class="hero-hub-container">
+      <span class="hub-badge">Adecco Reference Standard</span>
+      <h1 class="hub-title">Recruitzaa Executive UI/UX Prototype</h1>
+      <p class="hub-subtitle">High-fidelity corporate web applications & candidate portals built with clean typography, structured navigation mega-menus, explicit breadcrumb routing, and instant demo quick-switching.</p>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <div class="grid-title">Prototype Interactive Screen Matrix</div>
+
+    <div class="cards-grid">
+      <!-- 01 LANDING -->
+      <a href="01_landing.html" class="demo-card">
+        <div>
+          <div class="card-meta">Module 01 · Corporate Public Portal</div>
+          <div class="card-heading">Enterprise Landing Page</div>
+          <div class="card-body">Adecco-inspired public homepage featuring top utility bar, mega-menus, hero job search, candidate vs employer portals, and service models.</div>
+        </div>
+        <div class="card-link-text">Launch Screen →</div>
+      </a>
+
+      <!-- 02 JOB LISTINGS -->
+      <a href="02_job_listings.html" class="demo-card">
+        <div>
+          <div class="card-meta">Module 02 · Public / Seeker Search</div>
+          <div class="card-heading">Job Search & Filter Engine</div>
+          <div class="card-body">Verified job search with explicit breadcrumbs (`Home / Job Search / IT`), left filter panel, AI match badges, and direct application routing.</div>
+        </div>
+        <div class="card-link-text">Launch Screen →</div>
+      </a>
+
+      <!-- 03 DASHBOARD -->
+      <a href="03_dashboard.html" class="demo-card">
+        <div>
+          <div class="card-meta">Module 03 · Candidate Portal</div>
+          <div class="card-heading">Candidate Workspace Dashboard</div>
+          <div class="card-body">Authenticated seeker workspace with dark slate sidebar, pipeline KPIs, active application status table, and skill demand index.</div>
+        </div>
+        <div class="card-link-text">Launch Screen →</div>
+      </a>
+
+      <!-- 04 AI HUB -->
+      <a href="04_ai_hub.html" class="demo-card">
+        <div>
+          <div class="card-meta">Module 04 · AI Career Tools</div>
+          <div class="card-heading">AI Career Copilot Hub</div>
+          <div class="card-body">ATS Resume Engine with score gauge, keyword match analysis, resume optimizer, and interactive AI career assistant.</div>
+        </div>
+        <div class="card-link-text">Launch Screen →</div>
+      </a>
+
+      <!-- 05 KANBAN -->
+      <a href="05_kanban.html" class="demo-card">
+        <div>
+          <div class="card-meta">Module 05 · Recruitment Workflow</div>
+          <div class="card-heading">Application Pipeline Board</div>
+          <div class="card-body">5-stage application pipeline board (Saved → Applied → Screening → Interview → Offer) with color-coded headers and interactive cards.</div>
+        </div>
+        <div class="card-link-text">Launch Screen →</div>
+      </a>
+
+      <!-- 06 AUTH -->
+      <a href="06_auth.html" class="demo-card">
+        <div>
+          <div class="card-meta">Module 06 · Access Control</div>
+          <div class="card-heading">Authentication & Onboarding</div>
+          <div class="card-body">Split-screen corporate authentication with brand trust side panel and candidate / employer role registration.</div>
+        </div>
+        <div class="card-link-text">Launch Screen →</div>
+      </a>
+
+      <!-- 09 DESIGN SYSTEM -->
+      <a href="09_design_system.html" class="demo-card">
+        <div>
+          <div class="card-meta">Design System Reference</div>
+          <div class="card-heading">Executive Design Tokens</div>
+          <div class="card-body">Color swatches (#C14F16, #1E2229), Inter typography scale, button variations, status badges, and component standards.</div>
+        </div>
+        <div class="card-link-text">Launch Design System →</div>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    Recruitzaa UI/UX Prototype Demo Suite · Built for Stakeholder Presentation · Reference: Adecco.com
+  </footer>
+
+  <!-- PERSISTENT DEMO SWITCHER TOOLBAR -->
+  <div class="demo-nav-bar">
+    <span class="dnb-label">Demo Routes</span>
+    <a href="01_landing.html" class="dnb-link">1. Landing</a>
+    <a href="02_job_listings.html" class="dnb-link">2. Job Search</a>
+    <a href="03_dashboard.html" class="dnb-link">3. Dashboard</a>
+    <a href="04_ai_hub.html" class="dnb-link">4. AI Hub</a>
+    <a href="05_kanban.html" class="dnb-link">5. Kanban</a>
+    <a href="06_auth.html" class="dnb-link">6. Auth</a>
+    <a href="09_design_system.html" class="dnb-link">System</a>
+  </div>
+
+</body>
+</html>

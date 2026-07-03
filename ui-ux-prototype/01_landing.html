@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recruitzaa — Enterprise Staffing & AI Recruitment Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #C14F16;
+      --primary-hover: #A94210;
+      --primary-light: #FEF3EE;
+      --dark: #1E2229;
+      --dark-muted: #2D323C;
+      --ink: #111827;
+      --slate: #4B5563;
+      --slate-muted: #9CA3AF;
+      --border: #E5E7EB;
+      --surface: #F8FAFC;
+      --white: #FFFFFF;
+      --success: #059669;
+      --radius-sm: 6px;
+      --radius: 8px;
+      --radius-lg: 12px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 16px -2px rgba(0, 0, 0, 0.1);
+      --t: 0.2s ease-in-out;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #FFFFFF; color: var(--ink); line-height: 1.5; padding-bottom: 60px; }
+
+    /* GLOBAL GRID CONTAINER */
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+    /* UTILITY BAR */
+    .top-utility-bar {
+      background: var(--dark); color: #9CA3AF; font-size: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08); padding: 8px 0;
+    }
+    .utility-container {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .portal-toggle { display: flex; gap: 20px; }
+    .portal-toggle-item { color: #D1D5DB; text-decoration: none; font-weight: 500; padding: 2px 0; border-bottom: 2px solid transparent; transition: all var(--t); white-space: nowrap; }
+    .portal-toggle-item.active, .portal-toggle-item:hover { color: #FFFFFF; border-bottom-color: var(--primary); }
+
+    /* NAVBAR */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--white); border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+    .nav-container {
+      height: 76px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .brand-logo img { height: 42px; object-fit: contain; display: block; }
+    
+    .nav-menu { display: flex; align-items: center; gap: 12px; list-style: none; flex-wrap: nowrap; }
+    .nav-item { position: relative; white-space: nowrap; }
+    .nav-link {
+      padding: 8px 12px; font-size: 13.5px; font-weight: 500;
+      color: var(--dark); text-decoration: none; border-radius: var(--radius-sm);
+      display: flex; align-items: center; gap: 4px; transition: all var(--t);
+      white-space: nowrap;
+    }
+    .nav-link:hover, .nav-item:hover .nav-link { color: var(--primary); background: var(--primary-light); }
+    .nav-caret { font-size: 9px; opacity: 0.6; }
+
+    /* MEGA MENU DROPDOWN */
+    .mega-menu {
+      position: absolute; top: 100%; left: -12px; width: 440px;
+      background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md); padding: 20px; display: none;
+      grid-template-columns: 1fr 1fr; gap: 16px; z-index: 200; margin-top: 8px;
+      white-space: normal;
+    }
+    .nav-item:hover .mega-menu { display: grid; }
+    .mm-col-title { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--slate-muted); letter-spacing: 0.5px; margin-bottom: 8px; }
+    .mm-item { display: block; padding: 8px; border-radius: var(--radius-sm); text-decoration: none; transition: background var(--t); }
+    .mm-item:hover { background: var(--surface); }
+    .mm-item-title { font-size: 13px; font-weight: 600; color: var(--dark); }
+    .mm-item-desc { font-size: 11px; color: var(--slate); margin-top: 2px; }
+
+    .nav-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 9px 16px; font-size: 13.5px; font-weight: 600;
+      border-radius: var(--radius); border: 1px solid transparent;
+      cursor: pointer; transition: all var(--t); text-decoration: none; font-family: inherit;
+      white-space: nowrap;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-dark { background: var(--dark); color: #fff; }
+    .btn-dark:hover { background: var(--dark-muted); }
+    .btn-outline { border-color: var(--border); background: #fff; color: var(--dark); }
+    .btn-outline:hover { border-color: var(--slate); background: var(--surface); }
+    .btn-lg { padding: 13px 26px; font-size: 14.5px; border-radius: var(--radius); }
+
+    /* BREADCRUMB STRIP */
+    .breadcrumb-strip {
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      padding: 10px 0; font-size: 12px; color: var(--slate);
+    }
+    .breadcrumb-container { display: flex; align-items: center; gap: 8px; }
+    .bc-link { color: var(--slate); text-decoration: none; }
+    .bc-link:hover { color: var(--primary); }
+    .bc-sep { color: var(--slate-muted); }
+
+    /* HERO SECTION */
+    .hero-section {
+      background: linear-gradient(180deg, #FFFFFF 0%, var(--surface) 100%);
+      border-bottom: 1px solid var(--border); padding: 64px 0 80px;
+    }
+    .hero-container { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; background: var(--primary-light);
+      border: 1px solid rgba(193, 79, 22, 0.2); border-radius: 20px;
+      font-size: 13px; font-weight: 600; color: var(--primary); margin-bottom: 20px;
+    }
+    .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
+
+    .hero-title { font-size: 46px; font-weight: 800; line-height: 1.15; letter-spacing: -1px; color: var(--dark); margin-bottom: 20px; }
+    .hero-title span { color: var(--primary); }
+    .hero-subtitle { font-size: 15px; color: var(--slate); line-height: 1.6; margin-bottom: 36px; max-width: 520px; }
+
+    /* SEARCH CONTAINER */
+    .search-box {
+      background: #FFFFFF; border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 10px;
+      box-shadow: var(--shadow-md); display: grid; grid-template-columns: 1.4fr 1fr auto; gap: 12px; align-items: center;
+    }
+    .search-input-group { padding: 4px 10px; display: flex; flex-direction: column; }
+    .search-input-group label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--slate-muted); letter-spacing: 0.5px; margin-bottom: 2px; }
+    .search-input-group input { border: none; outline: none; font-size: 13.5px; font-weight: 500; color: var(--ink); width: 100%; font-family: inherit; }
+    .search-submit { background: var(--primary); color: #fff; border: none; border-radius: var(--radius); padding: 12px 22px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all var(--t); white-space: nowrap; }
+    .search-submit:hover { background: var(--primary-hover); }
+
+    /* HERO STATS */
+    .hero-metrics { display: flex; gap: 40px; margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--border); }
+    .metric-item { display: flex; flex-direction: column; }
+    .metric-value { font-size: 26px; font-weight: 800; color: var(--dark); line-height: 1; }
+    .metric-label { font-size: 12.5px; color: var(--slate); margin-top: 4px; }
+
+    /* HERO CARD PREVIEW */
+    .hero-visual {
+      background: #FFFFFF; border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 28px;
+      box-shadow: var(--shadow-md);
+    }
+    .hv-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+    .hv-title { font-size: 15px; font-weight: 700; color: var(--dark); }
+    .hv-badge { font-size: 11.5px; font-weight: 600; color: var(--primary); background: var(--primary-light); padding: 3px 8px; border-radius: 4px; }
+
+    .hv-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: all var(--t); text-decoration: none;
+    }
+    .hv-card:hover { border-color: var(--primary); background: #FFFFFF; box-shadow: var(--shadow-sm); }
+    .hvc-role { font-size: 13.5px; font-weight: 600; color: var(--dark); }
+    .hvc-meta { font-size: 11.5px; color: var(--slate); margin-top: 2px; }
+    .hvc-match { font-size: 12.5px; font-weight: 700; color: var(--primary); background: var(--white); padding: 4px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+
+    /* SECTION LAYOUTS */
+    .section { padding: 72px 0; }
+    .section-bg { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+    .section-header { text-align: center; max-width: 640px; margin: 0 auto 48px; }
+    .section-eyebrow { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--primary); letter-spacing: 1px; margin-bottom: 6px; }
+    .section-title { font-size: 30px; font-weight: 800; color: var(--dark); letter-spacing: -0.5px; margin-bottom: 10px; }
+    .section-subtitle { font-size: 14.5px; color: var(--slate); }
+
+    /* PORTALS GRID */
+    .portals-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .portal-card {
+      background: #FFFFFF; border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 36px;
+      transition: all var(--t); display: flex; flex-direction: column;
+    }
+    .portal-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .portal-title { font-size: 20px; font-weight: 700; color: var(--dark); margin-bottom: 10px; }
+    .portal-desc { font-size: 13.5px; color: var(--slate); line-height: 1.6; margin-bottom: 24px; flex: 1; }
+    .portal-features { list-style: none; margin-bottom: 28px; }
+    .portal-features li { font-size: 13px; color: var(--dark); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .portal-features li::before { content: "✓"; color: var(--primary); font-weight: 700; }
+
+    /* SERVICES GRID */
+    .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .service-card {
+      background: #FFFFFF; border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 22px; transition: all var(--t);
+    }
+    .service-card:hover { border-color: var(--primary); box-shadow: var(--shadow-sm); }
+    .service-num { font-size: 11px; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+    .service-title { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+    .service-desc { font-size: 12.5px; color: var(--slate); line-height: 1.5; }
+
+    /* FOOTER */
+    footer { background: var(--dark); color: #9CA3AF; border-top: 1px solid rgba(255,255,255,0.08); padding: 56px 0 28px; }
+    .footer-container { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .footer-brand img { height: 36px; background: #fff; padding: 4px 10px; border-radius: var(--radius-sm); margin-bottom: 16px; }
+    .footer-brand p { font-size: 13px; line-height: 1.6; margin-bottom: 16px; }
+    .footer-heading { font-size: 12px; font-weight: 700; color: #FFFFFF; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer-links a { color: #9CA3AF; text-decoration: none; font-size: 13px; transition: color var(--t); }
+    .footer-links a:hover { color: var(--primary); }
+
+    .footer-bottom { padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; font-size: 12px; }
+
+    /* FLOATING STAKEHOLDER DEMO TOOLBAR - PINNED TO BOTTOM RIGHT */
+    .demo-nav-bar {
+      position: fixed; bottom: 12px; right: 20px; z-index: 9999;
+      background: rgba(30, 34, 41, 0.94); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 24px;
+      padding: 4px 10px; display: flex; align-items: center; gap: 4px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3); font-size: 11px;
+    }
+    .dnb-label { color: var(--primary); font-weight: 700; padding: 0 6px; text-transform: uppercase; letter-spacing: 0.5px; font-size: 10px; border-right: 1px solid rgba(255,255,255,0.15); }
+    .dnb-link { color: #D1D5DB; text-decoration: none; font-weight: 600; padding: 3px 8px; border-radius: 12px; transition: all var(--t); white-space: nowrap; }
+    .dnb-link:hover, .dnb-link.active { background: var(--primary); color: #fff; }
+  </style>
+</head>
+<body>
+
+  <!-- UTILITY BAR -->
+  <div class="top-utility-bar">
+    <div class="container utility-container">
+      <div class="portal-toggle">
+        <a href="01_landing.html" class="portal-toggle-item active">For Job Seekers</a>
+        <a href="06_auth.html" class="portal-toggle-item">For Employers & Enterprise Clients</a>
+      </div>
+      <div>Support Line: <strong>+91 70972 74644</strong> &nbsp;|&nbsp; <strong>talent@recruitzaa.com</strong></div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <header>
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/logo.png" alt="Recruitzaa"/>
+      </a>
+      <ul class="nav-menu">
+        <!-- FIND JOBS MENU -->
+        <li class="nav-item">
+          <a href="02_job_listings.html" class="nav-link">Find Jobs <span class="nav-caret">▼</span></a>
+          <div class="mega-menu">
+            <div>
+              <div class="mm-col-title">By Category</div>
+              <a href="02_job_listings.html" class="mm-item">
+                <div class="mm-item-title">IT & Software Engineering</div>
+                <div class="mm-item-desc">3,420 Active Roles in India</div>
+              </a>
+              <a href="02_job_listings.html" class="mm-item">
+                <div class="mm-item-title">Remote & Hybrid Work</div>
+                <div class="mm-item-desc">Flexible Work Positions</div>
+              </a>
+            </div>
+            <div>
+              <div class="mm-col-title">Career Tools</div>
+              <a href="04_ai_hub.html" class="mm-item">
+                <div class="mm-item-title">ATS Resume Score Check</div>
+                <div class="mm-item-desc">Test Parseability Score</div>
+              </a>
+              <a href="03_dashboard.html" class="mm-item">
+                <div class="mm-item-title">Candidate Workspace</div>
+                <div class="mm-item-desc">Dashboard & Pipeline</div>
+              </a>
+            </div>
+          </div>
+        </li>
+
+        <!-- EMPLOYER SERVICES MENU -->
+        <li class="nav-item">
+          <a href="#services" class="nav-link">Employer Services <span class="nav-caret">▼</span></a>
+          <div class="mega-menu">
+            <div>
+              <div class="mm-col-title">Staffing Engagement</div>
+              <a href="06_auth.html" class="mm-item">
+                <div class="mm-item-title">Permanent Placement</div>
+                <div class="mm-item-desc">Full-Cycle Recruitment</div>
+              </a>
+              <a href="06_auth.html" class="mm-item">
+                <div class="mm-item-title">Contract Staffing</div>
+                <div class="mm-item-desc">Rapid Contractor Deployment</div>
+              </a>
+            </div>
+            <div>
+              <div class="mm-col-title">Enterprise Solutions</div>
+              <a href="06_auth.html" class="mm-item">
+                <div class="mm-item-title">Executive Search</div>
+                <div class="mm-item-desc">Confidential Headhunting</div>
+              </a>
+              <a href="06_auth.html" class="mm-item">
+                <div class="mm-item-title">Post a Job Listing</div>
+                <div class="mm-item-desc">Employer Account Setup</div>
+              </a>
+            </div>
+          </div>
+        </li>
+
+        <!-- AI HUB LINK -->
+        <li class="nav-item">
+          <a href="04_ai_hub.html" class="nav-link">AI Career Hub</a>
+        </li>
+
+        <!-- CANDIDATE PORTAL -->
+        <li class="nav-item">
+          <a href="03_dashboard.html" class="nav-link">Candidate Portal</a>
+        </li>
+
+        <!-- ABOUT -->
+        <li class="nav-item">
+          <a href="#about" class="nav-link">About Us</a>
+        </li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="06_auth.html" class="btn btn-outline">Sign In</a>
+        <a href="06_auth.html" class="btn btn-dark">Post a Job</a>
+        <a href="06_auth.html" class="btn btn-primary">Register Free</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB STRIP -->
+  <div class="breadcrumb-strip">
+    <div class="container breadcrumb-container">
+      <a href="index.html" class="bc-link">Prototype Hub</a>
+      <span class="bc-sep">/</span>
+      <span style="color:var(--dark); font-weight:600;">Enterprise Landing Page</span>
+    </div>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <div class="container hero-container">
+      <div>
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span> Next-Generation Recruitment Platform
+        </div>
+        <h1 class="hero-title">Your Next Great<br/><span>Hire Starts Here.</span></h1>
+        <p class="hero-subtitle">Recruitzaa connects top-tier talent with leading enterprises across IT, engineering, finance, and healthcare — powered by precision AI matching.</p>
+        
+        <div class="search-box">
+          <div class="search-input-group">
+            <label>Job Title or Keyword</label>
+            <input type="text" placeholder="e.g. React Native Developer, Data Engineer" value="React Native Developer"/>
+          </div>
+          <div class="search-input-group" style="border-left:1px solid var(--border)">
+            <label>Location</label>
+            <input type="text" placeholder="City or Remote" value="Bangalore"/>
+          </div>
+          <button class="search-submit" onclick="window.location.href='02_job_listings.html'">Search Jobs</button>
+        </div>
+
+        <div class="hero-metrics">
+          <div class="metric-item">
+            <span class="metric-value">12,800+</span>
+            <span class="metric-label">Active Listings</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-value">50,000+</span>
+            <span class="metric-label">Verified Candidates</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-value">2,300+</span>
+            <span class="metric-label">Enterprise Clients</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hv-header">
+          <span class="hv-title">Top AI-Matched Roles for You</span>
+          <span class="hv-badge">90%+ Fit Score</span>
+        </div>
+        <a href="02_job_listings.html" class="hv-card">
+          <div>
+            <div class="hvc-role">Senior React Native Engineer</div>
+            <div class="hvc-meta">Infosys Limited · Bangalore · Full-Time</div>
+          </div>
+          <div class="hvc-match">89% Match</div>
+        </a>
+        <a href="02_job_listings.html" class="hv-card">
+          <div>
+            <div class="hvc-role">Mobile App Specialist (iOS / React)</div>
+            <div class="hvc-meta">Zomato · Gurugram · Hybrid</div>
+          </div>
+          <div class="hvc-match">92% Match</div>
+        </a>
+        <a href="02_job_listings.html" class="hv-card">
+          <div>
+            <div class="hvc-role">Lead Frontend Architect</div>
+            <div class="hvc-meta">Flipkart · Bangalore · Remote</div>
+          </div>
+          <div class="hvc-match">86% Match</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTALS SECTION -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Tailored Solutions</div>
+        <h2 class="section-title">Built for Candidates & Enterprise Employers</h2>
+        <p class="section-subtitle">Whether you are scaling a technical team or advancing your career, Recruitzaa provides structured tools for measurable outcomes.</p>
+      </div>
+
+      <div class="portals-grid">
+        <div class="portal-card">
+          <h3 class="portal-title">For Job Seekers</h3>
+          <p class="portal-desc">Discover AI-ranked positions that align with your verified skill set, salary expectations, and work preferences. Build ATS-optimized resumes and prepare with interactive mock interview tools.</p>
+          <ul class="portal-features">
+            <li>AI-powered resume ATS scoring & optimization</li>
+            <li>Real-time application status tracking board</li>
+            <li>Personalized salary benchmarks by role and city</li>
+          </ul>
+          <div>
+            <a href="02_job_listings.html" class="btn btn-primary btn-lg">Explore All Jobs</a>
+          </div>
+        </div>
+
+        <div class="portal-card">
+          <h3 class="portal-title">For Enterprise Employers</h3>
+          <p class="portal-desc">Streamline candidate acquisition with automated sourcing across multiple channels. Evaluate pre-screened profiles with verified technical skills and reduced time-to-fill.</p>
+          <ul class="portal-features">
+            <li>Automated candidate matching & shortlisting</li>
+            <li>Multi-channel job distribution (LinkedIn, Naukri, Indeed)</li>
+            <li>Dedicated talent acquisition account managers</li>
+          </ul>
+          <div>
+            <a href="06_auth.html" class="btn btn-dark btn-lg">Start Hiring Talent</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES SECTION -->
+  <section class="section section-bg" id="services">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Enterprise Services</div>
+        <h2 class="section-title">End-to-End Staffing & Recruitment</h2>
+        <p class="section-subtitle">Flexible engagement models designed to meet your organization's specific hiring demands.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-num">01</div>
+          <h4 class="service-title">Permanent Placement</h4>
+          <p class="service-desc">Full-cycle recruitment for core engineering, product, and leadership roles with guaranteed placement periods.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-num">02</div>
+          <div class="service-title">Contract Staffing</div>
+          <p class="service-desc">Rapid deployment of specialized technical contractors for project-based demands and peak workloads.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-num">03</div>
+          <div class="service-title">Executive Search</div>
+          <p class="service-desc">Confidential, headhunting services for VP, Director, and C-level executive talent acquisition.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-num">04</div>
+          <div class="service-title">AI Screening & Sourcing</div>
+          <p class="service-desc">Automated profile enrichment and qualification matching to reduce recruiter screening overhead by 60%.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="about">
+    <div class="container">
+      <div class="footer-container">
+        <div class="footer-brand">
+          <img src="assets/logo.png" alt="Recruitzaa"/>
+          <p>Recruitzaa is India's premier AI-powered recruitment and staffing platform, connecting verified talent with global enterprise leaders.</p>
+          <p style="font-size:12px;">Bangalore · Hyderabad · Mumbai · Delhi NCR</p>
+        </div>
+        <div>
+          <div class="footer-heading">For Candidates</div>
+          <ul class="footer-links">
+            <li><a href="02_job_listings.html">Browse Jobs</a></li>
+            <li><a href="04_ai_hub.html">ATS Resume Checker</a></li>
+            <li><a href="05_kanban.html">Application Tracker Board</a></li>
+            <li><a href="03_dashboard.html">Candidate Workspace</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-heading">For Employers</div>
+          <ul class="footer-links">
+            <li><a href="06_auth.html">Post a Job</a></li>
+            <li><a href="#services">Staffing Solutions</a></li>
+            <li><a href="#services">Executive Search</a></li>
+            <li><a href="06_auth.html">Employer Portal</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-heading">System Reference</div>
+          <ul class="footer-links">
+            <li><a href="index.html">Prototype Hub Index</a></li>
+            <li><a href="09_design_system.html">Design System Tokens</a></li>
+            <li><a href="06_auth.html">Register / Sign In</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2025 Recruitzaa Technologies Pvt. Ltd. All rights reserved.</div>
+        <div>www.recruitzaa.com</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PERSISTENT DEMO SWITCHER TOOLBAR - PINNED TO BOTTOM RIGHT -->
+  <div class="demo-nav-bar">
+    <span class="dnb-label">Demo Routes</span>
+    <a href="01_landing.html" class="dnb-link active">1. Landing</a>
+    <a href="02_job_listings.html" class="dnb-link">2. Job Search</a>
+    <a href="03_dashboard.html" class="dnb-link">3. Dashboard</a>
+    <a href="04_ai_hub.html" class="dnb-link">4. AI Hub</a>
+    <a href="05_kanban.html" class="dnb-link">5. Kanban</a>
+    <a href="06_auth.html" class="dnb-link">6. Auth</a>
+    <a href="09_design_system.html" class="dnb-link">System</a>
+  </div>
+
+</body>
+</html>

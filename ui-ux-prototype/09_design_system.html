@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Design System — Recruitzaa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #C14F16;
+      --primary-hover: #A94210;
+      --primary-light: #FEF3EE;
+      --dark: #1E2229;
+      --dark-muted: #2D323C;
+      --ink: #1F2937;
+      --slate: #4B5563;
+      --slate-light: #9CA3AF;
+      --border: #E5E7EB;
+      --surface: #F8FAFC;
+      --white: #FFFFFF;
+      --success: #059669;
+      --success-light: #ECFDF5;
+      --warning: #D97706;
+      --warning-light: #FFFBEB;
+      --error: #DC2626;
+      --error-light: #FEF2F2;
+      --radius-sm: 6px;
+      --radius: 8px;
+      --radius-lg: 12px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --t: 0.2s ease-in-out;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--surface); color: var(--ink); line-height: 1.5; }
+
+    .ds-header { background: var(--dark); color: #fff; padding: 48px 64px; }
+    .ds-header img { height: 40px; background: #fff; padding: 4px 10px; border-radius: var(--radius-sm); margin-bottom: 16px; }
+    .ds-header h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
+    .ds-header p { color: #9CA3AF; font-size: 14px; margin-top: 4px; }
+
+    .ds-container { max-width: 1200px; margin: 0 auto; padding: 48px 64px; }
+    .ds-section { margin-bottom: 56px; }
+    .ds-section-title { font-size: 20px; font-weight: 700; color: var(--dark); margin-bottom: 8px; padding-bottom: 8px; border-bottom: 2px solid var(--primary); }
+    .ds-section-desc { font-size: 14px; color: var(--slate); margin-bottom: 24px; }
+
+    /* PALETTE */
+    .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+    .color-card { border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; background: #fff; }
+    .color-box { height: 80px; }
+    .color-details { padding: 12px; font-size: 12px; }
+    .color-name { font-weight: 700; color: var(--dark); }
+    .color-hex { color: var(--slate); font-family: monospace; margin-top: 2px; }
+
+    /* TYPOGRAPHY */
+    .type-grid { display: flex; flex-direction: column; gap: 16px; }
+    .type-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: grid; grid-template-columns: 180px 1fr; gap: 24px; align-items: center; }
+    .type-meta { font-size: 12px; color: var(--slate); }
+
+    /* BUTTONS */
+    .btn-group { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 20px; font-size: 14px; font-weight: 600; border-radius: var(--radius); border: 1px solid transparent; cursor: pointer; transition: all var(--t); text-decoration: none; font-family: inherit; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-secondary { background: var(--dark); color: #fff; }
+    .btn-secondary:hover { background: var(--dark-muted); }
+    .btn-outline { border-color: var(--border); background: #fff; color: var(--dark); }
+    .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+    .btn-sm { padding: 6px 12px; font-size: 13px; }
+    .btn-lg { padding: 12px 28px; font-size: 15px; }
+
+    /* BADGES */
+    .badge-group { display: flex; flex-wrap: wrap; gap: 8px; }
+    .badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+    .badge-primary { background: var(--primary-light); color: var(--primary); border: 1px solid rgba(193, 79, 22, 0.2); }
+    .badge-success { background: var(--success-light); color: var(--success); }
+    .badge-warning { background: var(--warning-light); color: var(--warning); }
+    .badge-error { background: var(--error-light); color: var(--error); }
+    .badge-neutral { background: var(--surface); color: var(--slate); border: 1px solid var(--border); }
+
+    /* CARDS */
+    .sample-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm); max-width: 440px; }
+    .sample-card-title { font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+    .sample-card-sub { font-size: 13px; color: var(--slate); margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+  <div class="ds-header">
+    <img src="assets/logo.png" alt="Recruitzaa"/>
+    <h1>Executive UI/UX Design System</h1>
+    <p>Adecco-inspired corporate recruitment interface standards for Recruitzaa</p>
+  </div>
+
+  <div class="ds-container">
+    <!-- COLOR PALETTE -->
+    <div class="ds-section">
+      <div class="ds-section-title">1. Color Palette</div>
+      <div class="ds-section-desc">Extracted directly from Recruitzaa brand assets — clean, high-contrast, corporate.</div>
+      <div class="color-grid">
+        <div class="color-card">
+          <div class="color-box" style="background:#C14F16"></div>
+          <div class="color-details"><div class="color-name">Brand Terracotta</div><div class="color-hex">#C14F16</div></div>
+        </div>
+        <div class="color-card">
+          <div class="color-box" style="background:#1E2229"></div>
+          <div class="color-details"><div class="color-name">Executive Dark</div><div class="color-hex">#1E2229</div></div>
+        </div>
+        <div class="color-card">
+          <div class="color-box" style="background:#FEF3EE"></div>
+          <div class="color-details"><div class="color-name">Accent Soft Wash</div><div class="color-hex">#FEF3EE</div></div>
+        </div>
+        <div class="color-card">
+          <div class="color-box" style="background:#4B5563"></div>
+          <div class="color-details"><div class="color-name">Slate Text</div><div class="color-hex">#4B5563</div></div>
+        </div>
+        <div class="color-card">
+          <div class="color-box" style="background:#E5E7EB"></div>
+          <div class="color-details"><div class="color-name">Border Neutral</div><div class="color-hex">#E5E7EB</div></div>
+        </div>
+        <div class="color-card">
+          <div class="color-box" style="background:#F8FAFC"></div>
+          <div class="color-details"><div class="color-name">Canvas Surface</div><div class="color-hex">#F8FAFC</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TYPOGRAPHY -->
+    <div class="ds-section">
+      <div class="ds-section-title">2. Typography</div>
+      <div class="ds-section-desc">Inter sans-serif typeface — clean font weight scale for corporate clarity.</div>
+      <div class="type-grid">
+        <div class="type-card">
+          <div class="type-meta">Display Heading<br/>36px / Bold 800</div>
+          <div style="font-size:36px; font-weight:800; color:var(--dark);">Connecting Top Talent</div>
+        </div>
+        <div class="type-card">
+          <div class="type-meta">Section Header<br/>24px / SemiBold 700</div>
+          <div style="font-size:24px; font-weight:700; color:var(--dark);">End-to-End Staffing Solutions</div>
+        </div>
+        <div class="type-card">
+          <div class="type-meta">Card Title<br/>16px / SemiBold 600</div>
+          <div style="font-size:16px; font-weight:600; color:var(--dark);">Senior React Native Developer</div>
+        </div>
+        <div class="type-card">
+          <div class="type-meta">Body Copy<br/>14px / Regular 400</div>
+          <div style="font-size:14px; color:var(--slate);">Recruitzaa connects top-tier candidates with verified enterprise employers across IT, engineering, and corporate roles.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUTTONS & BADGES -->
+    <div class="ds-section">
+      <div class="ds-section-title">3. Interactive Controls</div>
+      <div class="ds-section-desc">Standardized buttons, tags, and status badges.</div>
+      <div style="display:flex; flex-direction:column; gap:24px;">
+        <div class="btn-group">
+          <button class="btn btn-primary btn-lg">Search Jobs</button>
+          <button class="btn btn-primary">Primary Action</button>
+          <button class="btn btn-secondary">Secondary Dark</button>
+          <button class="btn btn-outline">Outline Neutral</button>
+          <button class="btn btn-outline btn-sm">Small Filter</button>
+        </div>
+        <div class="badge-group">
+          <span class="badge badge-primary">94% AI Match</span>
+          <span class="badge badge-success">Active Listing</span>
+          <span class="badge badge-warning">Interview Scheduled</span>
+          <span class="badge badge-error">Closed</span>
+          <span class="badge badge-neutral">Full-Time</span>
+          <span class="badge badge-neutral">Remote</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAMPLE CARD -->
+    <div class="ds-section">
+      <div class="ds-section-title">4. Component Pattern</div>
+      <div class="ds-section-desc">Clean border, subtle shadow, well-proportioned layout.</div>
+      <div class="sample-card">
+        <div class="sample-card-title">Senior React Native Engineer</div>
+        <div class="sample-card-sub">Infosys Limited · Bangalore, KA</div>
+        <div class="badge-group" style="margin-bottom:16px;">
+          <span class="badge badge-primary">89% Match</span>
+          <span class="badge badge-neutral">Remote</span>
+          <span class="badge badge-neutral">₹18–26 LPA</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:12px; font-size:12px; color:var(--slate);">
+          <span>Posted 3 hrs ago</span>
+          <button class="btn btn-primary btn-sm">Apply Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

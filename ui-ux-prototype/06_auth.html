@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Account Authentication — Recruitzaa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #C14F16;
+      --primary-hover: #A94210;
+      --primary-light: #FEF3EE;
+      --dark: #1E2229;
+      --dark-muted: #2D323C;
+      --ink: #111827;
+      --slate: #4B5563;
+      --slate-muted: #9CA3AF;
+      --border: #E5E7EB;
+      --surface: #F8FAFC;
+      --white: #FFFFFF;
+      --radius-sm: 6px;
+      --radius: 8px;
+      --radius-lg: 12px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+      --t: 0.2s ease-in-out;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--surface); color: var(--ink); min-height: 100vh; display: flex; flex-direction: column; padding-bottom: 60px; }
+
+    /* TOP BAR */
+    header { background: #FFFFFF; border-bottom: 1px solid var(--border); padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .brand-logo img { height: 50px; object-fit: contain; }
+    .back-link { font-size: 13px; color: var(--slate); text-decoration: none; font-weight: 500; }
+    .back-link:hover { color: var(--primary); }
+
+    /* AUTH SPLIT LAYOUT */
+    .auth-wrapper { flex: 1; display: grid; grid-template-columns: 1fr 1fr; }
+
+    /* LEFT BRAND PANEL */
+    .brand-side {
+      background: var(--dark); color: #FFFFFF;
+      padding: 64px; display: flex; flex-direction: column; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .brand-side-title { font-size: 38px; font-weight: 800; line-height: 1.2; letter-spacing: -0.5px; margin-bottom: 20px; }
+    .brand-side-title span { color: var(--primary); }
+    .brand-side-desc { font-size: 16px; color: #9CA3AF; line-height: 1.6; margin-bottom: 48px; max-width: 480px; }
+
+    .trust-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 48px; }
+    .trust-item { display: flex; align-items: flex-start; gap: 12px; font-size: 14px; color: #D1D5DB; }
+    .trust-icon { color: var(--primary); font-weight: 800; font-size: 16px; }
+
+    /* RIGHT FORM PANEL */
+    .form-side { background: #FFFFFF; padding: 64px; display: flex; align-items: center; justify-content: center; }
+    .form-box { max-width: 420px; width: 100%; }
+
+    .role-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: var(--surface); border: 1px solid var(--border); padding: 4px; border-radius: var(--radius); margin-bottom: 24px; }
+    .role-tab { padding: 10px; text-align: center; font-size: 13px; font-weight: 600; color: var(--slate); border-radius: var(--radius-sm); cursor: pointer; transition: all var(--t); }
+    .role-tab.active { background: #FFFFFF; color: var(--dark); box-shadow: var(--shadow-sm); }
+
+    .form-title { font-size: 24px; font-weight: 800; color: var(--dark); margin-bottom: 4px; }
+    .form-desc { font-size: 13px; color: var(--slate); margin-bottom: 24px; }
+
+    .input-field { margin-bottom: 16px; }
+    .input-label { font-size: 12px; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; display: block; }
+    .input-control { width: 100%; padding: 11px 14px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; color: var(--ink); outline: none; font-family: inherit; transition: border-color var(--t); }
+    .input-control:focus { border-color: var(--primary); }
+
+    .btn { width: 100%; padding: 12px; font-size: 14px; font-weight: 600; border-radius: var(--radius); border: 1px solid transparent; cursor: pointer; transition: all var(--t); font-family: inherit; margin-top: 8px; text-decoration: none; display: inline-block; text-align: center; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+
+    .form-footer { text-align: center; margin-top: 20px; font-size: 13px; color: var(--slate); }
+    .form-footer a { color: var(--primary); font-weight: 600; text-decoration: none; }
+
+    /* FLOATING STAKEHOLDER DEMO TOOLBAR */
+    .demo-nav-bar {
+      position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 9999;
+      background: rgba(30, 34, 41, 0.94); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 30px;
+      padding: 6px 12px; display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3); font-size: 12px;
+    }
+    .dnb-label { color: var(--primary); font-weight: 700; padding: 0 8px; text-transform: uppercase; letter-spacing: 0.5px; font-size: 11px; border-right: 1px solid rgba(255,255,255,0.15); }
+    .dnb-link { color: #D1D5DB; text-decoration: none; font-weight: 600; padding: 4px 10px; border-radius: 20px; transition: all var(--t); }
+    .dnb-link:hover, .dnb-link.active { background: var(--primary); color: #fff; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="brand-logo">
+      <img src="assets/logo.png" alt="Recruitzaa"/>
+    </a>
+    <a href="01_landing.html" class="back-link">← Back to Enterprise Landing Website</a>
+  </header>
+
+  <div class="auth-wrapper">
+    <!-- LEFT SIDE BRAND -->
+    <div class="brand-side">
+      <h1 class="brand-side-title">Enterprise Staffing & <span>Precision Hiring.</span></h1>
+      <p class="brand-side-desc">Join over 50,000 candidates and 2,300 corporate enterprises streamlining recruitment with Recruitzaa.</p>
+
+      <div class="trust-list">
+        <div class="trust-item"><span class="trust-icon">✓</span> AI-Powered Candidate Matching & Skill Alignment</div>
+        <div class="trust-item"><span class="trust-icon">✓</span> Automated ATS Resume Parsing & Feedback</div>
+        <div class="trust-item"><span class="trust-icon">✓</span> Verified Permanent & Contract Engagement Models</div>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE FORM -->
+    <div class="form-side">
+      <div class="form-box">
+        <div class="role-tabs">
+          <div class="role-tab active">Job Seeker</div>
+          <div class="role-tab">Employer Client</div>
+        </div>
+
+        <h2 class="form-title">Create Candidate Account</h2>
+        <p class="form-desc">Complete your registration to access verified positions.</p>
+
+        <form onsubmit="event.preventDefault(); window.location.href='03_dashboard.html'">
+          <div class="input-field">
+            <label class="input-label">Full Name</label>
+            <input type="text" class="input-control" value="Arjun Kumar"/>
+          </div>
+
+          <div class="input-field">
+            <label class="input-label">Work Email Address</label>
+            <input type="email" class="input-control" value="arjun.kumar@gmail.com"/>
+          </div>
+
+          <div class="input-field">
+            <label class="input-label">Mobile Number</label>
+            <input type="tel" class="input-control" value="+91 98765 43210"/>
+          </div>
+
+          <div class="input-field">
+            <label class="input-label">Create Password</label>
+            <input type="password" class="input-control" value="••••••••••••"/>
+          </div>
+
+          <a href="03_dashboard.html" class="btn btn-primary">Create Free Account →</a>
+        </form>
+
+        <div class="form-footer">
+          Already registered? <a href="03_dashboard.html">Sign In to Dashboard →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PERSISTENT DEMO SWITCHER TOOLBAR -->
+  <div class="demo-nav-bar">
+    <span class="dnb-label">Demo Routes</span>
+    <a href="01_landing.html" class="dnb-link">1. Landing</a>
+    <a href="02_job_listings.html" class="dnb-link">2. Job Search</a>
+    <a href="03_dashboard.html" class="dnb-link">3. Dashboard</a>
+    <a href="04_ai_hub.html" class="dnb-link">4. AI Hub</a>
+    <a href="05_kanban.html" class="dnb-link">5. Kanban</a>
+    <a href="06_auth.html" class="dnb-link active">6. Auth</a>
+    <a href="09_design_system.html" class="dnb-link">System</a>
+  </div>
+
+</body>
+</html>

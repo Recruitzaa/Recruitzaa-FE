@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Career Hub — Recruitzaa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #C14F16;
+      --primary-hover: #A94210;
+      --primary-light: #FEF3EE;
+      --dark: #1E2229;
+      --dark-muted: #2D323C;
+      --ink: #111827;
+      --slate: #4B5563;
+      --slate-muted: #9CA3AF;
+      --border: #E5E7EB;
+      --surface: #F8FAFC;
+      --white: #FFFFFF;
+      --success: #059669;
+      --success-light: #ECFDF5;
+      --error: #DC2626;
+      --error-light: #FEF2F2;
+      --radius-sm: 6px;
+      --radius: 8px;
+      --radius-lg: 12px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+      --t: 0.2s ease-in-out;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--surface); color: var(--ink); display: flex; min-height: 100vh; padding-bottom: 60px; }
+
+    /* SIDEBAR */
+    aside {
+      width: 260px; background: var(--dark); color: #9CA3AF;
+      display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0;
+      border-right: 1px solid rgba(255,255,255,0.08); z-index: 10;
+    }
+    .sb-brand { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .sb-brand img { height: 42px; background: #fff; padding: 6px 12px; border-radius: var(--radius-sm); display: block; width: auto; }
+
+    .sb-menu { list-style: none; padding: 16px 12px; flex: 1; }
+    .sb-section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #6B7280; letter-spacing: 1px; padding: 12px 12px 6px; }
+    .sb-link {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 12px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500;
+      color: #D1D5DB; text-decoration: none; transition: all var(--t); margin-bottom: 2px;
+    }
+    .sb-link:hover, .sb-link.active { background: var(--dark-muted); color: #FFFFFF; }
+    .sb-link.active { font-weight: 600; border-left: 3px solid var(--primary); }
+
+    .sb-user { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 12px; }
+    .user-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--primary); color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+
+    /* MAIN CONTENT */
+    main { flex: 1; margin-left: 260px; display: flex; flex-direction: column; min-height: 100vh; }
+    
+    .topbar {
+      height: 68px; background: #FFFFFF; border-bottom: 1px solid var(--border);
+      padding: 0 32px; display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 5; box-shadow: var(--shadow-sm);
+    }
+    
+    .bc-trail { font-size: 12px; color: var(--slate); display: flex; align-items: center; gap: 6px; }
+    .bc-trail a { color: var(--slate); text-decoration: none; font-weight: 500; }
+    .bc-trail a:hover { color: var(--primary); }
+    .bc-trail-active { color: var(--dark); font-weight: 700; }
+
+    .tool-tabs {
+      background: #FFFFFF; border-bottom: 1px solid var(--border);
+      padding: 0 32px; display: flex; gap: 24px;
+    }
+    .tool-tab {
+      padding: 14px 0; font-size: 14px; font-weight: 600; color: var(--slate);
+      border-bottom: 2px solid transparent; cursor: pointer; transition: all var(--t);
+      text-decoration: none;
+    }
+    .tool-tab:hover, .tool-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+    .content-area { padding: 32px; max-width: 1360px; display: grid; grid-template-columns: 2fr 1fr; gap: 32px; }
+
+    .panel-card { background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm); margin-bottom: 24px; }
+    .panel-title { font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+    .panel-desc { font-size: 13px; color: var(--slate); margin-bottom: 20px; }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 20px; font-size: 14px; font-weight: 600; border-radius: var(--radius); border: 1px solid transparent; cursor: pointer; transition: all var(--t); font-family: inherit; text-decoration: none; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-outline { border-color: var(--border); background: #fff; color: var(--dark); }
+
+    /* ATS SCORE GAUGE DISPLAY */
+    .ats-results-box { display: grid; grid-template-columns: 160px 1fr; gap: 32px; align-items: center; padding: 20px; background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); }
+    .gauge-circle { width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(var(--primary) 0% 84%, var(--border) 84% 100%); display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+    .gauge-inner { width: 96px; height: 96px; border-radius: 50%; background: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+    .gauge-val { font-size: 28px; font-weight: 800; color: var(--dark); line-height: 1; }
+    .gauge-lbl { font-size: 10px; font-weight: 700; color: var(--slate-muted); text-transform: uppercase; margin-top: 2px; }
+
+    .meter-row { margin-bottom: 12px; }
+    .meter-row-head { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+    .meter-row-bg { height: 6px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .meter-row-fill { height: 100%; background: var(--primary); border-radius: 4px; }
+
+    /* KEYWORD CHIPS */
+    .chip-group { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .chip { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 4px; }
+    .chip-match { background: var(--success-light); color: var(--success); border: 1px solid rgba(5, 150, 105, 0.2); }
+    .chip-missing { background: var(--error-light); color: var(--error); border: 1px solid rgba(220, 38, 38, 0.2); }
+
+    /* AI CHAT CONTAINER */
+    .chat-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); height: 320px; display: flex; flex-direction: column; }
+    .chat-messages { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+    .message { display: flex; gap: 10px; max-width: 85%; font-size: 13px; line-height: 1.5; }
+    .message-ai { align-self: flex-start; }
+    .message-user { align-self: flex-end; flex-direction: row-reverse; }
+    .msg-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--dark); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .msg-user-avatar { background: var(--primary); }
+    .msg-body { background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 14px; color: var(--ink); }
+    .message-user .msg-body { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    .chat-input-bar { padding: 12px; background: #FFFFFF; border-top: 1px solid var(--border); display: flex; gap: 8px; }
+    .chat-input-bar input { flex: 1; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 12px; font-size: 13px; outline: none; font-family: inherit; }
+
+    /* FLOATING STAKEHOLDER DEMO TOOLBAR */
+    .demo-nav-bar {
+      position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 9999;
+      background: rgba(30, 34, 41, 0.94); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 30px;
+      padding: 6px 12px; display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3); font-size: 12px;
+    }
+    .dnb-label { color: var(--primary); font-weight: 700; padding: 0 8px; text-transform: uppercase; letter-spacing: 0.5px; font-size: 11px; border-right: 1px solid rgba(255,255,255,0.15); }
+    .dnb-link { color: #D1D5DB; text-decoration: none; font-weight: 600; padding: 4px 10px; border-radius: 20px; transition: all var(--t); }
+    .dnb-link:hover, .dnb-link.active { background: var(--primary); color: #fff; }
+  </style>
+</head>
+<body>
+
+  <aside>
+    <div class="sb-brand">
+      <a href="01_landing.html"><img src="assets/logo.png" alt="Recruitzaa"/></a>
+    </div>
+
+    <ul class="sb-menu">
+      <li class="sb-section-label">Workspace</li>
+      <li><a href="03_dashboard.html" class="sb-link"><span>Overview</span></a></li>
+      <li><a href="02_job_listings.html" class="sb-link"><span>Verified Job Search</span></a></li>
+      <li><a href="05_kanban.html" class="sb-link"><span>Application Pipeline</span></a></li>
+
+      <li class="sb-section-label">AI Career Copilot</li>
+      <li><a href="04_ai_hub.html" class="sb-link active"><span>ATS Resume Parser</span></a></li>
+      <li><a href="04_ai_hub.html" class="sb-link"><span>AI Resume Builder</span></a></li>
+      <li><a href="04_ai_hub.html" class="sb-link"><span>Mock Interview Prep</span></a></li>
+
+      <li class="sb-section-label">Profile & Settings</li>
+      <li><a href="#" class="sb-link"><span>Saved Positions</span></a></li>
+      <li><a href="06_auth.html" class="sb-link"><span>Sign Out / Switch</span></a></li>
+    </ul>
+
+    <div class="sb-user">
+      <div class="user-avatar">AK</div>
+      <div style="font-size:12px;">
+        <div style="font-weight:700; color:#fff;">Arjun Kumar</div>
+        <div style="color:#9CA3AF;">Candidate Account</div>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <div class="bc-trail">
+        <a href="01_landing.html">Home</a> <span>/</span> <a href="03_dashboard.html">Candidate Workspace</a> <span>/</span> <a href="#">AI Tools</a> <span>/</span> <span class="bc-trail-active">ATS Resume Engine</span>
+      </div>
+      <a href="03_dashboard.html" class="btn btn-outline">Back to Dashboard</a>
+    </div>
+
+    <div class="tool-tabs">
+      <a href="#" class="tool-tab active">ATS Resume Parser</a>
+      <a href="#" class="tool-tab">Resume Optimizer</a>
+      <a href="#" class="tool-tab">Cover Letter Builder</a>
+      <a href="#" class="tool-tab">Mock Interview Simulator</a>
+      <a href="#" class="tool-tab">Career Roadmap</a>
+    </div>
+
+    <div class="content-area">
+      <div>
+        <!-- ATS PARSER CARD -->
+        <div class="panel-card">
+          <h2 class="panel-title">ATS Compatibility Engine</h2>
+          <div class="panel-desc">Compare your current resume against target Job Descriptions to identify keyword gaps and formatting parseability.</div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+            <div style="background:var(--surface); border:1px dashed var(--border); padding:20px; border-radius:var(--radius); text-align:center;">
+              <div style="font-size:13px; font-weight:700; color:var(--dark);">Uploaded Resume</div>
+              <div style="font-size:12px; color:var(--slate); margin-top:2px;">Arjun_Kumar_Resume_2025.pdf (142 KB)</div>
+              <button class="btn btn-outline" style="margin-top:12px; padding:4px 12px; font-size:12px;">Change File</button>
+            </div>
+
+            <div style="background:var(--surface); border:1px solid var(--border); padding:12px; border-radius:var(--radius);">
+              <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--slate-muted); margin-bottom:4px;">Target Job Description</div>
+              <textarea style="width:100%; height:76px; border:none; background:transparent; outline:none; font-size:12px; font-family:inherit; color:var(--ink);" placeholder="Paste JD text here...">Senior React Native Developer at Infosys Limited. Requires 5+ years experience, TypeScript, Redux Toolkit, Expo, and GraphQL API integration.</textarea>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" style="width:100%;">Run Deep ATS Analysis</button>
+        </div>
+
+        <!-- ANALYSIS RESULTS -->
+        <div class="panel-card">
+          <h2 class="panel-title">ATS Analysis Summary</h2>
+          <div class="panel-desc">Analysis results for Infosys — Senior React Native Engineer (JD-8921)</div>
+
+          <div class="ats-results-box" style="margin-bottom:24px;">
+            <div style="text-align:center;">
+              <div class="gauge-circle">
+                <div class="gauge-inner">
+                  <div class="gauge-val">84</div>
+                  <div class="gauge-lbl">Score</div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="meter-row">
+                <div class="meter-row-head"><span>Keyword Alignment</span><span>88%</span></div>
+                <div class="meter-row-bg"><div class="meter-row-fill" style="width:88%;"></div></div>
+              </div>
+              <div class="meter-row">
+                <div class="meter-row-head"><span>Format Parseability</span><span>72%</span></div>
+                <div class="meter-row-bg"><div class="meter-row-fill" style="width:72%;"></div></div>
+              </div>
+              <div class="meter-row">
+                <div class="meter-row-head"><span>Work Experience Fit</span><span>92%</span></div>
+                <div class="meter-row-bg"><div class="meter-row-fill" style="width:92%;"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:6px;">Matched Keywords (12 Found)</div>
+            <div class="chip-group" style="margin-bottom:16px;">
+              <span class="chip chip-match">React Native</span>
+              <span class="chip chip-match">TypeScript</span>
+              <span class="chip chip-match">Redux Toolkit</span>
+              <span class="chip chip-match">Mobile Architecture</span>
+              <span class="chip chip-match">REST APIs</span>
+            </div>
+
+            <div style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:6px;">Missing Critical Keywords (3 Required)</div>
+            <div class="chip-group">
+              <span class="chip chip-missing">GraphQL</span>
+              <span class="chip chip-missing">Expo Framework</span>
+              <span class="chip chip-missing">AWS Pipeline</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COL AI ASSISTANT -->
+      <div>
+        <div class="panel-card">
+          <h2 class="panel-title">AI Career Assistant</h2>
+          <div class="panel-desc">Ask recommendations to improve your ATS score.</div>
+
+          <div class="chat-box">
+            <div class="chat-messages">
+              <div class="message message-ai">
+                <div class="msg-avatar">AI</div>
+                <div class="msg-body">Hello Arjun. Your ATS match score is <strong>84/100</strong> for Infosys. Adding 3 missing keywords will boost your match to 94%.</div>
+              </div>
+
+              <div class="message message-user">
+                <div class="msg-avatar msg-user-avatar">AK</div>
+                <div class="msg-body">Where should I add GraphQL and Expo to my resume?</div>
+              </div>
+
+              <div class="message message-ai">
+                <div class="msg-avatar">AI</div>
+                <div class="msg-body">Add a bullet point under your Flipkart experience: "Integrated GraphQL queries and Apollo Client for state management in Expo builds."</div>
+              </div>
+            </div>
+
+            <div class="chat-input-bar">
+              <input type="text" placeholder="Ask AI assistant a question..."/>
+              <button class="btn btn-primary" style="padding:6px 14px; font-size:13px;">Send</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <h2 class="panel-title">Automated Actions</h2>
+          <div style="display:flex; flex-direction:column; gap:8px; margin-top:12px;">
+            <button class="btn btn-outline" style="justify-content:flex-start;">Auto-Inject Missing Keywords</button>
+            <button class="btn btn-outline" style="justify-content:flex-start;">Generate Tailored Cover Letter</button>
+            <button class="btn btn-outline" style="justify-content:flex-start;">Start AI Technical Mock Interview</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- PERSISTENT DEMO SWITCHER TOOLBAR -->
+  <div class="demo-nav-bar">
+    <span class="dnb-label">Demo Routes</span>
+    <a href="01_landing.html" class="dnb-link">1. Landing</a>
+    <a href="02_job_listings.html" class="dnb-link">2. Job Search</a>
+    <a href="03_dashboard.html" class="dnb-link">3. Dashboard</a>
+    <a href="04_ai_hub.html" class="dnb-link active">4. AI Hub</a>
+    <a href="05_kanban.html" class="dnb-link">5. Kanban</a>
+    <a href="06_auth.html" class="dnb-link">6. Auth</a>
+    <a href="09_design_system.html" class="dnb-link">System</a>
+  </div>
+
+</body>
+</html>

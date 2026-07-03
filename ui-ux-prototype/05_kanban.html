@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Application Board — Recruitzaa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #C14F16;
+      --primary-hover: #A94210;
+      --primary-light: #FEF3EE;
+      --dark: #1E2229;
+      --dark-muted: #2D323C;
+      --ink: #111827;
+      --slate: #4B5563;
+      --slate-muted: #9CA3AF;
+      --border: #E5E7EB;
+      --surface: #F8FAFC;
+      --white: #FFFFFF;
+      --success: #059669;
+      --success-light: #ECFDF5;
+      --warning: #D97706;
+      --warning-light: #FFFBEB;
+      --radius-sm: 6px;
+      --radius: 8px;
+      --radius-lg: 12px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --t: 0.2s ease-in-out;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--surface); color: var(--ink); display: flex; min-height: 100vh; padding-bottom: 60px; }
+
+    /* SIDEBAR */
+    aside {
+      width: 260px; background: var(--dark); color: #9CA3AF;
+      display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0;
+      border-right: 1px solid rgba(255,255,255,0.08); z-index: 10;
+    }
+    .sb-brand { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .sb-brand img { height: 42px; background: #fff; padding: 6px 12px; border-radius: var(--radius-sm); display: block; width: auto; }
+
+    .sb-menu { list-style: none; padding: 16px 12px; flex: 1; }
+    .sb-section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #6B7280; letter-spacing: 1px; padding: 12px 12px 6px; }
+    .sb-link {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 12px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500;
+      color: #D1D5DB; text-decoration: none; transition: all var(--t); margin-bottom: 2px;
+    }
+    .sb-link:hover, .sb-link.active { background: var(--dark-muted); color: #FFFFFF; }
+    .sb-link.active { font-weight: 600; border-left: 3px solid var(--primary); }
+
+    /* MAIN CONTENT */
+    main { flex: 1; margin-left: 260px; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+    
+    .topbar {
+      height: 68px; background: #FFFFFF; border-bottom: 1px solid var(--border);
+      padding: 0 32px; display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0; box-shadow: var(--shadow-sm);
+    }
+    .bc-trail { font-size: 12px; color: var(--slate); display: flex; align-items: center; gap: 6px; }
+    .bc-trail a { color: var(--slate); text-decoration: none; font-weight: 500; }
+    .bc-trail a:hover { color: var(--primary); }
+    .bc-trail-active { color: var(--dark); font-weight: 700; }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 16px; font-size: 13px; font-weight: 600; border-radius: var(--radius); border: 1px solid transparent; cursor: pointer; transition: all var(--t); font-family: inherit; text-decoration: none; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-outline { border-color: var(--border); background: #fff; color: var(--dark); }
+
+    /* KANBAN BOARD CONTAINER */
+    .kanban-board {
+      flex: 1; padding: 24px 32px; overflow-x: auto;
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+
+    .kanban-col { width: 280px; flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; max-height: 100%; }
+    .col-header {
+      background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .col-title { font-size: 13px; font-weight: 700; color: var(--dark); }
+    .col-count { font-size: 11px; font-weight: 700; color: var(--slate); background: var(--surface); padding: 2px 8px; border-radius: 10px; border: 1px solid var(--border); }
+
+    .col-cards { display: flex; flex-direction: column; gap: 12px; overflow-y: auto; padding-right: 2px; }
+
+    /* CARD COMPONENTS */
+    .k-card {
+      background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 16px; box-shadow: var(--shadow-sm); transition: all var(--t); cursor: pointer;
+      text-decoration: none; color: inherit; display: block;
+    }
+    .k-card:hover { border-color: var(--primary); box-shadow: var(--shadow-sm); transform: translateY(-1px); }
+    .k-card-company { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--slate-muted); margin-bottom: 2px; }
+    .k-card-title { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .k-card-meta { font-size: 12px; color: var(--slate); margin-bottom: 12px; }
+    .k-card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 10px; font-size: 11px; color: var(--slate-muted); }
+
+    /* FLOATING STAKEHOLDER DEMO TOOLBAR */
+    .demo-nav-bar {
+      position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 9999;
+      background: rgba(30, 34, 41, 0.94); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 30px;
+      padding: 6px 12px; display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3); font-size: 12px;
+    }
+    .dnb-label { color: var(--primary); font-weight: 700; padding: 0 8px; text-transform: uppercase; letter-spacing: 0.5px; font-size: 11px; border-right: 1px solid rgba(255,255,255,0.15); }
+    .dnb-link { color: #D1D5DB; text-decoration: none; font-weight: 600; padding: 4px 10px; border-radius: 20px; transition: all var(--t); }
+    .dnb-link:hover, .dnb-link.active { background: var(--primary); color: #fff; }
+  </style>
+</head>
+<body>
+
+  <aside>
+    <div class="sb-brand">
+      <a href="01_landing.html"><img src="assets/logo.png" alt="Recruitzaa"/></a>
+    </div>
+
+    <ul class="sb-menu">
+      <li class="sb-section-label">Workspace</li>
+      <li><a href="03_dashboard.html" class="sb-link"><span>Overview</span></a></li>
+      <li><a href="02_job_listings.html" class="sb-link"><span>Verified Job Search</span></a></li>
+      <li><a href="05_kanban.html" class="sb-link active"><span>Application Pipeline</span></a></li>
+
+      <li class="sb-section-label">AI Career Copilot</li>
+      <li><a href="04_ai_hub.html" class="sb-link"><span>ATS Resume Parser</span></a></li>
+      <li><a href="04_ai_hub.html" class="sb-link"><span>AI Resume Builder</span></a></li>
+      <li><a href="04_ai_hub.html" class="sb-link"><span>Mock Interview Prep</span></a></li>
+
+      <li class="sb-section-label">Profile & Settings</li>
+      <li><a href="#" class="sb-link"><span>Saved Positions</span></a></li>
+      <li><a href="06_auth.html" class="sb-link"><span>Sign Out / Switch</span></a></li>
+    </ul>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <div>
+        <div class="bc-trail">
+          <a href="01_landing.html">Home</a> <span>/</span> <a href="03_dashboard.html">Candidate Workspace</a> <span>/</span> <span class="bc-trail-active">Application Board</span>
+        </div>
+        <div style="font-size:16px; font-weight:800; color:var(--dark); margin-top:2px;">Application Pipeline Board</div>
+      </div>
+      <div>
+        <a href="03_dashboard.html" class="btn btn-outline">Back to Dashboard</a>
+        <a href="02_job_listings.html" class="btn btn-primary">+ Add Position</a>
+      </div>
+    </div>
+
+    <div class="kanban-board">
+      <!-- COL 1: SAVED -->
+      <div class="kanban-col">
+        <div class="col-header">
+          <span class="col-title">Saved Positions</span>
+          <span class="col-count">12</span>
+        </div>
+        <div class="col-cards">
+          <a href="02_job_listings.html" class="k-card">
+            <div class="k-card-company">Microsoft</div>
+            <div class="k-card-title">Sr. React Native Engineer</div>
+            <div class="k-card-meta">₹28 – 38 LPA · Remote</div>
+            <div class="k-card-footer">
+              <span>91% AI Match</span>
+              <span>Saved 2d ago</span>
+            </div>
+          </a>
+          <a href="02_job_listings.html" class="k-card">
+            <div class="k-card-company">Amazon</div>
+            <div class="k-card-title">Mobile App Engineer</div>
+            <div class="k-card-meta">₹24 – 32 LPA · Hybrid</div>
+            <div class="k-card-footer">
+              <span>88% AI Match</span>
+              <span>Saved 4d ago</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- COL 2: APPLIED -->
+      <div class="kanban-col">
+        <div class="col-header" style="border-top:3px solid #3B82F6">
+          <span class="col-title">Applied</span>
+          <span class="col-count">7</span>
+        </div>
+        <div class="col-cards">
+          <a href="04_ai_hub.html" class="k-card">
+            <div class="k-card-company">Infosys Limited</div>
+            <div class="k-card-title">Senior React Native Developer</div>
+            <div class="k-card-meta">₹18 – 26 LPA · Bangalore</div>
+            <div class="k-card-footer">
+              <span style="color:#2563EB; font-weight:600;">Submitted</span>
+              <span>Jul 1, 2025</span>
+            </div>
+          </a>
+          <a href="04_ai_hub.html" class="k-card">
+            <div class="k-card-company">Flipkart</div>
+            <div class="k-card-title">Mobile App Specialist</div>
+            <div class="k-card-meta">₹16 – 24 LPA · Bangalore</div>
+            <div class="k-card-footer">
+              <span style="color:#2563EB; font-weight:600;">Submitted</span>
+              <span>Jun 29, 2025</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- COL 3: SCREENING -->
+      <div class="kanban-col">
+        <div class="col-header" style="border-top:3px solid #D97706">
+          <span class="col-title">Recruiter Screening</span>
+          <span class="col-count">3</span>
+        </div>
+        <div class="col-cards">
+          <a href="04_ai_hub.html" class="k-card">
+            <div class="k-card-company">TCS Digital</div>
+            <div class="k-card-title">React Native Lead</div>
+            <div class="k-card-meta">₹22 – 32 LPA · Hyderabad</div>
+            <div class="k-card-footer">
+              <span style="color:#D97706; font-weight:600;">Call Scheduled</span>
+              <span>Jul 4, 11:00 AM</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- COL 4: INTERVIEW -->
+      <div class="kanban-col">
+        <div class="col-header" style="border-top:3px solid var(--primary)">
+          <span class="col-title">Interview Stages</span>
+          <span class="col-count">2</span>
+        </div>
+        <div class="col-cards">
+          <a href="04_ai_hub.html" class="k-card" style="border-color:var(--primary);">
+            <div class="k-card-company">Zomato Media</div>
+            <div class="k-card-title">Senior Mobile Engineer</div>
+            <div class="k-card-meta">₹20 – 30 LPA · Remote</div>
+            <div class="k-card-footer">
+              <span style="color:var(--primary); font-weight:700;">Round 2 Technical</span>
+              <span>Jul 8, 2:00 PM</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- COL 5: OFFER -->
+      <div class="kanban-col">
+        <div class="col-header" style="border-top:3px solid #059669">
+          <span class="col-title">Offer Extended</span>
+          <span class="col-count">1</span>
+        </div>
+        <div class="col-cards">
+          <a href="03_dashboard.html" class="k-card" style="background:#ECFDF5; border-color:#059669;">
+            <div class="k-card-company" style="color:#059669;">Razorpay</div>
+            <div class="k-card-title">Staff Mobile Engineer</div>
+            <div class="k-card-meta">₹32,00,000 LPA Fixed</div>
+            <div class="k-card-footer">
+              <span style="color:#059669; font-weight:700;">Offer Received</span>
+              <span>Deadline Jul 10</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- PERSISTENT DEMO SWITCHER TOOLBAR -->
+  <div class="demo-nav-bar">
+    <span class="dnb-label">Demo Routes</span>
+    <a href="01_landing.html" class="dnb-link">1. Landing</a>
+    <a href="02_job_listings.html" class="dnb-link">2. Job Search</a>
+    <a href="03_dashboard.html" class="dnb-link">3. Dashboard</a>
+    <a href="04_ai_hub.html" class="dnb-link">4. AI Hub</a>
+    <a href="05_kanban.html" class="dnb-link active">5. Kanban</a>
+    <a href="06_auth.html" class="dnb-link">6. Auth</a>
+    <a href="09_design_system.html" class="dnb-link">System</a>
+  </div>
+
+</body>
+</html>
