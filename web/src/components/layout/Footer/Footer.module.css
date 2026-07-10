@@ -1,0 +1,84 @@
+.footer {
+  background: var(--color-dark);
+  color: #9ca3af;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 3.5rem 0 1.75rem;
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.brand img {
+  height: 36px;
+  background: #fff;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1rem;
+}
+
+.brand p {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.cities {
+  font-size: 0.75rem;
+}
+
+.heading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.9rem;
+}
+
+.links {
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.links a {
+  color: #9ca3af;
+  font-size: 0.82rem;
+}
+
+.links a:hover {
+  color: var(--color-primary);
+}
+
+.bottom {
+  padding-top: 1.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .grid,
+  .bottom {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+}

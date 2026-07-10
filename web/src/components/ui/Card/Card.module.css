@@ -1,0 +1,33 @@
+.card {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  transition: all var(--transition);
+}
+
+.variant-default {
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.variant-elevated {
+  border: 1px solid transparent;
+  box-shadow: var(--shadow-md);
+}
+
+.variant-elevated:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.variant-flat {
+  border: 1px solid var(--color-border);
+  box-shadow: none;
+}
+
+.variant-glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: var(--shadow);
+}
