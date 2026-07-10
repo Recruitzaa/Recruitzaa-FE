@@ -1,0 +1,54 @@
+:root {
+  /* Brand */
+  --color-primary:        #C14F16;
+  --color-primary-hover:  #A94210;
+  --color-primary-light:  #FEF3EE;
+
+  /* Neutrals */
+  --color-dark:           #1E2229;
+  --color-dark-muted:     #2D323C;
+  --color-ink:            #111827;
+  --color-slate:          #4B5563;
+  --color-slate-muted:    #9CA3AF;
+  --color-border:         #E5E7EB;
+  --color-surface:        #F8FAFC;
+  --color-white:          #FFFFFF;
+
+  /* Semantic */
+  --color-success:        #059669;
+  --color-success-light:  #ECFDF5;
+  --color-warning:        #D97706;
+  --color-warning-light:  #FFFBEB;
+  --color-error:          #DC2626;
+  --color-error-light:    #FEF2F2;
+
+  /* Admin accent */
+  --color-admin-accent:   #6366F1;
+  --color-admin-surface:  #0F1117;
+
+  /* Spacing */
+  --radius-sm:  6px;
+  --radius:     8px;
+  --radius-lg:  12px;
+
+  /* Shadows */
+  --shadow-sm:  0 1px 2px 0 rgba(0,0,0,0.05);
+  --shadow:     0 1px 3px 0 rgba(0,0,0,0.10);
+  --shadow-md:  0 4px 6px -1px rgba(0,0,0,0.10);
+  --shadow-lg:  0 10px 25px rgba(0,0,0,0.12);
+
+  /* Layout */
+  --sidebar-width:   260px;
+  --topbar-height:   68px;
+  --navbar-height:   76px;
+  --container-max:   1280px;
+
+  /* Motion */
+  --transition:  0.2s ease-in-out;
+
+  /* Breakpoints */
+  --bp-sm:  640px;
+  --bp-md:  768px;
+  --bp-lg:  1024px;
+  --bp-xl:  1280px;
+}
