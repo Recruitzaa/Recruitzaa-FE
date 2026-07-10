@@ -1,0 +1,874 @@
+# Recruitzaa — React Frontend Architecture Plan (v3 — Final)
+
+> **Authored by**: Senior Frontend Architect (10 YOE perspective)
+> **Stack**: React 18 + TypeScript + Redux Toolkit + TanStack Query + React Router v6 + Vite
+> **Auth**: Firebase (Google OAuth + Email/Password)
+> **Scope**: 4-Portal SPA — Public + Candidate + Employer + Super Admin
+> **Design**: Mobile-First Responsive + Modern Corporate (Adecco-reference)
+> **Reference UIs**: ui-ux-prototype HTML screens + adecco.com/employers
+
+---
+
+## Four Portals — Full Platform Architecture
+
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                        RECRUITZAA PLATFORM                                   │
+│                                                                              │
+│   PUBLIC            CANDIDATE             EMPLOYER           SUPER ADMIN     │
+│   ──────────        ──────────────        ────────────       ────────────    │
+│   /                 /candidate/*          /employer/*        /admin/*        │
+│   /jobs             Dashboard             Dashboard          Dashboard       │
+│   /jobs/:id         AI Hub                Post Job           Job Approvals   │
+│   /auth             Kanban                Candidates         Company Mgmt    │
+│   /employers        Profile               Analytics          User Mgmt       │
+│   /about                                  Enquiry Form       Platform Stats  │
+└──────────────────────────────────────────────────────────────────────────────┘
+         ↕ Firebase Auth (role: CANDIDATE | EMPLOYER | SUPER_ADMIN)
+                     ↕ REST API Backend
+                     ↕ OpenAI API
+```
+
+---
+
+## Role System
+
+| Role | Firebase Custom Claim | Access |
+|---|---|---|
+| `CANDIDATE` | `role: "CANDIDATE"` | Candidate Portal + Public |
+| `EMPLOYER` | `role: "EMPLOYER"` | Employer Portal + Public |
+| `SUPER_ADMIN` | `role: "SUPER_ADMIN"` | Admin Panel (full access) |
+| _(unauthenticated)_ | — | Public site only |
+
+---
+
+## Final Tech Stack
+
+| Layer | Library | Version | Rationale |
+|---|---|---|---|
+| Build | **Vite** | 5.x | Fastest HMR, optimized prod build |
+| Framework | **React** | 18.x (TypeScript strict) | Concurrent features |
+| Routing | **React Router** | v6.x | Nested routes, lazy loading, guards |
+| Global State | **Redux Toolkit** | 2.x | Auth/UI/notification state |
+| Server State | **TanStack Query** | v5.x | Caching, pagination, optimistic updates |
+| Auth | **Firebase SDK** | v10.x | Google OAuth + Email/Password |
+| HTTP | **Axios** | 1.x | Firebase token interceptor |
+| Forms | **React Hook Form + Zod** | latest | Perf forms + schema validation |
+| Data Tables | **TanStack Table** | v8.x | Headless, sort/filter/paginate, custom CSS |
+| Drag & Drop | **@dnd-kit/core** | latest | Kanban board |
+| Icons | **Lucide React** | latest | MIT, tree-shakeable |
+| SEO | **react-helmet-async** | latest | Per-page meta tags, OG, title |
+| Animations | **framer-motion** | 11.x | Page transitions, micro-animations |
+| File Upload | **react-dropzone** | latest | PDF/DOCX validation |
+| Date | **date-fns** | 3.x | Formatting, relative time |
+| AI/OpenAI | **openai** SDK | 4.x | Streaming chat + ATS |
+| Styling | **CSS Modules + CSS Variables** | — | Zero runtime, design token driven |
+| Testing | **Vitest + RTL** | latest | Vite-native |
+| Quality | ESLint + Prettier + Husky | (existing) | Already configured |
+
+> ⚠️ **No Bootstrap. No Material UI. No Ant Design.** Full custom CSS.
+
+---
+
+## Full Project Directory Tree (LLD)
+
+```
+src/
+│
+├── main.tsx
+├── App.tsx                             # All providers + Router root
+├── vite-env.d.ts
+│
+├── assets/
+│   └── logo.png
+│
+├── styles/
+│   ├── tokens.css                      # All CSS custom properties
+│   ├── global.css                      # Reset + body + utilities
+│   └── typography.css                  # Inter scale
+│
+├── config/
+│   ├── constants.ts                    # APP_NAME, PAGE_LIMITS, etc.
+│   ├── routes.ts                       # ROUTES.HOME, ROUTES.ADMIN.JOBS, etc.
+│   ├── firebase.ts                     # Firebase app init (reads VITE_FIREBASE_*)
+│   ├── queryClient.ts                  # TanStack Query client
+│   └── env.ts                          # Typed env var wrappers
+│
+├── lib/
+│   ├── axios.ts                        # Axios instance + Firebase token interceptor
+│   ├── openai.ts                       # OpenAI SDK instance
+│   ├── storage.ts                      # localStorage helpers
+│   └── utils.ts                        # formatters, slugify, cn() helper
+│
+├── types/
+│   ├── auth.types.ts                   # UserRole, AppUser, FirebaseUser
+│   ├── job.types.ts                    # Job, JobStatus, JobFilter, PostedJob
+│   ├── application.types.ts            # Application, KanbanColumnId, AppStage
+│   ├── ai.types.ts                     # ATSScore, ChatMessage, KeywordMatch
+│   ├── employer.types.ts               # Employer, EmployerStatus, StaffingEnquiry
+│   ├── company.types.ts                # Company, CompanyStatus, CompanyVerification
+│   ├── admin.types.ts                  # AdminStats, ApprovalAction, AuditLog
+│   └── api.types.ts                    # ApiError, PaginatedMeta, PaginatedResponse<T>
+│
+├── store/
+│   ├── index.ts
+│   ├── hooks.ts                        # useAppSelector, useAppDispatch
+│   └── slices/
+│       ├── auth.slice.ts               # Firebase user, role, isAuthenticated
+│       ├── ui.slice.ts                 # toasts, modals, sidebarCollapsed
+│       └── user.slice.ts               # candidateProfile | employerProfile | adminUser
+│
+├── services/
+│   ├── auth.service.ts                 # Firebase signIn/signOut/getIdToken
+│   ├── jobs.service.ts                 # getJobs, getJobById, searchJobs, applyToJob
+│   ├── applications.service.ts         # getApplications, updateStage, getKanban
+│   ├── ai.service.ts                   # scoreResume (custom API), chatWithAI (OpenAI)
+│   ├── profile.service.ts              # getProfile, updateProfile, uploadResume
+│   ├── employer.service.ts             # postJob, getPostedJobs, getEmployerCandidates
+│   ├── company.service.ts              # getCompanies, createCompany, updateCompany
+│   └── admin.service.ts               # approveJob, rejectJob, getStats, manageUsers
+│
+├── hooks/
+│   ├── useAuth.ts                      # Firebase auth state + Redux sync
+│   ├── useJobSearch.ts                 # Debounced search + URL param sync
+│   ├── usePagination.ts                # Page/limit state
+│   ├── useToast.ts                     # Add toast via Redux dispatch
+│   ├── useMediaQuery.ts                # Responsive breakpoints
+│   ├── useScrollLock.ts                # Lock body scroll for modals
+│   └── useFileUpload.ts                # react-dropzone (PDF/DOCX, 5MB)
+│
+├── components/
+│   │
+│   ├── ui/                             # Atomic Design System
+│   │   ├── Button/
+│   │   │   ├── Button.tsx              # variant: primary|secondary|outline|ghost|danger
+│   │   │   ├── Button.module.css
+│   │   │   └── index.ts
+│   │   ├── Badge/
+│   │   │   ├── Badge.tsx               # variant: primary|success|warning|error|neutral
+│   │   │   └── Badge.module.css
+│   │   ├── Input/
+│   │   │   ├── Input.tsx               # label, error, leftIcon, rightIcon, hint
+│   │   │   └── Input.module.css
+│   │   ├── Select/
+│   │   │   ├── Select.tsx
+│   │   │   └── Select.module.css
+│   │   ├── Textarea/
+│   │   │   └── Textarea.tsx
+│   │   ├── Card/
+│   │   │   ├── Card.tsx                # variant: default|glass|elevated|flat
+│   │   │   └── Card.module.css
+│   │   ├── DataTable/                  # TanStack Table v8 wrapper
+│   │   │   ├── DataTable.tsx           # Generic <T> typed table
+│   │   │   ├── TableHeader.tsx         # Sort indicators, column toggle
+│   │   │   ├── TableBody.tsx
+│   │   │   ├── TablePagination.tsx     # Page controls
+│   │   │   ├── TableEmptyState.tsx
+│   │   │   ├── TableSkeleton.tsx
+│   │   │   └── DataTable.module.css    # Fully custom — design tokens only
+│   │   ├── Modal/
+│   │   │   ├── Modal.tsx
+│   │   │   ├── ModalHeader.tsx
+│   │   │   ├── ModalFooter.tsx
+│   │   │   └── Modal.module.css
+│   │   ├── Drawer/
+│   │   │   ├── Drawer.tsx              # Left/right/bottom variants
+│   │   │   └── Drawer.module.css
+│   │   ├── ConfirmDialog/
+│   │   │   └── ConfirmDialog.tsx       # Approve/Reject action confirmation
+│   │   ├── StatusChip/
+│   │   │   └── StatusChip.tsx          # Job: PENDING|APPROVED|REJECTED|EXPIRED
+│   │   ├── Spinner/
+│   │   │   └── Spinner.tsx
+│   │   ├── Skeleton/
+│   │   │   ├── Skeleton.tsx
+│   │   │   └── SkeletonCard.tsx
+│   │   ├── Avatar/
+│   │   │   └── Avatar.tsx              # Initials fallback + image
+│   │   ├── Toast/
+│   │   │   ├── Toast.tsx
+│   │   │   └── ToastContainer.tsx
+│   │   ├── ProgressBar/
+│   │   │   └── ProgressBar.tsx
+│   │   ├── FileDropZone/
+│   │   │   ├── FileDropZone.tsx        # PDF/DOCX only, 5MB max
+│   │   │   └── FileDropZone.module.css
+│   │   ├── Pagination/
+│   │   │   └── Pagination.tsx          # Standalone page navigator
+│   │   ├── StatsCard/
+│   │   │   ├── StatsCard.tsx           # KPI card: icon + value + label + trend
+│   │   │   └── StatsCard.module.css
+│   │   └── EmptyState/
+│   │       └── EmptyState.tsx          # Illustration + message + CTA
+│   │
+│   └── layout/
+│       ├── PublicLayout/
+│       │   ├── PublicLayout.tsx        # UtilityBar + Navbar + <Outlet> + Footer
+│       │   └── PublicLayout.module.css
+│       ├── PortalLayout/
+│       │   ├── PortalLayout.tsx        # Sidebar + Topbar + <Outlet>
+│       │   └── PortalLayout.module.css
+│       ├── AdminLayout/
+│       │   ├── AdminLayout.tsx         # Dark sidebar + admin topbar + <Outlet>
+│       │   └── AdminLayout.module.css  # Distinct dark theme for admin
+│       ├── Navbar/
+│       │   ├── Navbar.tsx              # Sticky, blur on scroll
+│       │   ├── NavMenu.tsx             # Desktop nav links
+│       │   ├── MegaMenu.tsx            # Find Jobs / Employer Services
+│       │   ├── NavActions.tsx          # Sign In / Post Job / Register
+│       │   ├── MobileNavDrawer.tsx     # Hamburger → full drawer
+│       │   └── Navbar.module.css
+│       ├── Sidebar/
+│       │   ├── Sidebar.tsx             # Desktop fixed (candidate/employer)
+│       │   ├── AdminSidebar.tsx        # Dark sidebar for admin panel
+│       │   ├── SidebarLink.tsx
+│       │   ├── SidebarUser.tsx
+│       │   ├── MobileSidebar.tsx       # Drawer variant
+│       │   └── Sidebar.module.css
+│       ├── Topbar/
+│       │   ├── Topbar.tsx
+│       │   └── Topbar.module.css
+│       ├── Breadcrumb/
+│       │   └── Breadcrumb.tsx
+│       ├── UtilityBar/
+│       │   └── UtilityBar.tsx          # Top dark bar, "For Job Seekers / Employers"
+│       └── Footer/
+│           ├── Footer.tsx
+│           └── Footer.module.css
+│
+├── features/
+│   │
+│   ├── auth/
+│   │   ├── components/
+│   │   │   ├── AuthBrandPanel.tsx      # Dark left panel, trust points
+│   │   │   ├── RoleTabs.tsx            # Job Seeker / Employer toggle
+│   │   │   ├── LoginForm.tsx
+│   │   │   ├── RegisterForm.tsx
+│   │   │   └── GoogleSignInButton.tsx
+│   │   ├── hooks/
+│   │   │   └── useAuthForms.ts
+│   │   └── guards/
+│   │       └── RoleGuard.tsx           # Redirects based on Firebase custom claim role
+│   │
+│   ├── jobs/
+│   │   ├── components/
+│   │   │   ├── JobCard.tsx
+│   │   │   ├── JobDetailPanel.tsx
+│   │   │   ├── JobFilters.tsx
+│   │   │   ├── JobFilterDrawer.tsx     # Mobile bottom sheet
+│   │   │   ├── JobSearchBar.tsx
+│   │   │   ├── AIMatchBadge.tsx
+│   │   │   └── JobApplyModal.tsx
+│   │   ├── hooks/
+│   │   │   ├── useJobs.ts
+│   │   │   ├── useJobDetail.ts
+│   │   │   └── useJobFilters.ts
+│   │   └── schemas/
+│   │       └── jobFilter.schema.ts
+│   │
+│   ├── candidate/
+│   │   ├── components/
+│   │   │   ├── DashboardKPICards.tsx
+│   │   │   ├── ApplicationTable.tsx    # TanStack Table
+│   │   │   ├── SkillDemandIndex.tsx
+│   │   │   ├── ProfileCard.tsx
+│   │   │   └── RecommendedJobs.tsx
+│   │   └── hooks/
+│   │       ├── useCandidateDashboard.ts
+│   │       └── useApplications.ts
+│   │
+│   ├── kanban/
+│   │   ├── components/
+│   │   │   ├── KanbanBoard.tsx
+│   │   │   ├── KanbanColumn.tsx
+│   │   │   ├── KanbanCard.tsx
+│   │   │   ├── KanbanColumnHeader.tsx
+│   │   │   └── KanbanDragOverlay.tsx
+│   │   ├── hooks/
+│   │   │   └── useKanban.ts
+│   │   └── constants/
+│   │       └── kanban.constants.ts     # SAVED|APPLIED|SCREENING|INTERVIEW|OFFER
+│   │
+│   ├── ai-hub/
+│   │   ├── components/
+│   │   │   ├── ATSScoreGauge.tsx       # SVG circular gauge, animated
+│   │   │   ├── KeywordMatchList.tsx
+│   │   │   ├── ResumeUploadZone.tsx
+│   │   │   ├── AIChatPanel.tsx
+│   │   │   ├── ChatMessage.tsx
+│   │   │   ├── AIChatInput.tsx
+│   │   │   └── ScoreBreakdownCard.tsx
+│   │   ├── hooks/
+│   │   │   ├── useATSScore.ts
+│   │   │   └── useAIChat.ts
+│   │   └── schemas/
+│   │       └── resume.schema.ts        # PDF/DOCX, max 5MB
+│   │
+│   ├── employer/
+│   │   ├── components/
+│   │   │   ├── EmployerHero.tsx            # Adecco-style bold headline + CTA
+│   │   │   ├── EmployerServicesGrid.tsx    # 4 service cards (Perm/Contract/Exec/AI)
+│   │   │   ├── EmployerIndustriesGrid.tsx  # Industry sector cards
+│   │   │   ├── EmployerTrustStats.tsx      # 50k+ candidates, 2300 clients metrics
+│   │   │   ├── StaffingEnquiryForm.tsx     # Contact/enquiry form for enterprise
+│   │   │   ├── EmployerKPICards.tsx
+│   │   │   ├── PostJobForm/
+│   │   │   │   ├── PostJobForm.tsx         # Multi-step form (3 steps)
+│   │   │   │   ├── Step1_JobDetails.tsx    # Title, description, category
+│   │   │   │   ├── Step2_Requirements.tsx  # Skills, experience, salary
+│   │   │   │   ├── Step3_Preferences.tsx   # Location, remote, type
+│   │   │   │   └── postJob.schema.ts       # Zod schema per step
+│   │   │   ├── JobPostingCard.tsx          # Posted job: status badge + actions
+│   │   │   ├── CandidateTable.tsx          # TanStack Table: applicant view
+│   │   │   └── CandidateDetailModal.tsx
+│   │   └── hooks/
+│   │       ├── useEmployerJobs.ts
+│   │       └── useEmployerCandidates.ts
+│   │
+│   └── admin/
+│       ├── components/
+│       │   │
+│       │   ├── overview/
+│       │   │   ├── AdminKPICards.tsx        # Total users, jobs, companies, revenue
+│       │   │   ├── PlatformActivityChart.tsx # Registrations / applications over time
+│       │   │   └── RecentActivityFeed.tsx   # Latest actions log
+│       │   │
+│       │   ├── job-approvals/
+│       │   │   ├── JobApprovalTable.tsx     # TanStack Table: all pending jobs
+│       │   │   ├── JobApprovalCard.tsx      # Individual job review card
+│       │   │   ├── ApprovalActionBar.tsx    # Approve / Reject / Request Changes
+│       │   │   ├── JobRejectModal.tsx       # Rejection reason + notes
+│       │   │   └── JobDetailReview.tsx      # Full job detail for admin review
+│       │   │
+│       │   ├── company-management/
+│       │   │   ├── CompanyTable.tsx         # TanStack Table: all companies
+│       │   │   ├── CompanyForm.tsx          # Add / Edit company (name, logo, GST, etc.)
+│       │   │   ├── CompanyDetailModal.tsx   # Company info + linked employers
+│       │   │   ├── CompanyVerificationBadge.tsx # Verified / Unverified / Suspended
+│       │   │   └── CompanyStatusActions.tsx # Verify / Suspend / Delete actions
+│       │   │
+│       │   ├── user-management/
+│       │   │   ├── UserTable.tsx            # TanStack Table: all platform users
+│       │   │   ├── UserDetailModal.tsx      # Profile, role, activity
+│       │   │   ├── UserRoleChanger.tsx      # Change role select + confirm
+│       │   │   └── UserStatusToggle.tsx     # Activate / Suspend user
+│       │   │
+│       │   └── employer-management/
+│       │       ├── EmployerTable.tsx         # All registered employers
+│       │       ├── EmployerVerificationFlow.tsx
+│       │       └── EmployerDetailPanel.tsx
+│       │
+│       └── hooks/
+│           ├── useAdminStats.ts
+│           ├── useJobApprovals.ts
+│           ├── useCompanyManagement.ts
+│           └── useUserManagement.ts
+│
+└── pages/
+    ├── public/
+    │   ├── LandingPage.tsx              # / — dual portal hero (candidate + employer CTA)
+    │   ├── EmployerLandingPage.tsx      # /employers — Adecco-reference employer page
+    │   ├── JobListingsPage.tsx          # /jobs
+    │   └── JobDetailPage.tsx            # /jobs/:id
+    ├── auth/
+    │   └── AuthPage.tsx                 # /auth
+    ├── candidate/
+    │   ├── DashboardPage.tsx            # /candidate/dashboard
+    │   ├── ApplicationsPage.tsx         # /candidate/applications
+    │   ├── KanbanPage.tsx               # /candidate/pipeline
+    │   ├── AIHubPage.tsx                # /candidate/ai-hub
+    │   └── ProfilePage.tsx              # /candidate/profile
+    ├── employer/
+    │   ├── EmployerDashboardPage.tsx    # /employer/dashboard
+    │   ├── PostJobPage.tsx              # /employer/post-job → pending admin approval
+    │   ├── MyJobsPage.tsx               # /employer/my-jobs (status: pending/approved/rejected)
+    │   ├── CandidatesPage.tsx           # /employer/candidates
+    │   └── AnalyticsPage.tsx            # /employer/analytics
+    ├── admin/
+    │   ├── AdminDashboardPage.tsx       # /admin/dashboard — platform overview
+    │   ├── JobApprovalsPage.tsx         # /admin/job-approvals — review queue
+    │   ├── CompaniesPage.tsx            # /admin/companies — company management
+    │   ├── UsersPage.tsx                # /admin/users — user management
+    │   └── EmployersPage.tsx            # /admin/employers — employer management
+    └── error/
+        ├── NotFoundPage.tsx
+        └── UnauthorizedPage.tsx
+```
+
+---
+
+## Routing Architecture (Full — LLD)
+
+```tsx
+// App.tsx
+<HelmetProvider>
+  <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+
+          {/* ── PUBLIC ── */}
+          <Route element={<PublicLayout />}>
+            <Route path="/"           element={<LandingPage />} />
+            <Route path="/employers"  element={<EmployerLandingPage />} />  {/* Adecco-ref */}
+            <Route path="/jobs"       element={<JobListingsPage />} />
+            <Route path="/jobs/:id"   element={<JobDetailPage />} />
+          </Route>
+
+          {/* ── AUTH ── */}
+          <Route path="/auth" element={<AuthPage />} />
+
+          {/* ── CANDIDATE PORTAL ── */}
+          <Route element={<RoleGuard allowedRole="CANDIDATE" />}>
+            <Route element={<PortalLayout />}>
+              <Route path="/candidate/dashboard"    element={<DashboardPage />} />
+              <Route path="/candidate/applications" element={<ApplicationsPage />} />
+              <Route path="/candidate/pipeline"     element={<KanbanPage />} />
+              <Route path="/candidate/ai-hub"       element={<AIHubPage />} />
+              <Route path="/candidate/profile"      element={<ProfilePage />} />
+            </Route>
+          </Route>
+
+          {/* ── EMPLOYER PORTAL ── */}
+          <Route element={<RoleGuard allowedRole="EMPLOYER" />}>
+            <Route element={<PortalLayout />}>
+              <Route path="/employer/dashboard"   element={<EmployerDashboardPage />} />
+              <Route path="/employer/post-job"    element={<PostJobPage />} />
+              <Route path="/employer/my-jobs"     element={<MyJobsPage />} />
+              <Route path="/employer/candidates"  element={<CandidatesPage />} />
+              <Route path="/employer/analytics"   element={<AnalyticsPage />} />
+            </Route>
+          </Route>
+
+          {/* ── SUPER ADMIN PANEL ── */}
+          <Route element={<RoleGuard allowedRole="SUPER_ADMIN" />}>
+            <Route element={<AdminLayout />}>
+              <Route path="/admin/dashboard"      element={<AdminDashboardPage />} />
+              <Route path="/admin/job-approvals"  element={<JobApprovalsPage />} />
+              <Route path="/admin/companies"      element={<CompaniesPage />} />
+              <Route path="/admin/users"          element={<UsersPage />} />
+              <Route path="/admin/employers"      element={<EmployersPage />} />
+            </Route>
+          </Route>
+
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </BrowserRouter>
+      <ToastContainer />
+    </QueryClientProvider>
+  </Provider>
+</HelmetProvider>
+```
+
+---
+
+## Job Lifecycle Workflow (Critical Business Logic)
+
+```
+EMPLOYER                    SUPER ADMIN                 CANDIDATE
+   │                             │                          │
+   │  POST /api/jobs/            │                          │
+   │──────────────────────────>  │                          │
+   │  status: "PENDING"          │                          │
+   │                             │                          │
+   │                     GET /admin/job-approvals/          │
+   │                     [Job appears in review queue]      │
+   │                             │                          │
+   │                     Review job details                 │
+   │                             │                          │
+   │                    ┌────────┴─────────┐               │
+   │               APPROVE              REJECT              │
+   │           PATCH status:          PATCH status:         │
+   │            "APPROVED"            "REJECTED"            │
+   │           + notify employer     + reason + notify      │
+   │                    └────────┬─────────┘               │
+   │                             │                          │
+   │  (if APPROVED)              │  Job visible on /jobs    │
+   │<──────────────────────────  │ ──────────────────────>  │
+   │  Email: "Job Approved"      │  Candidates can apply    │
+```
+
+---
+
+## Super Admin — Feature Detail (LLD)
+
+### `/admin/dashboard`
+```
+KPI Cards:
+  - Total Users (candidates + employers)
+  - Active Jobs (approved, live)
+  - Pending Approvals (jobs awaiting review)
+  - Total Companies
+  - Applications Today
+  - Platform Revenue (placeholder)
+
+Charts:
+  - User registrations over time (bar)
+  - Applications over time (line)
+  - Job categories distribution (donut)
+
+Recent Activity Feed:
+  - "Infosys posted 'Sr. React Dev'" → [Review]
+  - "New employer: TechCorp Pvt Ltd registered"
+  - "Arjun Kumar applied to 3 jobs today"
+```
+
+### `/admin/job-approvals`
+```
+Filter tabs: All | Pending | Approved | Rejected
+TanStack Table columns:
+  - Job Title
+  - Company Name
+  - Posted By (employer email)
+  - Category
+  - Submitted At
+  - Status (StatusChip)
+  - Actions → [Review] [Quick Approve] [Reject]
+
+JobDetailReview panel (slide-in):
+  - Full job description
+  - Requirements, salary, location
+  - Employer profile summary
+  - ApprovalActionBar → [Approve] [Reject with reason] [Request changes]
+```
+
+### `/admin/companies`
+```
+TanStack Table columns:
+  - Logo + Company Name
+  - GST / CIN number
+  - Industry
+  - Verified status (badge)
+  - Linked Employers count
+  - Active Jobs count
+  - Actions → [View] [Edit] [Verify] [Suspend]
+
+CompanyForm (Add/Edit):
+  - Company name, description, website
+  - Industry, size (1-50 / 51-200 / 200+)
+  - Logo upload
+  - GST number, CIN number
+  - Address, city, state
+
+Admin can also MANUALLY add companies to the platform
+(employers then associate themselves to a company)
+```
+
+### `/admin/users`
+```
+TanStack Table columns:
+  - Avatar + Name
+  - Email
+  - Role (CANDIDATE / EMPLOYER)
+  - Firebase UID
+  - Registered At
+  - Status (Active / Suspended)
+  - Actions → [View Profile] [Change Role] [Suspend] [Delete]
+```
+
+---
+
+## Employer Landing Page — Adecco Reference Design (`/employers`)
+
+This is the **public-facing employer acquisition page** — not the authenticated portal.
+
+```
+Sections:
+1. Hero — Bold headline + "Start Hiring" CTA + stats bar
+   "Enterprise Staffing & Precision Hiring"
+   50,000+ Candidates | 2,300+ Companies | 12,800+ Jobs
+
+2. Services Grid (4 cards) — (Adecco-style)
+   - Permanent Placement
+   - Contract Staffing
+   - Executive Search
+   - AI Screening & Sourcing
+
+3. How It Works (3 steps)
+   Step 1: Register your company
+   Step 2: Post a job (reviewed & approved within 24h)
+   Step 3: Receive AI-matched candidates
+
+4. Industry Verticals Grid
+   IT & Software | Finance | Healthcare | Logistics |
+   Manufacturing | Automotive | Retail | Energy
+
+5. Trust & Social Proof
+   Client logos, testimonials, stats
+
+6. Staffing Enquiry Form
+   For enterprise clients who want managed staffing
+
+7. CTA Banner
+   "Ready to hire? Post your first job free."
+   [Register as Employer →]
+```
+
+---
+
+## Firebase Auth Flow (LLD)
+
+```
+Google OAuth:
+  GoogleAuthProvider.signInWithPopup()
+    → Firebase: { uid, email, displayName, photoURL }
+    → POST /api/auth/verify/  { idToken }
+    → Backend: verify token, get/create user, return { role, profile }
+    → dispatch authSlice.setUser({ firebaseUser, role, profile })
+    → navigate to /candidate/dashboard OR /employer/dashboard
+
+Email/Password Register:
+  createUserWithEmailAndPassword()
+    → POST /api/auth/register/ { idToken, role: "CANDIDATE"|"EMPLOYER", name, phone }
+    → Backend: set Firebase custom claim (role)
+    → navigate to relevant dashboard
+
+Token Refresh:
+  Axios request interceptor:
+    → firebase.auth().currentUser?.getIdToken(forceRefresh=false)
+    → if 401: getIdToken(forceRefresh=true) → retry once
+```
+
+---
+
+## API Services (LLD)
+
+### `admin.service.ts`
+```ts
+export const adminService = {
+  getStats: ()                          => api.get<AdminStats>('/admin/stats/'),
+  getPendingJobs: (params)              => api.get<PaginatedResponse<Job>>('/admin/jobs/pending/', { params }),
+  approveJob: (jobId: string)           => api.patch(`/admin/jobs/${jobId}/approve/`),
+  rejectJob: (jobId: string, reason: string) => api.patch(`/admin/jobs/${jobId}/reject/`, { reason }),
+  getCompanies: (params)                => api.get<PaginatedResponse<Company>>('/admin/companies/', { params }),
+  createCompany: (data: CompanyPayload) => api.post<Company>('/admin/companies/', data),
+  updateCompany: (id, data)             => api.patch<Company>(`/admin/companies/${id}/`, data),
+  verifyCompany: (id: string)           => api.patch(`/admin/companies/${id}/verify/`),
+  getUsers: (params)                    => api.get<PaginatedResponse<AppUser>>('/admin/users/', { params }),
+  updateUserRole: (uid, role)           => api.patch(`/admin/users/${uid}/role/`, { role }),
+  suspendUser: (uid: string)            => api.patch(`/admin/users/${uid}/suspend/`),
+};
+```
+
+### `employer.service.ts`
+```ts
+export const employerService = {
+  postJob: (data: PostJobPayload)       => api.post<PostedJob>('/employer/jobs/', data),
+  getMyJobs: (params)                   => api.get<PaginatedResponse<PostedJob>>('/employer/jobs/', { params }),
+  updateJob: (id, data)                 => api.patch(`/employer/jobs/${id}/`, data),
+  deleteJob: (id: string)               => api.delete(`/employer/jobs/${id}/`),
+  getApplicants: (jobId: string)        => api.get(`/employer/jobs/${jobId}/applicants/`),
+  submitEnquiry: (data)                 => api.post('/employer/enquiry/', data),
+};
+```
+
+---
+
+## Redux Store (LLD)
+
+### `auth.slice.ts`
+```ts
+interface AuthState {
+  firebaseUser: FirebaseUser | null;
+  appUser: {
+    id: string;
+    email: string;
+    role: 'CANDIDATE' | 'EMPLOYER' | 'SUPER_ADMIN';
+    displayName: string;
+    photoURL?: string;
+  } | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string | null;
+}
+```
+
+### `ui.slice.ts`
+```ts
+interface UIState {
+  toasts: Toast[];
+  activeModal: string | null;
+  isSidebarCollapsed: boolean;
+  isMobileDrawerOpen: boolean;
+}
+```
+
+---
+
+## `.env` Configuration (Placeholders)
+
+```env
+# .env.example
+
+# Backend API
+VITE_API_BASE_URL=https://your-backend-api.com/api
+
+# Firebase
+VITE_FIREBASE_API_KEY=your_firebase_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_firebase_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+
+# OpenAI
+VITE_OPENAI_API_KEY=sk-your_openai_key_here
+
+# App
+VITE_APP_NAME=Recruitzaa
+VITE_APP_ENV=development
+```
+
+---
+
+## Design System Tokens (CSS Variables)
+
+```css
+:root {
+  /* Brand */
+  --color-primary:        #C14F16;
+  --color-primary-hover:  #A94210;
+  --color-primary-light:  #FEF3EE;
+
+  /* Neutrals */
+  --color-dark:           #1E2229;
+  --color-dark-muted:     #2D323C;
+  --color-ink:            #111827;
+  --color-slate:          #4B5563;
+  --color-slate-muted:    #9CA3AF;
+  --color-border:         #E5E7EB;
+  --color-surface:        #F8FAFC;
+  --color-white:          #FFFFFF;
+
+  /* Semantic */
+  --color-success:        #059669;
+  --color-success-light:  #ECFDF5;
+  --color-warning:        #D97706;
+  --color-warning-light:  #FFFBEB;
+  --color-error:          #DC2626;
+  --color-error-light:    #FEF2F2;
+
+  /* Admin accent (distinguishes admin panel) */
+  --color-admin-accent:   #6366F1;   /* Indigo — distinct from brand terracotta */
+  --color-admin-surface:  #0F1117;   /* Very dark admin bg */
+
+  /* Spacing */
+  --radius-sm:  6px;   --radius:  8px;   --radius-lg: 12px;
+
+  /* Shadows */
+  --shadow-sm:  0 1px 2px 0 rgba(0,0,0,0.05);
+  --shadow:     0 1px 3px 0 rgba(0,0,0,0.10);
+  --shadow-md:  0 4px 6px -1px rgba(0,0,0,0.10);
+  --shadow-lg:  0 10px 25px rgba(0,0,0,0.12);
+
+  /* Layout */
+  --sidebar-width:   260px;
+  --topbar-height:   68px;
+  --navbar-height:   76px;
+  --container-max:   1280px;
+
+  /* Motion */
+  --transition:  0.2s ease-in-out;
+}
+```
+
+> **Admin Panel**: Uses `--color-admin-accent` (indigo) to visually separate it from the public brand. This is a standard enterprise pattern — prevents confusion between portal types.
+
+---
+
+## Mobile-First Responsive Strategy
+
+| Component | Mobile (<768px) | Tablet (768–1024px) | Desktop (>1024px) |
+|---|---|---|---|
+| Navbar | Hamburger drawer | Compact, no mega | Full mega-menu |
+| Sidebar | Slide-in drawer | Icon-only collapsible | Fixed 260px |
+| Job Filters | Bottom sheet drawer | Collapsible sidebar | Always-visible left panel |
+| Kanban | Horizontal scroll, touch-drag | 3 cols + scroll | All 5 cols |
+| Auth Page | Form only (brand panel hidden) | 40/60 split | 50/50 split |
+| Employer Landing | Stacked sections | 2-col grids | 4-col grids |
+| Admin Tables | Scrollable, priority columns | Most columns | All columns + actions |
+
+**iOS Safari rules**: 44px min touch targets, `env(safe-area-inset-*)`, no `position:fixed` traps, `-webkit-` prefixes where needed.
+
+---
+
+## Complete Screen Map (v3 Final)
+
+| Portal | Route | Page | Key Feature Components |
+|---|---|---|---|
+| **Public** | `/` | `LandingPage` | `UtilityBar`, `Navbar`+`MegaMenu`, `HeroSection`, `JobSearchBar`, `PortalsGrid`, `ServicesGrid`, `Footer` |
+| **Public** | `/employers` | `EmployerLandingPage` | `EmployerHero`, `EmployerServicesGrid`, `EmployerIndustriesGrid`, `StaffingEnquiryForm`, `EmployerTrustStats` |
+| **Public** | `/jobs` | `JobListingsPage` | `JobFilters`+`JobFilterDrawer`, `JobCard`, `JobDetailPanel`, `AIMatchBadge`, `Pagination` |
+| **Public** | `/jobs/:id` | `JobDetailPage` | Full job detail + `JobApplyModal` |
+| **Auth** | `/auth` | `AuthPage` | `AuthBrandPanel`, `RoleTabs`, `LoginForm`, `RegisterForm`, `GoogleSignInButton` |
+| **Candidate** | `/candidate/dashboard` | `DashboardPage` | `Sidebar`, `Topbar`, `DashboardKPICards`, `ApplicationTable`, `RecommendedJobs`, `SkillDemandIndex` |
+| **Candidate** | `/candidate/pipeline` | `KanbanPage` | `KanbanBoard`, `KanbanColumn`, `KanbanCard` (dnd-kit) |
+| **Candidate** | `/candidate/ai-hub` | `AIHubPage` | `ResumeUploadZone`, `ATSScoreGauge`, `KeywordMatchList`, `AIChatPanel` |
+| **Candidate** | `/candidate/profile` | `ProfilePage` | Profile form, resume upload, skills |
+| **Employer** | `/employers` | `EmployerLandingPage` | Adecco-style public acquisition page |
+| **Employer** | `/employer/dashboard` | `EmployerDashboardPage` | `EmployerKPICards`, `CandidateTable`, `JobPostingCard` |
+| **Employer** | `/employer/post-job` | `PostJobPage` | `PostJobForm` (3 steps) → pending admin approval |
+| **Employer** | `/employer/my-jobs` | `MyJobsPage` | All posted jobs with approval status |
+| **Admin** | `/admin/dashboard` | `AdminDashboardPage` | `AdminKPICards`, `PlatformActivityChart`, `RecentActivityFeed` |
+| **Admin** | `/admin/job-approvals` | `JobApprovalsPage` | `JobApprovalTable`, `JobDetailReview`, `ApprovalActionBar` |
+| **Admin** | `/admin/companies` | `CompaniesPage` | `CompanyTable`, `CompanyForm`, `CompanyDetailModal` |
+| **Admin** | `/admin/users` | `UsersPage` | `UserTable`, `UserDetailModal`, `UserRoleChanger` |
+| **Admin** | `/admin/employers` | `EmployersPage` | `EmployerTable`, `EmployerVerificationFlow` |
+
+---
+
+## Execution Phases
+
+| Phase | Scope | Output |
+|---|---|---|
+| **1 — Foundation** | Vite scaffold, tokens.css, config, .env, types, Firebase init | App boots, design system live |
+| **2 — Auth & State** | Firebase Google + Email auth, Redux store, Axios interceptor, role routing | Full auth flow with 3 role redirects |
+| **3 — UI Library** | All `components/ui/` atoms + `components/layout/` shells | Reusable component library |
+| **4 — Public Pages** | Landing, Employer Landing (Adecco-ref), Job Listings, Auth | All public screens live |
+| **5 — Candidate Portal** | Dashboard, Applications (TanStack Table), Kanban (dnd-kit), Profile | Full candidate flow |
+| **6 — AI Hub** | ATS Gauge, Resume Upload, Keyword Match, OpenAI streaming chat | AI tools working |
+| **7 — Employer Portal** | Dashboard, Post Job (multi-step), My Jobs, Candidates, Analytics | Full employer flow |
+| **8 — Super Admin** | Dashboard stats, Job Approvals, Company Management, User Management | Full admin panel |
+| **9 — Polish & QA** | framer-motion, mobile QA (iOS Safari), SEO audit, Vitest coverage | Production-ready |
+
+---
+
+## Naming Conventions
+
+| Element | Rule | Example |
+|---|---|---|
+| Components | `PascalCase.tsx` | `JobApprovalTable.tsx` |
+| Pages | `PascalCase + Page.tsx` | `AdminDashboardPage.tsx` |
+| Hooks | `use + PascalCase.ts` | `useJobApprovals.ts` |
+| Services | `camelCase.service.ts` | `admin.service.ts` |
+| Types | `camelCase.types.ts` | `company.types.ts` |
+| CSS class | `camelCase` in module | `styles.approvalBadge` |
+| Constants | `UPPER_SNAKE_CASE` | `JOB_STATUS.PENDING` |
+| Directories | `kebab-case` | `job-approvals/`, `company-management/` |
+| Branches | `feature/fe-<desc>` | `feature/fe-admin-job-approvals` |
+| Commits | `type(scope): desc` | `feat(admin): add company management table` |
+
+---
+
+## Verification Plan
+
+### Automated
+```bash
+npm run lint
+npx vitest run --coverage
+```
+
+### Manual QA Checklist
+- [ ] Candidate → Employer → Admin role routing all work correctly
+- [ ] Employer posts job → status "PENDING" in My Jobs
+- [ ] Admin receives job in approval queue → approve/reject flow
+- [ ] Approved job appears on `/jobs` public listing
+- [ ] Company CRUD works from admin panel
+- [ ] User role change from admin reflects in Firebase custom claims
+- [ ] All 9 prototype/reference screens match design tokens
+- [ ] Full mobile layout on 375px — no horizontal scroll
+- [ ] Kanban touch drag on mobile
+- [ ] iOS Safari: safe area, no layout breaks
+- [ ] ATS upload: PDF ✓, DOCX ✓, invalid file error ✓
+- [ ] OpenAI chat streams tokens in real-time
+- [ ] SEO: unique title + meta on every public page
