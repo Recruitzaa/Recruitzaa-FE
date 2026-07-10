@@ -1,0 +1,235 @@
+.dashboard {
+  /* container styles are handled by PortalLayout wrapper */
+}
+
+/* KPIs */
+.kpiGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+  .kpiGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .kpiGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.kpiCard {
+  padding: 1.25rem;
+}
+
+.kpiHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.kpiTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-slate-muted);
+  letter-spacing: 0.05em;
+}
+
+.kpiTag {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+}
+
+.tagPrimary {
+  color: var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+.tagSuccess {
+  color: var(--color-success);
+  background-color: var(--color-success-light);
+}
+
+.tagWarning {
+  color: var(--color-warning);
+  background-color: var(--color-warning-light);
+}
+
+.kpiValue {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--color-dark);
+  line-height: 1;
+}
+
+/* Dashboard Layout */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.mainCol, .sideCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Panel Card */
+.panelCard {
+  padding: 1.5rem;
+}
+
+.panelHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.panelTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.panelLink {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.panelLink:hover {
+  text-decoration: underline;
+}
+
+/* Table */
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: left;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-slate-muted);
+  padding: 0.625rem 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table td {
+  padding: 0.875rem 0.75rem;
+  font-size: 0.8125rem;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.roleText {
+  font-weight: 600;
+  color: var(--color-dark);
+}
+
+.subText {
+  font-size: 0.75rem;
+  color: var(--color-slate);
+}
+
+.subTextDark {
+  font-size: 0.8125rem;
+  color: var(--color-dark);
+}
+
+.scoreText {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.highlightText {
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.candidateProfile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 700;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Side actions / meters */
+.actionStack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.fullWidthBtn {
+  width: 100%;
+}
+
+.meterItem {
+  margin-bottom: 1rem;
+}
+
+.meterHead {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 0.375rem;
+  color: var(--color-dark);
+}
+
+.meterBar {
+  height: 6px;
+  background-color: var(--color-surface);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.meterFill {
+  height: 100%;
+  background-color: var(--color-primary);
+  border-radius: 4px;
+}

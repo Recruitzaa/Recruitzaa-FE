@@ -1,9 +1,9 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
 import { PublicLayout } from './components/layout/PublicLayout/PublicLayout';
 import { PortalLayout } from './components/layout/PortalLayout/PortalLayout';
-import { AdminLayout } from './components/layout/AdminLayout/AdminLayout';
+import { AdminLayout } from './components/layout/AdminLayout/AdminLayoutV2';
 
 import { LandingPage } from './pages/public/LandingPage';
 import { EmployerLandingPage } from './pages/public/EmployerLandingPage';
@@ -36,7 +36,8 @@ import { UnauthorizedPage } from './pages/error/UnauthorizedPage';
 function App() {
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      {/* Vite HMR trigger */}
+      <HashRouter>
         <Routes>
           {/* PUBLIC */}
           <Route element={<PublicLayout />}>
@@ -79,7 +80,7 @@ function App() {
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </HelmetProvider>
   );
 }

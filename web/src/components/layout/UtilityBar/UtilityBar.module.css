@@ -1,0 +1,45 @@
+.utilityBar {
+  background: var(--color-dark);
+  color: #9ca3af;
+  font-size: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.5rem 0;
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.portalToggle {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.link {
+  color: #d1d5db;
+  font-weight: 500;
+  padding-bottom: 0.1rem;
+  border-bottom: 2px solid transparent;
+}
+
+.link:hover,
+.active {
+  color: #fff;
+  border-bottom-color: var(--color-primary);
+}
+
+.contact {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .contact {
+    display: block;
+  }
+}
