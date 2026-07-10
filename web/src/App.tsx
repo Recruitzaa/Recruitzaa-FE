@@ -1,9 +1,16 @@
 import { HashRouter, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from './components/ui/Toast/ToastContainer';
 import { HelmetProvider } from 'react-helmet-async';
+import { Provider } from 'react-redux';
+import { QueryClientProvider } from '@tanstack/react-query';
+
+import { store } from './store';
+import { queryClient } from './config/queryClient';
 
 import { PublicLayout } from './components/layout/PublicLayout/PublicLayout';
 import { PortalLayout } from './components/layout/PortalLayout/PortalLayout';
 import { AdminLayout } from './components/layout/AdminLayout/AdminLayoutV2';
+import { RoleGuard } from './features/auth/guards/RoleGuard';
 
 import { LandingPage } from './pages/public/LandingPage';
 import { EmployerLandingPage } from './pages/public/EmployerLandingPage';
@@ -36,51 +43,63 @@ import { UnauthorizedPage } from './pages/error/UnauthorizedPage';
 function App() {
   return (
     <HelmetProvider>
-      {/* Vite HMR trigger */}
-      <HashRouter>
-        <Routes>
-          {/* PUBLIC */}
-          <Route element={<PublicLayout />}>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/employers" element={<EmployerLandingPage />} />
-            <Route path="/jobs" element={<JobListingsPage />} />
-            <Route path="/jobs/:id" element={<JobDetailPage />} />
-          </Route>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <HashRouter>
+            <Routes>
 
-          {/* AUTH */}
-          <Route path="/auth" element={<AuthPage />} />
+              {/* ── PUBLIC ── */}
+              <Route element={<PublicLayout />}>
+                <Route path="/"          element={<LandingPage />} />
+                <Route path="/employers" element={<EmployerLandingPage />} />
+                <Route path="/jobs"      element={<JobListingsPage />} />
+                <Route path="/jobs/:id"  element={<JobDetailPage />} />
+              </Route>
 
-          {/* CANDIDATE (No auth guard yet per Phase 1) */}
-          <Route element={<PortalLayout />}>
-            <Route path="/candidate/dashboard" element={<DashboardPage />} />
-            <Route path="/candidate/applications" element={<ApplicationsPage />} />
-            <Route path="/candidate/pipeline" element={<KanbanPage />} />
-            <Route path="/candidate/ai-hub" element={<AIHubPage />} />
-            <Route path="/candidate/profile" element={<ProfilePage />} />
-          </Route>
+              {/* ── AUTH ── */}
+              <Route path="/auth" element={<AuthPage />} />
 
-          {/* EMPLOYER (No auth guard yet per Phase 1) */}
-          <Route element={<PortalLayout />}>
-            <Route path="/employer/dashboard" element={<EmployerDashboardPage />} />
-            <Route path="/employer/post-job" element={<PostJobPage />} />
-            <Route path="/employer/my-jobs" element={<MyJobsPage />} />
-            <Route path="/employer/candidates" element={<CandidatesPage />} />
-            <Route path="/employer/analytics" element={<AnalyticsPage />} />
-          </Route>
+              {/* ── CANDIDATE PORTAL ── */}
+              <Route element={<RoleGuard allowedRole="CANDIDATE" />}>
+                <Route element={<PortalLayout />}>
+                  <Route path="/candidate/dashboard"    element={<DashboardPage />} />
+                  <Route path="/candidate/applications" element={<ApplicationsPage />} />
+                  <Route path="/candidate/pipeline"     element={<KanbanPage />} />
+                  <Route path="/candidate/ai-hub"       element={<AIHubPage />} />
+                  <Route path="/candidate/profile"      element={<ProfilePage />} />
+                </Route>
+              </Route>
 
-          {/* SUPER ADMIN (No auth guard yet per Phase 1) */}
-          <Route element={<AdminLayout />}>
-            <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
-            <Route path="/admin/job-approvals" element={<JobApprovalsPage />} />
-            <Route path="/admin/companies" element={<CompaniesPage />} />
-            <Route path="/admin/users" element={<UsersPage />} />
-            <Route path="/admin/employers" element={<EmployersPage />} />
-          </Route>
+              {/* ── EMPLOYER PORTAL ── */}
+              <Route element={<RoleGuard allowedRole="EMPLOYER" />}>
+                <Route element={<PortalLayout />}>
+                  <Route path="/employer/dashboard"  element={<EmployerDashboardPage />} />
+                  <Route path="/employer/post-job"   element={<PostJobPage />} />
+                  <Route path="/employer/my-jobs"    element={<MyJobsPage />} />
+                  <Route path="/employer/candidates" element={<CandidatesPage />} />
+                  <Route path="/employer/analytics"  element={<AnalyticsPage />} />
+                </Route>
+              </Route>
 
-          <Route path="/unauthorized" element={<UnauthorizedPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </HashRouter>
+              {/* ── SUPER ADMIN PANEL ── */}
+              <Route element={<RoleGuard allowedRole="SUPER_ADMIN" />}>
+                <Route element={<AdminLayout />}>
+                  <Route path="/admin/dashboard"     element={<AdminDashboardPage />} />
+                  <Route path="/admin/job-approvals" element={<JobApprovalsPage />} />
+                  <Route path="/admin/companies"     element={<CompaniesPage />} />
+                  <Route path="/admin/users"         element={<UsersPage />} />
+                  <Route path="/admin/employers"     element={<EmployersPage />} />
+                </Route>
+              </Route>
+
+              <Route path="/unauthorized" element={<UnauthorizedPage />} />
+              <Route path="*"            element={<NotFoundPage />} />
+
+            </Routes>
+            <ToastContainer />
+          </HashRouter>
+        </QueryClientProvider>
+      </Provider>
     </HelmetProvider>
   );
 }

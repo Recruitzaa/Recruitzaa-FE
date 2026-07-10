@@ -369,3 +369,22 @@
 .actionBtn {
   justify-content: flex-start;
 }
+
+.suggestionsBox {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.suggestionsList {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+  color: var(--color-slate);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.suggestionsList li {
+  margin-bottom: 0.4rem;
+}
+

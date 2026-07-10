@@ -1,11 +1,33 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../../store/hooks';
+import { logOut } from '../../../services/auth.service';
 import styles from './PortalSidebar.module.css';
 
 export const PortalSidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { appUser } = useAppSelector((s) => s.auth);
   const isEmployer = location.pathname.startsWith('/employer');
   
   const isActive = (path: string) => location.pathname === path;
+
+  const handleSignOut = async () => {
+    try {
+      await logOut();
+      navigate('/auth');
+    } catch (err) {
+      console.error('Logout failed:', err);
+    }
+  };
+
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .slice(0, 2)
+      .join('')
+      .toUpperCase();
+  };
 
   return (
     <aside className={styles.sidebar}>
@@ -48,9 +70,9 @@ export const PortalSidebar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/auth" className={styles.link}>
+              <button onClick={handleSignOut} className={styles.linkButton}>
                 <span>Sign Out</span>
-              </Link>
+              </button>
             </li>
           </>
         ) : (
@@ -93,33 +115,26 @@ export const PortalSidebar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/auth" className={styles.link}>
+              <button onClick={handleSignOut} className={styles.linkButton}>
                 <span>Sign Out / Switch</span>
-              </Link>
+              </button>
             </li>
           </>
         )}
       </ul>
 
       <div className={styles.user}>
-        {isEmployer ? (
-          <>
-            <div className={styles.avatar} style={{ backgroundColor: '#111827' }}>IN</div>
-            <div className={styles.userInfo}>
-              <div className={styles.userName}>Infosys HR</div>
-              <div className={styles.userRole}>Enterprise Account</div>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className={styles.avatar}>AK</div>
-            <div className={styles.userInfo}>
-              <div className={styles.userName}>Arjun Kumar</div>
-              <div className={styles.userRole}>React Native Developer</div>
-            </div>
-          </>
-        )}
+        <div className={styles.avatar} style={isEmployer ? { backgroundColor: '#111827' } : undefined}>
+          {appUser ? getInitials(appUser.displayName) : 'U'}
+        </div>
+        <div className={styles.userInfo}>
+          <div className={styles.userName}>{appUser ? appUser.displayName : 'Loading...'}</div>
+          <div className={styles.userRole}>
+            {isEmployer ? 'Enterprise Account' : 'Job Seeker'}
+          </div>
+        </div>
       </div>
     </aside>
   );
 };
+

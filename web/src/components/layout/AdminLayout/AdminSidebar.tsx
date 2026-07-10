@@ -1,9 +1,31 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../../store/hooks';
+import { logOut } from '../../../services/auth.service';
 import styles from './AdminSidebar.module.css';
 
 export const AdminSidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { appUser } = useAppSelector((s) => s.auth);
   const isActive = (path: string) => location.pathname === path;
+
+  const handleSignOut = async () => {
+    try {
+      await logOut();
+      navigate('/auth');
+    } catch (err) {
+      console.error('Logout failed:', err);
+    }
+  };
+
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .slice(0, 2)
+      .join('')
+      .toUpperCase();
+  };
 
   return (
     <aside className={styles.sidebar}>
@@ -51,16 +73,18 @@ export const AdminSidebar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/auth" className={styles.link}>
+          <button onClick={handleSignOut} className={styles.linkButton}>
             <span>Sign Out</span>
-          </Link>
+          </button>
         </li>
       </ul>
 
       <div className={styles.user}>
-        <div className={styles.avatar} style={{ backgroundColor: '#DC2626' }}>SA</div>
+        <div className={styles.avatar} style={{ backgroundColor: '#DC2626' }}>
+          {appUser ? getInitials(appUser.displayName) : 'SA'}
+        </div>
         <div className={styles.userInfo}>
-          <div className={styles.userName}>Super Admin</div>
+          <div className={styles.userName}>{appUser ? appUser.displayName : 'Super Admin'}</div>
           <div className={styles.userRole}>System Operator</div>
         </div>
       </div>

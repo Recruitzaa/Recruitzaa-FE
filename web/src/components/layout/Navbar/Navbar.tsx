@@ -1,8 +1,30 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../../store/hooks';
+import { logOut } from '../../../services/auth.service';
 import styles from './Navbar.module.css';
 import logo from '../../../assets/logo.png';
+import { ROUTES } from '../../../config/routes';
 
 export const Navbar = () => {
+  const navigate = useNavigate();
+  const { appUser, isAuthenticated } = useAppSelector((s) => s.auth);
+
+  const handleSignOut = async () => {
+    try {
+      await logOut();
+      navigate('/auth');
+    } catch (err) {
+      console.error('Logout failed:', err);
+    }
+  };
+
+  const getDashboardRoute = () => {
+    if (!appUser) return '/auth';
+    if (appUser.role === 'SUPER_ADMIN') return '/admin/dashboard';
+    if (appUser.role === 'EMPLOYER') return ROUTES.EMPLOYER.DASHBOARD;
+    return ROUTES.CANDIDATE.DASHBOARD;
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -29,7 +51,7 @@ export const Navbar = () => {
               </div>
               <div>
                 <div className={styles.mmTitle}>Career Tools</div>
-                <Link to="/jobs" className={styles.mmItem}>
+                <Link to="/candidate/ai-hub" className={styles.mmItem}>
                   <div className={styles.mmItemTitle}>ATS Resume Score Check</div>
                   <div className={styles.mmItemDesc}>Test Parseability Score</div>
                 </Link>
@@ -71,15 +93,30 @@ export const Navbar = () => {
             </div>
           </div>
 
-          <Link to="/auth" className={styles.navLink}>AI Career Hub</Link>
-          <Link to="/candidate/dashboard" className={styles.navLink}>Candidate Portal</Link>
+          <Link to="/candidate/ai-hub" className={styles.navLink}>AI Career Hub</Link>
+          {isAuthenticated && (
+            <Link to={getDashboardRoute()} className={styles.navLink}>Dashboard</Link>
+          )}
           <a href="#about" className={styles.navLink}>About Us</a>
         </nav>
 
         <div className={styles.actions}>
-          <Link to="/auth" className={`${styles.button} ${styles.outline}`}>Sign In</Link>
-          <Link to="/auth" className={`${styles.button} ${styles.dark}`}>Post a Job</Link>
-          <Link to="/auth" className={`${styles.button} ${styles.primary}`}>Register Free</Link>
+          {isAuthenticated ? (
+            <>
+              <Link to={getDashboardRoute()} className={`${styles.button} ${styles.primary}`}>
+                Go to Workspace
+              </Link>
+              <button onClick={handleSignOut} className={`${styles.button} ${styles.outline}`}>
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/auth" className={`${styles.button} ${styles.outline}`}>Sign In</Link>
+              <Link to="/auth" className={`${styles.button} ${styles.dark}`}>Post a Job</Link>
+              <Link to="/auth" className={`${styles.button} ${styles.primary}`}>Register Free</Link>
+            </>
+          )}
         </div>
       </div>
     </header>
