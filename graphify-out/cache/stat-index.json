@@ -1,0 +1,755 @@
+{
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/.eslintrc.json": {
+    "size": 303,
+    "mtime_ns": 1783026732590607112,
+    "word_count": 30,
+    "hash": "d8b8d923639adb91f8dd1c5e456cc8a2ecf14d19910876bd48f4c3f060d2e193"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/.husky/_/applypatch-msg": {
+    "size": 39,
+    "mtime_ns": 1783716708867254080,
+    "word_count": 5,
+    "hash": "6a9064e8fb13487a3a621e0dbb7bd8c82245b9c904b0c2dbcf3ce5fe55506b9c"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/.husky/_/commit-msg": {
+    "size": 39,
+    "mtime_ns": 1783716708866450426,
+    "word_count": 5,
+    "hash": "0bff8d003cbfd9b75abbe94b6017890688fb016d9cd9e4474bba08706c61d3d0"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/.husky/_/h": {
+    "size": 551,
+    "mtime_ns": 1783716708864641661,
+    "word_count": 95,
+    "hash": "f99a890a7c2de1e26a154549cb667ee9a884327e25ddbd6380ab23a986570ffc"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/.husky/_/husky.sh": {
+    "size": 160,
+    "mtime_ns": 1783716708870047080,
+    "word_count": 24,
+    "hash": "6db0aa99aece6ebd17bbc27c5e5287a462fb39cc4a2ca3a82a6277c166bdb3a0"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/.husky/_/post-applypatch": {
+    "size": 39,
+    "mtime_ns": 1783716708868039443,
+    "word_count": 5,
+    "hash": "678bc23efa73439ac107fddd35e640e583d68b45ab0c119be3ba50a81553e99d"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/.husky/_/post-checkout": {
+    "size": 39,
+    "mtime_ns": 1783716708869100011,
+    "word_count": 5,
+    "hash": "f5104aea4b990fe94fe2eacb0323c2128b3f66f11d3fc388538530dada2db808"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/.husky/_/post-commit": {
+    "size": 39,
+    "mtime_ns": 1783716708866870169,
+    "word_count": 5,
+    "hash": "20dc01bba5753874a3746d18250b5b5d71aebbfbdfda5305a6dfc2541adb209b"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/.husky/_/post-merge": {
+    "size": 39,
+    "mtime_ns": 1783716708869391465,
+    "word_count": 5,
+    "hash": "9dd56caa8fa28b5494661ce7c97d756013f200ac4e60f619671f4d4eca46faa6"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/.husky/_/post-rewrite": {
+    "size": 39,
+    "mtime_ns": 1783716708868789640,
+    "word_count": 5,
+    "hash": "3aa066773301fd07106a7926663f6ca3931ebf19bcacce7e156ead4e8446121a"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/.husky/_/pre-applypatch": {
+    "size": 39,
+    "mtime_ns": 1783716708867706115,
+    "word_count": 5,
+    "hash": "24332da3a5839bca3276206674c0c6119f653c3dd2b01e2f5b37194a02d185f8"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/.husky/_/pre-auto-gc": {
+    "size": 39,
+    "mtime_ns": 1783716708869840791,
+    "word_count": 5,
+    "hash": "d0038c1f6c4208a560ea4669eefc633b8460563cc29fcbc3c0d6c44309916f62"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/.husky/_/pre-commit": {
+    "size": 39,
+    "mtime_ns": 1783716708865210569,
+    "word_count": 5,
+    "hash": "d0b0ee2878cb9efe03dfbf9327e5038d7a10eabd56ad9b1321c45eff1447e98d"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/.husky/_/pre-merge-commit": {
+    "size": 39,
+    "mtime_ns": 1783716708865601938,
+    "word_count": 5,
+    "hash": "20798fb4a9d9b6f3593cdd371ca98fa15a5d57c1bf9bfc489039b5595b7028ff"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/.husky/_/pre-push": {
+    "size": 39,
+    "mtime_ns": 1783716708869654627,
+    "word_count": 5,
+    "hash": "dd427fbe45aac0d22b4b75cd3738b4f19bb6b9203413d57e83eb402c992e636d"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/.husky/_/pre-rebase": {
+    "size": 39,
+    "mtime_ns": 1783716708868444062,
+    "word_count": 5,
+    "hash": "c94f2d13aabe67bf5766093bbd03c9b9e5580deadc230f73ad6421b3ec0bf290"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/.husky/_/prepare-commit-msg": {
+    "size": 39,
+    "mtime_ns": 1783716708865992682,
+    "word_count": 5,
+    "hash": "d571f11fd4274692937568cb770a19c830c585c6cef79f550d5c27340871a18f"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/CONTRIBUTING.md": {
+    "size": 2572,
+    "mtime_ns": 1783026732632131556,
+    "word_count": 329,
+    "hash": "d31598da48646e7fb8e546b7ee2423ff7dff4d62731bde9652c413766baa6c7f"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/README.md": {
+    "size": 258,
+    "mtime_ns": 1782988629269919560,
+    "word_count": 34,
+    "hash": "7e375495dc514ce10619a21299b78bee7f512de3fff3c605825aef2e7570ea9c"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/commitlint.config.js": {
+    "size": 70,
+    "mtime_ns": 1783026732982415678,
+    "word_count": 6
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/package.json": {
+    "size": 575,
+    "mtime_ns": 1783026494834821951,
+    "word_count": 52,
+    "hash": "a889cacfc2ba113b4440b1341221d38b28d1fcb63fadeaa3a5c7176d6428d946"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/ui-ux-prototype/01_landing.html": {
+    "size": 26118,
+    "mtime_ns": 1783061884906088551,
+    "word_count": 2305
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/ui-ux-prototype/02_job_listings.html": {
+    "size": 22133,
+    "mtime_ns": 1783061898576400113,
+    "word_count": 1851
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/ui-ux-prototype/03_dashboard.html": {
+    "size": 18120,
+    "mtime_ns": 1783061698172093763,
+    "word_count": 1438
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/ui-ux-prototype/04_ai_hub.html": {
+    "size": 17447,
+    "mtime_ns": 1783061705468441452,
+    "word_count": 1521
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/ui-ux-prototype/05_kanban.html": {
+    "size": 13041,
+    "mtime_ns": 1783061712810628420,
+    "word_count": 1089
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/ui-ux-prototype/06_auth.html": {
+    "size": 8311,
+    "mtime_ns": 1783061719789176749,
+    "word_count": 779
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/ui-ux-prototype/09_design_system.html": {
+    "size": 10195,
+    "mtime_ns": 1783061075160716854,
+    "word_count": 882
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/ui-ux-prototype/assets/logo.jpg": {
+    "size": 44753,
+    "mtime_ns": 1783059656909230859,
+    "word_count": 1219
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/ui-ux-prototype/assets/logo.png": {
+    "size": 18467,
+    "mtime_ns": 1783061816593835737,
+    "word_count": 641
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/ui-ux-prototype/assets/logo_cropped.png": {
+    "size": 18467,
+    "mtime_ns": 1783061670749660028,
+    "word_count": 641
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/ui-ux-prototype/index.html": {
+    "size": 9361,
+    "mtime_ns": 1783061729121394522,
+    "word_count": 892
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/.oxlintrc.json": {
+    "size": 245,
+    "mtime_ns": 1783715855635796709,
+    "word_count": 19,
+    "hash": "f6c43a22b1b34257da9fc62b708cff5b74227133f46aced2e4a0893fc5af36f2"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/README.md": {
+    "size": 1278,
+    "mtime_ns": 1783715855636218078,
+    "word_count": 128,
+    "hash": "21c850c2cc6f0af99e42c1fd36b05c8faab786617dbdfdb8c62ebbf738c751a6"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/implementation_plan.md": {
+    "size": 37299,
+    "mtime_ns": 1783716537058621497,
+    "word_count": 4131,
+    "hash": "f7a65556cafa8afd462f1e08ccced5c576778ff25d6e8b9a9bc841cc9f1ecfb3"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/index.html": {
+    "size": 355,
+    "mtime_ns": 1783715855636423242,
+    "word_count": 28
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/package.json": {
+    "size": 1160,
+    "mtime_ns": 1783716537060399887,
+    "word_count": 90,
+    "hash": "32d4490487992262b6150cb444803763566e4e3cb2fb2d9555a397fce5a26edd"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/public/favicon.svg": {
+    "size": 9522,
+    "mtime_ns": 1783715855638036301,
+    "word_count": 491
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/public/icons.svg": {
+    "size": 5031,
+    "mtime_ns": 1783715855638717665,
+    "word_count": 382
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/recruitzaa_proposal.md": {
+    "size": 4769,
+    "mtime_ns": 1783716537060646217,
+    "word_count": 672,
+    "hash": "01a4b1afb705504ae505033b04b61aadd41e3ed86bddfacb71ae9fb5b0d00ffc"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/App.tsx": {
+    "size": 5024,
+    "mtime_ns": 1783723105747556949,
+    "word_count": 394
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/assets/hero.png": {
+    "size": 13057,
+    "mtime_ns": 1783715855640050104,
+    "word_count": 437
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/assets/logo.jpg": {
+    "size": 44753,
+    "mtime_ns": 1783715855640387515,
+    "word_count": 1219
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/assets/logo.png": {
+    "size": 18467,
+    "mtime_ns": 1783715855640670219,
+    "word_count": 641
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/assets/logo_cropped.png": {
+    "size": 18467,
+    "mtime_ns": 1783715855641035880,
+    "word_count": 641
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/assets/react.svg": {
+    "size": 4126,
+    "mtime_ns": 1783715855641497207,
+    "word_count": 366
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/assets/vite.svg": {
+    "size": 8709,
+    "mtime_ns": 1783715855641859868,
+    "word_count": 439
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/layout/AdminLayout/AdminLayoutV2.tsx": {
+    "size": 585,
+    "mtime_ns": 1783715855642510192,
+    "word_count": 67
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/layout/AdminLayout/AdminSidebar.tsx": {
+    "size": 3117,
+    "mtime_ns": 1783723105748075482,
+    "word_count": 238
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/layout/AdminLayout/AdminTopbar.tsx": {
+    "size": 597,
+    "mtime_ns": 1783715855643421428,
+    "word_count": 51
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/layout/Footer/Footer.tsx": {
+    "size": 2096,
+    "mtime_ns": 1783715855643813547,
+    "word_count": 144
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/layout/Navbar/Navbar.tsx": {
+    "size": 5248,
+    "mtime_ns": 1783723105748355728,
+    "word_count": 326
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/layout/PageTransition.tsx": {
+    "size": 885,
+    "mtime_ns": 1783723105748532100,
+    "word_count": 113
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/layout/PortalLayout/PortalLayout.tsx": {
+    "size": 551,
+    "mtime_ns": 1783715855644368580,
+    "word_count": 65
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/layout/PortalLayout/PortalSidebar.tsx": {
+    "size": 5164,
+    "mtime_ns": 1783723105749021758,
+    "word_count": 360
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/layout/PortalLayout/PortalTopbar.tsx": {
+    "size": 1986,
+    "mtime_ns": 1783723105749236671,
+    "word_count": 158
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/layout/PublicLayout/PublicLayout.tsx": {
+    "size": 405,
+    "mtime_ns": 1783715855645759976,
+    "word_count": 49
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/layout/Sidebar/AdminSidebar.tsx": {
+    "size": 984,
+    "mtime_ns": 1783723105749617457,
+    "word_count": 95
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/layout/Sidebar/Sidebar.tsx": {
+    "size": 954,
+    "mtime_ns": 1783723105749983367,
+    "word_count": 95
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/layout/UtilityBar/UtilityBar.tsx": {
+    "size": 931,
+    "mtime_ns": 1783723105750485984,
+    "word_count": 64
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Avatar/Avatar.tsx": {
+    "size": 354,
+    "mtime_ns": 1783715855646617129,
+    "word_count": 35
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Avatar/index.ts": {
+    "size": 26,
+    "mtime_ns": 1783715855646755211,
+    "word_count": 4
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Badge/Badge.tsx": {
+    "size": 517,
+    "mtime_ns": 1783715855647103872,
+    "word_count": 55
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Badge/index.ts": {
+    "size": 25,
+    "mtime_ns": 1783715855647220829,
+    "word_count": 4
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Button/Button.tsx": {
+    "size": 574,
+    "mtime_ns": 1783715855647567490,
+    "word_count": 63
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Button/index.ts": {
+    "size": 26,
+    "mtime_ns": 1783715855647678988,
+    "word_count": 4
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Card/Card.tsx": {
+    "size": 447,
+    "mtime_ns": 1783715855648002692,
+    "word_count": 49
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Card/index.ts": {
+    "size": 24,
+    "mtime_ns": 1783715855648120357,
+    "word_count": 4
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/ConfirmDialog/ConfirmDialog.tsx": {
+    "size": 1253,
+    "mtime_ns": 1783723105750921143,
+    "word_count": 104
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/DataTable/DataTable.tsx": {
+    "size": 2362,
+    "mtime_ns": 1783723105751316637,
+    "word_count": 151
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Drawer/Drawer.tsx": {
+    "size": 354,
+    "mtime_ns": 1783715855648462393,
+    "word_count": 35
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Drawer/index.ts": {
+    "size": 26,
+    "mtime_ns": 1783715855648574475,
+    "word_count": 4
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/EmptyState/EmptyState.tsx": {
+    "size": 534,
+    "mtime_ns": 1783723105751695797,
+    "word_count": 47
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/FileDropZone/FileDropZone.tsx": {
+    "size": 1918,
+    "mtime_ns": 1783723105752112748,
+    "word_count": 186
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Input/Input.tsx": {
+    "size": 831,
+    "mtime_ns": 1783715855648904720,
+    "word_count": 72
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Input/index.ts": {
+    "size": 25,
+    "mtime_ns": 1783715855649018760,
+    "word_count": 4
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Modal/Modal.tsx": {
+    "size": 349,
+    "mtime_ns": 1783715855649351005,
+    "word_count": 35
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Modal/index.ts": {
+    "size": 25,
+    "mtime_ns": 1783715855649462253,
+    "word_count": 4
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Pagination/Pagination.tsx": {
+    "size": 1676,
+    "mtime_ns": 1783723105754005841,
+    "word_count": 183
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/ProgressBar/ProgressBar.tsx": {
+    "size": 786,
+    "mtime_ns": 1783723105754617498,
+    "word_count": 76
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Select/Select.tsx": {
+    "size": 354,
+    "mtime_ns": 1783715855649763499,
+    "word_count": 35
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Select/index.ts": {
+    "size": 26,
+    "mtime_ns": 1783715855649865414,
+    "word_count": 4
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Skeleton/Skeleton.tsx": {
+    "size": 866,
+    "mtime_ns": 1783723105754970784,
+    "word_count": 92
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Spinner/Spinner.tsx": {
+    "size": 359,
+    "mtime_ns": 1783715855650164076,
+    "word_count": 35
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Spinner/index.ts": {
+    "size": 27,
+    "mtime_ns": 1783715855650283699,
+    "word_count": 4
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/StatsCard/StatsCard.tsx": {
+    "size": 1207,
+    "mtime_ns": 1783723105755919726,
+    "word_count": 138
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/StatusChip/StatusChip.tsx": {
+    "size": 662,
+    "mtime_ns": 1783723105756666005,
+    "word_count": 71
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Textarea/Textarea.tsx": {
+    "size": 364,
+    "mtime_ns": 1783715855650695401,
+    "word_count": 35
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Textarea/index.ts": {
+    "size": 28,
+    "mtime_ns": 1783715855650819608,
+    "word_count": 4
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/components/ui/Toast/ToastContainer.tsx": {
+    "size": 1407,
+    "mtime_ns": 1783723105757139081,
+    "word_count": 153
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/config/constants.ts": {
+    "size": 512,
+    "mtime_ns": 1783723105757343577,
+    "word_count": 65
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/config/env.ts": {
+    "size": 999,
+    "mtime_ns": 1783723105757528574,
+    "word_count": 81
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/config/firebase.ts": {
+    "size": 1306,
+    "mtime_ns": 1783723105757751029,
+    "word_count": 105
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/config/queryClient.ts": {
+    "size": 250,
+    "mtime_ns": 1783723105757930651,
+    "word_count": 32
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/config/routes.ts": {
+    "size": 793,
+    "mtime_ns": 1783715855651029896,
+    "word_count": 64
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/features/auth/guards/RoleGuard.tsx": {
+    "size": 2420,
+    "mtime_ns": 1783723105758265770,
+    "word_count": 287
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/features/employer/components/EmployerHero/EmployerHero.tsx": {
+    "size": 1032,
+    "mtime_ns": 1783715855651672053,
+    "word_count": 83
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/features/employer/components/EmployerServicesGrid/EmployerServicesGrid.tsx": {
+    "size": 2049,
+    "mtime_ns": 1783715855651978132,
+    "word_count": 179
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/features/jobs/components/JobCard/JobCard.tsx": {
+    "size": 2182,
+    "mtime_ns": 1783715855652481708,
+    "word_count": 163
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/features/jobs/components/JobFilters/JobFilters.tsx": {
+    "size": 2596,
+    "mtime_ns": 1783715855652781536,
+    "word_count": 156
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/hooks/useAIChat.ts": {
+    "size": 2750,
+    "mtime_ns": 1783723105758507641,
+    "word_count": 303
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/hooks/useAuth.ts": {
+    "size": 767,
+    "mtime_ns": 1783723105758686305,
+    "word_count": 108
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/hooks/useToast.ts": {
+    "size": 711,
+    "mtime_ns": 1783723105758886801,
+    "word_count": 92
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/lib/axios.ts": {
+    "size": 1145,
+    "mtime_ns": 1783723105759263295,
+    "word_count": 120
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/lib/openai.ts": {
+    "size": 279,
+    "mtime_ns": 1783723105759471000,
+    "word_count": 31
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/lib/storage.ts": {
+    "size": 988,
+    "mtime_ns": 1783723105759652997,
+    "word_count": 129
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/lib/utils.ts": {
+    "size": 1600,
+    "mtime_ns": 1783723105762755445,
+    "word_count": 211
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/main.tsx": {
+    "size": 238,
+    "mtime_ns": 1783715855653014283,
+    "word_count": 24
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/admin/AdminDashboardPage.tsx": {
+    "size": 6607,
+    "mtime_ns": 1783715855653578733,
+    "word_count": 341
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/admin/CompaniesPage.tsx": {
+    "size": 4194,
+    "mtime_ns": 1783715855654327013,
+    "word_count": 205
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/admin/EmployersPage.tsx": {
+    "size": 3370,
+    "mtime_ns": 1783715855654466261,
+    "word_count": 177
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/admin/JobApprovalsPage.tsx": {
+    "size": 4666,
+    "mtime_ns": 1783715855654799298,
+    "word_count": 252
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/admin/UsersPage.tsx": {
+    "size": 3337,
+    "mtime_ns": 1783715855655038169,
+    "word_count": 176
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/auth/AuthPage.tsx": {
+    "size": 8781,
+    "mtime_ns": 1783723105763560598,
+    "word_count": 748
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/candidate/AIHubPage.tsx": {
+    "size": 11803,
+    "mtime_ns": 1783723105764551540,
+    "word_count": 836
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/candidate/ApplicationsPage.tsx": {
+    "size": 302,
+    "mtime_ns": 1783723105764811744,
+    "word_count": 37
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/candidate/DashboardPage.tsx": {
+    "size": 7817,
+    "mtime_ns": 1783715855656428065,
+    "word_count": 425
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/candidate/KanbanPage.tsx": {
+    "size": 5850,
+    "mtime_ns": 1783715855657185262,
+    "word_count": 373
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/candidate/ProfilePage.tsx": {
+    "size": 3587,
+    "mtime_ns": 1783715855657522215,
+    "word_count": 220
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/employer/AnalyticsPage.tsx": {
+    "size": 309,
+    "mtime_ns": 1783723105765084697,
+    "word_count": 37
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/employer/CandidatesPage.tsx": {
+    "size": 5488,
+    "mtime_ns": 1783715855658249496,
+    "word_count": 278
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/employer/EmployerDashboardPage.tsx": {
+    "size": 8765,
+    "mtime_ns": 1783715855658646031,
+    "word_count": 426
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/employer/MyJobsPage.tsx": {
+    "size": 3916,
+    "mtime_ns": 1783715855658934110,
+    "word_count": 219
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/employer/PostJobPage.tsx": {
+    "size": 3521,
+    "mtime_ns": 1783715855659198856,
+    "word_count": 220
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/error/NotFoundPage.tsx": {
+    "size": 73,
+    "mtime_ns": 1783715855659379645,
+    "word_count": 10
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/error/UnauthorizedPage.tsx": {
+    "size": 81,
+    "mtime_ns": 1783715855659490560,
+    "word_count": 10
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/public/EmployerLandingPage.tsx": {
+    "size": 2276,
+    "mtime_ns": 1783715855659819472,
+    "word_count": 155
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/public/JobDetailPage.tsx": {
+    "size": 3401,
+    "mtime_ns": 1783715855660144050,
+    "word_count": 254
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/public/JobListingsPage.tsx": {
+    "size": 3536,
+    "mtime_ns": 1783715855660373963,
+    "word_count": 293
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/pages/public/LandingPage.tsx": {
+    "size": 6389,
+    "mtime_ns": 1783723105765442400,
+    "word_count": 510
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/services/ai.service.ts": {
+    "size": 3661,
+    "mtime_ns": 1783723105765803769,
+    "word_count": 406
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/services/auth.service.ts": {
+    "size": 1851,
+    "mtime_ns": 1783723105766022140,
+    "word_count": 156
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/store/hooks.ts": {
+    "size": 276,
+    "mtime_ns": 1783723105766372676,
+    "word_count": 34
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/store/index.ts": {
+    "size": 353,
+    "mtime_ns": 1783723105766585756,
+    "word_count": 39
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/store/slices/auth.slice.ts": {
+    "size": 1210,
+    "mtime_ns": 1783723105767006415,
+    "word_count": 129
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/store/slices/ui.slice.ts": {
+    "size": 1369,
+    "mtime_ns": 1783723105767294535,
+    "word_count": 130
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/types/ai.types.ts": {
+    "size": 421,
+    "mtime_ns": 1783723105768921425,
+    "word_count": 48
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/types/api.types.ts": {
+    "size": 273,
+    "mtime_ns": 1783723105769320918,
+    "word_count": 33
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/types/application.types.ts": {
+    "size": 290,
+    "mtime_ns": 1783723105769887492,
+    "word_count": 35
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/types/auth.types.ts": {
+    "size": 188,
+    "mtime_ns": 1783723105770060281,
+    "word_count": 24
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/src/types/job.types.ts": {
+    "size": 760,
+    "mtime_ns": 1783723105770408483,
+    "word_count": 88
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/tsconfig.app.json": {
+    "size": 655,
+    "mtime_ns": 1783715855661177451,
+    "word_count": 49,
+    "hash": "609188635ed75467709fe9255c55c6965adf854245283b88c8fb8ba2bb8af381"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/tsconfig.json": {
+    "size": 119,
+    "mtime_ns": 1783715855661294825,
+    "word_count": 15,
+    "hash": "f6bf1a74118f9bb202f489b5ce1f53e86d7b68ec7c723b11d160fc2d55816f7e"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/tsconfig.node.json": {
+    "size": 558,
+    "mtime_ns": 1783715855661405698,
+    "word_count": 42,
+    "hash": "3249249a8ffacdc49667f6542fbda930949a2cf1e2afaf64893233de8678bf4c"
+  },
+  "/Users/sanjay/Desktop/RECRUITZAA/Recruitzaa-FE/web/vite.config.ts": {
+    "size": 188,
+    "mtime_ns": 1783715855661506905,
+    "word_count": 20
+  }
+}

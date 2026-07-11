@@ -1,0 +1,175 @@
+{
+  "nodes": [
+    {
+      "id": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_md",
+      "label": "recruitzaa_proposal.md",
+      "file_type": "document",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_recruitzaa_project_deliverables_proposal",
+      "label": "Recruitzaa - Project Deliverables & Proposal",
+      "file_type": "document",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_1_project_overview",
+      "label": "1. Project Overview",
+      "file_type": "document",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L3"
+    },
+    {
+      "id": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_2_scope_of_deliverables",
+      "label": "2. Scope of Deliverables",
+      "file_type": "document",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L6"
+    },
+    {
+      "id": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_3_feature_breakdown",
+      "label": "3. Feature Breakdown",
+      "file_type": "document",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L14"
+    },
+    {
+      "id": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_3_1_web_platform_job_seeker_portal",
+      "label": "3.1 Web Platform: Job Seeker Portal",
+      "file_type": "document",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L16"
+    },
+    {
+      "id": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_3_2_web_platform_recruiter_employer_portal",
+      "label": "3.2 Web Platform: Recruiter / Employer Portal",
+      "file_type": "document",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L28"
+    },
+    {
+      "id": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_3_3_android_application_modules",
+      "label": "3.3 Android Application Modules",
+      "file_type": "document",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L34"
+    },
+    {
+      "id": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_4_pricing_timeline",
+      "label": "4. Pricing & Timeline",
+      "file_type": "document",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L42"
+    },
+    {
+      "id": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_4_1_payment_rollout_structure",
+      "label": "4.1 Payment & Rollout Structure",
+      "file_type": "document",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L46"
+    },
+    {
+      "id": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_5_important_notes_legal_terms",
+      "label": "5. Important Notes & Legal Terms",
+      "file_type": "document",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L55"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_md",
+      "target": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_recruitzaa_project_deliverables_proposal",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_recruitzaa_project_deliverables_proposal",
+      "target": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_1_project_overview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_recruitzaa_project_deliverables_proposal",
+      "target": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_2_scope_of_deliverables",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_recruitzaa_project_deliverables_proposal",
+      "target": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_3_feature_breakdown",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_3_feature_breakdown",
+      "target": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_3_1_web_platform_job_seeker_portal",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_3_feature_breakdown",
+      "target": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_3_2_web_platform_recruiter_employer_portal",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_3_feature_breakdown",
+      "target": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_3_3_android_application_modules",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_recruitzaa_project_deliverables_proposal",
+      "target": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_4_pricing_timeline",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_4_pricing_timeline",
+      "target": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_4_1_payment_rollout_structure",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_recruitzaa_project_deliverables_proposal",
+      "target": "users_sanjay_desktop_recruitzaa_recruitzaa_fe_web_recruitzaa_proposal_5_important_notes_legal_terms",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "web/recruitzaa_proposal.md",
+      "source_location": "L55",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}
