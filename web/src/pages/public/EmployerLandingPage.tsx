@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
 import { PageTransition } from '../../components/layout/PageTransition';
 import { SEO } from '../../components/seo/SEO';
-import styles from './EmployerLandingPage.module.css';
-
 import { SITE_CONTENT } from '../../config/content';
+import styles from './EmployerLandingPage.module.css';
 
 const content = SITE_CONTENT.employerLandingPage;
 
@@ -16,15 +15,29 @@ export const EmployerLandingPage = () => {
       />
       <div className={styles.page}>
         <section className={styles.hero}>
-          <div className={styles.content}>
-            <h1>{content.hero.title}</h1>
-            <p>{content.hero.subtitle}</p>
-            <Link to="/auth" className={styles.cta}>{content.hero.cta}</Link>
+          <div>
+            <div className={styles.content}>
+              <span className={styles.badge}>Enterprise Hiring Platform</span>
+              <h1>{content.hero.title}</h1>
+              <p>{content.hero.subtitle}</p>
+              <Link to="/auth" className={styles.cta}>
+                {content.hero.cta}
+              </Link>
+            </div>
+            <div className={styles.statsBar}>
+              {content.stats.map((stat, idx) => (
+                <div key={idx}>
+                  <strong>{stat.value}</strong>
+                  <span>{stat.label}</span>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className={styles.statsBar}>
-            {content.stats.map((stat, idx) => (
-              <div key={idx}><strong>{stat.value}</strong><span>{stat.label}</span></div>
-            ))}
+          <div className={styles.heroIllustration}>
+            <img
+              src="/Recruitzaa-FE/employer-hero.png"
+              alt="Recruitzaa hiring platform dashboard showing candidate pipeline and talent matching"
+            />
           </div>
         </section>
 

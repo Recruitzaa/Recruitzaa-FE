@@ -16,8 +16,8 @@
     "prettier": "^3.2.5"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
+    "web/src/**/*.{js,jsx,ts,tsx}": [
+      "bash -c 'cd web && npx eslint --fix'",
       "prettier --write"
     ],
     "*.{json,md,css}": [
