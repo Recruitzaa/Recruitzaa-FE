@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { PageTransition } from '../../components/layout/PageTransition';
+import { SEO } from '../../components/seo/SEO';
 import styles from './EmployerLandingPage.module.css';
 
 const services = [
@@ -10,8 +12,13 @@ const services = [
 
 export const EmployerLandingPage = () => {
   return (
-    <div className={styles.page}>
-      <section className={styles.hero}>
+    <PageTransition>
+      <SEO 
+        title="Hire Top Talent | Recruitzaa Enterprise Staffing"
+        description="Recruitzaa helps enterprise teams hire faster with structured sourcing, verified talent, and a review-first workflow. Reduce time-to-fill by 40%."
+      />
+      <div className={styles.page}>
+        <section className={styles.hero}>
         <div className={styles.content}>
           <div className={styles.badge}>Adecco Reference Standard</div>
           <h1>Enterprise Staffing & Precision Hiring</h1>
@@ -53,5 +60,6 @@ export const EmployerLandingPage = () => {
         </div>
       </section>
     </div>
+    </PageTransition>
   );
 };

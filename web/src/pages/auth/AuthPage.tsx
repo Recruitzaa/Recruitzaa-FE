@@ -10,12 +10,15 @@ import {
   registerWithEmail,
 } from '../../services/auth.service';
 import { ROUTES } from '../../config/routes';
+import { useAppDispatch } from '../../store/hooks';
+import { setAuthLoading } from '../../store/slices/auth.slice';
 
 type Role = 'candidate' | 'employer';
 type Mode = 'login' | 'register';
 
 export const AuthPage = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const [role, setRole] = useState<Role>('candidate');
   const [mode, setMode] = useState<Mode>('login');
@@ -26,6 +29,7 @@ export const AuthPage = () => {
 
   // Redirect after login based on role
   const redirectToDashboard = () => {
+    dispatch(setAuthLoading(true)); // Force RoleGuard to wait for Firebase listener
     if (role === 'employer') {
       navigate(ROUTES.EMPLOYER.DASHBOARD);
     } else {

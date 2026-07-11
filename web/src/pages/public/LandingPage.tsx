@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import { Search } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
+import { Search, ChevronDown, ChevronUp } from 'lucide-react';
+import { useState } from 'react';
 import { PageTransition } from '../../components/layout/PageTransition';
+import { SEO } from '../../components/seo/SEO';
 import styles from './LandingPage.module.css';
 import logo from '../../assets/logo.png';
 
@@ -11,13 +12,71 @@ const featuredJobs = [
   { title: 'Lead Frontend Architect', meta: 'Flipkart · Bangalore · Remote', match: '86% Match' },
 ];
 
+const faqData = [
+  {
+    q: "How does Recruitzaa's AI candidate matching work?",
+    a: "Our AI analyzes candidate skills, experience, and preferences to find the best match for employer requirements, ensuring high-quality placements."
+  },
+  {
+    q: "Is Recruitzaa free for job seekers?",
+    a: "Yes, our core platform features, including job matching, resume scoring, and applications, are completely free for candidates."
+  },
+  {
+    q: "How do I optimize my resume for ATS on Recruitzaa?",
+    a: "Our AI Hub provides a built-in ATS resume scorer that highlights missing keywords and formatting issues compared to the job description."
+  },
+  {
+    q: "What industries and locations do you cover?",
+    a: "We specialize in IT, Engineering, Healthcare, and Finance across major global tech hubs and remote opportunities."
+  },
+  {
+    q: "How quickly can employers hire through Recruitzaa?",
+    a: "With our pre-vetted talent pool and automated screening, employers typically reduce their time-to-fill by 40%."
+  }
+];
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Recruitzaa",
+  "url": "https://recruitzaa.com",
+  "logo": "https://recruitzaa.com/logo.png"
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": "https://recruitzaa.com",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://recruitzaa.com/jobs?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqData.map(item => ({
+    "@type": "Question",
+    "name": item.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.a
+    }
+  }))
+};
+
 export const LandingPage = () => {
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
   return (
     <PageTransition>
-      <Helmet>
-        <title>Recruitzaa — AI-Powered Enterprise Recruitment Platform</title>
-        <meta name="description" content="Precision AI candidate matching, ATS resume optimizations, and staffing services for IT, Healthcare, and Finance companies." />
-      </Helmet>
+      <SEO 
+        title="Recruitzaa — AI-Powered Enterprise Recruitment Platform"
+        description="Precision AI candidate matching, ATS resume optimizations, and staffing services for IT, Healthcare, and Finance companies."
+        schema={[organizationSchema, websiteSchema, faqSchema]}
+      />
       <div className={styles.page}>
         <section className={styles.hero}>
           <div className={styles.heroInner}>
@@ -116,6 +175,33 @@ export const LandingPage = () => {
                 <h4>{title}</h4>
                 <p>{desc}</p>
               </article>
+            ))}
+          </div>
+        </section>
+
+        <section className={styles.faqSection}>
+          <div className={styles.sectionHeader}>
+            <p>Common Questions</p>
+            <h2>Frequently Asked Questions</h2>
+            <span>Everything you need to know about the product and matching process.</span>
+          </div>
+          <div className={styles.faqList}>
+            {faqData.map((faq, index) => (
+              <div 
+                key={index} 
+                className={`${styles.faqItem} ${openFaq === index ? styles.faqOpen : ''}`}
+                onClick={() => setOpenFaq(openFaq === index ? null : index)}
+              >
+                <div className={styles.faqQuestion}>
+                  <h4>{faq.q}</h4>
+                  {openFaq === index ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                </div>
+                {openFaq === index && (
+                  <div className={styles.faqAnswer}>
+                    <p>{faq.a}</p>
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         </section>

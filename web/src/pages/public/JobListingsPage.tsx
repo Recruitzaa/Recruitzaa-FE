@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { PageTransition } from '../../components/layout/PageTransition';
+import { SEO } from '../../components/seo/SEO';
 import { JobCard } from '../../features/jobs/components/JobCard/JobCard';
 import styles from './JobListingsPage.module.css';
 
@@ -10,7 +12,12 @@ const jobs = [
 
 export const JobListingsPage = () => {
   return (
-    <div className={styles.page}>
+    <PageTransition>
+      <SEO 
+        title="Search Jobs | AI Match | Recruitzaa"
+        description="Find verified remote and on-site jobs in IT, Healthcare, and Finance. Apply now with AI-optimized ATS resumes."
+      />
+      <div className={styles.page}>
       <div className={styles.breadcrumb}>
         <div className={styles.container}>
           <span>Home</span><span>/</span><span>Job Search</span><span>/</span><strong>IT & Software</strong>
@@ -75,5 +82,6 @@ export const JobListingsPage = () => {
         </div>
       </div>
     </div>
+    </PageTransition>
   );
 };
