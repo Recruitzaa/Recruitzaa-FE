@@ -1,5 +1,5 @@
 import { openai } from '../lib/openai';
-import type { ATSScore, ChatMessage } from '../types/ai.types';
+import type { ATSScore } from '../types/ai.types';
 
 /**
  * Parses and analyzes a resume against a target job description.
