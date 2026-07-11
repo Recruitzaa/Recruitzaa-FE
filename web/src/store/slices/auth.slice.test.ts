@@ -11,11 +11,10 @@ describe('Auth Slice', () => {
   };
 
   const mockUser: AppUser = {
-    uid: '123',
+    id: '123',
     email: 'test@example.com',
     role: 'CANDIDATE',
-    createdAt: Date.now(),
-    updatedAt: Date.now(),
+    displayName: 'Test User',
   };
 
   it('should return the initial state', () => {
