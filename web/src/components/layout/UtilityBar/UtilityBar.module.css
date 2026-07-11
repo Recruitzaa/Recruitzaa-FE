@@ -38,6 +38,16 @@
   display: none;
 }
 
+.contactLink {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.contactLink:hover {
+  color: #fff;
+}
+
 .mobileText {
   display: inline;
 }

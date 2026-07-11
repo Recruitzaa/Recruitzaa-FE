@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import styles from './UtilityBar.module.css';
+import { SITE_CONTENT } from '../../../config/content';
 
 export const UtilityBar = () => {
+  const { contact } = SITE_CONTENT;
   return (
     <div className={styles.utilityBar}>
       <div className={styles.container}>
@@ -16,7 +18,7 @@ export const UtilityBar = () => {
           </Link>
         </div>
         <div className={styles.contact}>
-          Support Line: <strong>+91 70972 74644</strong> &nbsp;|&nbsp; <strong>talent@recruitzaa.com</strong>
+          Support Line: <strong><a href={`tel:${contact.phone.replace(/[^0-9+]/g, '')}`} className={styles.contactLink}>{contact.phone}</a></strong> &nbsp;|&nbsp; <strong><a href={`mailto:${contact.email}`} className={styles.contactLink}>{contact.email}</a></strong>
         </div>
       </div>
     </div>
