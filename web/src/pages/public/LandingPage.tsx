@@ -4,42 +4,40 @@ import { useState } from 'react';
 import { PageTransition } from '../../components/layout/PageTransition';
 import { SEO } from '../../components/seo/SEO';
 import styles from './LandingPage.module.css';
-import logo from '../../assets/logo.png';
-
 import { SITE_CONTENT } from '../../config/content';
 
 const content = SITE_CONTENT.landingPage;
 
 const organizationSchema = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Recruitzaa",
-  "url": "https://recruitzaa.com",
-  "logo": "https://recruitzaa.com/logo.png"
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Recruitzaa',
+  url: 'https://recruitzaa.com',
+  logo: 'https://recruitzaa.com/logo.png',
 };
 
 const websiteSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "url": "https://recruitzaa.com",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://recruitzaa.com/jobs?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  url: 'https://recruitzaa.com',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: 'https://recruitzaa.com/jobs?q={search_term_string}',
+    'query-input': 'required name=search_term_string',
+  },
 };
 
 const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": content.faqs.map(item => ({
-    "@type": "Question",
-    "name": item.q,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.a
-    }
-  }))
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: content.faqs.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.a,
+    },
+  })),
 };
 
 export const LandingPage = () => {
@@ -47,7 +45,7 @@ export const LandingPage = () => {
 
   return (
     <PageTransition>
-      <SEO 
+      <SEO
         title="Recruitzaa — AI-Powered Enterprise Recruitment Platform"
         description="Precision AI candidate matching, ATS resume optimizations, and staffing services for IT, Healthcare, and Finance companies."
         schema={[organizationSchema, websiteSchema, faqSchema]}
@@ -56,10 +54,10 @@ export const LandingPage = () => {
         <section className={styles.hero}>
           <div className={styles.heroInner}>
             <div className={styles.badge}>{content.hero.badge}</div>
-            <h1 className={styles.title}>{content.hero.titlePrefix} <span>{content.hero.titleHighlight}</span></h1>
-            <p className={styles.subtitle}>
-              {content.hero.subtitle}
-            </p>
+            <h1 className={styles.title}>
+              {content.hero.titlePrefix} <span>{content.hero.titleHighlight}</span>
+            </h1>
+            <p className={styles.subtitle}>{content.hero.subtitle}</p>
 
             <div className={styles.searchBox}>
               <div className={styles.field}>
@@ -77,7 +75,10 @@ export const LandingPage = () => {
 
             <div className={styles.metrics}>
               {content.hero.metrics.map((metric, i) => (
-                <div key={i}><strong>{metric.value}</strong><span>{metric.label}</span></div>
+                <div key={i}>
+                  <strong>{metric.value}</strong>
+                  <span>{metric.label}</span>
+                </div>
               ))}
             </div>
           </div>
@@ -103,7 +104,10 @@ export const LandingPage = () => {
           <div className={styles.sectionHeader}>
             <p>Tailored Solutions</p>
             <h2>Built for Candidates & Enterprise Employers</h2>
-            <span>Whether you are scaling a technical team or advancing your career, Recruitzaa provides structured tools for measurable outcomes.</span>
+            <span>
+              Whether you are scaling a technical team or advancing your career, Recruitzaa provides
+              structured tools for measurable outcomes.
+            </span>
           </div>
 
           <div className={styles.twoCards}>
@@ -111,18 +115,26 @@ export const LandingPage = () => {
               <h3>{content.portals.seekers.title}</h3>
               <p>{content.portals.seekers.description}</p>
               <ul>
-                {content.portals.seekers.bullets.map((b, i) => <li key={i}>{b}</li>)}
+                {content.portals.seekers.bullets.map((b, i) => (
+                  <li key={i}>{b}</li>
+                ))}
               </ul>
-              <Link to="/jobs" className={styles.primaryLink}>{content.portals.seekers.cta}</Link>
+              <Link to="/jobs" className={styles.primaryLink}>
+                {content.portals.seekers.cta}
+              </Link>
             </article>
 
             <article className={styles.portalCard}>
               <h3>{content.portals.employers.title}</h3>
               <p>{content.portals.employers.description}</p>
               <ul>
-                {content.portals.employers.bullets.map((b, i) => <li key={i}>{b}</li>)}
+                {content.portals.employers.bullets.map((b, i) => (
+                  <li key={i}>{b}</li>
+                ))}
               </ul>
-              <Link to="/employers" className={styles.darkLink}>{content.portals.employers.cta}</Link>
+              <Link to="/employers" className={styles.darkLink}>
+                {content.portals.employers.cta}
+              </Link>
             </article>
           </div>
         </section>
@@ -131,7 +143,10 @@ export const LandingPage = () => {
           <div className={styles.sectionHeader}>
             <p>Enterprise Services</p>
             <h2>End-to-End Staffing & Recruitment</h2>
-            <span>Flexible engagement models designed to meet your organization's specific hiring demands.</span>
+            <span>
+              Flexible engagement models designed to meet your organization's specific hiring
+              demands.
+            </span>
           </div>
 
           <div className={styles.servicesGrid}>
@@ -153,8 +168,8 @@ export const LandingPage = () => {
           </div>
           <div className={styles.faqList}>
             {content.faqs.map((faq, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className={`${styles.faqItem} ${openFaq === index ? styles.faqOpen : ''}`}
                 onClick={() => setOpenFaq(openFaq === index ? null : index)}
               >
@@ -170,11 +185,6 @@ export const LandingPage = () => {
               </div>
             ))}
           </div>
-        </section>
-
-        <section className={styles.brandStrip}>
-          <img src={logo} alt={SITE_CONTENT.company.name} />
-          <p>{SITE_CONTENT.company.name} | {SITE_CONTENT.company.locations}</p>
         </section>
       </div>
     </PageTransition>
