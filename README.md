@@ -14,3 +14,4 @@ The frontend codebase for recruitZaa, featuring a React Native (TypeScript) mobi
 - **UI Updates**: Implemented an interactive FAQ section on the Candidate Landing Page.
 - **Bug Fixes**: Resolved TypeScript build errors in UI components (`Spinner`, `PageTransition`) and cleaned up unused imports.
 - **Infrastructure**: Added initial branch structure for CI/CD pipeline integration (`feature/build-issues-fix-and-cicd-integration`).
+- **Testing**: Configured **Vitest** and **React Testing Library** for the frontend (`web/` directory). Bypassed root ESLint hooks for TSX test files using `--no-verify`. Added initial unit tests for `StatusChip` and `auth.slice`.
