@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { subscribeToAuthState } from '../../../services/auth.service';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { setUser, clearUser, setAuthLoading } from '../../../store/slices/auth.slice';
+import { setUser, clearUser } from '../../../store/slices/auth.slice';
 import type { UserRole } from '../../../types/auth.types';
 import { ROUTES } from '../../../config/routes';
 
