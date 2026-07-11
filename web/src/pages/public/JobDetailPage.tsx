@@ -1,10 +1,59 @@
 import { Link } from 'react-router-dom';
 import { Badge } from '../../components/ui/Badge';
+import { PageTransition } from '../../components/layout/PageTransition';
+import { SEO } from '../../components/seo/SEO';
 import styles from './JobDetailPage.module.css';
+
+const jobSchema = {
+  "@context": "https://schema.org/",
+  "@type": "JobPosting",
+  "title": "Senior React Native Engineer",
+  "description": "We are seeking a highly skilled Senior React Native Engineer to lead the mobile app development of our flagship enterprise platform. You will work on building scalable applications and ensuring optimal performance.",
+  "identifier": {
+    "@type": "PropertyValue",
+    "name": "Infosys Limited",
+    "value": "JOB-12345"
+  },
+  "datePosted": "2026-07-10",
+  "validThrough": "2026-09-10",
+  "employmentType": "FULL_TIME",
+  "hiringOrganization": {
+    "@type": "Organization",
+    "name": "Infosys Limited",
+    "sameAs": "https://www.infosys.com",
+    "logo": "https://recruitzaa.com/logo.png"
+  },
+  "jobLocation": {
+    "@type": "Place",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Bangalore",
+      "addressRegion": "KA",
+      "addressCountry": "IN"
+    }
+  },
+  "baseSalary": {
+    "@type": "MonetaryAmount",
+    "currency": "INR",
+    "value": {
+      "@type": "QuantitativeValue",
+      "minValue": 1800000,
+      "maxValue": 2600000,
+      "unitText": "YEAR"
+    }
+  }
+};
 
 export const JobDetailPage = () => {
   return (
-    <div className={styles.page}>
+    <PageTransition>
+      <SEO 
+        title="Senior React Native Engineer | Infosys | Recruitzaa"
+        description="Apply for Senior React Native Engineer at Infosys Limited in Bangalore. Salary ₹18L - ₹26L. Precision AI candidate matching."
+        type="job"
+        schema={jobSchema}
+      />
+      <div className={styles.page}>
       <div className={styles.breadcrumb}>
         <div className={styles.container}>
           <Link to="/jobs">Back to Job Listings</Link>
@@ -80,5 +129,6 @@ export const JobDetailPage = () => {
         </div>
       </div>
     </div>
+    </PageTransition>
   );
 };
