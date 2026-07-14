@@ -385,10 +385,64 @@
   .hero {
     grid-template-columns: 1.2fr 0.9fr;
   }
+
+  .aboutGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (min-width: 1100px) {
   .servicesGrid {
     grid-template-columns: repeat(4, 1fr);
   }
+}
+
+/* ── About Us Section ── */
+.aboutGrid {
+  display: grid;
+  gap: 1.3rem;
+  grid-template-columns: 1fr;
+  margin-top: 2rem;
+}
+
+.aboutCard {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.7rem;
+  box-shadow: var(--shadow-sm);
+  transition:
+    box-shadow var(--transition),
+    border-color var(--transition);
+}
+
+.aboutCard:hover {
+  box-shadow: var(--shadow-md);
+  border-color: rgba(193, 79, 22, 0.25);
+}
+
+.aboutCard h4 {
+  font-size: 1rem;
+  color: var(--color-dark);
+  margin-bottom: 0.5rem;
+}
+
+.aboutCard p {
+  font-size: 0.92rem;
+  color: var(--color-slate);
+  line-height: 1.65;
+}
+
+.aboutCard .aboutIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: var(--radius);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
 }

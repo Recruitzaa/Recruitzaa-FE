@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import type { ChatMessage } from '../types/ai.types';
-import { openai } from '../lib/openai';
 
 export const useAIChat = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 'welcome',
       role: 'assistant',
-      content: 'Hello! I am your Recruitzaa AI Career Copilot. Upload your resume or ask me any question about your job application, resume optimization, or interview prep!',
+      content:
+        'Hello! I am your Recruitzaa AI Career Copilot. Ask me any question about your job application, resume optimization, or interview prep!',
       timestamp: new Date().toLocaleTimeString(),
     },
   ]);
@@ -15,6 +15,9 @@ export const useAIChat = () => {
 
   const sendMessage = async (text: string, systemPrompt?: string) => {
     if (!text.trim()) return;
+    if (systemPrompt) {
+      console.debug('System prompt provided to mock AI chat:', systemPrompt);
+    }
 
     const userMsg: ChatMessage = {
       id: Date.now().toString(),
@@ -26,52 +29,35 @@ export const useAIChat = () => {
     setMessages((prev) => [...prev, userMsg]);
     setIsLoading(true);
 
-    const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
-    if (!apiKey || apiKey === 'sk-your_openai_key_here') {
-      // Mock AI response delay
-      setTimeout(() => {
-        const aiMsg: ChatMessage = {
-          id: (Date.now() + 1).toString(),
-          role: 'assistant',
-          content: `I received your question: "${text}". To get real-time AI suggestions, please add your VITE_OPENAI_API_KEY inside the .env file!`,
-          timestamp: new Date().toLocaleTimeString(),
-        };
-        setMessages((prev) => [...prev, aiMsg]);
-        setIsLoading(false);
-      }, 800);
-      return;
-    }
+    // Simulate 1500ms network latency
+    setTimeout(() => {
+      let mockReply = `That is a great question. Based on standard ATS guidelines, here is my suggestion: 
+- Try to make your action verbs strong (e.g., "Led", "Architected", "Optimized" instead of "Responsible for").
+- Include metric-driven accomplishments, like "Improved rendering performance by 25% using virtualized lists".
+- Make sure keywords like "React Native", "TypeScript", and "Redux" are explicitly listed under your Technical Skills section.`;
 
-    try {
-      const response = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
-        messages: [
-          ...(systemPrompt ? [{ role: 'system', content: systemPrompt } as const] : []),
-          ...messages.map((m) => ({ role: m.role, content: m.content } as const)),
-          { role: 'user', content: text } as const,
-        ],
-      });
+      if (text.toLowerCase().includes('resume') || text.toLowerCase().includes('ats')) {
+        mockReply = `To optimize your resume for the ATS:
+1. Ensure your PDF has selectable text (not scanned images).
+2. Avoid multi-column layouts as some older parsers struggle with reading order.
+3. List skills in plain text rather than using graphical rating stars or meters.
+4. Align the job titles on your resume closely with the ones in the job descriptions.`;
+      } else if (text.toLowerCase().includes('interview') || text.toLowerCase().includes('prep')) {
+        mockReply = `For React Native interview preparation:
+- Be ready to explain the architecture difference between the Bridge and the New Architecture (TurboModules/Fabric).
+- Brush up on performance optimizations: FlashList vs FlatList, useMemo/useCallback, and native thread blocking.
+- Practice explaining state management choices (Redux Toolkit vs Context API vs Zustand).`;
+      }
 
-      const aiText = response.choices[0]?.message?.content ?? "I'm sorry, I couldn't generate a response.";
       const aiMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: aiText,
+        content: mockReply,
         timestamp: new Date().toLocaleTimeString(),
       };
       setMessages((prev) => [...prev, aiMsg]);
-    } catch (error) {
-      console.error('AI Career Assistant chat error:', error);
-      const errMsg: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: 'There was an issue connecting to the AI service. Please check your network connection or API Key.',
-        timestamp: new Date().toLocaleTimeString(),
-      };
-      setMessages((prev) => [...prev, errMsg]);
-    } finally {
       setIsLoading(false);
-    }
+    }, 1500);
   };
 
   return { messages, isLoading, sendMessage };

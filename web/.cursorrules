@@ -1,0 +1,48 @@
+# recruitZaa Cursor & AI Rules
+
+These instructions guide Cursor, Copilot, Windsurf, Claude Dev, Cline, and other AI coding assistants when modifying or extending this codebase.
+
+## 🛠️ Tech Stack & Key Libraries
+- **Core:** React 19, Vite, TypeScript
+- **Global State:** Redux Toolkit (`@reduxjs/toolkit` & `react-redux`)
+- **Navigation:** React Router DOM (v7, HashRouter)
+- **Styling:** Tailwind CSS + CSS Modules
+- **Authentication:** Firebase Client SDK v12
+- **Drag & Drop:** `@dnd-kit/core`, `@dnd-kit/sortable`
+- **Simulations:** Mock data layers with simulated latency (`setTimeout`) inside `src/services/`
+
+---
+
+## 🎨 Design Tokens & Branding Rules
+Always reference variables from `tokens.css` or match them using custom tailwind class values:
+- **recruitZaa Orange (Primary):** `#c14f16` / `var(--color-primary)`
+- **Orange Hover:** `#a94210` / `var(--color-primary-hover)`
+- **Light Orange Bg:** `#fef3ee` / `var(--color-primary-light)`
+- **recruitZaa Charcoal (Dark Neutral):** `#1e2229` / `var(--color-dark)`
+- **Dark Neutral Hover:** `#2d323c` / `var(--color-dark-muted)`
+- **Light Surface Background:** `#f8fafc` / `var(--color-surface)`
+
+**Important:** For Candidate workspace UI components, never style active layouts using default Tailwind indigo or blue colors. Use the primary brand orange `#c14f16` or brand charcoal `#1e2229` to remain aligned with the logo.
+
+---
+
+## 📂 Codebase Directory Guide
+- `src/components`: Layout wrappers (`DashboardLayout.tsx`), Auth guards (`RoleGuard.tsx`), reusable UI widgets.
+- `src/pages`: Application views divided by domain (`/candidate`, `/employer`, `/public`).
+- `src/store`: Redux store configuration and slices (`auth.slice.ts`, `kanban.slice.ts`).
+- `src/services`: Mock API layers, OpenAI simulations, and Firebase auth helper calls.
+- `src/hooks`: Global custom hooks like `useAuth.ts` (Firebase Auth state) and typed Redux hooks.
+- `src/config`: App constants, routes path keys (`routes.ts`), and firebase initialization.
+
+---
+
+## ⚠️ Essential AI Development Rules
+
+### 1. Wait for Auth Initialization
+Inside authentication guards or user context handlers, do not render checks or issue redirects until `isInitializing` from `useAuth()` evaluates to `false`. On the initial render cycle, display the loading spinner to prevent premature redirects to `/unauthorized`.
+
+### 2. Client-Side API Key Safety
+Do not place OpenAI API keys in the code or use `dangerouslyAllowBrowser: true`. If AI features like resume optimization, cover letter drafts, or ATS screening are requested, mock these calls inside `src/services/ai.service.ts` using simulated delay prompts.
+
+### 3. State Management Consistency
+Store global application state (like user profiles, active kanban applications, pipeline column placements) inside the Redux Toolkit slices under `src/store/slices/`. Do not duplicate global state variables in local component states.

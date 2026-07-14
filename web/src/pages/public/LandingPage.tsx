@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Search, ChevronDown, ChevronUp } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PageTransition } from '../../components/layout/PageTransition';
 import { SEO } from '../../components/seo/SEO';
 import styles from './LandingPage.module.css';
@@ -42,6 +42,24 @@ const faqSchema = {
 
 export const LandingPage = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleHashScroll = () => {
+      const hash = window.location.hash;
+      if (hash.includes('#about')) {
+        const el = document.getElementById('about');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      } else if (hash.includes('#services')) {
+        const el = document.getElementById('services');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+
+    handleHashScroll();
+    window.addEventListener('hashchange', handleHashScroll);
+    return () => window.removeEventListener('hashchange', handleHashScroll);
+  }, [location]);
 
   return (
     <PageTransition>
@@ -155,6 +173,24 @@ export const LandingPage = () => {
                 <div className={styles.serviceNum}>{service.num}</div>
                 <h4>{service.title}</h4>
                 <p>{service.desc}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="about" className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <p>{content.aboutUs.tag}</p>
+            <h2>{content.aboutUs.title}</h2>
+            <span>{content.aboutUs.subtitle}</span>
+          </div>
+
+          <div className={styles.aboutGrid}>
+            {content.aboutUs.differentiators.map((diff, i) => (
+              <article key={i} className={styles.aboutCard}>
+                <div className={styles.aboutIcon}>{String(i + 1).padStart(2, '0')}</div>
+                <h4>{diff.title}</h4>
+                <p>{diff.desc}</p>
               </article>
             ))}
           </div>

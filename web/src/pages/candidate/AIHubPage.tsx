@@ -1,21 +1,22 @@
 import { useState } from 'react';
-import { Card } from '../../components/ui/Card';
-import { Button } from '../../components/ui/Button';
-import { FileDropZone } from '../../components/ui/FileDropZone/FileDropZone';
-import { ProgressBar } from '../../components/ui/ProgressBar/ProgressBar';
-import { Spinner } from '../../components/ui/Spinner/Spinner';
-import { useAIChat } from '../../hooks/useAIChat';
+import { ATSCompatibilityEngine } from '../../features/ai-hub/components/ATSCompatibilityEngine';
+import { ResumeOptimizer } from '../../features/ai-hub/components/ResumeOptimizer';
+import { AIChatPanel } from '../../features/ai-hub/components/AIChatPanel';
 import { scoreResume } from '../../services/ai.service';
+import { useAIChat } from '../../hooks/useAIChat';
 import type { ATSScore } from '../../types/ai.types';
-import styles from './AIHubPage.module.css';
 
+/**
+ * AIHubPage — Main Candidate AI Tools Hub
+ * Features ATS parser comparison, Bullet optimizer, and Career assistant chat.
+ */
 export const AIHubPage = () => {
-  const [activeTab, setActiveTab] = useState<'ats' | 'optimizer' | 'cover' | 'mock' | 'roadmap'>('ats');
+  const [activeTab, setActiveTab] = useState<'ats' | 'optimizer' | 'chat'>('ats');
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [jdText, setJdText] = useState(
     'Senior React Native Developer at Infosys Limited. Requires 5+ years experience, TypeScript, Redux Toolkit, Expo, and GraphQL API integration.'
   );
-  
+
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [scoreData, setScoreData] = useState<ATSScore | null>({
     overall: 84,
@@ -45,7 +46,6 @@ export const AIHubPage = () => {
 
   const handleRunAnalysis = async () => {
     setIsAnalyzing(true);
-    // Extract name or mock text if no real text extracted
     const resumeText = resumeFile
       ? `Resume file: ${resumeFile.name}. Skills: React Native, TypeScript, Redux Toolkit, Mobile Architecture, REST APIs.`
       : 'Resume placeholder. Skills: React Native, TypeScript, Redux Toolkit, Mobile Architecture, REST APIs.';
@@ -62,217 +62,76 @@ export const AIHubPage = () => {
 
   const handleSendChat = () => {
     if (!chatInput.trim()) return;
-    sendMessage(chatInput, `You are helping the candidate Arjun Kumar optimize his resume for a Job Description. Here is his current ATS Score data: ${JSON.stringify(scoreData)}`);
+    sendMessage(
+      chatInput,
+      `You are helping the candidate Arjun Kumar optimize his resume for a Job Description. Here is his current ATS Score data: ${JSON.stringify(
+        scoreData
+      )}`
+    );
     setChatInput('');
   };
 
   return (
-    <div className={styles.page}>
-      
-      {/* Tool Tabs */}
-      <div className={styles.toolTabs}>
-        <div className={styles.container}>
-          <button 
-            className={`${styles.toolTab} ${activeTab === 'ats' ? styles.active : ''}`}
+    <div className="flex flex-col">
+      {/* Tab Navigation */}
+      <div className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-6 py-1">
+        <div className="max-w-6xl mx-auto flex gap-6 overflow-x-auto">
+          <button
+            className={`py-3 text-sm font-semibold border-b-2 transition-all ${
+              activeTab === 'ats'
+                ? 'border-[#c14f16] text-[#c14f16] dark:text-[#c14f16]'
+                : 'border-transparent text-slate-500 hover:text-slate-700'
+            }`}
             onClick={() => setActiveTab('ats')}
           >
             ATS Resume Parser
           </button>
-          <button 
-            className={`${styles.toolTab} ${activeTab === 'optimizer' ? styles.active : ''}`}
+          <button
+            className={`py-3 text-sm font-semibold border-b-2 transition-all ${
+              activeTab === 'optimizer'
+                ? 'border-[#c14f16] text-[#c14f16] dark:text-[#c14f16]'
+                : 'border-transparent text-slate-500 hover:text-slate-700'
+            }`}
             onClick={() => setActiveTab('optimizer')}
           >
             Resume Optimizer
           </button>
-          <button 
-            className={`${styles.toolTab} ${activeTab === 'cover' ? styles.active : ''}`}
-            onClick={() => setActiveTab('cover')}
+          <button
+            className={`py-3 text-sm font-semibold border-b-2 transition-all ${
+              activeTab === 'chat'
+                ? 'border-[#c14f16] text-[#c14f16] dark:text-[#c14f16]'
+                : 'border-transparent text-slate-500 hover:text-slate-700'
+            }`}
+            onClick={() => setActiveTab('chat')}
           >
-            Cover Letter Builder
-          </button>
-          <button 
-            className={`${styles.toolTab} ${activeTab === 'mock' ? styles.active : ''}`}
-            onClick={() => setActiveTab('mock')}
-          >
-            Mock Interview Simulator
-          </button>
-          <button 
-            className={`${styles.toolTab} ${activeTab === 'roadmap' ? styles.active : ''}`}
-            onClick={() => setActiveTab('roadmap')}
-          >
-            Career Roadmap
+            AI Career Assistant
           </button>
         </div>
       </div>
 
-      <div className={styles.container}>
-        <div className={styles.contentLayout}>
-          
-          {/* LEFT COL */}
-          <div className={styles.leftCol}>
-            
-            {/* ATS PARSER CARD */}
-            <Card className={styles.panelCard}>
-              <h2 className={styles.panelTitle}>ATS Compatibility Engine</h2>
-              <p className={styles.panelDesc}>Compare your current resume against target Job Descriptions to identify keyword gaps and formatting parseability.</p>
-              
-              <div className={styles.inputGrid}>
-                <div className={styles.uploadZone}>
-                  <div className={styles.uploadTitle}>Uploaded Resume</div>
-                  <FileDropZone 
-                    value={resumeFile}
-                    onChange={setResumeFile}
-                    label="Choose PDF or Word Resume"
-                  />
-                </div>
-
-                <div className={styles.jdBox}>
-                  <div className={styles.jdTitle}>Target Job Description</div>
-                  <textarea 
-                    className={styles.jdTextarea} 
-                    value={jdText}
-                    onChange={(e) => setJdText(e.target.value)}
-                    placeholder="Paste the job description here..."
-                  />
-                </div>
-              </div>
-
-              <Button 
-                className={styles.fullWidthBtn}
-                onClick={handleRunAnalysis}
-                disabled={isAnalyzing}
-              >
-                {isAnalyzing ? <><Spinner size="sm" /> Analyzing...</> : 'Run Deep ATS Analysis'}
-              </Button>
-            </Card>
-
-            {/* ANALYSIS RESULTS */}
-            {scoreData && (
-              <Card className={styles.panelCard}>
-                <h2 className={styles.panelTitle}>ATS Analysis Summary</h2>
-                <p className={styles.panelDesc}>Real-time analysis compared against targets.</p>
-                
-                <div className={styles.atsResultsBox}>
-                  <div className={styles.gaugeWrapper}>
-                    <div className={styles.gaugeCircle}>
-                      <div className={styles.gaugeInner}>
-                        <div className={styles.gaugeVal}>{scoreData.overall}</div>
-                        <div className={styles.gaugeLbl}>Score</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={styles.meterContainer}>
-                    <div className={styles.meterRow}>
-                      <ProgressBar value={scoreData.skillMatch} label="Keyword Alignment" />
-                    </div>
-                    <div className={styles.meterRow}>
-                      <ProgressBar value={scoreData.formatting} label="Format Parseability" />
-                    </div>
-                    <div className={styles.meterRow}>
-                      <ProgressBar value={scoreData.experienceFit} label="Work Experience Fit" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className={styles.keywordsSection}>
-                  <div className={styles.keywordsTitle}>Matched Keywords</div>
-                  <div className={styles.chipGroup}>
-                    {scoreData.keywords.filter(k => k.found).map((k) => (
-                      <span key={k.keyword} className={`${styles.chip} ${styles.chipMatch}`}>
-                        {k.keyword}
-                      </span>
-                    ))}
-                    {scoreData.keywords.filter(k => k.found).length === 0 && (
-                      <span style={{ fontSize: '0.85rem', color: 'var(--color-slate)' }}>No matches found yet.</span>
-                    )}
-                  </div>
-
-                  <div className={styles.keywordsTitle} style={{ marginTop: '1.5rem' }}>Missing Critical Keywords</div>
-                  <div className={styles.chipGroup}>
-                    {scoreData.keywords.filter(k => !k.found).map((k) => (
-                      <span key={k.keyword} className={`${styles.chip} ${styles.chipMissing}`}>
-                        {k.keyword}
-                      </span>
-                    ))}
-                    {scoreData.keywords.filter(k => !k.found).length === 0 && (
-                      <span style={{ fontSize: '0.85rem', color: 'var(--color-success)' }}>All core keywords present!</span>
-                    )}
-                  </div>
-
-                  {scoreData.suggestions.length > 0 && (
-                    <div className={styles.suggestionsBox}>
-                      <div className={styles.keywordsTitle}>Recommendations</div>
-                      <ul className={styles.suggestionsList}>
-                        {scoreData.suggestions.map((s, idx) => (
-                          <li key={idx}>{s}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              </Card>
-            )}
-
-          </div>
-
-          {/* RIGHT COL */}
-          <div className={styles.rightCol}>
-            
-            {/* AI CHAT */}
-            <Card className={styles.panelCard}>
-              <h2 className={styles.panelTitle}>AI Career Assistant</h2>
-              <p className={styles.panelDesc}>Ask recommendations to improve your ATS score.</p>
-              
-              <div className={styles.chatBox}>
-                <div className={styles.chatMessages}>
-                  {messages.map((msg) => (
-                    <div 
-                      key={msg.id} 
-                      className={`${styles.msg} ${msg.role === 'assistant' ? styles.msgAi : styles.msgUser}`}
-                    >
-                      <div className={`${styles.msgAvatar} ${msg.role === 'user' ? styles.userAvatar : ''}`}>
-                        {msg.role === 'assistant' ? 'AI' : 'Me'}
-                      </div>
-                      <div className={styles.msgBody}>{msg.content}</div>
-                    </div>
-                  ))}
-                  {isChatLoading && (
-                    <div className={`${styles.msg} ${styles.msgAi}`}>
-                      <div className={styles.msgAvatar}>AI</div>
-                      <div className={styles.msgBody}><Spinner size="sm" /> Thinking...</div>
-                    </div>
-                  )}
-                </div>
-                
-                <div className={styles.chatInputBar}>
-                  <input 
-                    type="text" 
-                    value={chatInput}
-                    onChange={(e) => setChatInput(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSendChat()}
-                    placeholder="Ask AI assistant a question..." 
-                    className={styles.chatInput} 
-                    disabled={isChatLoading}
-                  />
-                  <Button size="sm" onClick={handleSendChat} disabled={isChatLoading}>Send</Button>
-                </div>
-              </div>
-            </Card>
-
-            {/* AUTOMATED ACTIONS */}
-            <Card className={styles.panelCard}>
-              <h2 className={styles.panelTitle}>Automated Actions</h2>
-              <div className={styles.actionStack}>
-                <Button variant="outline" className={styles.actionBtn}>Auto-Inject Missing Keywords</Button>
-                <Button variant="outline" className={styles.actionBtn}>Generate Tailored Cover Letter</Button>
-                <Button variant="outline" className={styles.actionBtn}>Start AI Technical Mock Interview</Button>
-              </div>
-            </Card>
-
-          </div>
-
-        </div>
+      {/* Main Content Area */}
+      <div className="max-w-6xl mx-auto w-full px-6 py-8">
+        {activeTab === 'ats' && (
+          <ATSCompatibilityEngine
+            resumeFile={resumeFile}
+            setResumeFile={setResumeFile}
+            jdText={jdText}
+            setJdText={setJdText}
+            isAnalyzing={isAnalyzing}
+            scoreData={scoreData}
+            onRunAnalysis={handleRunAnalysis}
+          />
+        )}
+        {activeTab === 'optimizer' && <ResumeOptimizer />}
+        {activeTab === 'chat' && (
+          <AIChatPanel
+            messages={messages}
+            isChatLoading={isChatLoading}
+            chatInput={chatInput}
+            setChatInput={setChatInput}
+            onSendChat={handleSendChat}
+          />
+        )}
       </div>
     </div>
   );

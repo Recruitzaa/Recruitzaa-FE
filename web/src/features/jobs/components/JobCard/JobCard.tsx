@@ -1,7 +1,7 @@
 import { Card } from '../../../../components/ui/Card';
 import { Badge } from '../../../../components/ui/Badge';
 import { Button } from '../../../../components/ui/Button';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styles from './JobCard.module.css';
 
 interface JobCardProps {
@@ -31,8 +31,12 @@ export const JobCard = ({
   tags,
   avatarText,
   avatarColor,
-  isPriority
+  isPriority,
 }: JobCardProps) => {
+  const currentPath = useLocation().pathname;
+  const isPortalView = currentPath.startsWith('/candidate');
+  const detailsLink = isPortalView ? `/candidate/jobs/${id}` : `/jobs/${id}`;
+
   return (
     <Card className={styles.jobCard}>
       <div className={styles.topRow}>
@@ -40,20 +44,26 @@ export const JobCard = ({
           {avatarText}
         </div>
         <div className={styles.mainInfo}>
-          <Link to={`/jobs/${id}`} className={styles.title}>{title}</Link>
+          <Link to={detailsLink} className={styles.title}>
+            {title}
+          </Link>
           <div className={styles.companyInfo}>
             {company} &middot; {location} ({type})
           </div>
         </div>
-        <div className={styles.matchPill}>
-          {matchScore}% AI Match
-        </div>
+        <div className={styles.matchPill}>{matchScore}% AI Match</div>
       </div>
 
       <div className={styles.tagsRow}>
-        {isPriority && <Badge variant="primary" className={styles.tag}>Priority Hiring</Badge>}
+        {isPriority && (
+          <Badge variant="primary" className={styles.tag}>
+            Priority Hiring
+          </Badge>
+        )}
         {tags.map((tag, idx) => (
-          <Badge key={idx} variant="neutral" className={styles.tag}>{tag}</Badge>
+          <Badge key={idx} variant="neutral" className={styles.tag}>
+            {tag}
+          </Badge>
         ))}
       </div>
 
@@ -65,10 +75,14 @@ export const JobCard = ({
         </div>
         <div className={styles.actions}>
           <Link to="/candidate/ai-hub">
-            <Button variant="outline" className={styles.actionBtn}>Check ATS Fit</Button>
+            <Button variant="outline" className={styles.actionBtn}>
+              Check ATS Fit
+            </Button>
           </Link>
-          <Link to={`/jobs/${id}`}>
-            <Button variant="primary" className={styles.actionBtn}>Apply Now</Button>
+          <Link to={detailsLink}>
+            <Button variant="primary" className={styles.actionBtn}>
+              Apply Now
+            </Button>
           </Link>
         </div>
       </div>

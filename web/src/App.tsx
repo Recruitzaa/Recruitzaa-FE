@@ -10,12 +10,15 @@ import { queryClient } from './config/queryClient';
 import { PublicLayout } from './components/layout/PublicLayout/PublicLayout';
 import { PortalLayout } from './components/layout/PortalLayout/PortalLayout';
 import { AdminLayout } from './components/layout/AdminLayout/AdminLayoutV2';
-import { RoleGuard } from './features/auth/guards/RoleGuard';
+import { DashboardLayout } from './components/layout/DashboardLayout';
+import { RoleGuard } from './components/auth/RoleGuard';
 
 import { LandingPage } from './pages/public/LandingPage';
 import { EmployerLandingPage } from './pages/public/EmployerLandingPage';
 import { JobListingsPage } from './pages/public/JobListingsPage';
 import { JobDetailPage } from './pages/public/JobDetailPage';
+import { PrivacyPolicyPage } from './pages/public/PrivacyPolicyPage';
+import { TermsOfServicePage } from './pages/public/TermsOfServicePage';
 
 import { AuthPage } from './pages/auth/AuthPage';
 
@@ -47,54 +50,59 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <HashRouter>
             <Routes>
-
               {/* ── PUBLIC ── */}
               <Route element={<PublicLayout />}>
-                <Route path="/"          element={<LandingPage />} />
+                <Route path="/" element={<LandingPage />} />
                 <Route path="/employers" element={<EmployerLandingPage />} />
-                <Route path="/jobs"      element={<JobListingsPage />} />
-                <Route path="/jobs/:id"  element={<JobDetailPage />} />
+                <Route path="/jobs" element={<JobListingsPage />} />
+                <Route path="/jobs/:id" element={<JobDetailPage />} />
+                <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                <Route path="/terms" element={<TermsOfServicePage />} />
               </Route>
 
               {/* ── AUTH ── */}
               <Route path="/auth" element={<AuthPage />} />
 
-              {/* ── CANDIDATE PORTAL ── */}
-              <Route element={<RoleGuard allowedRole="CANDIDATE" />}>
-                <Route element={<PortalLayout />}>
-                  <Route path="/candidate/dashboard"    element={<DashboardPage />} />
-                  <Route path="/candidate/applications" element={<ApplicationsPage />} />
-                  <Route path="/candidate/pipeline"     element={<KanbanPage />} />
-                  <Route path="/candidate/ai-hub"       element={<AIHubPage />} />
-                  <Route path="/candidate/profile"      element={<ProfilePage />} />
+              {/* ── PORTAL (CANDIDATE & EMPLOYER) ── */}
+              <Route element={<RoleGuard allowedRoles={['CANDIDATE', 'EMPLOYER']} />}>
+                {/* Candidate Only */}
+                <Route element={<RoleGuard allowedRoles={['CANDIDATE']} />}>
+                  <Route element={<DashboardLayout />}>
+                    <Route path="/candidate/dashboard" element={<DashboardPage />} />
+                    <Route path="/candidate/applications" element={<ApplicationsPage />} />
+                    <Route path="/candidate/pipeline" element={<KanbanPage />} />
+                    <Route path="/candidate/ai-hub" element={<AIHubPage />} />
+                    <Route path="/candidate/profile" element={<ProfilePage />} />
+                    <Route path="/candidate/jobs" element={<JobListingsPage />} />
+                    <Route path="/candidate/jobs/:id" element={<JobDetailPage />} />
+                  </Route>
                 </Route>
-              </Route>
 
-              {/* ── EMPLOYER PORTAL ── */}
-              <Route element={<RoleGuard allowedRole="EMPLOYER" />}>
-                <Route element={<PortalLayout />}>
-                  <Route path="/employer/dashboard"  element={<EmployerDashboardPage />} />
-                  <Route path="/employer/post-job"   element={<PostJobPage />} />
-                  <Route path="/employer/my-jobs"    element={<MyJobsPage />} />
-                  <Route path="/employer/candidates" element={<CandidatesPage />} />
-                  <Route path="/employer/analytics"  element={<AnalyticsPage />} />
+                {/* Employer Only */}
+                <Route element={<RoleGuard allowedRoles={['EMPLOYER']} />}>
+                  <Route element={<PortalLayout />}>
+                    <Route path="/employer/dashboard" element={<EmployerDashboardPage />} />
+                    <Route path="/employer/post-job" element={<PostJobPage />} />
+                    <Route path="/employer/my-jobs" element={<MyJobsPage />} />
+                    <Route path="/employer/candidates" element={<CandidatesPage />} />
+                    <Route path="/employer/analytics" element={<AnalyticsPage />} />
+                  </Route>
                 </Route>
               </Route>
 
               {/* ── SUPER ADMIN PANEL ── */}
-              <Route element={<RoleGuard allowedRole="SUPER_ADMIN" />}>
+              <Route element={<RoleGuard allowedRoles={['SUPER_ADMIN']} />}>
                 <Route element={<AdminLayout />}>
-                  <Route path="/admin/dashboard"     element={<AdminDashboardPage />} />
+                  <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
                   <Route path="/admin/job-approvals" element={<JobApprovalsPage />} />
-                  <Route path="/admin/companies"     element={<CompaniesPage />} />
-                  <Route path="/admin/users"         element={<UsersPage />} />
-                  <Route path="/admin/employers"     element={<EmployersPage />} />
+                  <Route path="/admin/companies" element={<CompaniesPage />} />
+                  <Route path="/admin/users" element={<UsersPage />} />
+                  <Route path="/admin/employers" element={<EmployersPage />} />
                 </Route>
               </Route>
 
               <Route path="/unauthorized" element={<UnauthorizedPage />} />
-              <Route path="*"            element={<NotFoundPage />} />
-
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
             <ToastContainer />
           </HashRouter>

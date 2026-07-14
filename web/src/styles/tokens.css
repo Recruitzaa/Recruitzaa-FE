@@ -31,3 +31,13 @@
   --container-max: 1280px;
   --transition: 0.2s ease-in-out;
 }
+
+/* ── Dark Mode System Overrides ───────────────────── */
+.dark {
+  --color-surface: #0b0f17; /* Dark background layout surface */
+  --color-white: #131924; /* Dark card backgrounds */
+  --color-ink: #f3f4f6; /* Bright white body copy */
+  --color-slate: #9ca3af; /* Light muted slate text */
+  --color-border: #232a37; /* Dark mode border details */
+  --color-primary-light: #2c1a11; /* Dark primary brand light background */
+}
