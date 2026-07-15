@@ -144,6 +144,15 @@
   margin: -0.3rem 0 0;
 }
 
+/* ── Social Buttons Group ─────────────────────────── */
+.socialButtonsGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
 /* ── Google button ────────────────────────────────── */
 .googleBtn {
   display: flex;
@@ -237,7 +246,9 @@
   font-weight: 700;
   font-size: 0.97rem;
   cursor: pointer;
-  transition: background var(--transition), opacity var(--transition);
+  transition:
+    background var(--transition),
+    opacity var(--transition);
   margin-top: 0.25rem;
 }
 

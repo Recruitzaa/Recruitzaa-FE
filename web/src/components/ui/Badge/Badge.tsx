@@ -6,11 +6,7 @@ interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 export const Badge = ({ children, className, variant = 'neutral', ...props }: BadgeProps) => {
-  const classes = [
-    styles.badge,
-    styles[`variant-\${variant}`],
-    className
-  ].filter(Boolean).join(' ');
+  const classes = [styles.badge, styles[`variant-${variant}`], className].filter(Boolean).join(' ');
 
   return (
     <span className={classes} {...props}>

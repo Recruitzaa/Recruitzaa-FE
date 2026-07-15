@@ -6,11 +6,21 @@ import {
   onAuthStateChanged,
   type User,
 } from 'firebase/auth';
-import { auth, googleProvider } from '../config/firebase';
+import { auth, googleProvider, githubProvider, linkedinProvider } from '../config/firebase';
 
-// ─── Google OAuth ────────────────────────────────────────────────
+// ─── Social Providers Sign-In ─────────────────────────────────────
 export const signInWithGoogle = async () => {
   const result = await signInWithPopup(auth, googleProvider);
+  return result.user;
+};
+
+export const signInWithGithub = async () => {
+  const result = await signInWithPopup(auth, githubProvider);
+  return result.user;
+};
+
+export const signInWithLinkedIn = async () => {
+  const result = await signInWithPopup(auth, linkedinProvider);
   return result.user;
 };
 
