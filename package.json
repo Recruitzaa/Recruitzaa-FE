@@ -5,7 +5,9 @@
   "scripts": {
     "prepare": "husky",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "web:build": "npm run build --prefix web",
+    "web:deploy": "npm run deploy --prefix web"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
