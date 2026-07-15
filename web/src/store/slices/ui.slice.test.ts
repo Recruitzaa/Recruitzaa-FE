@@ -6,7 +6,6 @@ import uiReducer, {
   closeModal,
   toggleSidebar,
   setMobileDrawer,
-  type Toast,
 } from './ui.slice';
 
 describe('UI Slice', () => {
