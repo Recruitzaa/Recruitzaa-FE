@@ -31,10 +31,11 @@
 .badge {
   display: inline-flex;
   padding: 0.35rem 0.8rem;
-  border: 1px solid rgba(193, 79, 22, 0.2);
+  border: 1px solid rgba(154, 52, 18, 0.2);
   border-radius: 999px;
   background: var(--color-primary-light);
   margin-bottom: 1rem;
+  color: var(--color-primary-hover);
 }
 
 .title {
@@ -89,6 +90,16 @@
   color: var(--color-dark);
 }
 
+.field input:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.field input::placeholder {
+  color: #4b5563;
+}
+
 .searchButton,
 .primaryLink,
 .darkLink {
@@ -101,10 +112,13 @@
   font-size: 0.88rem;
   font-weight: 600;
   white-space: nowrap;
+  min-height: 2.75rem;
+  min-width: 2.75rem;
 }
 
 .searchButton,
 .primaryLink {
+  font-size: 0.95rem;
   background: var(--color-primary);
   color: #fff;
 }
@@ -130,6 +144,11 @@
   margin-top: 1.8rem;
   padding-top: 1.4rem;
   border-top: 1px solid var(--color-border);
+  list-style: none;
+}
+
+.metrics li {
+  display: block;
 }
 
 .metrics strong {
@@ -169,6 +188,16 @@
   border-radius: 4px;
 }
 
+.previewList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.previewList li + li {
+  margin-top: 0.6rem;
+}
+
 .previewCard {
   display: flex;
   justify-content: space-between;
@@ -178,7 +207,12 @@
   border-radius: var(--radius);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  margin-bottom: 0.6rem;
+  width: 100%;
+}
+
+.previewCard:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .previewCard strong {
@@ -263,23 +297,15 @@
 }
 
 .portalCard ul {
-  list-style: none;
+  list-style: disc;
   margin: 1rem 0 1.4rem;
+  padding-left: 1.2rem;
 }
 
 .portalCard li {
   margin-bottom: 0.5rem;
-  padding-left: 1.2rem;
-  position: relative;
   color: var(--color-dark);
   font-size: 0.9rem;
-}
-
-.portalCard li::before {
-  content: '✓';
-  position: absolute;
-  left: 0;
-  color: var(--color-primary);
 }
 
 .serviceNum {
@@ -339,11 +365,16 @@
   padding: 1.2rem 1.5rem;
   font-weight: 600;
   color: var(--color-dark);
+  list-style: none;
+  cursor: pointer;
 }
 
-.faqQuestion h4 {
+.faqQuestion::-webkit-details-marker {
+  display: none;
+}
+
+.faqQuestion span {
   font-size: 1rem;
-  margin: 0;
 }
 
 .faqQuestion svg {

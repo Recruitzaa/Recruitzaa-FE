@@ -75,11 +75,18 @@ export const AIHubPage = () => {
     <div className="flex flex-col">
       {/* Tab Navigation */}
       <div className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-6 py-1">
-        <div className="max-w-6xl mx-auto flex gap-6 overflow-x-auto">
+        <div
+          className="max-w-6xl mx-auto flex gap-6 overflow-x-auto"
+          role="tablist"
+          aria-label="AI Hub Tools"
+        >
           <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === 'ats'}
             className={`py-3 text-sm font-semibold border-b-2 transition-all ${
               activeTab === 'ats'
-                ? 'border-[#c14f16] text-[#c14f16] dark:text-[#c14f16]'
+                ? 'border-brand-primary text-brand-primary dark:text-brand-primary'
                 : 'border-transparent text-slate-500 hover:text-slate-700'
             }`}
             onClick={() => setActiveTab('ats')}
@@ -87,9 +94,12 @@ export const AIHubPage = () => {
             ATS Resume Parser
           </button>
           <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === 'optimizer'}
             className={`py-3 text-sm font-semibold border-b-2 transition-all ${
               activeTab === 'optimizer'
-                ? 'border-[#c14f16] text-[#c14f16] dark:text-[#c14f16]'
+                ? 'border-brand-primary text-brand-primary dark:text-brand-primary'
                 : 'border-transparent text-slate-500 hover:text-slate-700'
             }`}
             onClick={() => setActiveTab('optimizer')}
@@ -97,9 +107,12 @@ export const AIHubPage = () => {
             Resume Optimizer
           </button>
           <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === 'chat'}
             className={`py-3 text-sm font-semibold border-b-2 transition-all ${
               activeTab === 'chat'
-                ? 'border-[#c14f16] text-[#c14f16] dark:text-[#c14f16]'
+                ? 'border-brand-primary text-brand-primary dark:text-brand-primary'
                 : 'border-transparent text-slate-500 hover:text-slate-700'
             }`}
             onClick={() => setActiveTab('chat')}

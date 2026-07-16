@@ -4,11 +4,11 @@ import { PortalTopbar } from './PortalTopbar';
 
 export const PortalLayout = () => {
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: 'var(--color-surface)' }}>
+    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100">
       <PortalSidebar />
-      <div style={{ flex: 1, marginLeft: '260px', display: 'flex', flexDirection: 'column' }}>
+      <div className="flex-1 ml-[260px] flex flex-col">
         <PortalTopbar />
-        <main style={{ padding: '2rem', flex: 1 }}>
+        <main className="p-8 flex-1">
           <Outlet />
         </main>
       </div>

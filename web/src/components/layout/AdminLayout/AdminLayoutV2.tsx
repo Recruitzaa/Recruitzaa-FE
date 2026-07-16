@@ -3,13 +3,12 @@ import { AdminSidebar } from './AdminSidebar';
 import { AdminTopbar } from './AdminTopbar';
 
 export const AdminLayout = () => {
-  console.log("AdminLayout rendering!");
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: 'var(--color-surface)' }}>
+    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
       <AdminSidebar />
-      <div style={{ flex: 1, marginLeft: '260px', display: 'flex', flexDirection: 'column' }}>
+      <div className="flex-1 ml-[260px] flex flex-col min-h-screen">
         <AdminTopbar />
-        <main style={{ padding: '2rem', flex: 1 }}>
+        <main className="flex-1 p-6 lg:p-8">
           <Outlet />
         </main>
       </div>

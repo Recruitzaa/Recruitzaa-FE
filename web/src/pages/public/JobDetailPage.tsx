@@ -4,7 +4,7 @@ import { Button } from '../../components/ui/Button';
 import { PageTransition } from '../../components/layout/PageTransition';
 import { SEO } from '../../components/seo/SEO';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { addApplication } from '../../store/slices/kanban.slice';
+import { addApplication } from '../../store/slices/kanbanSlice';
 import { useToast } from '../../hooks/useToast';
 import styles from './JobDetailPage.module.css';
 
@@ -159,21 +159,10 @@ export const JobDetailPage = () => {
                   <Badge>Jest</Badge>
                 </div>
 
-                <div
-                  style={{
-                    marginTop: '1.5rem',
-                    borderTop: '1px solid var(--color-border)',
-                    paddingTop: '1.5rem',
-                  }}
-                >
+                <div className="mt-6 border-t border-slate-200 dark:border-slate-800 pt-6">
                   <Button
                     variant="primary"
-                    style={{
-                      width: '100%',
-                      padding: '0.75rem 1rem',
-                      fontSize: '0.875rem',
-                      fontWeight: 700,
-                    }}
+                    className="w-full py-3 px-4 text-sm font-bold"
                     onClick={handleApply}
                     disabled={isApplied}
                   >

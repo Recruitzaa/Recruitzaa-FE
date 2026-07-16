@@ -28,6 +28,14 @@ export const RoleGuard = ({ allowedRole }: RoleGuardProps) => {
         // Get custom claims (role) from the ID token
         const tokenResult = await firebaseUser.getIdTokenResult();
         const role = (tokenResult.claims['role'] as UserRole) ?? 'CANDIDATE';
+
+        const savedProfileKey = `profile_override_${firebaseUser.uid}`;
+        let savedProfileData = {};
+        try {
+          const raw = localStorage.getItem(savedProfileKey);
+          if (raw) savedProfileData = JSON.parse(raw);
+        } catch (e) {}
+
         dispatch(
           setUser({
             id: firebaseUser.uid,
@@ -35,6 +43,7 @@ export const RoleGuard = ({ allowedRole }: RoleGuardProps) => {
             role,
             displayName: firebaseUser.displayName ?? firebaseUser.email ?? '',
             photoURL: firebaseUser.photoURL ?? undefined,
+            ...savedProfileData,
           })
         );
       } else {
@@ -47,8 +56,8 @@ export const RoleGuard = ({ allowedRole }: RoleGuardProps) => {
   // While Firebase is resolving — show nothing (prevents flash)
   if (isLoading) {
     return (
-      <div style={{ display: 'grid', placeItems: 'center', minHeight: '100vh' }}>
-        <div style={{ width: 36, height: 36, borderRadius: '50%', border: '3px solid #C14F16', borderTopColor: 'transparent', animation: 'spin 0.8s linear infinite' }} />
+      <div className="grid place-items-center min-h-screen bg-slate-50 dark:bg-slate-950">
+        <div className="w-9 h-9 rounded-full border-[3px] border-slate-200 dark:border-slate-800 border-t-[#c14f16] animate-spin" />
       </div>
     );
   }

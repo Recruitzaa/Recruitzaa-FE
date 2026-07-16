@@ -20,6 +20,8 @@ describe('Auth Slice', () => {
     id: '123',
     email: 'test@example.com',
     role: 'CANDIDATE',
+    availableRoles: ['CANDIDATE', 'EMPLOYER', 'EXPERT', 'EMPLOYEE', 'SUPER_ADMIN'],
+    activeRole: 'CANDIDATE',
     displayName: 'Test User',
   };
 

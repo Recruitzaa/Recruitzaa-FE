@@ -95,7 +95,7 @@ export const ExperienceStep: React.FC<ExperienceStepProps> = ({ data, onChange }
       <div className="space-y-2">
         {data.map((exp, idx) => (
           <div
-            key={idx}
+            key={`${exp.company}-${exp.startDate}-${idx}`}
             className="flex justify-between items-center p-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded"
           >
             <div>
@@ -107,8 +107,10 @@ export const ExperienceStep: React.FC<ExperienceStepProps> = ({ data, onChange }
               </div>
             </div>
             <button
+              type="button"
               onClick={() => handleRemove(idx)}
               className="text-xs text-rose-500 hover:underline"
+              aria-label={`Remove ${exp.position} at ${exp.company}`}
             >
               Remove
             </button>

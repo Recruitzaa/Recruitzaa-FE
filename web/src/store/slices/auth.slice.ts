@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { AppUser } from '../../types/auth.types';
+import type { AppUser, UserRole } from '../../types/auth.types';
 
 interface AuthState {
   appUser: AppUser | null;
@@ -20,12 +20,25 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<AppUser>) {
-      const savedProfile = localStorage.getItem(`profile_override_${action.payload.id}`);
-      if (savedProfile) {
-        state.appUser = { ...action.payload, ...JSON.parse(savedProfile) };
-      } else {
-        state.appUser = action.payload;
-      }
+      const rawUser = action.payload;
+      const savedProfile =
+        typeof localStorage !== 'undefined' && typeof localStorage.getItem === 'function'
+          ? localStorage.getItem(`profile_override_${rawUser.id}`)
+          : null;
+      const profileData = savedProfile ? { ...rawUser, ...JSON.parse(savedProfile) } : rawUser;
+
+      // Dev Override ("God Mode") Sandbox: Force availableRoles to include all 5 workspaces only in development
+      const availableRoles: UserRole[] = import.meta.env.DEV
+        ? ['CANDIDATE', 'EMPLOYER', 'EXPERT', 'EMPLOYEE', 'SUPER_ADMIN']
+        : profileData.availableRoles || [profileData.role || 'CANDIDATE'];
+      const activeRole = profileData.activeRole || profileData.role || 'CANDIDATE';
+
+      state.appUser = {
+        ...profileData,
+        availableRoles,
+        activeRole,
+        role: activeRole, // sync legacy role field
+      };
       state.isAuthenticated = true;
       state.isLoading = false;
       state.error = null;
@@ -39,7 +52,12 @@ const authSlice = createSlice({
     updateUserProfile(state, action: PayloadAction<Partial<AppUser>>) {
       if (state.appUser) {
         state.appUser = { ...state.appUser, ...action.payload };
-        localStorage.setItem(`profile_override_${state.appUser.id}`, JSON.stringify(state.appUser));
+      }
+    },
+    switchActiveRole(state, action: PayloadAction<UserRole>) {
+      if (state.appUser) {
+        state.appUser.activeRole = action.payload;
+        state.appUser.role = action.payload; // sync legacy role field
       }
     },
     setAuthLoading(state, action: PayloadAction<boolean>) {
@@ -52,6 +70,12 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser, clearUser, updateUserProfile, setAuthLoading, setAuthError } =
-  authSlice.actions;
+export const {
+  setUser,
+  clearUser,
+  updateUserProfile,
+  switchActiveRole,
+  setAuthLoading,
+  setAuthError,
+} = authSlice.actions;
 export default authSlice.reducer;

@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../../store/hooks';
 import { logOut } from '../../../services/auth.service';
+import { WorkspaceSwitcher } from '../WorkspaceSwitcher';
 import styles from './PortalSidebar.module.css';
 
 export const PortalSidebar = () => {
@@ -8,7 +9,7 @@ export const PortalSidebar = () => {
   const navigate = useNavigate();
   const { appUser } = useAppSelector((s) => s.auth);
   const isEmployer = location.pathname.startsWith('/employer');
-  
+
   const isActive = (path: string) => location.pathname === path;
 
   const handleSignOut = async () => {
@@ -32,8 +33,11 @@ export const PortalSidebar = () => {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.brand}>
-        <Link to={isEmployer ? "/employers" : "/"}>
-          <span className={styles.logoText}>RecruitZaa {isEmployer && <span style={{fontSize: '10px', color: 'var(--color-primary)'}}>PRO</span>}</span>
+        <Link to={isEmployer ? '/employers' : '/'}>
+          <span className={styles.logoText}>
+            RecruitZaa{' '}
+            {isEmployer && <span className="text-[10px] text-[#c14f16] font-bold ml-1">PRO</span>}
+          </span>
         </Link>
       </div>
 
@@ -42,35 +46,62 @@ export const PortalSidebar = () => {
           <>
             <li className={styles.sectionLabel}>Employer Hub</li>
             <li>
-              <Link to="/employer/dashboard" className={`${styles.link} ${isActive('/employer/dashboard') ? styles.active : ''}`}>
+              <Link
+                to="/employer/dashboard"
+                className={`${styles.link} ${isActive('/employer/dashboard') ? styles.active : ''}`}
+              >
                 <span>Dashboard</span>
               </Link>
             </li>
             <li>
-              <Link to="/employer/post-job" className={`${styles.link} ${isActive('/employer/post-job') ? styles.active : ''}`}>
+              <Link
+                to="/employer/post-job"
+                className={`${styles.link} ${isActive('/employer/post-job') ? styles.active : ''}`}
+              >
                 <span>Post a Job</span>
               </Link>
             </li>
             <li>
-              <Link to="/employer/my-jobs" className={`${styles.link} ${isActive('/employer/my-jobs') ? styles.active : ''}`}>
+              <Link
+                to="/employer/my-jobs"
+                className={`${styles.link} ${isActive('/employer/my-jobs') ? styles.active : ''}`}
+              >
                 <span>Active Listings</span>
               </Link>
             </li>
             <li>
-              <Link to="/employer/candidates" className={`${styles.link} ${isActive('/employer/candidates') ? styles.active : ''}`}>
+              <Link
+                to="/employer/candidates"
+                className={`${styles.link} ${isActive('/employer/candidates') ? styles.active : ''}`}
+              >
                 <span>Candidate Pipeline</span>
-                <span className={styles.badge} style={{ background: '#2563EB', color: '#fff' }}>14</span>
+                <span className={`${styles.badge} bg-[#c14f16] text-white`}>14</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/employer/inbox"
+                className={`${styles.link} ${isActive('/employer/inbox') ? styles.active : ''}`}
+              >
+                <span>Inbox Messages</span>
               </Link>
             </li>
 
             <li className={styles.sectionLabel}>Company Settings</li>
             <li>
-              <Link to="#" className={styles.link}>
+              <Link
+                to="/employer/profile"
+                className={`${styles.link} ${isActive('/employer/profile') ? styles.active : ''}`}
+              >
                 <span>Company Profile</span>
               </Link>
             </li>
             <li>
-              <button onClick={handleSignOut} className={styles.linkButton}>
+              <button
+                onClick={handleSignOut}
+                className={styles.linkButton}
+                aria-label="Sign out of employer account"
+              >
                 <span>Sign Out</span>
               </button>
             </li>
@@ -79,7 +110,10 @@ export const PortalSidebar = () => {
           <>
             <li className={styles.sectionLabel}>Workspace</li>
             <li>
-              <Link to="/candidate/dashboard" className={`${styles.link} ${isActive('/candidate/dashboard') ? styles.active : ''}`}>
+              <Link
+                to="/candidate/dashboard"
+                className={`${styles.link} ${isActive('/candidate/dashboard') ? styles.active : ''}`}
+              >
                 <span>Overview</span>
               </Link>
             </li>
@@ -90,15 +124,21 @@ export const PortalSidebar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/candidate/pipeline" className={`${styles.link} ${isActive('/candidate/pipeline') ? styles.active : ''}`}>
+              <Link
+                to="/candidate/pipeline"
+                className={`${styles.link} ${isActive('/candidate/pipeline') ? styles.active : ''}`}
+              >
                 <span>Application Pipeline</span>
-                <span className={styles.badge} style={{ background: '#2563EB', color: '#fff' }}>7</span>
+                <span className={`${styles.badge} bg-[#c14f16] text-white`}>7</span>
               </Link>
             </li>
 
             <li className={styles.sectionLabel}>AI Career Copilot</li>
             <li>
-              <Link to="/candidate/ai-hub" className={`${styles.link} ${isActive('/candidate/ai-hub') ? styles.active : ''}`}>
+              <Link
+                to="/candidate/ai-hub"
+                className={`${styles.link} ${isActive('/candidate/ai-hub') ? styles.active : ''}`}
+              >
                 <span>ATS Resume Parser</span>
               </Link>
             </li>
@@ -110,12 +150,19 @@ export const PortalSidebar = () => {
 
             <li className={styles.sectionLabel}>Profile & Settings</li>
             <li>
-              <Link to="/candidate/profile" className={`${styles.link} ${isActive('/candidate/profile') ? styles.active : ''}`}>
+              <Link
+                to="/candidate/profile"
+                className={`${styles.link} ${isActive('/candidate/profile') ? styles.active : ''}`}
+              >
                 <span>Saved Positions</span>
               </Link>
             </li>
             <li>
-              <button onClick={handleSignOut} className={styles.linkButton}>
+              <button
+                onClick={handleSignOut}
+                className={styles.linkButton}
+                aria-label="Sign out of workspace account"
+              >
                 <span>Sign Out / Switch</span>
               </button>
             </li>
@@ -123,18 +170,19 @@ export const PortalSidebar = () => {
         )}
       </ul>
 
+      <WorkspaceSwitcher />
+
       <div className={styles.user}>
-        <div className={styles.avatar} style={isEmployer ? { backgroundColor: '#111827' } : undefined}>
+        <div
+          className={`${styles.avatar} ${isEmployer ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-800 dark:bg-slate-850 dark:text-slate-100'}`}
+        >
           {appUser ? getInitials(appUser.displayName) : 'U'}
         </div>
         <div className={styles.userInfo}>
           <div className={styles.userName}>{appUser ? appUser.displayName : 'Loading...'}</div>
-          <div className={styles.userRole}>
-            {isEmployer ? 'Enterprise Account' : 'Job Seeker'}
-          </div>
+          <div className={styles.userRole}>{isEmployer ? 'Enterprise Account' : 'Job Seeker'}</div>
         </div>
       </div>
     </aside>
   );
 };
-

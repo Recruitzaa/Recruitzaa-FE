@@ -5,16 +5,20 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'sm' | 'md' | 'lg';
 }
 
-export const Button = ({ children, className, variant = 'primary', size = 'md', ...props }: ButtonProps) => {
-  const classes = [
-    styles.button,
-    styles[`variant-${variant}`],
-    styles[`size-${size}`],
-    className
-  ].filter(Boolean).join(' ');
+export const Button = ({
+  children,
+  className,
+  variant = 'primary',
+  size = 'md',
+  type = 'button',
+  ...props
+}: ButtonProps) => {
+  const classes = [styles.button, styles[`variant-${variant}`], styles[`size-${size}`], className]
+    .filter(Boolean)
+    .join(' ');
 
   return (
-    <button className={classes} {...props}>
+    <button className={classes} type={type} {...props}>
       {children}
     </button>
   );

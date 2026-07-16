@@ -14,7 +14,7 @@ export const TermsOfServicePage = () => {
           <div className="mb-6">
             <Link
               to="/"
-              className="text-xs font-bold text-[#c14f16] hover:text-[#a94210] transition-colors"
+              className="text-xs font-bold text-brand-primary hover:text-brand-primary-hover transition-colors"
             >
               &larr; Back to Home
             </Link>

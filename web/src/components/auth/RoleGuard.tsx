@@ -3,7 +3,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setUser, clearUser } from '../../store/slices/auth.slice';
-import type { UserRole } from '../../features/auth/types/auth.types';
+import type { UserRole } from '../../types/auth.types';
 
 interface RoleGuardProps {
   allowedRoles: UserRole[];
@@ -35,13 +35,25 @@ export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) 
           const role =
             (tokenResult.claims['role'] as UserRole) ??
             (savedRole === 'employer' ? 'EMPLOYER' : 'CANDIDATE');
+
+          const savedProfileKey = `profile_override_${user.uid}`;
+          let savedProfileData = {};
+          try {
+            const raw = localStorage.getItem(savedProfileKey);
+            if (raw) savedProfileData = JSON.parse(raw);
+          } catch (e) {}
+
           dispatch(
             setUser({
               id: user.uid,
               email: user.email ?? '',
-              role,
               displayName: user.displayName ?? user.email ?? '',
               photoURL: user.photoURL ?? undefined,
+              ...savedProfileData,
+              // ⚠️ role MUST come after the spread — savedProfileData may contain
+              // a stale role from a previous session. The freshly-resolved token
+              // role always takes final precedence.
+              role,
             })
           );
         } catch (err) {
@@ -70,7 +82,7 @@ export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) 
     return <Navigate to="/auth" state={{ from: location }} replace />;
   }
 
-  if (!appUser || !allowedRoles.includes(appUser.role)) {
+  if (!appUser || !allowedRoles.includes(appUser.activeRole || appUser.role)) {
     return <Navigate to="/unauthorized" replace />;
   }
 

@@ -7,16 +7,16 @@ import styles from './JobApprovalsPage.module.css';
 export const JobApprovalsPage = () => {
   return (
     <div className={styles.page}>
-      
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>Job Approvals</h1>
-          <p className={styles.subtitle}>Review and approve new job postings before they go live on the platform.</p>
+          <p className={styles.subtitle}>
+            Review and approve new job postings before they go live on the platform.
+          </p>
         </div>
       </div>
 
       <Card className={styles.card}>
-        
         <div className={styles.toolbar}>
           <div className={styles.searchBox}>
             <Input placeholder="Search by company or job title..." />
@@ -29,7 +29,7 @@ export const JobApprovalsPage = () => {
             </select>
           </div>
         </div>
-        
+
         <div className={styles.tableWrapper}>
           <table className={styles.table}>
             <thead>
@@ -54,20 +54,33 @@ export const JobApprovalsPage = () => {
                   <div className={styles.subTextDark}>React Native Architect</div>
                   <div className={styles.subText}>₹30 – 45 LPA &bull; Remote</div>
                 </td>
-                <td><div className={styles.subTextDark}>HR Admin</div></td>
-                <td><span className={styles.subText}>Jul 10, 2025</span></td>
-                <td><Badge variant="warning">Pending</Badge></td>
+                <td>
+                  <div className={styles.subTextDark}>HR Admin</div>
+                </td>
+                <td>
+                  <span className={styles.subText}>Jul 10, 2025</span>
+                </td>
+                <td>
+                  <Badge variant="warning">Pending</Badge>
+                </td>
                 <td>
                   <div className={styles.actionGroup}>
-                    <Button size="sm" style={{backgroundColor: 'var(--color-success)', borderColor: 'var(--color-success)'}}>Approve</Button>
-                    <Button size="sm" variant="outline">Review</Button>
+                    <Button
+                      size="sm"
+                      className="bg-emerald-600 border-emerald-600 hover:bg-emerald-700 text-white"
+                    >
+                      Approve
+                    </Button>
+                    <Button size="sm" variant="outline">
+                      Review
+                    </Button>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td>
                   <div className={styles.companyInfo}>
-                    <div className={styles.avatar} style={{backgroundColor: '#3B82F6'}}>WIP</div>
+                    <div className={`${styles.avatar} bg-blue-500 text-white`}>WIP</div>
                     <div className={styles.roleText}>Wipro Limited</div>
                   </div>
                 </td>
@@ -75,20 +88,33 @@ export const JobApprovalsPage = () => {
                   <div className={styles.subTextDark}>Senior Backend Engineer</div>
                   <div className={styles.subText}>₹25 – 35 LPA &bull; Bangalore</div>
                 </td>
-                <td><div className={styles.subTextDark}>Talent Acquisition</div></td>
-                <td><span className={styles.subText}>Jul 9, 2025</span></td>
-                <td><Badge variant="warning">Pending</Badge></td>
+                <td>
+                  <div className={styles.subTextDark}>Talent Acquisition</div>
+                </td>
+                <td>
+                  <span className={styles.subText}>Jul 9, 2025</span>
+                </td>
+                <td>
+                  <Badge variant="warning">Pending</Badge>
+                </td>
                 <td>
                   <div className={styles.actionGroup}>
-                    <Button size="sm" style={{backgroundColor: 'var(--color-success)', borderColor: 'var(--color-success)'}}>Approve</Button>
-                    <Button size="sm" variant="outline">Review</Button>
+                    <Button
+                      size="sm"
+                      className="bg-emerald-600 border-emerald-600 hover:bg-emerald-700 text-white"
+                    >
+                      Approve
+                    </Button>
+                    <Button size="sm" variant="outline">
+                      Review
+                    </Button>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td>
                   <div className={styles.companyInfo}>
-                    <div className={styles.avatar} style={{backgroundColor: '#059669'}}>INF</div>
+                    <div className={`${styles.avatar} bg-emerald-600 text-white`}>INF</div>
                     <div className={styles.roleText}>Infosys Limited</div>
                   </div>
                 </td>
@@ -96,18 +122,25 @@ export const JobApprovalsPage = () => {
                   <div className={styles.subTextDark}>Junior Developer</div>
                   <div className={styles.subText}>₹8 – 12 LPA &bull; Hybrid</div>
                 </td>
-                <td><div className={styles.subTextDark}>HR Admin</div></td>
-                <td><span className={styles.subText}>Jul 8, 2025</span></td>
-                <td><Badge variant="success">Approved</Badge></td>
                 <td>
-                  <Button size="sm" variant="ghost">View Details</Button>
+                  <div className={styles.subTextDark}>HR Admin</div>
+                </td>
+                <td>
+                  <span className={styles.subText}>Jul 8, 2025</span>
+                </td>
+                <td>
+                  <Badge variant="success">Approved</Badge>
+                </td>
+                <td>
+                  <Button size="sm" variant="ghost">
+                    View Details
+                  </Button>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </Card>
-      
     </div>
   );
 };

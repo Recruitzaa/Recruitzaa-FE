@@ -14,7 +14,7 @@ export const PrivacyPolicyPage = () => {
           <div className="mb-6">
             <Link
               to="/"
-              className="text-xs font-bold text-[#c14f16] hover:text-[#a94210] transition-colors"
+              className="text-xs font-bold text-brand-primary hover:text-brand-primary-hover transition-colors"
             >
               &larr; Back to Home
             </Link>
@@ -71,7 +71,7 @@ export const PrivacyPolicyPage = () => {
               <br />
               <a
                 href="mailto:privacy@recruitzaa.com"
-                className="text-[#c14f16] font-bold mt-1 inline-block"
+                className="text-brand-primary font-bold mt-1 inline-block"
               >
                 privacy@recruitzaa.com
               </a>

@@ -1,0 +1,134 @@
+import { Edit2 } from 'lucide-react';
+import type { CareerProfile } from '../../../../store/slices/profileSlice';
+import { CareerProfileEditForm } from './CareerProfileEditForm';
+
+interface CareerFormType {
+  industry: string;
+  department: string;
+  roleCategory: string;
+  jobRole: string;
+  desiredJobType: string;
+  desiredEmploymentType: string;
+  desiredLocations: string[];
+  desiredLocationsText: string;
+  expectedSalary: string;
+  preferredShift: string;
+}
+
+interface CareerProfileCardProps {
+  careerProfile: CareerProfile;
+  isEditingCareer: boolean;
+  setIsEditingCareer: (val: boolean) => void;
+  startEditingCareer: () => void;
+  careerForm: CareerFormType;
+  setCareerForm: (form: CareerFormType) => void;
+  saveCareerProfile: () => void;
+}
+
+export const CareerProfileCard = ({
+  careerProfile,
+  isEditingCareer,
+  setIsEditingCareer,
+  startEditingCareer,
+  careerForm,
+  setCareerForm,
+  saveCareerProfile,
+}: CareerProfileCardProps) => {
+  return (
+    <div
+      id="career-profile"
+      className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 space-y-4 scroll-mt-24"
+    >
+      <div className="flex justify-between items-center pb-2 border-b">
+        <h3 className="text-sm font-bold text-brand-charcoal">Career Profile</h3>
+        {!isEditingCareer && (
+          <button
+            type="button"
+            onClick={startEditingCareer}
+            className="text-slate-400 hover:text-brand-primary"
+            aria-label="Edit career profile"
+          >
+            <Edit2 size={16} />
+          </button>
+        )}
+      </div>
+
+      {!isEditingCareer ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 text-xs text-slate-700">
+          <div>
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+              Current Industry
+            </div>
+            <div className="font-semibold text-slate-800 mt-1">{careerProfile.industry}</div>
+          </div>
+          <div>
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+              Functional Department
+            </div>
+            <div className="font-semibold text-slate-800 mt-1">{careerProfile.department}</div>
+          </div>
+          <div>
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+              Role Category
+            </div>
+            <div className="font-semibold text-slate-800 mt-1">{careerProfile.roleCategory}</div>
+          </div>
+          <div>
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+              Desired Job Role
+            </div>
+            <div className="font-semibold text-slate-800 mt-1">{careerProfile.jobRole}</div>
+          </div>
+          <div>
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+              Desired Job Type
+            </div>
+            <div className="font-semibold text-slate-800 mt-1">{careerProfile.desiredJobType}</div>
+          </div>
+          <div>
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+              Employment Type
+            </div>
+            <div className="font-semibold text-slate-800 mt-1">
+              {careerProfile.desiredEmploymentType}
+            </div>
+          </div>
+          <div>
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+              Expected Annual Salary
+            </div>
+            <div className="font-semibold text-slate-800 mt-1">{careerProfile.expectedSalary}</div>
+          </div>
+          <div>
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+              Preferred Shift
+            </div>
+            <div className="font-semibold text-slate-800 mt-1">{careerProfile.preferredShift}</div>
+          </div>
+          <div className="sm:col-span-2">
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+              Preferred Work Locations
+            </div>
+            <div className="flex flex-wrap gap-1.5 mt-1.5">
+              {careerProfile.desiredLocations.map((loc) => (
+                <span
+                  key={loc}
+                  className="px-2.5 py-0.5 bg-slate-50 text-slate-700 rounded text-[11px] border"
+                >
+                  {loc}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : (
+        <CareerProfileEditForm
+          careerForm={careerForm}
+          setCareerForm={setCareerForm}
+          setIsEditingCareer={setIsEditingCareer}
+          saveCareerProfile={saveCareerProfile}
+        />
+      )}
+    </div>
+  );
+};

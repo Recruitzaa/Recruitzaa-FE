@@ -1,13 +1,52 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../../store/hooks';
 import { logOut } from '../../../services/auth.service';
+import { WorkspaceSwitcher } from '../WorkspaceSwitcher';
+import {
+  LayoutDashboard,
+  CheckSquare,
+  Building2,
+  Briefcase,
+  Users,
+  Settings,
+  LogOut,
+  ShieldCheck,
+} from 'lucide-react';
 import styles from './AdminSidebar.module.css';
 
+const NAV = [
+  {
+    section: 'Platform Core',
+    items: [
+      { label: 'System Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
+      { label: 'Job Approvals', path: '/admin/job-approvals', icon: CheckSquare, badge: '5' },
+    ],
+  },
+  {
+    section: 'Entities',
+    items: [
+      { label: 'Companies', path: '/admin/companies', icon: Building2 },
+      { label: 'Employer Accounts', path: '/admin/employers', icon: Briefcase },
+      { label: 'Candidate Users', path: '/admin/users', icon: Users },
+    ],
+  },
+  {
+    section: 'System',
+    items: [{ label: 'Settings & API', path: '/admin/settings', icon: Settings }],
+  },
+];
+
+const getInitials = (name: string) =>
+  name
+    .split(' ')
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
+
 export const AdminSidebar = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const { appUser } = useAppSelector((s) => s.auth);
-  const isActive = (path: string) => location.pathname === path;
 
   const handleSignOut = async () => {
     try {
@@ -18,73 +57,73 @@ export const AdminSidebar = () => {
     }
   };
 
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map((n) => n[0])
-      .slice(0, 2)
-      .join('')
-      .toUpperCase();
-  };
-
   return (
     <aside className={styles.sidebar}>
+      {/* Brand */}
       <div className={styles.brand}>
-        <Link to="/admin/dashboard">
-          <span className={styles.logoText}>RecruitZaa <span style={{fontSize: '10px', color: '#DC2626'}}>ADMIN</span></span>
+        <Link to="/admin/dashboard" className="flex items-center gap-2.5">
+          <div className="w-6 h-6 rounded-md bg-red-600 flex items-center justify-center shrink-0">
+            <ShieldCheck size={12} className="text-white" />
+          </div>
+          <span className={styles.logoText}>
+            recruitZaa{' '}
+            <span className="text-[10px] text-red-600 font-bold ml-1 uppercase tracking-wide">
+              Admin
+            </span>
+          </span>
         </Link>
       </div>
 
+      {/* Nav */}
       <ul className={styles.menu}>
-        <li className={styles.sectionLabel}>Platform Core</li>
-        <li>
-          <Link to="/admin/dashboard" className={`${styles.link} ${isActive('/admin/dashboard') ? styles.active : ''}`}>
-            <span>System Dashboard</span>
-          </Link>
-        </li>
-        <li>
-          <Link to="/admin/job-approvals" className={`${styles.link} ${isActive('/admin/job-approvals') ? styles.active : ''}`}>
-            <span>Job Approvals</span>
-            <span className={styles.badge}>5</span>
-          </Link>
-        </li>
+        {NAV.map((group) => (
+          <li key={group.section}>
+            <p className={styles.sectionLabel}>{group.section}</p>
+            <ul>
+              {group.items.map((item) => (
+                <li key={item.path}>
+                  <NavLink
+                    to={item.path}
+                    className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}
+                  >
+                    <span className="flex items-center gap-2.5">
+                      <item.icon size={14} className="shrink-0" />
+                      {item.label}
+                    </span>
+                    {'badge' in item && item.badge && (
+                      <span className={styles.badge}>{item.badge}</span>
+                    )}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
 
-        <li className={styles.sectionLabel}>Entities Management</li>
         <li>
-          <Link to="/admin/companies" className={`${styles.link} ${isActive('/admin/companies') ? styles.active : ''}`}>
-            <span>Companies</span>
-          </Link>
-        </li>
-        <li>
-          <Link to="/admin/employers" className={`${styles.link} ${isActive('/admin/employers') ? styles.active : ''}`}>
-            <span>Employer Accounts</span>
-          </Link>
-        </li>
-        <li>
-          <Link to="/admin/users" className={`${styles.link} ${isActive('/admin/users') ? styles.active : ''}`}>
-            <span>Candidate Users</span>
-          </Link>
-        </li>
-
-        <li className={styles.sectionLabel}>System</li>
-        <li>
-          <Link to="#" className={styles.link}>
-            <span>Settings & API</span>
-          </Link>
-        </li>
-        <li>
-          <button onClick={handleSignOut} className={styles.linkButton}>
-            <span>Sign Out</span>
+          <button
+            type="button"
+            onClick={handleSignOut}
+            className={styles.linkButton}
+            aria-label="Sign out of admin console"
+          >
+            <span className="flex items-center gap-2.5">
+              <LogOut size={14} className="shrink-0" />
+              Sign Out
+            </span>
           </button>
         </li>
       </ul>
 
+      <WorkspaceSwitcher />
+
+      {/* User Footer */}
       <div className={styles.user}>
-        <div className={styles.avatar} style={{ backgroundColor: '#DC2626' }}>
+        <div className={`${styles.avatar} bg-red-600`}>
           {appUser ? getInitials(appUser.displayName) : 'SA'}
         </div>
         <div className={styles.userInfo}>
-          <div className={styles.userName}>{appUser ? appUser.displayName : 'Super Admin'}</div>
+          <div className={styles.userName}>{appUser?.displayName ?? 'Super Admin'}</div>
           <div className={styles.userRole}>System Operator</div>
         </div>
       </div>

@@ -1,8 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slices/auth.slice';
 import uiReducer from './slices/ui.slice';
-import kanbanReducer from './slices/kanban.slice';
-import jobsReducer from './slices/jobs.slice';
+import kanbanReducer from './slices/kanbanSlice';
+import jobsReducer from './slices/jobsSlice';
+import profileReducer from './slices/profileSlice';
+import expertReducer from './slices/expertSlice';
+import employerProfileReducer from './slices/employerProfileSlice';
 import { profileApi } from '../features/profile/services/profileApi';
 
 // ─── LocalStorage Persistence ─────────────────────────────────────
@@ -16,7 +19,27 @@ const loadKanbanState = () => {
   }
 };
 
-const saveKanbanState = (state: any) => {
+const persistedKanban = loadKanbanState();
+
+export const store = configureStore({
+  reducer: {
+    auth: authReducer,
+    ui: uiReducer,
+    kanban: kanbanReducer,
+    profile: profileReducer,
+    jobs: jobsReducer,
+    expert: expertReducer,
+    employerProfile: employerProfileReducer,
+    [profileApi.reducerPath]: profileApi.reducer,
+  },
+  preloadedState: persistedKanban ? { kanban: persistedKanban } : undefined,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(profileApi.middleware),
+});
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+const saveKanbanState = (state: RootState['kanban']) => {
   try {
     const serializedState = JSON.stringify(state);
     localStorage.setItem('kanban_state', serializedState);
@@ -25,23 +48,42 @@ const saveKanbanState = (state: any) => {
   }
 };
 
-const persistedKanban = loadKanbanState();
+const saveJobsState = (jobsState: RootState['jobs']) => {
+  try {
+    const serialized = JSON.stringify(jobsState.jobsList);
+    localStorage.setItem('recruitzaa_jobs', serialized);
+  } catch (err) {
+    console.error('Failed to serialize jobs state:', err);
+  }
+};
 
-export const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    ui: uiReducer,
-    kanban: kanbanReducer,
-    jobs: jobsReducer,
-    [profileApi.reducerPath]: profileApi.reducer,
-  },
-  preloadedState: persistedKanban ? { kanban: persistedKanban } : undefined,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(profileApi.middleware),
-});
+const saveAuthState = (authState: RootState['auth']) => {
+  if (authState.appUser) {
+    try {
+      // Deliberately omit `role` — it must always be re-resolved from the
+      // Firebase ID token on each session, never restored from a cached value.
+      const { role: _omitRole, ...profileWithoutRole } = authState.appUser;
+      localStorage.setItem(
+        `profile_override_${authState.appUser.id}`,
+        JSON.stringify(profileWithoutRole)
+      );
+    } catch (err) {
+      console.error('Failed to serialize auth state:', err);
+    }
+  }
+};
+
+const saveEmployerProfileState = (state: RootState) => {
+  try {
+    localStorage.setItem('employer_profile_state', JSON.stringify(state.employerProfile.profile));
+  } catch (err) {
+    console.error('Failed to save employer profile:', err);
+  }
+};
 
 store.subscribe(() => {
   saveKanbanState(store.getState().kanban);
+  saveJobsState(store.getState().jobs);
+  saveAuthState(store.getState().auth);
+  saveEmployerProfileState(store.getState());
 });
-
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;

@@ -164,8 +164,8 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
                   Recommendations
                 </div>
                 <ul className="list-disc pl-5 space-y-1.5 text-xs text-slate-600 dark:text-slate-400">
-                  {scoreData.suggestions.map((s, idx) => (
-                    <li key={idx}>{s}</li>
+                  {scoreData.suggestions.map((s) => (
+                    <li key={s}>{s}</li>
                   ))}
                 </ul>
               </div>
