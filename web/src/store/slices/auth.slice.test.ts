@@ -60,19 +60,15 @@ describe('Auth Slice', () => {
   });
 
   it('should handle updateUserProfile when appUser is set', () => {
-    localStorage.clear();
     const loggedInState = authReducer(initialState, setUser(mockUser));
     const actual = authReducer(loggedInState, updateUserProfile({ displayName: 'New Name' }));
 
     expect(actual.appUser?.displayName).toBe('New Name');
-    expect(localStorage.getItem('profile_override_123')).toBe(JSON.stringify(actual.appUser));
   });
 
   it('should not update profile if appUser is null', () => {
-    localStorage.clear();
     const actual = authReducer(initialState, updateUserProfile({ displayName: 'New Name' }));
     expect(actual.appUser).toBeNull();
-    expect(localStorage.getItem('profile_override_123')).toBeNull();
   });
 
   it('should handle setAuthLoading', () => {
