@@ -6,7 +6,6 @@ import styles from './AuthPage.module.css';
 import logo from '../../assets/logo.png';
 import { useAppDispatch } from '../../store/hooks';
 import { setAuthLoading } from '../../store/slices/auth.slice';
-import { ROUTES } from '../../config/routes';
 import { LoginForm } from './components/LoginForm';
 import { RegisterForm } from './components/RegisterForm';
 
@@ -20,17 +19,7 @@ export const AuthPage = () => {
   const [role, setRole] = useState<Role>('candidate');
   const [mode, setMode] = useState<Mode>('login');
 
-  const handleSuccess = (uid: string) => {
-    const savedProfileKey = `profile_override_${uid}`;
-    let availableRoles: string[] = [];
-    try {
-      const raw = localStorage.getItem(savedProfileKey);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        availableRoles = parsed.availableRoles || [];
-      }
-    } catch (e) {}
-
+  const handleSuccess = (_uid: string) => {
     // Always route to launchpad for now so you can see it on staging
     localStorage.setItem('selected_role', role);
     dispatch(setAuthLoading(true)); // Force RoleGuard to wait for Firebase listener
