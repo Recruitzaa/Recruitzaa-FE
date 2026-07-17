@@ -1,1 +1,0 @@
-var e=`/Recruitzaa-FE/assets/logo-PDVUQfN8.png`;export{e as t};
