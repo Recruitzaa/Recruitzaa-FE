@@ -216,7 +216,6 @@ function App() {
                     }
                   >
                     {/* Candidate Only */}
-                    {/* Candidate Only */}
                     <Route element={<RoleGuard allowedRoles={['CANDIDATE']} />}>
                       <Route element={<DashboardLayout />}>
                         <Route path="/candidate/dashboard" element={<DashboardPage />} />
@@ -253,7 +252,9 @@ function App() {
                     <Route element={<RoleGuard allowedRoles={['EMPLOYEE']} />}>
                       <Route element={<DashboardLayout />}>
                         <Route path="/employee/dashboard" element={<EmployeeDashboardPage />} />
+                        {/* TODO: Replace with dedicated TimesheetsPage component */}
                         <Route path="/employee/timesheets" element={<EmployeeDashboardPage />} />
+                        {/* TODO: Replace with dedicated PayrollPage component */}
                         <Route path="/employee/payroll" element={<EmployeeDashboardPage />} />
                         <Route path="/employee/inbox" element={<InboxPage />} />
                       </Route>
