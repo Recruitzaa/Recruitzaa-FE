@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-CZcjcDnw.js";var t=e(),n=()=>(0,t.jsx)(`div`,{children:`NotFoundPage`});export{n as NotFoundPage};
