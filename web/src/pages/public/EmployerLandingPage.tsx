@@ -35,7 +35,7 @@ export const EmployerLandingPage = () => {
           </div>
           <div className={styles.heroIllustration}>
             <img
-              src="/Recruitzaa-FE/employer-hero.png"
+              src="/employer-hero.png"
               alt="Recruitzaa hiring platform dashboard showing candidate pipeline and talent matching"
               width="600"
               height="450"
