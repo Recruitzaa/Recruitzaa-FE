@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setUser, clearUser } from '../../store/slices/auth.slice';
 import type { UserRole } from '../../types/auth.types';
+import allowlistRaw from '../../config/allowlist.txt?raw';
 
 interface RoleGuardProps {
   allowedRoles: UserRole[];
@@ -37,11 +38,28 @@ export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) 
             (savedRole === 'employer' ? 'EMPLOYER' : 'CANDIDATE');
 
           const savedProfileKey = `profile_override_${user.uid}`;
-          let savedProfileData = {};
-          try {
-            const raw = localStorage.getItem(savedProfileKey);
-            if (raw) savedProfileData = JSON.parse(raw);
-          } catch (e) {}
+          let savedProfileData: any = {};
+
+          // --- ALLOWLIST LOGIC ---
+          const allowedEmails = allowlistRaw
+            .split('\n')
+            .map((e) => e.trim())
+            .filter(Boolean);
+          if (user.email && allowedEmails.includes(user.email)) {
+            // Give all roles to users in the allowlist.txt
+            savedProfileData.availableRoles = [
+              'CANDIDATE',
+              'EMPLOYER',
+              'EXPERT',
+              'EMPLOYEE',
+              'SUPER_ADMIN',
+            ];
+          } else {
+            try {
+              const raw = localStorage.getItem(savedProfileKey);
+              if (raw) savedProfileData = JSON.parse(raw);
+            } catch (e) {}
+          }
 
           dispatch(
             setUser({
