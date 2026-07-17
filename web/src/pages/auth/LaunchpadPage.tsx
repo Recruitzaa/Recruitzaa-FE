@@ -49,9 +49,13 @@ export const LaunchpadPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { appUser } = useAppSelector((state) => state.auth);
 
-  if (!appUser || !appUser.availableRoles || appUser.availableRoles.length <= 1) {
+  if (!appUser) {
     return <Navigate to="/" replace />;
   }
+
+  // Display all 5 roles on the Launchpad for demo/testing purposes
+  // (In production, you might want to restrict this to only appUser.availableRoles)
+  const displayRoles: UserRole[] = ['CANDIDATE', 'EMPLOYER', 'EXPERT', 'EMPLOYEE', 'SUPER_ADMIN'];
 
   const handleSelectRole = (role: UserRole) => {
     dispatch(switchActiveRole(role));
@@ -82,7 +86,7 @@ export const LaunchpadPage: React.FC = () => {
 
             {/* Grid of portal cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
-              {appUser.availableRoles.map((role) => {
+              {displayRoles.map((role) => {
                 const meta = ROLE_META[role];
                 if (!meta) return null;
                 const IconComponent = meta.icon;

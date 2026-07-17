@@ -31,18 +31,10 @@ export const AuthPage = () => {
       }
     } catch (e) {}
 
-    // Smart Routing: Bypass launchpad if they only have 1 role (or none yet)
-    if (availableRoles.length > 1) {
-      navigate('/launchpad');
-    } else {
-      localStorage.setItem('selected_role', role);
-      dispatch(setAuthLoading(true)); // Force RoleGuard to wait for Firebase listener
-      if (role === 'employer') {
-        navigate(ROUTES.EMPLOYER.DASHBOARD);
-      } else {
-        navigate(ROUTES.CANDIDATE.DASHBOARD);
-      }
-    }
+    // Always route to launchpad for now so you can see it on staging
+    localStorage.setItem('selected_role', role);
+    dispatch(setAuthLoading(true)); // Force RoleGuard to wait for Firebase listener
+    navigate('/launchpad');
   };
 
   return (
