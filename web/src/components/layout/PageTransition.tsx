@@ -39,7 +39,7 @@ export const PageTransition = ({ children }: PageTransitionProps) => {
       initial="initial"
       animate="animate"
       exit="exit"
-      style={{ display: 'flex', flexDirection: 'column', flex: 1 }}
+      className="flex flex-col flex-1"
     >
       {children}
     </motion.div>

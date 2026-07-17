@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useId } from 'react';
 import styles from './Input.module.css';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -8,15 +8,20 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, className, id, ...props }, ref) => {
-    const inputId = id || Math.random().toString(36).substr(2, 9);
+    const reactId = useId();
+    const inputId = id || reactId;
     return (
       <div className={styles.wrapper}>
-        {label && <label htmlFor={inputId} className={styles.label}>{label}</label>}
-        <input 
+        {label && (
+          <label htmlFor={inputId} className={styles.label}>
+            {label}
+          </label>
+        )}
+        <input
           id={inputId}
-          ref={ref} 
-          className={[styles.input, error && styles.hasError, className].filter(Boolean).join(' ')} 
-          {...props} 
+          ref={ref}
+          className={[styles.input, error && styles.hasError, className].filter(Boolean).join(' ')}
+          {...props}
         />
         {error && <span className={styles.errorText}>{error}</span>}
       </div>

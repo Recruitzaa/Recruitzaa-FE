@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
+import { useId, useMemo } from 'react';
 import { PageTransition } from '../../components/layout/PageTransition';
 import { SEO } from '../../components/seo/SEO';
 import { JobCard } from '../../features/jobs/components/JobCard/JobCard';
@@ -7,6 +8,25 @@ import styles from './JobListingsPage.module.css';
 
 export const JobListingsPage = () => {
   const { jobsList } = useAppSelector((state) => state.jobs);
+  const [searchParams] = useSearchParams();
+  const jobTitleId = useId();
+  const locationId = useId();
+  const experienceLevelId = useId();
+
+  const keyword = searchParams.get('keyword')?.toLowerCase() ?? '';
+  const location = searchParams.get('location')?.toLowerCase() ?? '';
+
+  const filteredJobs = useMemo(() => {
+    return jobsList.filter((job) => {
+      const matchesKeyword =
+        !keyword ||
+        job.title.toLowerCase().includes(keyword) ||
+        job.company.toLowerCase().includes(keyword);
+      const matchesLocation = !location || job.location.toLowerCase().includes(location);
+      return job.status === 'Active' && matchesKeyword && matchesLocation;
+    });
+  }, [jobsList, keyword, location]);
+
   return (
     <PageTransition>
       <SEO
@@ -24,36 +44,61 @@ export const JobListingsPage = () => {
           </div>
         </div>
 
-        <section className={styles.hero}>
+        <section className={styles.hero} aria-labelledby="job-search-title">
           <div className={styles.container}>
             <div className={styles.heroTop}>
               <div>
                 <p>Verified job search</p>
-                <h1>Job Search & Filter Engine</h1>
+                <h1 id="job-search-title">Job Search & Filter Engine</h1>
               </div>
               <Link to="/auth" className={styles.heroCta}>
                 Apply with profile
               </Link>
             </div>
 
-            <div className={styles.searchBar}>
-              <label>
+            <form
+              className={styles.searchBar}
+              role="search"
+              aria-label="Job search filters"
+              onSubmit={(e) => e.preventDefault()}
+            >
+              <label htmlFor={jobTitleId}>
                 Job Title
-                <input defaultValue="" placeholder="e.g. React Native Developer" />
+                <input
+                  id={jobTitleId}
+                  name="jobTitle"
+                  required
+                  aria-required="true"
+                  defaultValue={keyword}
+                  placeholder="e.g. React Native Developer"
+                  autoComplete="off"
+                />
               </label>
-              <label>
+              <label htmlFor={locationId}>
                 Location
-                <input defaultValue="" placeholder="e.g. Bangalore, KA" />
+                <input
+                  id={locationId}
+                  name="location"
+                  required
+                  aria-required="true"
+                  defaultValue={location}
+                  placeholder="e.g. Bangalore, KA"
+                  autoComplete="off"
+                />
               </label>
-              <label>
+              <label htmlFor={experienceLevelId}>
                 Experience Level
-                <select defaultValue="Mid-Senior (3-6 yrs)">
+                <select
+                  id={experienceLevelId}
+                  name="experienceLevel"
+                  defaultValue="Mid-Senior (3-6 yrs)"
+                >
                   <option>Mid-Senior (3-6 yrs)</option>
                   <option>Senior (6-10 yrs)</option>
                   <option>Lead (10+ yrs)</option>
                 </select>
               </label>
-            </div>
+            </form>
           </div>
         </section>
 
@@ -82,13 +127,13 @@ export const JobListingsPage = () => {
                 </div>
               </div>
 
-              <div className={styles.list}>
-                {jobsList
-                  .filter((j) => j.status === 'Active')
-                  .map((job) => (
-                    <JobCard key={job.id} {...job} />
-                  ))}
-              </div>
+              <ul className={styles.list}>
+                {filteredJobs.map((job) => (
+                  <li key={job.id}>
+                    <JobCard {...job} />
+                  </li>
+                ))}
+              </ul>
             </main>
           </div>
         </div>

@@ -96,7 +96,7 @@ export const EducationStep: React.FC<EducationStepProps> = ({ data, onChange }) 
       <div className="space-y-2">
         {data.map((edu, idx) => (
           <div
-            key={idx}
+            key={`${edu.institution}-${edu.startDate}-${idx}`}
             className="flex justify-between items-center p-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded"
           >
             <div>
@@ -108,8 +108,10 @@ export const EducationStep: React.FC<EducationStepProps> = ({ data, onChange }) 
               </div>
             </div>
             <button
+              type="button"
               onClick={() => handleRemove(idx)}
               className="text-xs text-rose-500 hover:underline"
+              aria-label={`Remove ${edu.institution}`}
             >
               Remove
             </button>

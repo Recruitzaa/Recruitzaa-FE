@@ -38,7 +38,7 @@ export const JobCard = ({
   const detailsLink = isPortalView ? `/candidate/jobs/${id}` : `/jobs/${id}`;
 
   return (
-    <Card className={styles.jobCard}>
+    <Card className={styles.jobCard} role="article" tabIndex={0}>
       <div className={styles.topRow}>
         <div className={styles.avatar} style={{ backgroundColor: avatarColor }}>
           {avatarText}
@@ -48,7 +48,11 @@ export const JobCard = ({
             {title}
           </Link>
           <div className={styles.companyInfo}>
-            {company} &middot; {location} ({type})
+            {company}{' '}
+            <span className="mx-1" aria-hidden="true">
+              &middot;
+            </span>{' '}
+            {location} ({type})
           </div>
         </div>
         <div className={styles.matchPill}>{matchScore}% AI Match</div>
@@ -60,8 +64,8 @@ export const JobCard = ({
             Priority Hiring
           </Badge>
         )}
-        {tags.map((tag, idx) => (
-          <Badge key={idx} variant="neutral" className={styles.tag}>
+        {tags.map((tag) => (
+          <Badge key={`${id}-${tag}`} variant="neutral" className={styles.tag}>
             {tag}
           </Badge>
         ))}
@@ -70,16 +74,21 @@ export const JobCard = ({
       <div className={styles.bottomRow}>
         <div className={styles.meta}>
           <span className={styles.salary}>{salary}</span>
-          <span className={styles.divider}>|</span>
+          <span className={styles.divider} aria-hidden="true">
+            |
+          </span>
           <span className={styles.postedAt}>Posted {postedAt}</span>
         </div>
         <div className={styles.actions}>
-          <Link to="/candidate/ai-hub">
+          <Link
+            to="/candidate/ai-hub"
+            aria-label={`Check ATS fit score for ${title} role at ${company}`}
+          >
             <Button variant="outline" className={styles.actionBtn}>
               Check ATS Fit
             </Button>
           </Link>
-          <Link to={detailsLink}>
+          <Link to={detailsLink} aria-label={`Apply now for ${title} role at ${company}`}>
             <Button variant="primary" className={styles.actionBtn}>
               Apply Now
             </Button>

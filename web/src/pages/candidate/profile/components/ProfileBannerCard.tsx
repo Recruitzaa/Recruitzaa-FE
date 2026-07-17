@@ -1,0 +1,133 @@
+import React from 'react';
+import { MapPin, Briefcase, Phone, Mail, Edit2 } from 'lucide-react';
+import type { ProfileState } from '../../../../store/slices/profileSlice';
+import { PersonalDetailsEditForm } from './PersonalDetailsEditForm';
+
+interface PersonalFormState {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  location: string;
+  avatar: string;
+  currentCompany: string;
+  currentDesignation: string;
+  totalExperience: string;
+  currentCTC: string;
+  noticePeriod: string;
+}
+
+interface ProfileBannerCardProps {
+  profile: ProfileState;
+  isEditingPersonal: boolean;
+  setIsEditingPersonal: (val: boolean) => void;
+  personalForm: PersonalFormState;
+  setPersonalForm: React.Dispatch<React.SetStateAction<PersonalFormState>>;
+  startEditingPersonal: () => void;
+  savePersonalDetails: () => void;
+}
+
+export const ProfileBannerCard = ({
+  profile,
+  isEditingPersonal,
+  setIsEditingPersonal,
+  personalForm,
+  setPersonalForm,
+  startEditingPersonal,
+  savePersonalDetails,
+}: ProfileBannerCardProps) => {
+  return (
+    <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 space-y-6">
+      <div className="flex flex-col md:flex-row items-center md:items-start gap-6 relative">
+        <img
+          src={profile.personalInfo.avatar}
+          alt={`${profile.personalInfo.firstName} ${profile.personalInfo.lastName}`}
+          width="96"
+          height="96"
+          className="w-24 h-24 rounded-full object-cover border-4 border-slate-100 shadow-inner shrink-0"
+        />
+
+        <div className="flex-1 text-center md:text-left space-y-3">
+          <div>
+            <h2 className="text-xl font-bold text-brand-charcoal">
+              {profile.personalInfo.firstName} {profile.personalInfo.lastName}
+            </h2>
+            <p className="text-sm font-semibold text-brand-primary mt-0.5 font-sans">
+              {profile.employmentDetails.currentDesignation}
+            </p>
+            <p className="text-xs font-medium text-slate-500 mt-0.5">
+              {profile.employmentDetails.currentCompany}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap justify-center md:justify-start gap-4 text-xs text-slate-600">
+            <span className="flex items-center gap-1">
+              <MapPin size={14} className="text-slate-400" />
+              {profile.personalInfo.location}
+            </span>
+            <span className="flex items-center gap-1">
+              <Briefcase size={14} className="text-slate-400" />
+              {profile.employmentDetails.totalExperience} Exp
+            </span>
+          </div>
+
+          <div className="flex flex-wrap justify-center md:justify-start gap-2 pt-2">
+            <span className="inline-flex items-center gap-1 px-3 py-1 bg-slate-50 text-slate-700 rounded-full border text-xs">
+              <Phone size={12} className="text-slate-400" />
+              {profile.personalInfo.phone}
+            </span>
+            <span className="inline-flex items-center gap-1 px-3 py-1 bg-slate-50 text-slate-700 rounded-full border text-xs">
+              <Mail size={12} className="text-slate-400" />
+              {profile.personalInfo.email}
+            </span>
+          </div>
+        </div>
+
+        {!isEditingPersonal && (
+          <button
+            type="button"
+            onClick={startEditingPersonal}
+            className="absolute right-0 top-0 text-slate-400 hover:text-brand-primary"
+            aria-label="Edit personal details"
+          >
+            <Edit2 size={16} />
+          </button>
+        )}
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-100 text-xs">
+        <div>
+          <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+            Current CTC
+          </div>
+          <div className="font-bold text-brand-charcoal mt-0.5">
+            {profile.employmentDetails.currentCTC}
+          </div>
+        </div>
+        <div>
+          <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+            Notice Period
+          </div>
+          <div className="font-bold text-brand-charcoal mt-0.5">
+            {profile.employmentDetails.noticePeriod}
+          </div>
+        </div>
+        <div className="col-span-2 sm:col-span-1">
+          <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+            Job Search Status
+          </div>
+          <div className="font-bold text-green-600 mt-0.5">Active & Interviewing</div>
+        </div>
+      </div>
+
+      {isEditingPersonal && (
+        <PersonalDetailsEditForm
+          personalForm={personalForm}
+          setPersonalForm={setPersonalForm}
+          setIsEditingPersonal={setIsEditingPersonal}
+          savePersonalDetails={savePersonalDetails}
+        />
+      )}
+    </div>
+  );
+};

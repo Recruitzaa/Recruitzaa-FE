@@ -7,17 +7,17 @@ import styles from './CompaniesPage.module.css';
 export const CompaniesPage = () => {
   return (
     <div className={styles.page}>
-      
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>Company Directory</h1>
-          <p className={styles.subtitle}>Manage verified enterprise and agency companies on the platform.</p>
+          <p className={styles.subtitle}>
+            Manage verified enterprise and agency companies on the platform.
+          </p>
         </div>
         <Button>+ Add Company</Button>
       </div>
 
       <Card className={styles.card}>
-        
         <div className={styles.toolbar}>
           <div className={styles.searchBox}>
             <Input placeholder="Search by company name or domain..." />
@@ -31,7 +31,7 @@ export const CompaniesPage = () => {
             </select>
           </div>
         </div>
-        
+
         <div className={styles.tableWrapper}>
           <table className={styles.table}>
             <thead>
@@ -55,55 +55,84 @@ export const CompaniesPage = () => {
                     </div>
                   </div>
                 </td>
-                <td><Badge variant="primary">Enterprise</Badge></td>
-                <td><span className={styles.subTextDark}>14</span></td>
-                <td><span className={styles.subTextDark}>3</span></td>
-                <td><Badge variant="success">Verified</Badge></td>
                 <td>
-                  <Button size="sm" variant="outline">Manage</Button>
+                  <Badge variant="primary">Enterprise</Badge>
+                </td>
+                <td>
+                  <span className={styles.subTextDark}>14</span>
+                </td>
+                <td>
+                  <span className={styles.subTextDark}>3</span>
+                </td>
+                <td>
+                  <Badge variant="success">Verified</Badge>
+                </td>
+                <td>
+                  <Button size="sm" variant="outline">
+                    Manage
+                  </Button>
                 </td>
               </tr>
               <tr>
                 <td>
                   <div className={styles.companyInfo}>
-                    <div className={styles.avatar} style={{backgroundColor: '#059669'}}>INF</div>
+                    <div className={`${styles.avatar} bg-emerald-600 text-white`}>INF</div>
                     <div>
                       <div className={styles.roleText}>Infosys Limited</div>
                       <div className={styles.subText}>infosys.com</div>
                     </div>
                   </div>
                 </td>
-                <td><Badge variant="primary">Enterprise</Badge></td>
-                <td><span className={styles.subTextDark}>4</span></td>
-                <td><span className={styles.subTextDark}>1</span></td>
-                <td><Badge variant="success">Verified</Badge></td>
                 <td>
-                  <Button size="sm" variant="outline">Manage</Button>
+                  <Badge variant="primary">Enterprise</Badge>
+                </td>
+                <td>
+                  <span className={styles.subTextDark}>4</span>
+                </td>
+                <td>
+                  <span className={styles.subTextDark}>1</span>
+                </td>
+                <td>
+                  <Badge variant="success">Verified</Badge>
+                </td>
+                <td>
+                  <Button size="sm" variant="outline">
+                    Manage
+                  </Button>
                 </td>
               </tr>
               <tr>
                 <td>
                   <div className={styles.companyInfo}>
-                    <div className={styles.avatar} style={{backgroundColor: '#DC2626'}}>ZOM</div>
+                    <div className={`${styles.avatar} bg-red-600 text-white`}>ZOM</div>
                     <div>
                       <div className={styles.roleText}>Zomato Media</div>
                       <div className={styles.subText}>zomato.com</div>
                     </div>
                   </div>
                 </td>
-                <td><Badge variant="warning">Pro</Badge></td>
-                <td><span className={styles.subTextDark}>1</span></td>
-                <td><span className={styles.subTextDark}>2</span></td>
-                <td><Badge variant="warning">Pending Verification</Badge></td>
                 <td>
-                  <Button size="sm" variant="outline">Manage</Button>
+                  <Badge variant="warning">Pro</Badge>
+                </td>
+                <td>
+                  <span className={styles.subTextDark}>1</span>
+                </td>
+                <td>
+                  <span className={styles.subTextDark}>2</span>
+                </td>
+                <td>
+                  <Badge variant="warning">Pending Verification</Badge>
+                </td>
+                <td>
+                  <Button size="sm" variant="outline">
+                    Manage
+                  </Button>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </Card>
-      
     </div>
   );
 };

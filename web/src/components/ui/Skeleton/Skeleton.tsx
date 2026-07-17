@@ -23,7 +23,7 @@ export const SkeletonCard = () => (
   <div className={styles.card}>
     <div className={styles.cardHeader}>
       <Skeleton width="40px" height="40px" radius="50%" />
-      <div style={{ flex: 1 }}>
+      <div className="flex-1">
         <Skeleton height="0.9rem" width="60%" />
         <Skeleton height="0.75rem" width="40%" />
       </div>

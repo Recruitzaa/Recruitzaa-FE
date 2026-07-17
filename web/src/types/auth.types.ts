@@ -1,9 +1,11 @@
-export type UserRole = 'CANDIDATE' | 'EMPLOYER' | 'SUPER_ADMIN';
+export type UserRole = 'CANDIDATE' | 'EMPLOYER' | 'EXPERT' | 'EMPLOYEE' | 'SUPER_ADMIN';
 
 export interface AppUser {
   id: string;
   email: string;
-  role: UserRole;
+  role: UserRole; // Keeps backward compatibility with existing code
+  availableRoles?: UserRole[];
+  activeRole?: UserRole;
   displayName: string;
   photoURL?: string;
   phone?: string;

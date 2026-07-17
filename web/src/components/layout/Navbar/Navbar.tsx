@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../../store/hooks';
 import { logOut } from '../../../services/auth.service';
 import styles from './Navbar.module.css';
@@ -7,7 +7,9 @@ import { ROUTES } from '../../../config/routes';
 
 export const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { appUser, isAuthenticated } = useAppSelector((s) => s.auth);
+  const pathname = location.pathname;
 
   const handleSignOut = async () => {
     try {
@@ -26,16 +28,20 @@ export const Navbar = () => {
   };
 
   return (
-    <header className={styles.header}>
+    <header className={styles.header} role="banner">
       <div className={styles.container}>
         <Link to="/" className={styles.brand}>
-          <img src={logo} alt="Recruitzaa" />
+          <img src={logo} alt="Recruitzaa logo" width="140" height="36" />
         </Link>
 
-        <nav className={styles.navMenu} aria-label="Primary">
+        <nav className={styles.navMenu} aria-label="Primary" role="navigation">
           {(!isAuthenticated || appUser?.role !== 'EMPLOYER') && (
             <div className={styles.navItem}>
-              <Link to="/jobs" className={styles.navLink}>
+              <Link
+                to="/jobs"
+                className={styles.navLink}
+                aria-current={pathname.startsWith('/jobs') ? 'page' : undefined}
+              >
                 Find Jobs <span className={styles.caret}>▼</span>
               </Link>
               <div className={styles.megaMenu}>
@@ -67,7 +73,13 @@ export const Navbar = () => {
 
           {(!isAuthenticated || appUser?.role !== 'CANDIDATE') && (
             <div className={styles.navItem}>
-              <Link to="/employers" className={styles.navLink}>
+              <Link
+                to="/employers"
+                className={styles.navLink}
+                aria-current={
+                  pathname === '/employers' || pathname.startsWith('/employer') ? 'page' : undefined
+                }
+              >
                 Employer Services <span className={styles.caret}>▼</span>
               </Link>
               <div className={styles.megaMenu}>
@@ -98,16 +110,34 @@ export const Navbar = () => {
           )}
 
           {(!isAuthenticated || appUser?.role !== 'EMPLOYER') && (
-            <Link to="/candidate/ai-hub" className={styles.navLink}>
+            <Link
+              to="/candidate/ai-hub"
+              className={styles.navLink}
+              aria-current={pathname.startsWith('/candidate/ai-hub') ? 'page' : undefined}
+            >
               AI Career Hub
             </Link>
           )}
           {isAuthenticated && (
-            <Link to={getDashboardRoute()} className={styles.navLink}>
+            <Link
+              to={getDashboardRoute()}
+              className={styles.navLink}
+              aria-current={
+                pathname.startsWith('/candidate') ||
+                pathname.startsWith('/employer') ||
+                pathname.startsWith('/admin')
+                  ? 'page'
+                  : undefined
+              }
+            >
               Dashboard
             </Link>
           )}
-          <Link to="/#about" className={styles.navLink}>
+          <Link
+            to="/#about"
+            className={styles.navLink}
+            aria-current={pathname === '/' ? 'page' : undefined}
+          >
             About Us
           </Link>
         </nav>
@@ -118,7 +148,11 @@ export const Navbar = () => {
               <Link to={getDashboardRoute()} className={`${styles.button} ${styles.primary}`}>
                 Go to Workspace
               </Link>
-              <button onClick={handleSignOut} className={`${styles.button} ${styles.outline}`}>
+              <button
+                type="button"
+                onClick={handleSignOut}
+                className={`${styles.button} ${styles.outline}`}
+              >
                 Sign Out
               </button>
             </>

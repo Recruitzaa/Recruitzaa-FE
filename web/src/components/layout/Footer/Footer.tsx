@@ -7,11 +7,11 @@ export const Footer = () => {
   const { appUser, isAuthenticated } = useAppSelector((s) => s.auth);
 
   return (
-    <footer className={styles.footer}>
+    <footer className={styles.footer} role="contentinfo">
       <div className={styles.container}>
         <div className={styles.grid}>
           <div className={styles.brand}>
-            <img src={logo} alt="Recruitzaa" />
+            <img src={logo} alt="Recruitzaa logo" width="140" height="36" />
             <p>
               Recruitzaa is India's premier AI-powered recruitment and staffing platform, connecting
               verified talent with global enterprise leaders.
@@ -81,9 +81,27 @@ export const Footer = () => {
             </ul>
           </div>
         </div>
-        <div className={styles.bottom}>
-          <div>© 2025 Recruitzaa Technologies Pvt. Ltd. All rights reserved.</div>
-          <div>www.recruitzaa.com</div>
+        <div className={styles.bottomBar}>
+          <div>
+            © {new Date().getFullYear()} Recruitzaa Technologies Pvt. Ltd. All rights reserved.
+          </div>
+          <div className={styles.contactBar}>
+            <span>
+              Support:{' '}
+              <a href="tel:+918431185984" className={styles.contactLink}>
+                +91 8431185984
+              </a>
+            </span>
+            <span className={styles.separator}>|</span>
+            <a href="mailto:support@recruitzaa.com" className={styles.contactLink}>
+              support@recruitzaa.com
+            </a>
+          </div>
+          <div>
+            <a href="https://www.recruitzaa.com" className={styles.siteLink}>
+              www.recruitzaa.com
+            </a>
+          </div>
         </div>
       </div>
     </footer>

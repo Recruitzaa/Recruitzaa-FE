@@ -1,4 +1,4 @@
-export type UserRole = 'CANDIDATE' | 'EMPLOYER' | 'SUPER_ADMIN';
+export type UserRole = 'CANDIDATE' | 'EMPLOYER' | 'EXPERT' | 'EMPLOYEE' | 'SUPER_ADMIN';
 
 export interface AuthState {
   isAuthenticated: boolean;

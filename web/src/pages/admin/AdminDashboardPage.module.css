@@ -83,7 +83,8 @@
   }
 }
 
-.mainCol, .sideCol {
+.mainCol,
+.sideCol {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -231,6 +232,6 @@
 
 .meterFill {
   height: 100%;
-  background-color: #DC2626; /* Default admin red for meters */
+  background-color: var(--color-error); /* Admin red meter fill */
   border-radius: 4px;
 }

@@ -54,6 +54,18 @@
 .links a {
   color: #9ca3af;
   font-size: 0.82rem;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+  padding: 0.25rem 0;
+}
+
+.links a:focus-visible,
+.siteLink:focus-visible,
+.contactLink:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 .links a:hover {
@@ -69,9 +81,56 @@
   font-size: 0.75rem;
 }
 
+.bottomBar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.contactBar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.contactLink,
+.siteLink {
+  color: #d1d5db;
+  font-weight: 600;
+}
+
+.separator {
+  display: none;
+  color: rgba(255, 255, 255, 0.35);
+}
+
 @media (max-width: 900px) {
   .grid {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 768px) {
+  .bottomBar {
+    flex-direction: row;
+    text-align: left;
+    align-items: center;
+  }
+
+  .contactBar {
+    flex-direction: row;
+    gap: 0.75rem;
+  }
+
+  .separator {
+    display: inline;
   }
 }
 

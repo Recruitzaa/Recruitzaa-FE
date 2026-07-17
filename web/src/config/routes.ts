@@ -21,6 +21,7 @@ export const ROUTES = {
     MY_JOBS: '/employer/my-jobs',
     CANDIDATES: '/employer/candidates',
     ANALYTICS: '/employer/analytics',
+    PROFILE: '/employer/profile',
   },
   ADMIN: {
     DASHBOARD: '/admin/dashboard',
@@ -28,5 +29,6 @@ export const ROUTES = {
     COMPANIES: '/admin/companies',
     USERS: '/admin/users',
     EMPLOYERS: '/admin/employers',
-  }
+    SETTINGS: '/admin/settings',
+  },
 };

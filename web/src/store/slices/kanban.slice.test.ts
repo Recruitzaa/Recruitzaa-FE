@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import kanbanReducer, { updateApplicationStage, addApplication } from './kanban.slice';
+import kanbanReducer, { updateApplicationStage, addApplication } from './kanbanSlice';
 
 describe('Kanban Slice', () => {
   const initialState = {

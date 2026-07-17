@@ -4,7 +4,7 @@ import type { DragEndEvent } from '@dnd-kit/core';
 import { KanbanColumn } from './KanbanColumn';
 import type { ApplicationCard, PipelineStage } from '../../types/kanban.types';
 import { useAppDispatch } from '../../../../store/hooks';
-import { updateApplicationStage } from '../../../../store/slices/kanban.slice';
+import { updateApplicationStage } from '../../../../store/slices/kanbanSlice';
 
 interface KanbanBoardProps {
   applications: ApplicationCard[];

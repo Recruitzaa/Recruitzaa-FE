@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
+import { Select } from '../../components/ui/Select';
 import { useAppDispatch } from '../../store/hooks';
-import { addJob } from '../../store/slices/jobs.slice';
+import { addNewJob } from '../../store/slices/jobsSlice';
 import { useToast } from '../../hooks/useToast';
 import styles from './PostJobPage.module.css';
 
@@ -60,7 +61,7 @@ export const PostJobPage = () => {
       status,
     };
 
-    dispatch(addJob(newJobPayload));
+    dispatch(addNewJob(newJobPayload));
     toast.success(status === 'Active' ? 'Job published successfully!' : 'Job saved as draft.');
     navigate('/employer/my-jobs');
   };
@@ -85,18 +86,12 @@ export const PostJobPage = () => {
                   onChange={(e) => setTitle(e.target.value)}
                   required
                 />
-                <div className={styles.inputGroup}>
-                  <label className={styles.label}>Employment Type</label>
-                  <select
-                    className={styles.select}
-                    value={employmentType}
-                    onChange={(e) => setEmploymentType(e.target.value)}
-                  >
-                    <option>Full-time</option>
-                    <option>Part-time</option>
-                    <option>Contract</option>
-                  </select>
-                </div>
+                <Select
+                  label="Employment Type"
+                  options={['Full-time', 'Part-time', 'Contract']}
+                  value={employmentType}
+                  onChange={(val) => setEmploymentType(val)}
+                />
                 <Input
                   label="Location"
                   placeholder="e.g. Remote, Bangalore"
@@ -104,18 +99,12 @@ export const PostJobPage = () => {
                   onChange={(e) => setLocation(e.target.value)}
                   required
                 />
-                <div className={styles.inputGroup}>
-                  <label className={styles.label}>Work Mode</label>
-                  <select
-                    className={styles.select}
-                    value={workMode}
-                    onChange={(e) => setWorkMode(e.target.value)}
-                  >
-                    <option>Remote</option>
-                    <option>Hybrid</option>
-                    <option>On-Site</option>
-                  </select>
-                </div>
+                <Select
+                  label="Work Mode"
+                  options={['Remote', 'Hybrid', 'On-Site']}
+                  value={workMode}
+                  onChange={(val) => setWorkMode(val)}
+                />
                 <Input
                   label="Salary Range (Min LPA)"
                   placeholder="e.g. 18"
@@ -145,7 +134,7 @@ export const PostJobPage = () => {
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
-              <div className={styles.inputGroup} style={{ marginTop: '1.25rem' }}>
+              <div className={`${styles.inputGroup} mt-5`}>
                 <label className={styles.label}>Requirements (comma separated skills)</label>
                 <Input
                   placeholder="e.g. React Native, TypeScript, Redux"
@@ -159,7 +148,7 @@ export const PostJobPage = () => {
               <Button
                 type="button"
                 variant="outline"
-                style={{ marginRight: '1rem' }}
+                className="mr-4"
                 onClick={(e) => handlePublish(e, 'Draft')}
               >
                 Save as Draft

@@ -5,6 +5,10 @@ on:
     branches: [ "main", "master" ]
   pull_request:
     branches: [ "main", "master" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build-and-test:
@@ -36,3 +40,10 @@ jobs:
 
     - name: TypeScript Compile & Build
       run: npm run build
+
+    - name: Deploy to GitHub Pages
+      if: github.event_name == 'workflow_dispatch'
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: web/dist
+        branch: gh-pages

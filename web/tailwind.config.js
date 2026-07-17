@@ -6,7 +6,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'brand-primary': '#c14f16',
+        'brand-primary-hover': '#a94210',
+        'brand-primary-light': '#fef3ee',
+        'brand-charcoal': '#1e2229',
+      },
+    },
   },
   plugins: [],
 }

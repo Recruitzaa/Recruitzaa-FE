@@ -4,7 +4,7 @@ import { Button } from '../../components/ui/Button';
 import { Badge } from '../../components/ui/Badge';
 import { Input } from '../../components/ui/Input';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { updateJobStatus, deleteJob } from '../../store/slices/jobs.slice';
+import { updateJobStatus, deleteJob } from '../../store/slices/jobsSlice';
 import { useToast } from '../../hooks/useToast';
 import { useState } from 'react';
 import styles from './MyJobsPage.module.css';
@@ -45,13 +45,13 @@ export const MyJobsPage = () => {
           <h1 className={styles.title}>Active Listings</h1>
           <p className={styles.subtitle}>Manage your current and past job postings.</p>
         </div>
-        <Link to="/employer/post-job" style={{ textDecoration: 'none' }}>
+        <Link to="/employer/post-job" className="no-underline">
           <Button>+ Post New Job</Button>
         </Link>
       </div>
 
       <Card className={styles.card}>
-        <div className={styles.toolbar}>
+        <form className={styles.toolbar} onSubmit={(e) => e.preventDefault()}>
           <div className={styles.searchBox}>
             <Input
               placeholder="Search job titles..."
@@ -71,7 +71,7 @@ export const MyJobsPage = () => {
               <option>Closed</option>
             </select>
           </div>
-        </div>
+        </form>
 
         <div className={styles.tableWrapper}>
           <table className={styles.table}>
@@ -97,7 +97,11 @@ export const MyJobsPage = () => {
                     <td>
                       <div className={styles.roleText}>{job.title}</div>
                       <div className={styles.subText}>
-                        {job.location} &bull; {job.salary}
+                        {job.location}{' '}
+                        <span className="mx-1" aria-hidden="true">
+                          &bull;
+                        </span>{' '}
+                        {job.salary}
                       </div>
                     </td>
                     <td>
