@@ -48,9 +48,17 @@ lerna-debug.log*
 * 3.*
 * 4.*
 * 5.*
+# Local audit, readiness, status reports & proposal docs
+PRODUCTION_READINESS.md
+UI_UX_AUDIT.md
+UI_UX_FIX_STATUS.md
+*_AUDIT.md
+*_FIX_STATUS.md
+*_READINESS.md
+*_audit_report.md
+implementation_plan*
+recruitzaa_proposal.md
 
-
-# Graphify indexes
 graphify-out/
 
 # Test coverage reports
