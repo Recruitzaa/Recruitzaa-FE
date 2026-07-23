@@ -11,7 +11,7 @@ export const UtilityBar = () => {
   const isEmployersActive = pathname === '/employers' || pathname.startsWith('/employer');
 
   return (
-    <div className={styles.utilityBar}>
+    <nav className={styles.utilityBar} aria-label="Audience shortcuts">
       <div className={styles.container}>
         <div className={styles.portalToggle}>
           <Link
@@ -44,6 +44,6 @@ export const UtilityBar = () => {
           </strong>
         </div>
       </div>
-    </div>
+    </nav>
   );
 };

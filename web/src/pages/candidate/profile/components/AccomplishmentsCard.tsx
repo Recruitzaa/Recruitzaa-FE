@@ -49,7 +49,7 @@ export const AccomplishmentsCard = ({
       </div>
 
       {!isEditingAccomplishments ? (
-        <div className="space-y-5 text-xs text-slate-700">
+        <div className="space-y-5 text-sm text-slate-700">
           <div className="flex items-start gap-3">
             <LinkIcon size={16} className="text-slate-400 shrink-0 mt-0.5" aria-hidden="true" />
             <div>
@@ -137,7 +137,7 @@ export const AccomplishmentsCard = ({
             <div className="space-y-1">
               <label
                 htmlFor={onlineProfileId}
-                className="text-[10px] font-bold text-slate-500 uppercase block"
+                className="text-sm font-bold text-slate-500 uppercase block"
               >
                 Online Profile URL
               </label>
@@ -148,13 +148,13 @@ export const AccomplishmentsCard = ({
                 onChange={(e) =>
                   setAccomplishmentsForm({ ...accomplishmentsForm, onlineProfile: e.target.value })
                 }
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
               />
             </div>
             <div className="space-y-1">
               <label
                 htmlFor={workSampleId}
-                className="text-[10px] font-bold text-slate-500 uppercase block"
+                className="text-sm font-bold text-slate-500 uppercase block"
               >
                 Work Sample URL
               </label>
@@ -165,13 +165,13 @@ export const AccomplishmentsCard = ({
                 onChange={(e) =>
                   setAccomplishmentsForm({ ...accomplishmentsForm, workSample: e.target.value })
                 }
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
               />
             </div>
             <div className="space-y-1">
               <label
                 htmlFor={publicationId}
-                className="text-[10px] font-bold text-slate-500 uppercase block"
+                className="text-sm font-bold text-slate-500 uppercase block"
               >
                 Publications
               </label>
@@ -182,13 +182,13 @@ export const AccomplishmentsCard = ({
                 onChange={(e) =>
                   setAccomplishmentsForm({ ...accomplishmentsForm, publication: e.target.value })
                 }
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
               />
             </div>
             <div className="space-y-1">
               <label
                 htmlFor={presentationId}
-                className="text-[10px] font-bold text-slate-500 uppercase block"
+                className="text-sm font-bold text-slate-500 uppercase block"
               >
                 Presentations URL
               </label>
@@ -199,13 +199,13 @@ export const AccomplishmentsCard = ({
                 onChange={(e) =>
                   setAccomplishmentsForm({ ...accomplishmentsForm, presentation: e.target.value })
                 }
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
               />
             </div>
             <div className="space-y-1">
               <label
                 htmlFor={patentId}
-                className="text-[10px] font-bold text-slate-500 uppercase block"
+                className="text-sm font-bold text-slate-500 uppercase block"
               >
                 Patents
               </label>
@@ -216,13 +216,13 @@ export const AccomplishmentsCard = ({
                 onChange={(e) =>
                   setAccomplishmentsForm({ ...accomplishmentsForm, patent: e.target.value })
                 }
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
               />
             </div>
             <div className="space-y-1">
               <label
                 htmlFor={certificationId}
-                className="text-[10px] font-bold text-slate-500 uppercase block"
+                className="text-sm font-bold text-slate-500 uppercase block"
               >
                 Certifications
               </label>
@@ -233,7 +233,7 @@ export const AccomplishmentsCard = ({
                 onChange={(e) =>
                   setAccomplishmentsForm({ ...accomplishmentsForm, certification: e.target.value })
                 }
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
               />
             </div>
           </div>
@@ -242,14 +242,14 @@ export const AccomplishmentsCard = ({
             <button
               type="button"
               onClick={() => setIsEditingAccomplishments(false)}
-              className="px-3 py-1.5 border rounded text-xs hover:bg-slate-100 font-semibold"
+              className="px-3 py-1.5 border rounded text-sm hover:bg-slate-100 font-semibold"
             >
               Cancel
             </button>
             <button
               type="button"
               onClick={saveAccomplishments}
-              className="px-3 py-1.5 bg-brand-primary text-white rounded text-xs hover:bg-brand-primary-hover font-semibold"
+              className="px-3 py-1.5 bg-brand-primary text-white rounded text-sm hover:bg-brand-primary-hover font-semibold"
             >
               Save Accomplishments
             </button>

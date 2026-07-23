@@ -2,6 +2,16 @@
   /* container styles are handled by PortalLayout wrapper */
 }
 
+.demoNotice {
+  margin: 0 0 1.25rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.625rem;
+  background: var(--color-surface);
+  color: var(--color-slate);
+  font-size: 0.875rem;
+}
+
 /* KPIs */
 .kpiGrid {
   display: grid;
@@ -78,7 +88,8 @@
   }
 }
 
-.leftCol, .rightCol {
+.leftCol,
+.rightCol {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -151,7 +162,8 @@
   color: var(--color-dark);
 }
 
-.companyText, .subText {
+.companyText,
+.subText {
   font-size: 0.75rem;
   color: var(--color-slate);
 }

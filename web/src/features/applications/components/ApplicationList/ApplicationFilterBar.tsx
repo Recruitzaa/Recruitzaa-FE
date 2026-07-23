@@ -31,7 +31,7 @@ export const ApplicationFilterBar: React.FC<ApplicationFilterBarProps> = ({
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search by company or job title..."
-          className="w-full text-xs p-2.5 border border-slate-200 dark:border-slate-700 dark:bg-slate-900 rounded outline-none focus:border-indigo-600 text-slate-900 dark:text-slate-100"
+          className="w-full text-sm p-2.5 border border-slate-200 dark:border-slate-700 dark:bg-slate-900 rounded outline-none focus:border-indigo-600 text-slate-900 dark:text-slate-100"
         />
       </div>
 
@@ -40,7 +40,7 @@ export const ApplicationFilterBar: React.FC<ApplicationFilterBarProps> = ({
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="w-full text-xs p-2.5 border border-slate-200 dark:border-slate-700 dark:bg-slate-900 rounded outline-none focus:border-indigo-600 text-slate-900 dark:text-slate-100"
+          className="w-full text-sm p-2.5 border border-slate-200 dark:border-slate-700 dark:bg-slate-900 rounded outline-none focus:border-indigo-600 text-slate-900 dark:text-slate-100"
         >
           {statuses.map((status) => (
             <option key={status.value} value={status.value}>

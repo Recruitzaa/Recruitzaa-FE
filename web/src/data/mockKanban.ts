@@ -8,6 +8,9 @@ export const MOCK_KANBAN_APPLICATIONS: ApplicationCard[] = [
     salaryEstimate: '₹28 – 38 LPA',
     updatedAt: 'Saved 2d ago',
     stage: 'APPLIED',
+    owner: 'Microsoft hiring team (illustrative)',
+    expectedResponse: 'No response window provided',
+    nextAction: 'Wait for employer review',
   },
   {
     id: 'a2',
@@ -16,6 +19,9 @@ export const MOCK_KANBAN_APPLICATIONS: ApplicationCard[] = [
     salaryEstimate: '₹24 – 32 LPA',
     updatedAt: 'Saved 4d ago',
     stage: 'APPLIED',
+    owner: 'Amazon hiring team (illustrative)',
+    expectedResponse: 'No response window provided',
+    nextAction: 'Wait for employer review',
   },
   {
     id: 'a3',
@@ -24,6 +30,9 @@ export const MOCK_KANBAN_APPLICATIONS: ApplicationCard[] = [
     salaryEstimate: '₹18 – 26 LPA',
     updatedAt: 'Submitted Jul 1',
     stage: 'SCREENING',
+    owner: 'Recruiting team (illustrative)',
+    expectedResponse: 'Within 5 business days (illustrative)',
+    nextAction: 'Keep your profile current',
   },
   {
     id: 'a4',
@@ -32,6 +41,9 @@ export const MOCK_KANBAN_APPLICATIONS: ApplicationCard[] = [
     salaryEstimate: '₹22 – 32 LPA',
     updatedAt: 'Call Scheduled Jul 14',
     stage: 'INTERVIEWING',
+    owner: 'Interview coordinator (illustrative)',
+    expectedResponse: 'After scheduled interview',
+    nextAction: 'Review interview details',
   },
   {
     id: 'a5',
@@ -40,6 +52,9 @@ export const MOCK_KANBAN_APPLICATIONS: ApplicationCard[] = [
     salaryEstimate: '₹20 – 30 LPA',
     updatedAt: 'Round 2 Jul 18',
     stage: 'INTERVIEWING',
+    owner: 'Interview panel (illustrative)',
+    expectedResponse: 'After round two',
+    nextAction: 'Prepare for round two',
   },
   {
     id: 'a6',
@@ -48,5 +63,8 @@ export const MOCK_KANBAN_APPLICATIONS: ApplicationCard[] = [
     salaryEstimate: '₹32 LPA Fixed',
     updatedAt: 'Deadline Jul 20',
     stage: 'OFFERED',
+    owner: 'Offer team (illustrative)',
+    expectedResponse: 'Candidate decision required',
+    nextAction: 'Review offer terms',
   },
 ];

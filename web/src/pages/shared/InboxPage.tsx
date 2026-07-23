@@ -66,7 +66,7 @@ export const InboxPage: React.FC = () => {
             <h1 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
               <MessageSquare className="text-[#c14f16]" size={20} /> Messaging Hub
             </h1>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
               Direct chat communications with hiring teams, candidate applicants, and FAANG mentors.
             </p>
           </div>
@@ -74,7 +74,7 @@ export const InboxPage: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-[#131924] shadow-sm overflow-hidden h-[600px]">
             {/* Left Thread Selection Column */}
             <div className="md:col-span-1 border-r border-slate-200 dark:border-slate-800 flex flex-col h-full overflow-y-auto">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider p-4 border-b border-slate-100 dark:border-slate-850">
+              <span className="text-sm font-bold text-slate-400 uppercase tracking-wider p-4 border-b border-slate-100 dark:border-slate-850">
                 Direct Messages
               </span>
               <div className="divide-y divide-slate-100 dark:divide-slate-850">
@@ -91,7 +91,7 @@ export const InboxPage: React.FC = () => {
                         <User size={14} />
                       </div>
                       <div>
-                        <span className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                        <span className="text-sm font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
                           {thread.name}
                           {thread.unread && (
                             <span className="w-1.5 h-1.5 bg-[#c14f16] rounded-full shrink-0" />
@@ -100,7 +100,7 @@ export const InboxPage: React.FC = () => {
                         <span className="text-[9px] text-slate-400 dark:text-slate-500 block mt-0.5">
                           {thread.role}
                         </span>
-                        <span className="text-[10px] text-slate-500 line-clamp-1 mt-1 block">
+                        <span className="text-sm text-slate-500 line-clamp-1 mt-1 block">
                           {thread.lastMessage}
                         </span>
                       </div>
@@ -115,7 +115,7 @@ export const InboxPage: React.FC = () => {
             <div className="md:col-span-2 flex flex-col h-full justify-between">
               {/* Header */}
               <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 shrink-0 bg-slate-50/30 dark:bg-slate-900/10">
-                <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+                <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                   {activeThread.name}
                 </span>
                 <span className="text-[9px] text-[#c14f16] font-bold block">
@@ -136,7 +136,7 @@ export const InboxPage: React.FC = () => {
                             : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-850 text-slate-800 dark:text-slate-100 rounded-bl-none shadow-sm'
                         }`}
                       >
-                        <p className="text-xs leading-relaxed">{msg.text}</p>
+                        <p className="text-sm leading-relaxed">{msg.text}</p>
                         <span
                           className={`text-[8px] block text-right ${isMe ? 'text-white/80' : 'text-slate-400 dark:text-slate-500'}`}
                         >
@@ -159,7 +159,7 @@ export const InboxPage: React.FC = () => {
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   placeholder={`Type a message to ${activeThread.name}...`}
-                  className="flex-1 border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-2 text-xs bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
+                  className="flex-1 border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
                 />
                 <button
                   type="submit"

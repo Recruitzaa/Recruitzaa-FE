@@ -41,12 +41,12 @@ export class ErrorBoundary extends Component<Props, State> {
               <h1 className="text-lg font-extrabold text-slate-900 dark:text-white">
                 Application Error
               </h1>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                 An unexpected error occurred while loading this workspace page view.
               </p>
             </div>
             <div className="bg-slate-50 dark:bg-slate-900 rounded-lg p-3 text-left overflow-x-auto max-h-40 border border-slate-100 dark:border-slate-800">
-              <code className="text-[10px] text-red-650 font-mono block break-all whitespace-pre-wrap">
+              <code className="text-sm text-red-650 font-mono block break-all whitespace-pre-wrap">
                 {this.state.error?.message || 'Unknown runtime error'}
               </code>
             </div>

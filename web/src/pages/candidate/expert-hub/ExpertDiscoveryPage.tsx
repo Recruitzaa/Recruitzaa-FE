@@ -22,13 +22,13 @@ export const ExpertDiscoveryPage: React.FC = () => {
           {/* Header Banner */}
           <div className="bg-orange-50/50 dark:bg-orange-950/10 border border-orange-200/40 dark:border-orange-900/30 rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-1">
-              <span className="inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider text-[#c14f16]">
+              <span className="inline-flex items-center gap-1 text-sm font-extrabold uppercase tracking-wider text-[#c14f16]">
                 <Sparkles size={10} /> Live 1-on-1 Mentorship
               </span>
               <h1 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
                 <GraduationCap className="text-[#c14f16]" size={20} /> Mentor & Tutor Discovery
               </h1>
-              <p className="text-xs text-slate-500 dark:text-slate-400 max-w-2xl">
+              <p className="text-sm text-slate-500 dark:text-slate-400 max-w-2xl">
                 Prepare for technical recruitment loops by booking Mock Interviews, Resume Reviews,
                 and Design Critiques from verified Big-Tech mentors.
               </p>

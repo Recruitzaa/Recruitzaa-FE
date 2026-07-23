@@ -13,10 +13,9 @@ export const Footer = () => {
           <div className={styles.brand}>
             <img src={logo} alt="Recruitzaa logo" width="140" height="36" />
             <p>
-              Recruitzaa is India's premier AI-powered recruitment and staffing platform, connecting
-              verified talent with global enterprise leaders.
+              Recruitzaa brings job discovery and structured hiring workflows into role-based
+              workspaces.
             </p>
-            <p className={styles.cities}>Bangalore · Hyderabad · Mumbai · Delhi NCR</p>
           </div>
 
           {(!isAuthenticated || appUser?.role !== 'EMPLOYER') && (
@@ -27,15 +26,21 @@ export const Footer = () => {
                   <Link to="/jobs">Browse Jobs</Link>
                 </li>
                 <li>
-                  <Link to={isAuthenticated ? '/candidate/ai-hub' : '/auth'}>
-                    ATS Resume Checker
+                  <Link to={isAuthenticated ? '/candidate/ai-hub' : '/register?intent=candidate'}>
+                    Resume Tools
                   </Link>
                 </li>
                 <li>
-                  <Link to="/candidate/pipeline">Application Tracker Board</Link>
+                  <Link to={isAuthenticated ? '/candidate/pipeline' : '/register?intent=candidate'}>
+                    Application Tracker
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/candidate/dashboard">Candidate Workspace</Link>
+                  <Link
+                    to={isAuthenticated ? '/candidate/dashboard' : '/register?intent=candidate'}
+                  >
+                    Candidate Workspace
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -46,7 +51,9 @@ export const Footer = () => {
               <div className={styles.heading}>For Employers</div>
               <ul className={styles.links}>
                 <li>
-                  <Link to={isAuthenticated ? '/employer/post-job' : '/auth'}>Post a Job</Link>
+                  <Link to={isAuthenticated ? '/employer/post-job' : '/register?intent=employer'}>
+                    Post a Job
+                  </Link>
                 </li>
                 <li>
                   <Link to="/#services">Staffing Solutions</Link>
@@ -55,7 +62,7 @@ export const Footer = () => {
                   <Link to="/#services">Executive Search</Link>
                 </li>
                 <li>
-                  <Link to={isAuthenticated ? '/employer/dashboard' : '/auth'}>
+                  <Link to={isAuthenticated ? '/employer/dashboard' : '/register?intent=employer'}>
                     Employer Portal
                   </Link>
                 </li>

@@ -94,7 +94,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
         <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto flex-1">
           {/* Service Tier selection */}
           <div className="space-y-2">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+            <label className="text-sm font-bold text-slate-400 uppercase tracking-wider block">
               Select Session Type
             </label>
             <select
@@ -104,7 +104,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
                   expert.serviceTiers.find((t) => t.id === e.target.value) || expert.serviceTiers[0]
                 )
               }
-              className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
+              className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
             >
               {expert.serviceTiers.map((tier) => (
                 <option key={tier.id} value={tier.id}>
@@ -119,7 +119,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
             <div className="space-y-2">
               <label
                 htmlFor="booking-date"
-                className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block"
+                className="text-sm font-bold text-slate-400 uppercase tracking-wider block"
               >
                 Date
               </label>
@@ -129,18 +129,18 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
                 required
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
+                className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+              <label className="text-sm font-bold text-slate-400 uppercase tracking-wider block">
                 Time Slot
               </label>
               <select
                 value={selectedTime}
                 onChange={(e) => setSelectedTime(e.target.value)}
                 required
-                className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
+                className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
               >
                 <option value="">Select slot</option>
                 {TIME_SLOTS.map((slot) => (
@@ -154,13 +154,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
 
           {/* Timezone */}
           <div className="space-y-2">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block flex items-center gap-1">
+            <label className="text-sm font-bold text-slate-400 uppercase tracking-wider block flex items-center gap-1">
               <Globe size={11} /> Timezone
             </label>
             <select
               value={timezone}
               onChange={(e) => setTimezone(e.target.value)}
-              className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
+              className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
             >
               {TIMEZONES.map((tz) => (
                 <option key={tz} value={tz}>
@@ -174,7 +174,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
           <div className="space-y-2">
             <label
               htmlFor="booking-brief"
-              className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block"
+              className="text-sm font-bold text-slate-400 uppercase tracking-wider block"
             >
               Pre-Session Brief <span className="text-[#c14f16]">*</span>
             </label>
@@ -185,7 +185,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
               value={brief}
               onChange={(e) => setBrief(e.target.value)}
               placeholder="What questions or goals do you want to cover during this mentorship session?"
-              className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] resize-none"
+              className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] resize-none"
             />
           </div>
 
@@ -194,13 +194,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-450 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg text-xs font-semibold transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-[#c14f16]"
+              className="px-4 py-2 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-450 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg text-sm font-semibold transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-[#c14f16]"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2 bg-[#c14f16] hover:bg-[#a94210] text-white rounded-lg text-xs font-bold transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-[#c14f16]"
+              className="px-5 py-2 bg-[#c14f16] hover:bg-[#a94210] text-white rounded-lg text-sm font-bold transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-[#c14f16]"
             >
               Confirm Booking
             </button>

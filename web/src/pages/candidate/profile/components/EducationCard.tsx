@@ -47,7 +47,7 @@ export const EducationCard = ({
       </div>
 
       {!isEditingEducation ? (
-        <div className="flex gap-4 items-start text-xs text-slate-700">
+        <div className="flex gap-4 items-start text-sm text-slate-700">
           <div className="p-3 bg-slate-50 text-brand-primary rounded-lg border shadow-sm">
             <GraduationCap size={24} />
           </div>
@@ -64,46 +64,46 @@ export const EducationCard = ({
         <div className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-slate-500 uppercase text-left w-full block">
+              <label className="text-sm font-bold text-slate-500 uppercase text-left w-full block">
                 Degree
               </label>
               <input
                 type="text"
                 value={educationForm.degree}
                 onChange={(e) => setEducationForm({ ...educationForm, degree: e.target.value })}
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary"
+                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary"
               />
             </div>
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-slate-500 uppercase text-left w-full block">
+              <label className="text-sm font-bold text-slate-500 uppercase text-left w-full block">
                 University / Board
               </label>
               <input
                 type="text"
                 value={educationForm.university}
                 onChange={(e) => setEducationForm({ ...educationForm, university: e.target.value })}
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary"
+                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary"
               />
             </div>
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-slate-500 uppercase text-left w-full block">
+              <label className="text-sm font-bold text-slate-500 uppercase text-left w-full block">
                 Duration (Years)
               </label>
               <input
                 type="text"
                 value={educationForm.duration}
                 onChange={(e) => setEducationForm({ ...educationForm, duration: e.target.value })}
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary"
+                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary"
               />
             </div>
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-slate-500 uppercase text-left w-full block">
+              <label className="text-sm font-bold text-slate-500 uppercase text-left w-full block">
                 Course Type
               </label>
               <select
                 value={educationForm.type}
                 onChange={(e) => setEducationForm({ ...educationForm, type: e.target.value })}
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary bg-white text-slate-800"
+                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
               >
                 <option>Full Time</option>
                 <option>Part Time</option>
@@ -116,14 +116,14 @@ export const EducationCard = ({
             <button
               type="button"
               onClick={() => setIsEditingEducation(false)}
-              className="px-3 py-1.5 border rounded text-xs hover:bg-slate-100 font-semibold"
+              className="px-3 py-1.5 border rounded text-sm hover:bg-slate-100 font-semibold"
             >
               Cancel
             </button>
             <button
               type="button"
               onClick={saveEducation}
-              className="px-3 py-1.5 bg-brand-primary text-white rounded text-xs hover:bg-brand-primary-hover font-semibold"
+              className="px-3 py-1.5 bg-brand-primary text-white rounded text-sm hover:bg-brand-primary-hover font-semibold"
             >
               Save Education
             </button>

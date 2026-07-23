@@ -1,173 +1,300 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Bookmark, Flag, Share2 } from 'lucide-react';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { PageTransition } from '../../components/layout/PageTransition';
 import { SEO } from '../../components/seo/SEO';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { addApplication } from '../../store/slices/kanbanSlice';
+import { useAppSelector } from '../../store/hooks';
+import { useJobPreferences } from '../../features/jobs/hooks/useJobPreferences';
 import { useToast } from '../../hooks/useToast';
 import styles from './JobDetailPage.module.css';
-
-const jobSchema = {
-  '@context': 'https://schema.org/',
-  '@type': 'JobPosting',
-  title: 'Senior React Native Engineer',
-  description:
-    'We are seeking a highly skilled Senior React Native Engineer to lead the mobile app development of our flagship enterprise platform. You will work on building scalable applications and ensuring optimal performance.',
-  identifier: {
-    '@type': 'PropertyValue',
-    name: 'Infosys Limited',
-    value: 'JOB-12345',
-  },
-  datePosted: '2026-07-10',
-  validThrough: '2026-09-10',
-  employmentType: 'FULL_TIME',
-  hiringOrganization: {
-    '@type': 'Organization',
-    name: 'Infosys Limited',
-    sameAs: 'https://www.infosys.com',
-    logo: 'https://recruitzaa.com/logo.png',
-  },
-  jobLocation: {
-    '@type': 'Place',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Bangalore',
-      addressRegion: 'KA',
-      addressCountry: 'IN',
-    },
-  },
-  baseSalary: {
-    '@type': 'MonetaryAmount',
-    currency: 'INR',
-    value: {
-      '@type': 'QuantitativeValue',
-      minValue: 1800000,
-      maxValue: 2600000,
-      unitText: 'YEAR',
-    },
-  },
-};
+import { trackEvent } from '../../services/analytics.service';
 
 export const JobDetailPage = () => {
-  const dispatch = useAppDispatch();
+  const { id } = useParams();
+  const navigate = useNavigate();
   const toast = useToast();
   const location = useLocation();
-  const applications = useAppSelector((state) => state.kanban.applications);
-
+  const job = useAppSelector((state) => state.jobs.jobsList.find((item) => item.id === id));
+  const { isAuthenticated, appUser } = useAppSelector((state) => state.auth);
+  const profile = useAppSelector((state) => state.profile);
+  const { savedJobIds, toggleSavedJob } = useJobPreferences();
+  const [reportOpen, setReportOpen] = useState(false);
   const isPortalView = location.pathname.startsWith('/candidate');
   const backLink = isPortalView ? '/candidate/jobs' : '/jobs';
-  const isApplied = applications.some((app) => app.id === 'rj1');
 
-  const handleApply = () => {
-    dispatch(
-      addApplication({
-        id: 'rj1',
-        companyName: 'Infosys Limited',
-        jobTitle: 'Senior React Native Engineer',
-        salaryEstimate: '₹18 – 26 LPA',
-      })
+  useEffect(() => {
+    if (job) trackEvent('job_detail_viewed', { jobId: job.id, authenticated: isAuthenticated });
+  }, [job, isAuthenticated]);
+
+  if (!job) {
+    return (
+      <PageTransition>
+        <SEO
+          title="Job not found | Recruitzaa"
+          description="This job listing is no longer available."
+        />
+        <section className={styles.notFound}>
+          <p className={styles.eyebrow}>Listing unavailable</p>
+          <h1>This job could not be found</h1>
+          <p>It may have closed or the link may be incorrect.</p>
+          <Link to={backLink}>Browse available jobs</Link>
+        </section>
+      </PageTransition>
     );
-    toast.success('Successfully applied to Infosys Limited!');
+  }
+
+  const applicationId = `job-${job.id}`;
+  const displayLocation = job.location.replace(/\s*\([^)]*\)\s*$/, '');
+  const isCandidate = appUser?.activeRole === 'CANDIDATE' || appUser?.role === 'CANDIDATE';
+  const nextPath = `/jobs/${job.id}`;
+  const isSaved = savedJobIds.includes(job.id);
+  const profileSkills = profile.skills.map((skill) => skill.toLowerCase());
+  const recognizedSkills = job.tags.filter((tag) =>
+    profileSkills.some(
+      (skill) => tag.toLowerCase().includes(skill) || skill.includes(tag.toLowerCase())
+    )
+  );
+  const hasProfileData = profile.skills.length >= 3;
+  const skillScore = job.tags.length
+    ? Math.round((recognizedSkills.length / job.tags.length) * 100)
+    : 0;
+  const locationMatch = profile.careerProfile.desiredLocations.some((item) =>
+    displayLocation.toLowerCase().includes(item.toLowerCase())
+  );
+
+  const handleSave = () => {
+    if (!isAuthenticated) {
+      navigate(`/login?next=${encodeURIComponent(nextPath)}`);
+      return;
+    }
+    toggleSavedJob(job.id);
+    toast.info(isSaved ? 'Removed from saved jobs.' : 'Saved in this browser.');
+  };
+  const handleShare = async () => {
+    const shareData = {
+      title: `${job.title} at ${job.company}`,
+      text: `${job.title} at ${job.company}`,
+      url: window.location.href,
+    };
+    try {
+      if (navigator.share) await navigator.share(shareData);
+      else {
+        await navigator.clipboard.writeText(window.location.href);
+        toast.success('Job link copied.');
+      }
+    } catch (error) {
+      if (error instanceof Error && error.name !== 'AbortError')
+        toast.error('The job link could not be shared.');
+    }
+  };
+  const jobSchema = {
+    '@context': 'https://schema.org/',
+    '@type': 'JobPosting',
+    title: job.title,
+    description: `${job.title} at ${job.company}. Skills include ${job.tags.join(', ')}.`,
+    identifier: { '@type': 'PropertyValue', name: job.company, value: applicationId },
+    employmentType: job.type.toUpperCase().replace('-', '_'),
+    hiringOrganization: { '@type': 'Organization', name: job.company },
+    jobLocation: {
+      '@type': 'Place',
+      address: { '@type': 'PostalAddress', addressLocality: displayLocation },
+    },
   };
 
   return (
     <PageTransition>
       <SEO
-        title="Senior React Native Engineer | Infosys | Recruitzaa"
-        description="Apply for Senior React Native Engineer at Infosys Limited in Bangalore. Salary ₹18L - ₹26L. Precision AI candidate matching."
+        title={`${job.title} | ${job.company} | Recruitzaa`}
+        description={`View ${job.title} at ${job.company} in ${displayLocation}.`}
         type="job"
         schema={jobSchema}
       />
       <div className={styles.page}>
-        <div className={styles.breadcrumb}>
+        <nav className={styles.breadcrumb} aria-label="Breadcrumb">
           <div className={styles.container}>
-            <Link to={backLink}>Back to Job Listings</Link>
+            <Link to={backLink}>← Back to job listings</Link>
           </div>
-        </div>
-
-        <section className={styles.header}>
+        </nav>
+        <header className={styles.header}>
           <div className={styles.container}>
-            <h1>Senior React Native Engineer</h1>
-            <p>Infosys Limited · Bangalore, KA (Hybrid) · Posted 2 hours ago</p>
+            <p className={styles.eyebrow}>Demo catalogue listing</p>
+            <h1>{job.title}</h1>
+            <p>
+              {job.company} · {displayLocation} · {job.type} · Posted {job.postedAt}
+            </p>
+            <div className={styles.headerActions}>
+              <button type="button" onClick={handleSave} aria-pressed={isSaved}>
+                <Bookmark size={18} fill={isSaved ? 'currentColor' : 'none'} aria-hidden="true" />
+                {isSaved ? 'Saved' : 'Save job'}
+              </button>
+              <button type="button" onClick={handleShare}>
+                <Share2 size={18} aria-hidden="true" />
+                Share
+              </button>
+              <button
+                type="button"
+                onClick={() => setReportOpen((open) => !open)}
+                aria-expanded={reportOpen}
+              >
+                <Flag size={18} aria-hidden="true" />
+                Report
+              </button>
+            </div>
+            {reportOpen && (
+              <div className={styles.reportPanel} role="status">
+                <strong>Report a listing concern</strong>
+                <p>
+                  The production moderation endpoint is not connected. Email{' '}
+                  <a
+                    href={`mailto:support@recruitzaa.com?subject=${encodeURIComponent(`Job listing concern: ${job.title} (${job.id})`)}`}
+                  >
+                    support@recruitzaa.com
+                  </a>{' '}
+                  with the listing ID and concern.
+                </p>
+              </div>
+            )}
           </div>
-        </section>
+        </header>
 
         <div className={styles.container}>
           <div className={styles.layout}>
-            <main className={styles.content}>
-              <section className={styles.card}>
-                <h2>About the Role</h2>
+            <div className={styles.content}>
+              <section className={styles.card} aria-labelledby="role-heading">
+                <h2 id="role-heading">About the role</h2>
                 <p>
-                  We are seeking a highly skilled and experienced Senior React Native Engineer to
-                  join our mobile development team. You will be responsible for architecting and
-                  building high-performance, scalable mobile applications for both iOS and Android
-                  platforms.
+                  {job.description ??
+                    `${job.company} is looking for a ${job.title}. Review the skills and workplace information below before continuing.`}
                 </p>
-
-                <h2>Key Responsibilities</h2>
+                <h2>What you’ll work with</h2>
                 <ul>
-                  <li>
-                    Design, build, and maintain high-performance, reusable, and reliable React
-                    Native code.
-                  </li>
-                  <li>Collaborate with cross-functional teams to define and ship new features.</li>
-                  <li>Identify and resolve bottlenecks, bugs, and performance issues.</li>
-                  <li>Mentor junior developers and participate in code reviews.</li>
-                  <li>Integrate with RESTful APIs and backend services.</li>
+                  {job.tags.map((tag) => (
+                    <li key={tag}>{tag}</li>
+                  ))}
                 </ul>
-
-                <h2>Requirements</h2>
+                <h2>Application requirements</h2>
                 <ul>
-                  <li>5+ years of professional software development experience.</li>
-                  <li>3+ years of hands-on experience with React Native and TypeScript.</li>
-                  <li>Deep understanding of mobile architecture and performance profiling.</li>
-                  <li>Experience with Redux Toolkit or TanStack Query.</li>
-                  <li>Familiarity with native build tools (XCode, Gradle).</li>
+                  {(job.requirements?.length
+                    ? job.requirements
+                    : [
+                        'A current candidate profile',
+                        'A resume or work history',
+                        'Employer-specific screening answers when the production service is connected',
+                      ]
+                  ).map((requirement) => (
+                    <li key={requirement}>{requirement}</li>
+                  ))}
                 </ul>
+                <h2>Listing source</h2>
+                <p>
+                  <strong>{job.source ?? 'Source unavailable'}</strong>
+                  <br />
+                  {job.verifiedAt ?? 'Verification timestamp unavailable'}. This role is
+                  illustrative and is not represented as a direct employer posting.
+                </p>
+                <h2>Before you apply</h2>
+                <p>
+                  Employer-authored responsibilities, qualifications, benefits, and closing dates
+                  must come from the production jobs service. They are intentionally not invented in
+                  this demo listing.
+                </p>
               </section>
-            </main>
+            </div>
 
-            <aside className={styles.sidebar}>
+            <aside className={styles.sidebar} aria-label="Job summary">
               <section className={styles.card}>
-                <div className={styles.score}>
-                  <div className={styles.circle}>94%</div>
-                  <div>
-                    <strong>Great AI Match</strong>
-                    <p>Based on your profile skills</p>
+                {isAuthenticated && isCandidate && hasProfileData ? (
+                  <div className={styles.matchSection}>
+                    <div className={styles.score}>
+                      <div className={styles.circle}>{skillScore}%</div>
+                      <div>
+                        <strong>Keyword overlap</strong>
+                        <p>Calculated from demo profile skills</p>
+                      </div>
+                    </div>
+                    <dl className={styles.matchFactors}>
+                      <div>
+                        <dt>Skills found</dt>
+                        <dd>
+                          {recognizedSkills.length} of {job.tags.length}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>Preferred location</dt>
+                        <dd>{locationMatch ? 'Aligned' : 'Not aligned'}</dd>
+                      </div>
+                      <div>
+                        <dt>Work mode</dt>
+                        <dd>{job.type}</dd>
+                      </div>
+                    </dl>
+                    <p className={styles.matchDisclosure}>
+                      This deterministic comparison assists discovery only. It does not assess
+                      candidate quality or make hiring decisions. Update stale data in{' '}
+                      <Link to="/candidate/profile">your profile</Link>.
+                    </p>
                   </div>
-                </div>
-
+                ) : isAuthenticated && isCandidate ? (
+                  <div className={styles.signInNotice}>
+                    <strong>Complete your profile for a comparison</strong>
+                    <p>
+                      Add at least three skills before Recruitzaa compares this role with your
+                      profile.
+                    </p>
+                    <Link to="/candidate/profile">Complete profile</Link>
+                  </div>
+                ) : (
+                  <div className={styles.signInNotice}>
+                    <strong>See your profile match</strong>
+                    <p>Sign in as a candidate to view profile-based tools.</p>
+                  </div>
+                )}
                 <div className={styles.fact}>
                   <strong>Salary</strong>
-                  <span>₹18,00,000 - ₹26,00,000</span>
+                  <span>{job.salary}</span>
                 </div>
                 <div className={styles.fact}>
-                  <strong>Job Type</strong>
-                  <span>Full-Time Permanent</span>
+                  <strong>Workplace</strong>
+                  <span>{job.type}</span>
                 </div>
                 <div className={styles.fact}>
                   <strong>Location</strong>
-                  <span>Bangalore, Karnataka</span>
+                  <span>{displayLocation}</span>
                 </div>
-
                 <div className={styles.tags}>
-                  <Badge>React Native</Badge>
-                  <Badge>TypeScript</Badge>
-                  <Badge>Redux Toolkit</Badge>
-                  <Badge>GraphQL</Badge>
-                  <Badge>Jest</Badge>
+                  {job.tags.map((tag) => (
+                    <Badge key={tag}>{tag}</Badge>
+                  ))}
                 </div>
-
-                <div className="mt-6 border-t border-slate-200 dark:border-slate-800 pt-6">
-                  <Button
-                    variant="primary"
-                    className="w-full py-3 px-4 text-sm font-bold"
-                    onClick={handleApply}
-                    disabled={isApplied}
-                  >
-                    {isApplied ? 'Applied' : 'Apply Now'}
-                  </Button>
+                <div className={styles.applyArea}>
+                  {!isAuthenticated ? (
+                    <Link
+                      className={styles.applyLink}
+                      to={`/login?next=${encodeURIComponent(nextPath)}`}
+                    >
+                      Sign in to continue
+                    </Link>
+                  ) : !isCandidate ? (
+                    <p className={styles.serviceNotice}>
+                      Switch to a candidate workspace to apply.
+                    </p>
+                  ) : (
+                    <>
+                      <Button
+                        variant="primary"
+                        className="w-full py-3 px-4 text-sm font-bold"
+                        disabled
+                      >
+                        Applications unavailable in demo
+                      </Button>
+                      <p className={styles.serviceNotice}>
+                        No application has been submitted. Connect the production application API to
+                        enable this action.
+                      </p>
+                    </>
+                  )}
                 </div>
               </section>
             </aside>

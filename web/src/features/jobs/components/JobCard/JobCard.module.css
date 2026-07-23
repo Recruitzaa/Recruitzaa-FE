@@ -71,6 +71,58 @@
   white-space: nowrap;
 }
 
+.matchLink {
+  color: var(--color-primary-contrast);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.saveButton {
+  display: inline-flex;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-slate);
+  transition:
+    background var(--transition),
+    color var(--transition),
+    border-color var(--transition);
+}
+
+.saveButton[aria-pressed='true'] {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+@media (max-width: 640px) {
+  .topRow {
+    flex-wrap: wrap;
+  }
+
+  .mainInfo {
+    min-width: calc(100% - 64px);
+  }
+
+  .matchPill,
+  .matchLink {
+    margin-left: 64px;
+  }
+
+  .actions,
+  .actions a,
+  .actionBtn {
+    width: 100%;
+  }
+}
+
 .tagsRow {
   display: flex;
   gap: 0.5rem;
@@ -113,7 +165,51 @@
   color: var(--color-slate-muted);
 }
 
+.source {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--color-slate);
+  font-size: 0.75rem;
+}
+
 .actions {
   display: flex;
   gap: 0.5rem;
+}
+
+.actionBtn {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 0.8rem;
+  border-radius: var(--radius);
+  font-size: 0.78rem;
+  font-weight: 700;
+  transition:
+    background var(--transition),
+    color var(--transition),
+    border-color var(--transition);
+}
+
+.outlineAction {
+  border: 1px solid var(--color-border);
+  color: var(--color-dark);
+}
+.outlineAction:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary-contrast);
+}
+
+/* View details repeats once per card in the list, so it stays as an outlined
+   accent button rather than a solid fill — the solid brand button is reserved
+   for single-instance primary CTAs elsewhere on the page (search, hero, nav). */
+.primaryAction {
+  border: 1.5px solid var(--color-primary);
+  background: var(--color-white);
+  color: var(--color-primary);
+}
+.primaryAction:hover {
+  background: var(--color-primary);
+  color: #fff;
 }

@@ -16,7 +16,7 @@ export const ActiveAllocationCard: React.FC = () => {
             <Briefcase size={16} className="text-[#c14f16]" aria-hidden="true" /> Active Project
             Allocation
           </h2>
-          <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
+          <p className="text-sm text-slate-400 dark:text-slate-500 mt-0.5">
             Your current enterprise resource allocation status and reporting line.
           </p>
         </div>
@@ -33,7 +33,7 @@ export const ActiveAllocationCard: React.FC = () => {
               <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">
                 Project Name
               </span>
-              <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+              <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
                 Telecomm-Core-Stream
               </span>
             </div>
@@ -50,7 +50,7 @@ export const ActiveAllocationCard: React.FC = () => {
               <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">
                 Role
               </span>
-              <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+              <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
                 Software Engineer
               </span>
             </div>
@@ -67,7 +67,7 @@ export const ActiveAllocationCard: React.FC = () => {
               <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">
                 Reporting Manager
               </span>
-              <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+              <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
                 Sarah Jenkins (Engineering VP)
               </span>
             </div>
@@ -84,7 +84,7 @@ export const ActiveAllocationCard: React.FC = () => {
               <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">
                 Current Shift
               </span>
-              <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+              <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
                 Afternoon/Night Shift
               </span>
             </div>

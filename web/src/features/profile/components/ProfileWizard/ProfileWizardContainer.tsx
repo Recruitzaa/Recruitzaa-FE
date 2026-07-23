@@ -10,11 +10,13 @@ import { ExperienceStep } from './steps/ExperienceStep';
 import { SkillsStep } from './steps/SkillsStep';
 import { PreferencesStep } from './steps/PreferencesStep';
 import { ResumeUploadStep } from './steps/ResumeUploadStep';
+import { useToast } from '../../../../hooks/useToast';
 
 /**
  * ProfileWizardContainer — Coordinates step navigation, local form state, and mutation saves.
  */
 export const ProfileWizardContainer: React.FC = () => {
+  const toast = useToast();
   const [step, setStep] = useState(1);
   const {
     formData,
@@ -34,7 +36,7 @@ export const ProfileWizardContainer: React.FC = () => {
       if (step < 6) {
         setStep((prev) => prev + 1);
       } else {
-        alert('Profile onboarding completed successfully!');
+        toast.success('Profile saved successfully.');
       }
     } catch (err) {
       console.error('Failed to save profile:', err);
@@ -60,7 +62,7 @@ export const ProfileWizardContainer: React.FC = () => {
     <Card className="max-w-xl mx-auto p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-lg rounded-xl">
       {/* Progress Tracker */}
       <div className="mb-6 text-slate-900 dark:text-slate-100">
-        <div className="flex justify-between items-center text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase mb-2">
+        <div className="flex justify-between items-center text-sm font-bold text-slate-400 dark:text-slate-500 uppercase mb-2">
           <span>Profile Onboarding Wizard</span>
           <span>Step {step} of 6</span>
         </div>
@@ -104,14 +106,14 @@ export const ProfileWizardContainer: React.FC = () => {
           onClick={handleBack}
           disabled={step === 1 || isSaving}
           variant="outline"
-          className="text-xs py-2 px-4 rounded border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-semibold"
+          className="text-sm py-2 px-4 rounded border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-semibold"
         >
           Previous
         </Button>
         <Button
           onClick={handleNext}
           disabled={isSaving}
-          className="bg-indigo-600 hover:bg-indigo-750 text-white font-semibold text-xs py-2 px-5 rounded"
+          className="bg-indigo-600 hover:bg-indigo-750 text-white font-semibold text-sm py-2 px-5 rounded"
         >
           {isSaving ? 'Saving...' : step === 6 ? 'Submit Profile' : 'Save & Next'}
         </Button>

@@ -8,6 +8,7 @@ import { updateJobStatus, deleteJob } from '../../store/slices/jobsSlice';
 import { useToast } from '../../hooks/useToast';
 import { useState } from 'react';
 import styles from './MyJobsPage.module.css';
+import { ConfirmDialog } from '../../components/ui/ConfirmDialog/ConfirmDialog';
 
 export const MyJobsPage = () => {
   const dispatch = useAppDispatch();
@@ -15,6 +16,7 @@ export const MyJobsPage = () => {
   const { jobsList } = useAppSelector((state) => state.jobs);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All Statuses');
+  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
 
   const handleStatusChange = (id: string, currentStatus: 'Active' | 'Draft' | 'Closed') => {
     const nextStatus = currentStatus === 'Active' ? 'Closed' : 'Active';
@@ -23,10 +25,14 @@ export const MyJobsPage = () => {
   };
 
   const handleDelete = (id: string) => {
-    if (window.confirm('Are you sure you want to delete this listing?')) {
-      dispatch(deleteJob(id));
-      toast.info('Job listing deleted.');
-    }
+    setPendingDeleteId(id);
+  };
+
+  const confirmDelete = () => {
+    if (!pendingDeleteId) return;
+    dispatch(deleteJob(pendingDeleteId));
+    setPendingDeleteId(null);
+    toast.info('Job listing deleted from this demo workspace.');
   };
 
   // Filter listings based on search and status
@@ -87,7 +93,7 @@ export const MyJobsPage = () => {
             <tbody>
               {filteredJobs.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="text-center py-6 text-slate-500 text-xs">
+                  <td colSpan={5} className="text-center py-6 text-slate-500 text-sm">
                     No active job listings found matching your search.
                   </td>
                 </tr>
@@ -118,11 +124,7 @@ export const MyJobsPage = () => {
                       </Badge>
                     </td>
                     <td>
-                      <span className={styles.highlightText}>
-                        {job.status === 'Active'
-                          ? `${Math.floor(job.matchScore / 2)} candidates`
-                          : '0 candidates'}
-                      </span>
+                      <span className={styles.highlightText}>Not connected</span>
                     </td>
                     <td>
                       <span className={styles.subText}>{job.postedAt}</span>
@@ -148,6 +150,15 @@ export const MyJobsPage = () => {
           </table>
         </div>
       </Card>
+      <ConfirmDialog
+        isOpen={pendingDeleteId !== null}
+        title="Delete this listing?"
+        message="This removes the listing from this browser's demo workspace. This action cannot be undone."
+        confirmLabel="Delete listing"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={() => setPendingDeleteId(null)}
+      />
     </div>
   );
 };

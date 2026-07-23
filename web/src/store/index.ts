@@ -14,7 +14,7 @@ const loadKanbanState = () => {
     const serializedState = localStorage.getItem('kanban_state');
     if (serializedState === null) return undefined;
     return JSON.parse(serializedState);
-  } catch (err) {
+  } catch {
     return undefined;
   }
 };

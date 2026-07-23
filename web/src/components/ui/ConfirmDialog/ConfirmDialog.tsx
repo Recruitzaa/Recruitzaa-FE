@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useId, useRef } from 'react';
 import styles from './ConfirmDialog.module.css';
 import { AlertTriangle } from 'lucide-react';
 
@@ -24,12 +24,16 @@ export const ConfirmDialog = ({
   onCancel,
 }: ConfirmDialogProps) => {
   const dialogRef = useRef<HTMLDivElement>(null);
+  const titleId = useId();
+  const messageId = useId();
   const previouslyFocusedRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (!isOpen) return;
 
     previouslyFocusedRef.current = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     const dialog = dialogRef.current;
     const focusable = dialog?.querySelectorAll<HTMLElement>(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
@@ -72,6 +76,7 @@ export const ConfirmDialog = ({
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = previousOverflow;
       previouslyFocusedRef.current?.focus();
     };
   }, [isOpen, onCancel]);
@@ -86,13 +91,19 @@ export const ConfirmDialog = ({
         onClick={(e) => e.stopPropagation()}
         role="alertdialog"
         aria-modal="true"
+        aria-labelledby={titleId}
+        aria-describedby={messageId}
         tabIndex={-1}
       >
         <div className={`${styles.iconWrap} ${styles[variant]}`}>
           <AlertTriangle size={24} />
         </div>
-        <h3 className={styles.title}>{title}</h3>
-        <p className={styles.message}>{message}</p>
+        <h3 id={titleId} className={styles.title}>
+          {title}
+        </h3>
+        <p id={messageId} className={styles.message}>
+          {message}
+        </p>
         <div className={styles.actions}>
           <button type="button" className={styles.cancel} onClick={onCancel}>
             {cancelLabel}

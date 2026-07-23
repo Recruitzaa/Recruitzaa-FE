@@ -24,16 +24,33 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Editor/System files
+# Editor, OS & Workspace files
 .vscode/
 !.vscode/extensions.json
 .idea/
 .DS_Store
+._*
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+*.swp
+*.swo
+*.tmp
+*.bak
+*.code-workspace
+.eslintcache
+*.tsbuildinfo
+
+# Duplicate files from OS/copy operations
+* 2.*
+* 3.*
+* 4.*
+* 5.*
+
+# Helper/scratch scripts
+web/check-numbered-duplicates.mjs
 
 # Graphify indexes
 graphify-out/
@@ -41,4 +58,5 @@ graphify-out/
 # Test coverage reports
 coverage/
 web/coverage/
+
 

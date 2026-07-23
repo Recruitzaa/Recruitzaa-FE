@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useRef } from 'react';
-import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { ToastContainer } from './components/ui/Toast/ToastContainer';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
@@ -18,12 +18,15 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 
 // Loading Fallback Component
 const LoadingSpinner = () => (
-  <div className="flex h-screen w-screen flex-col items-center justify-center bg-slate-50 dark:bg-slate-950">
+  <main
+    className="flex h-screen w-screen flex-col items-center justify-center bg-slate-50 dark:bg-slate-950"
+    aria-label="Loading Recruitzaa"
+  >
     <div className="flex flex-col items-center gap-4">
       <Spinner className="w-12 h-12 text-[#c14f16] border-4 border-[#c14f16] border-t-transparent rounded-full animate-spin" />
-      <p className="text-xs font-semibold text-slate-500">Loading Recruitzaa...</p>
+      <p className="text-sm font-semibold text-slate-500">Loading Recruitzaa...</p>
     </div>
-  </div>
+  </main>
 );
 
 // Lazy Loaded Pages
@@ -59,6 +62,9 @@ const DashboardPage = React.lazy(() =>
 const ApplicationsPage = React.lazy(() =>
   import('./pages/candidate/ApplicationsPage').then((m) => ({ default: m.ApplicationsPage }))
 );
+const SavedJobsPage = React.lazy(() =>
+  import('./pages/candidate/SavedJobsPage').then((m) => ({ default: m.SavedJobsPage }))
+);
 const KanbanPage = React.lazy(() =>
   import('./pages/candidate/KanbanPage').then((m) => ({ default: m.KanbanPage }))
 );
@@ -85,12 +91,6 @@ const PostJobPage = React.lazy(() =>
 const MyJobsPage = React.lazy(() =>
   import('./pages/employer/MyJobsPage').then((m) => ({ default: m.MyJobsPage }))
 );
-const CandidatesPage = React.lazy(() =>
-  import('./pages/employer/CandidatesPage').then((m) => ({ default: m.CandidatesPage }))
-);
-const AnalyticsPage = React.lazy(() =>
-  import('./pages/employer/AnalyticsPage').then((m) => ({ default: m.AnalyticsPage }))
-);
 const EmployerProfilePage = React.lazy(() =>
   import('./pages/employer/EmployerProfilePage').then((m) => ({ default: m.EmployerProfilePage }))
 );
@@ -109,13 +109,15 @@ const EmployeeDashboardPage = React.lazy(() =>
     default: m.EmployeeDashboardPage,
   }))
 );
+const FeatureUnavailablePage = React.lazy(() =>
+  import('./pages/shared/FeatureUnavailablePage').then((m) => ({
+    default: m.FeatureUnavailablePage,
+  }))
+);
 const SuperAdminDashboardPage = React.lazy(() =>
   import('./pages/admin/dashboard/SuperAdminDashboardPage').then((m) => ({
     default: m.SuperAdminDashboardPage,
   }))
-);
-const InboxPage = React.lazy(() =>
-  import('./pages/shared/InboxPage').then((m) => ({ default: m.InboxPage }))
 );
 const JobApprovalsPage = React.lazy(() =>
   import('./pages/admin/JobApprovalsPage').then((m) => ({ default: m.JobApprovalsPage }))
@@ -162,12 +164,13 @@ const FocusOnRouteChange = () => {
 };
 
 function App() {
+  const Router = import.meta.env.VITE_ROUTER_MODE === 'browser' ? BrowserRouter : HashRouter;
   return (
     <ErrorBoundary>
       <HelmetProvider>
         <Provider store={store}>
           <QueryClientProvider client={queryClient}>
-            <HashRouter>
+            <Router>
               <FocusOnRouteChange />
               <Suspense fallback={<LoadingSpinner />}>
                 <Routes>
@@ -183,6 +186,8 @@ function App() {
 
                   {/* ── AUTH ── */}
                   <Route path="/auth" element={<AuthPage />} />
+                  <Route path="/login" element={<AuthPage />} />
+                  <Route path="/register" element={<AuthPage />} />
 
                   {/* ── ENTERPRISE LAUNCHPAD ── */}
                   <Route
@@ -222,6 +227,7 @@ function App() {
                         <Route path="/candidate/applications" element={<ApplicationsPage />} />
                         <Route path="/candidate/pipeline" element={<KanbanPage />} />
                         <Route path="/candidate/profile" element={<ProfilePage />} />
+                        <Route path="/candidate/saved" element={<SavedJobsPage />} />
                         <Route path="/candidate/expert-hub" element={<ExpertDiscoveryPage />} />
                       </Route>
                     </Route>
@@ -232,7 +238,16 @@ function App() {
                         <Route path="/candidate/jobs" element={<JobListingsPage />} />
                         <Route path="/candidate/jobs/:id" element={<JobDetailPage />} />
                         <Route path="/candidate/ai-hub" element={<AIHubPage />} />
-                        <Route path="/candidate/inbox" element={<InboxPage />} />
+                        <Route
+                          path="/candidate/inbox"
+                          element={
+                            <FeatureUnavailablePage
+                              title="Candidate messages"
+                              description="Employer messaging requires a production application record, delivery service, moderation controls, and notification preferences. This demo does not simulate messages."
+                              backTo="/candidate/dashboard"
+                            />
+                          }
+                        />
                       </Route>
                     </Route>
 
@@ -244,7 +259,16 @@ function App() {
                           path="/expert/calendar-settings"
                           element={<CalendarSettingsPage />}
                         />
-                        <Route path="/expert/inbox" element={<InboxPage />} />
+                        <Route
+                          path="/expert/inbox"
+                          element={
+                            <FeatureUnavailablePage
+                              title="Expert messages"
+                              description="Expert messaging is not connected to a production delivery and moderation service."
+                              backTo="/expert/dashboard"
+                            />
+                          }
+                        />
                       </Route>
                     </Route>
 
@@ -252,11 +276,36 @@ function App() {
                     <Route element={<RoleGuard allowedRoles={['EMPLOYEE']} />}>
                       <Route element={<DashboardLayout />}>
                         <Route path="/employee/dashboard" element={<EmployeeDashboardPage />} />
-                        {/* TODO: Replace with dedicated TimesheetsPage component */}
-                        <Route path="/employee/timesheets" element={<EmployeeDashboardPage />} />
-                        {/* TODO: Replace with dedicated PayrollPage component */}
-                        <Route path="/employee/payroll" element={<EmployeeDashboardPage />} />
-                        <Route path="/employee/inbox" element={<InboxPage />} />
+                        <Route
+                          path="/employee/timesheets"
+                          element={
+                            <FeatureUnavailablePage
+                              title="Timesheets and leave"
+                              description="This workflow is not connected to a production time-tracking service. No hours or leave requests can be submitted from this demo."
+                              backTo="/employee/dashboard"
+                            />
+                          }
+                        />
+                        <Route
+                          path="/employee/payroll"
+                          element={
+                            <FeatureUnavailablePage
+                              title="Payroll and tax"
+                              description="Payroll data requires a secured production integration and jurisdictional review. This demo does not display or process payroll information."
+                              backTo="/employee/dashboard"
+                            />
+                          }
+                        />
+                        <Route
+                          path="/employee/inbox"
+                          element={
+                            <FeatureUnavailablePage
+                              title="Employee messages"
+                              description="Employee messaging is not connected to a production delivery and access-control service."
+                              backTo="/employee/dashboard"
+                            />
+                          }
+                        />
                       </Route>
                     </Route>
 
@@ -266,10 +315,37 @@ function App() {
                         <Route path="/employer/dashboard" element={<EmployerDashboardPage />} />
                         <Route path="/employer/post-job" element={<PostJobPage />} />
                         <Route path="/employer/my-jobs" element={<MyJobsPage />} />
-                        <Route path="/employer/candidates" element={<CandidatesPage />} />
-                        <Route path="/employer/analytics" element={<AnalyticsPage />} />
+                        <Route
+                          path="/employer/candidates"
+                          element={
+                            <FeatureUnavailablePage
+                              title="Candidate pipeline"
+                              description="Applicant review requires the production applications API, resource ownership checks, structured scorecards, fairness controls, and an audit log. No candidate records or AI rankings are fabricated in this demo."
+                              backTo="/employer/dashboard"
+                            />
+                          }
+                        />
+                        <Route
+                          path="/employer/analytics"
+                          element={
+                            <FeatureUnavailablePage
+                              title="Hiring analytics"
+                              description="Hiring metrics require verified production events and a documented methodology. This demo does not manufacture application or conversion totals."
+                              backTo="/employer/dashboard"
+                            />
+                          }
+                        />
                         <Route path="/employer/profile" element={<EmployerProfilePage />} />
-                        <Route path="/employer/inbox" element={<InboxPage />} />
+                        <Route
+                          path="/employer/inbox"
+                          element={
+                            <FeatureUnavailablePage
+                              title="Employer messages"
+                              description="Candidate communication requires a production application record, access controls, delivery tracking, moderation, and retention policies."
+                              backTo="/employer/dashboard"
+                            />
+                          }
+                        />
                       </Route>
                     </Route>
                   </Route>
@@ -291,7 +367,7 @@ function App() {
                 </Routes>
               </Suspense>
               <ToastContainer />
-            </HashRouter>
+            </Router>
           </QueryClientProvider>
         </Provider>
       </HelmetProvider>

@@ -14,8 +14,9 @@ export const KanbanPage = () => {
         <h1 className="text-xl font-extrabold text-slate-900 dark:text-white">
           Application Pipeline
         </h1>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-          Track and manage your submitted resumes and interview progress stages.
+        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+          Demo pipeline: dragging a card only changes browser state and does not contact an
+          employer.
         </p>
       </div>
 

@@ -11,6 +11,9 @@ describe('Kanban Slice', () => {
         salaryEstimate: '₹10 LPA',
         updatedAt: 'Saved 1d ago',
         stage: 'APPLIED' as const,
+        owner: 'Test hiring team',
+        expectedResponse: 'Within 5 days',
+        nextAction: 'Wait for review',
       },
     ],
   };
@@ -53,6 +56,9 @@ describe('Kanban Slice', () => {
       ...newApp,
       updatedAt: 'Submitted just now',
       stage: 'APPLIED',
+      owner: 'Employer hiring team',
+      expectedResponse: 'Not provided',
+      nextAction: 'Wait for an employer update',
     });
   });
 

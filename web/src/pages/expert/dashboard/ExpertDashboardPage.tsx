@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { cancelSession, completeSession } from '../../../store/slices/expertSlice';
 import { EarningsWidget } from './EarningsWidget';
@@ -9,11 +9,16 @@ import { useToast } from '../../../hooks/useToast';
 import { Badge } from '../../../components/ui/Badge';
 import { Button } from '../../../components/ui/Button';
 import { Calendar, User, Compass } from 'lucide-react';
+import { ConfirmDialog } from '../../../components/ui/ConfirmDialog/ConfirmDialog';
 
 export const ExpertDashboardPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const toast = useToast();
   const bookings = useAppSelector((state) => state.expert.bookings);
+  const [pendingCancellation, setPendingCancellation] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
 
   const handleComplete = (id: string, name: string) => {
     dispatch(completeSession(id));
@@ -21,10 +26,7 @@ export const ExpertDashboardPage: React.FC = () => {
   };
 
   const handleCancel = (id: string, name: string) => {
-    if (window.confirm(`Are you sure you want to cancel the session with ${name}?`)) {
-      dispatch(cancelSession(id));
-      toast.info(`Session with ${name} cancelled.`);
-    }
+    setPendingCancellation({ id, name });
   };
 
   return (
@@ -41,7 +43,7 @@ export const ExpertDashboardPage: React.FC = () => {
               <h1 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
                 <Compass className="text-[#c14f16]" size={20} /> Mentorship Control Room
               </h1>
-              <p className="text-xs text-slate-505 dark:text-slate-400 mt-1">
+              <p className="text-sm text-slate-505 dark:text-slate-400 mt-1">
                 Track live bookings, completed sessions, and payouts.
               </p>
             </div>
@@ -59,7 +61,7 @@ export const ExpertDashboardPage: React.FC = () => {
                 </h3>
 
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs border-collapse">
+                  <table className="w-full text-left text-sm border-collapse">
                     <thead>
                       <tr className="border-b border-slate-100 dark:border-slate-850 text-slate-450 uppercase text-[9px] font-bold tracking-wider">
                         <th className="pb-3 font-semibold">Job Seeker</th>
@@ -84,7 +86,7 @@ export const ExpertDashboardPage: React.FC = () => {
                                 {booking.preSessionBrief ? 'Arjun Kumar' : 'Mentee'}
                               </div>
                               <div
-                                className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 max-w-xs truncate"
+                                className="text-sm text-slate-400 dark:text-slate-500 mt-0.5 max-w-xs truncate"
                                 title={booking.preSessionBrief}
                               >
                                 {booking.preSessionBrief}
@@ -104,7 +106,7 @@ export const ExpertDashboardPage: React.FC = () => {
                                   year: 'numeric',
                                 })}
                               </div>
-                              <div className="text-[10px] text-slate-400 mt-0.5">
+                              <div className="text-sm text-slate-400 mt-0.5">
                                 {new Date(booking.dateTimeISO).toLocaleTimeString(undefined, {
                                   hour: '2-digit',
                                   minute: '2-digit',
@@ -157,6 +159,20 @@ export const ExpertDashboardPage: React.FC = () => {
           </div>
         </div>
       </PageTransition>
+      <ConfirmDialog
+        isOpen={pendingCancellation !== null}
+        title="Cancel this session?"
+        message={`The session with ${pendingCancellation?.name ?? 'this person'} will be marked as cancelled.`}
+        confirmLabel="Cancel session"
+        variant="warning"
+        onCancel={() => setPendingCancellation(null)}
+        onConfirm={() => {
+          if (!pendingCancellation) return;
+          dispatch(cancelSession(pendingCancellation.id));
+          toast.info(`Session with ${pendingCancellation.name} cancelled.`);
+          setPendingCancellation(null);
+        }}
+      />
     </>
   );
 };

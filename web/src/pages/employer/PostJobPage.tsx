@@ -43,11 +43,11 @@ export const PostJobPage = () => {
       id: String(Date.now()),
       title: title.trim(),
       company: companyName,
-      location: `${location.trim()} (${workMode})`,
+      location: location.trim(),
       type: workMode,
       salary: `₹${salaryMin.trim()} - ₹${salaryMax.trim()} LPA`,
       postedAt: 'Just now',
-      matchScore: Math.floor(Math.random() * (98 - 75 + 1)) + 75, // random mock match score
+      matchScore: 0,
       tags: [
         employmentType,
         ...requirements
@@ -57,12 +57,21 @@ export const PostJobPage = () => {
       ],
       avatarText: avatarTxt,
       avatarColor: '#' + Math.floor(Math.random() * 16777215).toString(16),
-      isPriority: status === 'Active',
+      isPriority: false,
+      description: description.trim(),
+      source: 'Employer-created browser demo',
+      verifiedAt: 'Not verified',
+      requirements: requirements
+        .split(',')
+        .map((item) => item.trim())
+        .filter(Boolean),
       status,
     };
 
     dispatch(addNewJob(newJobPayload));
-    toast.success(status === 'Active' ? 'Job published successfully!' : 'Job saved as draft.');
+    toast.success(
+      status === 'Active' ? 'Job added to the demo catalogue.' : 'Draft saved in this browser.'
+    );
     navigate('/employer/my-jobs');
   };
 
@@ -70,8 +79,11 @@ export const PostJobPage = () => {
     <div className={styles.page}>
       <form onSubmit={(e) => handlePublish(e, 'Active')} className={styles.container}>
         <div className={styles.header}>
-          <h1 className={styles.title}>Post a New Job</h1>
-          <p className={styles.subtitle}>Fill out the details below to create a new job listing.</p>
+          <h1 className={styles.title}>Create a Job Listing</h1>
+          <p className={styles.subtitle}>
+            Demo workspace: listings are stored in this browser until the production jobs API is
+            connected.
+          </p>
         </div>
 
         <div className={styles.contentLayout}>
@@ -163,7 +175,9 @@ export const PostJobPage = () => {
               <ul className={styles.guidelineList}>
                 <li>Be specific about the role responsibilities.</li>
                 <li>Clearly define the expected salary range to attract better candidates.</li>
-                <li>Add comma separated skills to ensure our AI accurately matches candidates.</li>
+                <li>
+                  Add comma-separated skills so candidates can understand and filter the role.
+                </li>
               </ul>
             </Card>
           </div>

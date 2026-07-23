@@ -7,7 +7,7 @@ export const useAIChat = () => {
       id: 'welcome',
       role: 'assistant',
       content:
-        'Hello! I am your Recruitzaa AI Career Copilot. Ask me any question about your job application, resume optimization, or interview prep!',
+        'This is a scripted guidance demo. Ask about general resume structure or interview preparation.',
       timestamp: new Date().toLocaleTimeString(),
     },
   ]);

@@ -20,7 +20,11 @@ export const EmployerLandingPage = () => {
               <span className={styles.badge}>Enterprise Hiring Platform</span>
               <h1 id="employer-hero-title">{content.hero.title}</h1>
               <p>{content.hero.subtitle}</p>
-              <Link to="/auth" className={styles.cta} aria-label="Start hiring talent">
+              <Link
+                to="/register?intent=employer"
+                className={styles.cta}
+                aria-label="Start hiring talent"
+              >
                 {content.hero.cta}
               </Link>
             </div>

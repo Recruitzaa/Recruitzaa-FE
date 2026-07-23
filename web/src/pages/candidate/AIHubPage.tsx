@@ -12,44 +12,17 @@ import type { ATSScore } from '../../types/ai.types';
  */
 export const AIHubPage = () => {
   const [activeTab, setActiveTab] = useState<'ats' | 'optimizer' | 'chat'>('ats');
-  const [resumeFile, setResumeFile] = useState<File | null>(null);
-  const [jdText, setJdText] = useState(
-    'Senior React Native Developer at Infosys Limited. Requires 5+ years experience, TypeScript, Redux Toolkit, Expo, and GraphQL API integration.'
-  );
+  const [resumeText, setResumeText] = useState('');
+  const [jdText, setJdText] = useState('');
 
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [scoreData, setScoreData] = useState<ATSScore | null>({
-    overall: 84,
-    skillMatch: 88,
-    experienceFit: 92,
-    keywordDensity: 72,
-    formatting: 85,
-    keywords: [
-      { keyword: 'React Native', found: true },
-      { keyword: 'TypeScript', found: true },
-      { keyword: 'Redux Toolkit', found: true },
-      { keyword: 'Mobile Architecture', found: true },
-      { keyword: 'REST APIs', found: true },
-      { keyword: 'GraphQL', found: false },
-      { keyword: 'Expo Framework', found: false },
-      { keyword: 'AWS Pipeline', found: false },
-    ],
-    suggestions: [
-      'Add detailed experience with Expo framework.',
-      'GraphQL integration missing. Mention it under your projects.',
-      'AWS deployment pipeline experience should be explicitly mentioned.',
-    ],
-  });
+  const [scoreData, setScoreData] = useState<ATSScore | null>(null);
 
   const { messages, isLoading: isChatLoading, sendMessage } = useAIChat();
   const [chatInput, setChatInput] = useState('');
 
   const handleRunAnalysis = async () => {
     setIsAnalyzing(true);
-    const resumeText = resumeFile
-      ? `Resume file: ${resumeFile.name}. Skills: React Native, TypeScript, Redux Toolkit, Mobile Architecture, REST APIs.`
-      : 'Resume placeholder. Skills: React Native, TypeScript, Redux Toolkit, Mobile Architecture, REST APIs.';
-
     try {
       const results = await scoreResume(resumeText, jdText);
       setScoreData(results);
@@ -91,7 +64,7 @@ export const AIHubPage = () => {
             }`}
             onClick={() => setActiveTab('ats')}
           >
-            ATS Resume Parser
+            Keyword comparison
           </button>
           <button
             type="button"
@@ -104,7 +77,7 @@ export const AIHubPage = () => {
             }`}
             onClick={() => setActiveTab('optimizer')}
           >
-            Resume Optimizer
+            Writing examples
           </button>
           <button
             type="button"
@@ -117,17 +90,21 @@ export const AIHubPage = () => {
             }`}
             onClick={() => setActiveTab('chat')}
           >
-            AI Career Assistant
+            Guidance demo
           </button>
         </div>
       </div>
 
       {/* Main Content Area */}
       <div className="max-w-6xl mx-auto w-full px-6 py-8">
+        <div className="mb-5 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm leading-5 text-amber-900 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
+          These tools are deterministic frontend demos, not hiring decisions. They do not assess
+          candidate quality, and pasted text is not sent to a production recruitment service.
+        </div>
         {activeTab === 'ats' && (
           <ATSCompatibilityEngine
-            resumeFile={resumeFile}
-            setResumeFile={setResumeFile}
+            resumeText={resumeText}
+            setResumeText={setResumeText}
             jdText={jdText}
             setJdText={setJdText}
             isAnalyzing={isAnalyzing}

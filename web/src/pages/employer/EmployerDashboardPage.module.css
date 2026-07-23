@@ -2,6 +2,52 @@
   /* container styles are handled by PortalLayout wrapper */
 }
 
+.demoNotice {
+  margin: 0 0 1.25rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.625rem;
+  background: var(--color-surface);
+  color: var(--color-slate);
+  font-size: 0.875rem;
+}
+
+.emptyPanel {
+  padding: 1rem 0;
+  color: var(--color-slate);
+}
+
+.emptyPanel h3 {
+  margin: 0 0 0.5rem;
+  color: var(--color-dark);
+  font-size: 1rem;
+}
+
+.emptyPanel p {
+  margin: 0;
+  line-height: 1.6;
+}
+.emptyState {
+  padding: 2rem 0.75rem !important;
+  text-align: center;
+  color: var(--color-slate);
+}
+.readinessList {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem 0;
+  padding: 0;
+  list-style: none;
+  color: var(--color-dark);
+  font-size: 0.875rem;
+}
+.readinessList span {
+  display: inline-flex;
+  width: 1.5rem;
+  color: var(--color-primary);
+  font-weight: 800;
+}
+
 /* KPIs */
 .kpiGrid {
   display: grid;
@@ -83,7 +129,8 @@
   }
 }
 
-.mainCol, .sideCol {
+.mainCol,
+.sideCol {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;

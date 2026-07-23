@@ -22,10 +22,10 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({ title, stage, applic
     >
       {/* Header Info */}
       <div className="flex justify-between items-center mb-4 pb-2 border-b border-slate-200 dark:border-slate-800">
-        <span className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
+        <span className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
           {title}
         </span>
-        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-350">
+        <span className="text-sm font-bold px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-350">
           {applications.length}
         </span>
       </div>

@@ -14,9 +14,11 @@ export const PublicLayout = () => {
 
   return (
     <div className="app-shell">
-      <a href="#main-content" className="skip-link">
-        Skip to main content
-      </a>
+      <nav aria-label="Skip links">
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
+      </nav>
       <UtilityBar />
       <Navbar />
       <main id="main-content" ref={mainRef} tabIndex={-1} className="app-main" role="main">

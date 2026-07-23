@@ -1,14 +1,13 @@
 import React from 'react';
 import { Card } from '../../../components/ui/Card';
 import { Button } from '../../../components/ui/Button';
-import { FileDropZone } from '../../../components/ui/FileDropZone/FileDropZone';
 import { ProgressBar } from '../../../components/ui/ProgressBar/ProgressBar';
 import { Spinner } from '../../../components/ui/Spinner/Spinner';
 import type { ATSScore } from '../../../types/ai.types';
 
 interface ATSCompatibilityEngineProps {
-  resumeFile: File | null;
-  setResumeFile: (file: File | null) => void;
+  resumeText: string;
+  setResumeText: (text: string) => void;
   jdText: string;
   setJdText: (text: string) => void;
   isAnalyzing: boolean;
@@ -17,8 +16,8 @@ interface ATSCompatibilityEngineProps {
 }
 
 export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
-  resumeFile,
-  setResumeFile,
+  resumeText,
+  setResumeText,
   jdText,
   setJdText,
   isAnalyzing,
@@ -29,31 +28,30 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
     <div className="space-y-6">
       <Card className="p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
         <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
-          ATS Compatibility Engine
+          Resume keyword comparison
         </h2>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mb-5">
-          Compare your current resume against target Job Descriptions to identify keyword gaps and
-          formatting parseability.
+        <p className="text-sm text-slate-500 dark:text-slate-400 mb-5">
+          Compare pasted resume text with a job description using a transparent keyword heuristic.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
           <div className="bg-slate-50 dark:bg-slate-900 p-4 border border-dashed border-slate-200 dark:border-slate-700 rounded-lg text-center">
-            <div className="text-xs font-bold text-slate-900 dark:text-white mb-2">
-              Uploaded Resume
-            </div>
-            <FileDropZone
-              value={resumeFile}
-              onChange={setResumeFile}
-              label="Choose PDF or Word Resume"
+            <div className="text-sm font-bold text-slate-900 dark:text-white mb-2">Resume text</div>
+            <textarea
+              className="w-full min-h-32 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 p-3 text-left text-sm text-slate-900 dark:text-slate-100"
+              value={resumeText}
+              onChange={(event) => setResumeText(event.target.value)}
+              aria-label="Resume text"
+              placeholder="Paste the resume text you want to compare"
             />
           </div>
 
           <div className="bg-slate-50 dark:bg-slate-900 p-3 border border-slate-200 dark:border-slate-700 rounded-lg flex flex-col">
-            <div className="text-[10px] font-bold tracking-wider text-slate-400 dark:text-slate-500 uppercase mb-1">
+            <div className="text-sm font-bold tracking-wider text-slate-400 dark:text-slate-500 uppercase mb-1">
               Target Job Description
             </div>
             <textarea
-              className="flex-1 w-full border-0 bg-transparent outline-none text-xs text-slate-900 dark:text-slate-100 resize-none min-h-[80px]"
+              className="flex-1 w-full border-0 bg-transparent outline-none text-sm text-slate-900 dark:text-slate-100 resize-none min-h-[80px]"
               value={jdText}
               onChange={(e) => setJdText(e.target.value)}
               placeholder="Paste the job description here..."
@@ -64,14 +62,14 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
         <Button
           className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded"
           onClick={onRunAnalysis}
-          disabled={isAnalyzing}
+          disabled={isAnalyzing || !resumeText.trim() || !jdText.trim()}
         >
           {isAnalyzing ? (
             <span className="flex items-center justify-center gap-2">
               <Spinner size="sm" /> Analyzing...
             </span>
           ) : (
-            'Run Deep ATS Analysis'
+            'Compare keywords'
           )}
         </Button>
       </Card>
@@ -79,10 +77,11 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
       {scoreData && (
         <Card className="p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
           <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
-            ATS Analysis Summary
+            Keyword comparison summary
           </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mb-5">
-            Real-time analysis compared against targets.
+          <p className="text-sm text-slate-500 dark:text-slate-400 mb-5">
+            This score is only the percentage of recognized job-description keywords also present in
+            the pasted resume text.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-6 items-center p-5 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 mb-6">
@@ -97,7 +96,7 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
                   <span className="text-2xl font-extrabold text-slate-900 dark:text-white leading-none">
                     {scoreData.overall}
                   </span>
-                  <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase mt-0.5">
+                  <span className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase mt-0.5">
                     Score
                   </span>
                 </div>
@@ -106,14 +105,12 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
 
             <div className="space-y-3">
               <ProgressBar value={scoreData.skillMatch} label="Keyword Alignment" />
-              <ProgressBar value={scoreData.formatting} label="Format Parseability" />
-              <ProgressBar value={scoreData.experienceFit} label="Work Experience Fit" />
             </div>
           </div>
 
           <div className="space-y-4">
             <div>
-              <div className="text-xs font-bold text-slate-900 dark:text-white mb-2">
+              <div className="text-sm font-bold text-slate-900 dark:text-white mb-2">
                 Matched Keywords
               </div>
               <div className="flex flex-wrap gap-1.5">
@@ -122,13 +119,13 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
                   .map((k) => (
                     <span
                       key={k.keyword}
-                      className="text-xs font-semibold px-2.5 py-1 rounded bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/50"
+                      className="text-sm font-semibold px-2.5 py-1 rounded bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/50"
                     >
                       {k.keyword}
                     </span>
                   ))}
                 {scoreData.keywords.filter((k) => k.found).length === 0 && (
-                  <span className="text-xs text-slate-400 dark:text-slate-500">
+                  <span className="text-sm text-slate-400 dark:text-slate-500">
                     No matches found yet.
                   </span>
                 )}
@@ -136,8 +133,8 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
             </div>
 
             <div>
-              <div className="text-xs font-bold text-slate-900 dark:text-white mb-2">
-                Missing Critical Keywords
+              <div className="text-sm font-bold text-slate-900 dark:text-white mb-2">
+                Job-description keywords not found
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {scoreData.keywords
@@ -145,14 +142,14 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
                   .map((k) => (
                     <span
                       key={k.keyword}
-                      className="text-xs font-semibold px-2.5 py-1 rounded bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-900/50"
+                      className="text-sm font-semibold px-2.5 py-1 rounded bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-900/50"
                     >
                       {k.keyword}
                     </span>
                   ))}
                 {scoreData.keywords.filter((k) => !k.found).length === 0 && (
-                  <span className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
-                    All core keywords present!
+                  <span className="text-sm text-emerald-600 dark:text-emerald-400 font-semibold">
+                    All recognized keywords are present.
                   </span>
                 )}
               </div>
@@ -160,10 +157,10 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
 
             {scoreData.suggestions.length > 0 && (
               <div className="pt-4 border-t border-slate-200 dark:border-slate-700">
-                <div className="text-xs font-bold text-slate-900 dark:text-white mb-2">
+                <div className="text-sm font-bold text-slate-900 dark:text-white mb-2">
                   Recommendations
                 </div>
-                <ul className="list-disc pl-5 space-y-1.5 text-xs text-slate-600 dark:text-slate-400">
+                <ul className="list-disc pl-5 space-y-1.5 text-sm text-slate-600 dark:text-slate-400">
                   {scoreData.suggestions.map((s) => (
                     <li key={s}>{s}</li>
                   ))}

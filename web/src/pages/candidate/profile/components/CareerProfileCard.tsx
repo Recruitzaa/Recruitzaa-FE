@@ -54,39 +54,39 @@ export const CareerProfileCard = ({
       </div>
 
       {!isEditingCareer ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 text-xs text-slate-700">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 text-sm text-slate-700">
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
               Current Industry
             </div>
             <div className="font-semibold text-slate-800 mt-1">{careerProfile.industry}</div>
           </div>
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
               Functional Department
             </div>
             <div className="font-semibold text-slate-800 mt-1">{careerProfile.department}</div>
           </div>
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
               Role Category
             </div>
             <div className="font-semibold text-slate-800 mt-1">{careerProfile.roleCategory}</div>
           </div>
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
               Desired Job Role
             </div>
             <div className="font-semibold text-slate-800 mt-1">{careerProfile.jobRole}</div>
           </div>
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
               Desired Job Type
             </div>
             <div className="font-semibold text-slate-800 mt-1">{careerProfile.desiredJobType}</div>
           </div>
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
               Employment Type
             </div>
             <div className="font-semibold text-slate-800 mt-1">
@@ -94,19 +94,19 @@ export const CareerProfileCard = ({
             </div>
           </div>
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
               Expected Annual Salary
             </div>
             <div className="font-semibold text-slate-800 mt-1">{careerProfile.expectedSalary}</div>
           </div>
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
               Preferred Shift
             </div>
             <div className="font-semibold text-slate-800 mt-1">{careerProfile.preferredShift}</div>
           </div>
           <div className="sm:col-span-2">
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
               Preferred Work Locations
             </div>
             <div className="flex flex-wrap gap-1.5 mt-1.5">

@@ -26,7 +26,7 @@ export const ResumeUploadStep: React.FC<ResumeUploadStepProps> = ({
       </h3>
 
       <div className="bg-slate-50 dark:bg-slate-900/50 p-6 border border-dashed border-slate-200 dark:border-slate-800 rounded-lg text-center">
-        <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
+        <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
           Upload your resume (PDF/DOCX) to enable AI job matching and score analysis.
         </p>
 
@@ -39,19 +39,19 @@ export const ResumeUploadStep: React.FC<ResumeUploadStepProps> = ({
         {selectedFile && (
           <div className="mt-4 p-3 bg-indigo-50/50 dark:bg-indigo-950/20 border border-indigo-100 dark:border-indigo-900/40 rounded text-left flex justify-between items-center">
             <div>
-              <div className="text-xs font-bold text-slate-850 dark:text-slate-150 truncate max-w-[200px]">
+              <div className="text-sm font-bold text-slate-850 dark:text-slate-150 truncate max-w-[200px]">
                 {selectedFile.name}
               </div>
-              <div className="text-[10px] text-slate-400">
+              <div className="text-sm text-slate-400">
                 {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
               </div>
             </div>
             {isLoading ? (
-              <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 animate-pulse">
+              <span className="text-sm font-bold text-indigo-600 dark:text-indigo-400 animate-pulse">
                 Parsing...
               </span>
             ) : (
-              <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+              <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400">
                 Uploaded
               </span>
             )}

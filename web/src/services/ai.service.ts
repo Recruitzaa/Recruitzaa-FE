@@ -8,9 +8,6 @@ export const scoreResume = async (
   resumeText: string,
   jobDescription: string
 ): Promise<ATSScore> => {
-  // Simulate 1500ms network latency
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-
   return getMockATSScore(resumeText, jobDescription);
 };
 
@@ -55,21 +52,21 @@ const getMockATSScore = (resumeText: string, jobDescription: string): ATSScore =
   const missing = matched.filter((m) => !m.found).map((m) => m.keyword);
   const suggestions = missing.map(
     (kw) =>
-      `Integrate "${kw}" into your skill list or professional summary to improve match accuracy.`
+      `The job description includes "${kw}", but the same text was not found in the resume. Add it only if it truthfully reflects your experience.`
   );
 
   if (suggestions.length === 0) {
     suggestions.push(
-      'Your resume covers all major keywords! Tailor your experience bullet points with quantitative results.'
+      'All keywords recognized by this limited heuristic also appear in the resume text. Review the complete job description manually.'
     );
   }
 
   return {
-    overall: Math.min(100, Math.max(40, alignmentScore + 10)),
+    overall: alignmentScore,
     skillMatch: alignmentScore,
-    experienceFit: lowercaseResume.includes('year') ? 85 : 65,
+    experienceFit: 0,
     keywordDensity: Math.round((foundCount / (lowercaseResume.split(' ').length || 1)) * 300),
-    formatting: 85,
+    formatting: 0,
     keywords: matched,
     suggestions,
   };

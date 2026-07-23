@@ -15,7 +15,7 @@ interface RoleGuardProps {
  * RoleGuard — Protects routes based on authentication state and user roles.
  * - Shows a spinning loader while the Firebase auth session is initializing.
  * - Resolves the Firebase ID token and custom role claims asynchronously.
- * - Navigates to `/auth` if the user is unauthenticated.
+ * - Navigates to `/login` if the user is unauthenticated.
  * - Navigates to `/unauthorized` if the user lacks permissions.
  */
 export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) => {
@@ -58,7 +58,9 @@ export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) 
             try {
               const raw = localStorage.getItem(savedProfileKey);
               if (raw) savedProfileData = JSON.parse(raw);
-            } catch (e) {}
+            } catch {
+              savedProfileData = {};
+            }
           }
 
           dispatch(
@@ -97,7 +99,12 @@ export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) 
   }
 
   if (!user) {
-    return <Navigate to="/auth" state={{ from: location }} replace />;
+    return (
+      <Navigate
+        to={`/login?next=${encodeURIComponent(`${location.pathname}${location.search}`)}`}
+        replace
+      />
+    );
   }
 
   if (!appUser || !allowedRoles.includes(appUser.activeRole || appUser.role)) {

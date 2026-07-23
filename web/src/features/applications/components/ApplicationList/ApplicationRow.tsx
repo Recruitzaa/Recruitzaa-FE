@@ -25,32 +25,34 @@ export const ApplicationRow: React.FC<ApplicationRowProps> = ({ application, onV
   return (
     <tr className="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50/50 dark:hover:bg-slate-900/20 transition-all">
       <td className="py-4 px-4">
-        <div className="text-xs font-bold text-slate-900 dark:text-white">
+        <div className="text-sm font-bold text-slate-900 dark:text-white">
           {application.jobTitle}
         </div>
-        <div className="text-[10px] text-slate-500 dark:text-slate-400">
-          {application.companyName}
-        </div>
+        <div className="text-sm text-slate-500 dark:text-slate-400">{application.companyName}</div>
       </td>
-      <td className="py-4 px-4 text-xs text-slate-650 dark:text-slate-400">
+      <td className="py-4 px-4 text-sm text-slate-650 dark:text-slate-400">
         {application.updatedAt}
       </td>
-      <td className="py-4 px-4 text-xs text-slate-650 dark:text-slate-400">
+      <td className="py-4 px-4 text-sm text-slate-650 dark:text-slate-400">
         {application.salaryEstimate}
       </td>
       <td className="py-4 px-4">
         <span
-          className={`inline-block text-[10px] font-semibold px-2 py-0.5 border rounded uppercase ${getStatusStyle(application.stage)}`}
+          className={`inline-block text-sm font-semibold px-2 py-0.5 border rounded uppercase ${getStatusStyle(application.stage)}`}
         >
           {application.stage}
         </span>
       </td>
+      <td className="py-4 px-4 text-sm text-slate-650 dark:text-slate-400">
+        <strong className="block text-slate-900 dark:text-white">{application.owner}</strong>
+        <span>{application.expectedResponse}</span>
+      </td>
       <td className="py-4 px-4 text-right">
         <button
           onClick={() => onViewDetails(application.id)}
-          className="text-xs font-bold text-[#c14f16] hover:text-[#a94210] transition-colors"
+          className="text-sm font-bold text-[#c14f16] hover:text-[#a94210] transition-colors"
         >
-          View Details
+          {application.nextAction}
         </button>
       </td>
     </tr>

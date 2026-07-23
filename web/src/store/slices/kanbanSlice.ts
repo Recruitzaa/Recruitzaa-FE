@@ -25,7 +25,12 @@ const kanbanSlice = createSlice({
         application.updatedAt = 'Moved just now';
       }
     },
-    addApplication(state, action: PayloadAction<Omit<ApplicationCard, 'stage' | 'updatedAt'>>) {
+    addApplication(
+      state,
+      action: PayloadAction<
+        Omit<ApplicationCard, 'stage' | 'updatedAt' | 'owner' | 'expectedResponse' | 'nextAction'>
+      >
+    ) {
       const { id, companyName, jobTitle, salaryEstimate } = action.payload;
       // Prevent duplicate applications
       if (state.applications.some((app) => app.id === id)) return;
@@ -36,6 +41,9 @@ const kanbanSlice = createSlice({
         salaryEstimate,
         updatedAt: 'Submitted just now',
         stage: 'APPLIED',
+        owner: 'Employer hiring team',
+        expectedResponse: 'Not provided',
+        nextAction: 'Wait for an employer update',
       });
     },
   },

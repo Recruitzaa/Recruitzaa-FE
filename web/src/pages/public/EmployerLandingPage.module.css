@@ -1,5 +1,5 @@
 .page {
-  background: #fff;
+  background: var(--color-white);
 }
 
 .hero {
@@ -135,7 +135,7 @@
 .card {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background: #fff;
+  background: var(--color-white);
   padding: 1.4rem;
   transition: all 0.2s ease;
   cursor: default;
@@ -169,7 +169,7 @@
   padding: 1rem 1.1rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background: #fff;
+  background: var(--color-white);
 }
 
 .step strong {

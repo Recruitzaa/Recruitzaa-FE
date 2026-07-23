@@ -1,12 +1,13 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import type { FormEvent } from 'react';
 import { Search } from 'lucide-react';
-import { useEffect, useId } from 'react';
+import { useEffect, useId, useMemo } from 'react';
 import { PageTransition } from '../../components/layout/PageTransition';
 import { SEO } from '../../components/seo/SEO';
 import styles from './LandingPage.module.css';
 import { SITE_CONTENT } from '../../config/content';
 import { LandingPageSections } from './components/LandingPageSections';
+import { useAppSelector } from '../../store/hooks';
 
 const content = SITE_CONTENT.landingPage;
 
@@ -43,6 +44,11 @@ const faqSchema = {
 };
 
 export const LandingPage = () => {
+  const jobs = useAppSelector((state) => state.jobs.jobsList);
+  const recentJobs = useMemo(
+    () => jobs.filter((job) => job.status === 'Active').slice(0, 3),
+    [jobs]
+  );
   const location = useLocation();
   const navigate = useNavigate();
   const keywordId = useId();
@@ -81,8 +87,8 @@ export const LandingPage = () => {
   return (
     <PageTransition>
       <SEO
-        title="Recruitzaa — AI-Powered Enterprise Recruitment Platform"
-        description="Precision AI candidate matching, ATS resume optimizations, and staffing services for IT, Healthcare, and Finance companies."
+        title="Recruitzaa — Job Search and Hiring Workspaces"
+        description="Explore jobs or manage a structured hiring workflow in Recruitzaa."
         schema={[organizationSchema, websiteSchema, faqSchema]}
       />
       <div className={styles.page}>
@@ -105,8 +111,6 @@ export const LandingPage = () => {
                 <input
                   id={keywordId}
                   name="keyword"
-                  required
-                  aria-required="true"
                   defaultValue=""
                   placeholder="e.g. React Native Developer, Data Engineer"
                   autoComplete="off"
@@ -117,14 +121,12 @@ export const LandingPage = () => {
                 <input
                   id={locationId}
                   name="location"
-                  required
-                  aria-required="true"
                   defaultValue=""
                   placeholder="City or Remote"
                   autoComplete="off"
                 />
               </div>
-              <button type="submit" className={styles.searchButton} aria-label="Explore all jobs">
+              <button type="submit" className={styles.searchButton}>
                 <Search size={16} /> Search Jobs
               </button>
             </form>
@@ -141,18 +143,20 @@ export const LandingPage = () => {
 
           <div className={styles.preview}>
             <div className={styles.previewHeader}>
-              <span>Top AI-Matched Roles for You</span>
-              <span>86%–92% Match Range</span>
+              <span>Recently added demo roles</span>
+              <span>Sign in for profile tools</span>
             </div>
             <ul className={styles.previewList}>
-              {content.featuredJobs.map((job) => (
-                <li key={job.title}>
-                  <Link to="/jobs" className={styles.previewCard}>
+              {recentJobs.map((job) => (
+                <li key={job.id}>
+                  <Link to={`/jobs/${job.id}`} className={styles.previewCard}>
                     <div>
                       <strong>{job.title}</strong>
-                      <p>{job.meta}</p>
+                      <p>
+                        {job.company} · {job.location} · {job.type} · Posted {job.postedAt}
+                      </p>
                     </div>
-                    <span>{job.match}</span>
+                    <span>View role</span>
                   </Link>
                 </li>
               ))}

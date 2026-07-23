@@ -49,7 +49,7 @@ export const ResumeSummaryCard = ({
       </div>
 
       {!isEditingSummary ? (
-        <div className="space-y-3 text-xs leading-relaxed text-slate-700">
+        <div className="space-y-3 text-sm leading-relaxed text-slate-700">
           <div className="font-semibold text-slate-900 border-l-2 border-brand-primary pl-3 italic">
             {profile.professionalSummary.headline}
           </div>
@@ -58,26 +58,22 @@ export const ResumeSummaryCard = ({
       ) : (
         <div className="space-y-4">
           <div className="space-y-1">
-            <label className="text-[10px] font-bold text-slate-500 uppercase">
-              Resume Headline
-            </label>
+            <label className="text-sm font-bold text-slate-500 uppercase">Resume Headline</label>
             <input
               type="text"
               value={summaryForm.headline}
               onChange={(e) => setSummaryForm({ ...summaryForm, headline: e.target.value })}
-              className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary bg-white text-slate-800"
+              className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
             />
           </div>
 
           <div className="space-y-1">
-            <label className="text-[10px] font-bold text-slate-500 uppercase">
-              Detailed Summary
-            </label>
+            <label className="text-sm font-bold text-slate-500 uppercase">Detailed Summary</label>
             <textarea
               value={summaryForm.detailedSummary}
               onChange={(e) => setSummaryForm({ ...summaryForm, detailedSummary: e.target.value })}
               rows={5}
-              className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary resize-none bg-white text-slate-800"
+              className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary resize-none bg-white text-slate-800"
             />
           </div>
 
@@ -85,14 +81,14 @@ export const ResumeSummaryCard = ({
             <button
               type="button"
               onClick={() => setIsEditingSummary(false)}
-              className="px-3 py-1.5 border rounded text-xs hover:bg-slate-100 font-semibold text-slate-700 bg-white"
+              className="px-3 py-1.5 border rounded text-sm hover:bg-slate-100 font-semibold text-slate-700 bg-white"
             >
               Cancel
             </button>
             <button
               type="button"
               onClick={saveSummary}
-              className="px-3 py-1.5 bg-brand-primary text-white rounded text-xs hover:bg-brand-primary-hover font-semibold"
+              className="px-3 py-1.5 bg-brand-primary text-white rounded text-sm hover:bg-brand-primary-hover font-semibold"
             >
               Save Summary
             </button>

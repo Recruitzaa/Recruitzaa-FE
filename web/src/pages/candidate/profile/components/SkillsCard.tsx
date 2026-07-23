@@ -25,7 +25,7 @@ export const SkillsCard = ({
 
       <div className="flex flex-wrap gap-2">
         {skills.length === 0 ? (
-          <span className="text-xs text-slate-400">No skills added yet.</span>
+          <span className="text-sm text-slate-400">No skills added yet.</span>
         ) : (
           skills.map((skill) => (
             <Badge
@@ -53,11 +53,11 @@ export const SkillsCard = ({
           placeholder="Add skill tag..."
           value={newSkill}
           onChange={(e) => setNewSkill(e.target.value)}
-          className="flex-1 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary"
+          className="flex-1 border border-slate-200 rounded-lg px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary"
         />
         <button
           type="submit"
-          className="inline-flex items-center justify-center px-4 py-1.5 border border-brand-primary text-brand-primary hover:bg-brand-primary-light font-bold rounded-lg text-xs transition-colors"
+          className="inline-flex items-center justify-center px-4 py-1.5 border border-brand-primary text-brand-primary hover:bg-brand-primary-light font-bold rounded-lg text-sm transition-colors"
         >
           Add
         </button>

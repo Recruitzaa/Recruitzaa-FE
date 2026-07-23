@@ -13,7 +13,7 @@ interface RoleGuardProps {
 /**
  * RoleGuard — wraps protected portal routes.
  * - Shows nothing while Firebase resolves the session (isLoading).
- * - Redirects unauthenticated users to /auth.
+ * - Redirects unauthenticated users to /login.
  * - Redirects authenticated users with the wrong role to /unauthorized.
  * - Also bootstraps Firebase auth state into Redux on mount.
  */
@@ -34,7 +34,9 @@ export const RoleGuard = ({ allowedRole }: RoleGuardProps) => {
         try {
           const raw = localStorage.getItem(savedProfileKey);
           if (raw) savedProfileData = JSON.parse(raw);
-        } catch (e) {}
+        } catch {
+          savedProfileData = {};
+        }
 
         dispatch(
           setUser({

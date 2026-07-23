@@ -22,10 +22,10 @@ export const EmployerProfilePage = () => {
           {/* LEFT COLUMN: QUICK LINKS */}
           <div className="lg:col-span-1">
             <div className="bg-white dark:bg-[#131924] rounded-lg shadow-sm border border-slate-200 dark:border-slate-800 p-5 sticky top-24 hidden lg:block space-y-4">
-              <h3 className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider border-b dark:border-slate-800 pb-2">
+              <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider border-b dark:border-slate-800 pb-2">
                 Jump To
               </h3>
-              <nav className="flex flex-col gap-1 text-xs" aria-label="Profile sections">
+              <nav className="flex flex-col gap-1 text-sm" aria-label="Profile sections">
                 {SECTIONS.map((s) => (
                   <button
                     type="button"
@@ -51,7 +51,7 @@ export const EmployerProfilePage = () => {
               <h1 className="text-xl font-extrabold text-slate-900 dark:text-white">
                 Company Profile
               </h1>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
                 Manage how your company appears to candidates across recruitZaa.
               </p>
             </div>

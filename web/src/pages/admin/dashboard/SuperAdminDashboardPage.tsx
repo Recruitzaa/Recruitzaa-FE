@@ -17,7 +17,7 @@ export const SuperAdminDashboardPage: React.FC = () => {
             <h1 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
               <ShieldAlert className="text-[#c14f16]" size={20} /> Super Admin Command Center
             </h1>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
               Monitor server telemetry logs, approve pending enterprise roles, and moderation flags.
             </p>
           </div>
@@ -32,7 +32,7 @@ export const SuperAdminDashboardPage: React.FC = () => {
                 <Server size={20} />
               </div>
               <div>
-                <span className="text-[10px] font-bold text-slate-450 uppercase tracking-wider block">
+                <span className="text-sm font-bold text-slate-450 uppercase tracking-wider block">
                   System Health
                 </span>
                 <span className="text-lg font-black text-slate-900 dark:text-white mt-0.5 block">
@@ -46,7 +46,7 @@ export const SuperAdminDashboardPage: React.FC = () => {
                 <Users size={20} />
               </div>
               <div>
-                <span className="text-[10px] font-bold text-slate-450 uppercase tracking-wider block">
+                <span className="text-sm font-bold text-slate-450 uppercase tracking-wider block">
                   Pending Registrations
                 </span>
                 <span className="text-lg font-black text-slate-900 dark:text-white mt-0.5 block">
@@ -63,7 +63,7 @@ export const SuperAdminDashboardPage: React.FC = () => {
                 <Activity size={20} />
               </div>
               <div>
-                <span className="text-[10px] font-bold text-slate-450 uppercase tracking-wider block">
+                <span className="text-sm font-bold text-slate-450 uppercase tracking-wider block">
                   Server Load
                 </span>
                 <span className="text-lg font-black text-slate-900 dark:text-white mt-0.5 block">
@@ -78,7 +78,7 @@ export const SuperAdminDashboardPage: React.FC = () => {
             <h2 className="text-sm font-extrabold text-slate-900 dark:text-white mb-4">
               Moderation Queue
             </h2>
-            <div className="text-xs text-slate-500 py-4 text-center">
+            <div className="text-sm text-slate-500 py-4 text-center">
               All clear! No flag overrides pending.
             </div>
           </div>

@@ -4,29 +4,19 @@ import { Card } from '../../../components/ui/Card';
 import { Badge } from '../../../components/ui/Badge';
 import styles from '../DashboardPage.module.css';
 import { type RecommendedJob, type ActiveApplication } from '../../../data/mockDashboard';
-import type { ApplicationCard } from '../../../features/applications/types/kanban.types';
 
 interface DashboardLeftColProps {
-  isLoading: boolean;
   jobs: RecommendedJob[];
-  reduxApps: ApplicationCard[];
   activeApps: ActiveApplication[];
-  handleApply: (job: RecommendedJob) => void;
 }
 
-export const DashboardLeftCol = ({
-  isLoading,
-  jobs,
-  reduxApps,
-  activeApps,
-  handleApply,
-}: DashboardLeftColProps) => {
+export const DashboardLeftCol = ({ jobs, activeApps }: DashboardLeftColProps) => {
   return (
     <div className={styles.mainCol}>
       {/* Recommended Jobs */}
       <Card className={styles.panelCard}>
         <div className={styles.panelHead}>
-          <h2 className={styles.panelTitle}>AI Recommended Positions</h2>
+          <h2 className={styles.panelTitle}>Jobs aligned with your profile</h2>
           <Link to="/jobs" className={styles.panelLink}>
             Explore Jobs &rarr;
           </Link>
@@ -44,13 +34,7 @@ export const DashboardLeftCol = ({
               </tr>
             </thead>
             <tbody>
-              {isLoading ? (
-                <tr>
-                  <td colSpan={5} className="text-center py-8">
-                    <div className={styles.subText}>Loading jobs...</div>
-                  </td>
-                </tr>
-              ) : jobs.length === 0 ? (
+              {jobs.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="text-center py-8">
                     <div className={styles.subText}>No recommended jobs found.</div>
@@ -58,7 +42,6 @@ export const DashboardLeftCol = ({
                 </tr>
               ) : (
                 jobs.map((job) => {
-                  const isAlreadyApplied = reduxApps.some((app) => app.id === job.id);
                   return (
                     <tr key={job.id}>
                       <td>
@@ -68,18 +51,14 @@ export const DashboardLeftCol = ({
                       <td>{job.location}</td>
                       <td>{job.salary}</td>
                       <td>
-                        <span className={styles.scoreText}>{job.matchScore}% Match</span>
+                        <span className={styles.scoreText}>{job.matchedSkills} skill matches</span>
                       </td>
                       <td>
-                        <Button
-                          size="sm"
-                          variant={isAlreadyApplied ? 'outline' : 'primary'}
-                          onClick={() => handleApply(job)}
-                          disabled={isAlreadyApplied}
-                          className={isAlreadyApplied ? 'opacity-60 cursor-not-allowed' : ''}
-                        >
-                          {isAlreadyApplied ? 'Applied' : 'Apply'}
-                        </Button>
+                        <Link to={`/jobs/${job.id}`} className="no-underline">
+                          <Button size="sm" variant="outline">
+                            Review
+                          </Button>
+                        </Link>
                       </td>
                     </tr>
                   );
@@ -110,13 +89,7 @@ export const DashboardLeftCol = ({
               </tr>
             </thead>
             <tbody>
-              {isLoading ? (
-                <tr>
-                  <td colSpan={4} className="text-center py-8">
-                    <div className={styles.subText}>Loading applications...</div>
-                  </td>
-                </tr>
-              ) : activeApps.length === 0 ? (
+              {activeApps.length === 0 ? (
                 <tr>
                   <td colSpan={4} className="text-center py-8">
                     <div className={styles.subText}>No active applications.</div>

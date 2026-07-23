@@ -32,10 +32,10 @@ export const ServiceTiersCard: React.FC = () => {
         <div className="space-y-4">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+              <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                 1:1 Live Mentorship
               </span>
-              <span className="text-[10px] text-slate-400 dark:text-slate-500">
+              <span className="text-sm text-slate-400 dark:text-slate-500">
                 Live career guidance, strategy, or coding help.
               </span>
             </div>
@@ -57,10 +57,10 @@ export const ServiceTiersCard: React.FC = () => {
 
           <div className="flex items-center justify-between gap-4">
             <div>
-              <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+              <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                 Mock Interviews
               </span>
-              <span className="text-[10px] text-slate-400 dark:text-slate-500">
+              <span className="text-sm text-slate-400 dark:text-slate-500">
                 Conduct technical mock loops with dynamic feedback reports.
               </span>
             </div>
@@ -82,10 +82,10 @@ export const ServiceTiersCard: React.FC = () => {
 
           <div className="flex items-center justify-between gap-4">
             <div>
-              <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+              <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                 Async Resume Review
               </span>
-              <span className="text-[10px] text-slate-400 dark:text-slate-500">
+              <span className="text-sm text-slate-400 dark:text-slate-500">
                 Provide written markdown resume feedback within 48 hours.
               </span>
             </div>

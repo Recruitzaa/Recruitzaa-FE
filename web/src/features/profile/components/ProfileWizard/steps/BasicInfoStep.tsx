@@ -14,56 +14,56 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({ data, onChange }) 
       </h3>
 
       <div>
-        <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">
+        <label className="block text-sm font-semibold text-slate-600 dark:text-slate-400 mb-1">
           Full Name <span className="text-rose-500">*</span>
         </label>
         <input
           type="text"
           value={data.name}
           onChange={(e) => onChange({ name: e.target.value })}
-          className="w-full text-xs p-2.5 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none focus:border-indigo-600 text-slate-900 dark:text-slate-100"
+          className="w-full text-sm p-2.5 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none focus:border-indigo-600 text-slate-900 dark:text-slate-100"
           placeholder="e.g. Arjun Kumar"
           required
         />
       </div>
 
       <div>
-        <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">
+        <label className="block text-sm font-semibold text-slate-600 dark:text-slate-400 mb-1">
           Email Address <span className="text-rose-500">*</span>
         </label>
         <input
           type="email"
           value={data.email}
           onChange={(e) => onChange({ email: e.target.value })}
-          className="w-full text-xs p-2.5 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none focus:border-indigo-600 text-slate-900 dark:text-slate-100"
+          className="w-full text-sm p-2.5 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none focus:border-indigo-600 text-slate-900 dark:text-slate-100"
           placeholder="e.g. arjun@gmail.com"
           required
         />
       </div>
 
       <div>
-        <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">
+        <label className="block text-sm font-semibold text-slate-600 dark:text-slate-400 mb-1">
           Phone Number <span className="text-rose-500">*</span>
         </label>
         <input
           type="tel"
           value={data.phone}
           onChange={(e) => onChange({ phone: e.target.value })}
-          className="w-full text-xs p-2.5 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none focus:border-indigo-600 text-slate-900 dark:text-slate-100"
+          className="w-full text-sm p-2.5 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none focus:border-indigo-600 text-slate-900 dark:text-slate-100"
           placeholder="e.g. +91 98765 43210"
           required
         />
       </div>
 
       <div>
-        <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">
+        <label className="block text-sm font-semibold text-slate-600 dark:text-slate-400 mb-1">
           Location (City, Country)
         </label>
         <input
           type="text"
           value={data.location}
           onChange={(e) => onChange({ location: e.target.value })}
-          className="w-full text-xs p-2.5 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none focus:border-indigo-600 text-slate-900 dark:text-slate-100"
+          className="w-full text-sm p-2.5 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none focus:border-indigo-600 text-slate-900 dark:text-slate-100"
           placeholder="e.g. Bangalore, India"
         />
       </div>
