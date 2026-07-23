@@ -49,8 +49,6 @@ lerna-debug.log*
 * 4.*
 * 5.*
 
-# Helper/scratch scripts
-web/check-numbered-duplicates.mjs
 
 # Graphify indexes
 graphify-out/
