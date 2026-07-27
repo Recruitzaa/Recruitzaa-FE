@@ -20,7 +20,7 @@ export const EarningsWidget: React.FC = () => {
             <IndianRupee size={22} />
           </div>
           <div>
-            <span className="text-[10px] font-bold text-slate-450 uppercase tracking-wider block">
+            <span className="text-sm font-bold text-slate-450 uppercase tracking-wider block">
               Total Earnings
             </span>
             <span className="text-xl font-black text-slate-900 dark:text-white mt-0.5 block">
@@ -38,7 +38,7 @@ export const EarningsWidget: React.FC = () => {
             <CheckCircle2 size={22} />
           </div>
           <div>
-            <span className="text-[10px] font-bold text-slate-450 uppercase tracking-wider block">
+            <span className="text-sm font-bold text-slate-450 uppercase tracking-wider block">
               Completed Sessions
             </span>
             <span className="text-xl font-black text-slate-900 dark:text-white mt-0.5 block">
@@ -56,7 +56,7 @@ export const EarningsWidget: React.FC = () => {
             <AlertCircle size={22} />
           </div>
           <div>
-            <span className="text-[10px] font-bold text-slate-450 uppercase tracking-wider block">
+            <span className="text-sm font-bold text-slate-450 uppercase tracking-wider block">
               Pending Payouts
             </span>
             <span className="text-xl font-black text-slate-900 dark:text-white mt-0.5 block">

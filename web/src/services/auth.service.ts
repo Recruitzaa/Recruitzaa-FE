@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   type User,
 } from 'firebase/auth';
 import { auth, googleProvider, githubProvider, linkedinProvider } from '../config/firebase';
@@ -33,6 +34,10 @@ export const signInWithEmail = async (email: string, password: string) => {
 export const registerWithEmail = async (email: string, password: string) => {
   const result = await createUserWithEmailAndPassword(auth, email, password);
   return result.user;
+};
+
+export const requestPasswordReset = async (email: string) => {
+  await sendPasswordResetEmail(auth, email);
 };
 
 // ─── Sign Out ────────────────────────────────────────────────────

@@ -13,6 +13,10 @@ export interface Job {
   avatarText: string;
   avatarColor: string;
   isPriority: boolean;
+  description?: string;
+  source?: string;
+  verifiedAt?: string;
+  requirements?: string[];
   status: 'Active' | 'Draft' | 'Closed';
 }
 
@@ -27,7 +31,7 @@ const loadJobsState = (): Job[] | null => {
     const serialized = localStorage.getItem('recruitzaa_jobs');
     if (serialized === null) return null;
     return JSON.parse(serialized);
-  } catch (err) {
+  } catch {
     return null;
   }
 };

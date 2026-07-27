@@ -28,8 +28,8 @@ export const ResumeUploadCard = ({
             <FileText size={24} />
           </div>
           <div>
-            <h4 className="text-xs font-bold text-slate-800 break-all">{resumeFileName}</h4>
-            <p className="text-[10px] text-slate-400 mt-0.5">
+            <h4 className="text-sm font-bold text-slate-800 break-all">{resumeFileName}</h4>
+            <p className="text-sm text-slate-400 mt-0.5">
               {resumeFileSize} &bull; Uploaded recently
             </p>
           </div>
@@ -40,7 +40,7 @@ export const ResumeUploadCard = ({
             type="button"
             onClick={handleTriggerAIParsing}
             disabled={isParsing}
-            className="inline-flex items-center justify-center gap-1.5 text-xs font-semibold py-2 px-4 border border-slate-200 hover:bg-slate-100 rounded-lg text-slate-700 bg-white shadow-sm transition-all"
+            className="inline-flex items-center justify-center gap-1.5 text-sm font-semibold py-2 px-4 border border-slate-200 hover:bg-slate-100 rounded-lg text-slate-700 bg-white shadow-sm transition-all"
           >
             <Upload size={13} />
             Update resume

@@ -14,13 +14,13 @@ const ROLE_META: Record<
 > = {
   CANDIDATE: {
     title: 'Job Seeker Workspace',
-    desc: 'Browse jobs, track applications, prepare with AI career tools, and connect with mentors.',
+    desc: 'Browse jobs, organize application information, explore career-tool demos, and find mentors.',
     path: '/candidate/dashboard',
     icon: Briefcase,
   },
   EMPLOYER: {
     title: 'Employer Workspace',
-    desc: 'Post new positions, manage applicant screening queues, and track hiring analytics.',
+    desc: 'Create demo positions, review candidate screens, and manage company information.',
     path: '/employer/dashboard',
     icon: Laptop,
   },
@@ -32,13 +32,13 @@ const ROLE_META: Record<
   },
   EMPLOYEE: {
     title: 'Employee Workspace',
-    desc: 'Manage your active contracts, view payslips, and track internal tasks.',
+    desc: 'View the employee workspace; payroll and timesheet integrations are not yet connected.',
     path: '/employee/dashboard',
     icon: FileText,
   },
   SUPER_ADMIN: {
     title: 'Super Admin Command Center',
-    desc: 'Monitor platform health, manage user permissions, and moderate content.',
+    desc: 'Review demo platform data, user permissions, and moderation queues.',
     path: '/admin/dashboard',
     icon: Shield,
   },
@@ -53,9 +53,17 @@ export const LaunchpadPage: React.FC = () => {
     return <Navigate to="/" replace />;
   }
 
-  // Display all 5 roles on the Launchpad for demo/testing purposes
-  // (In production, you might want to restrict this to only appUser.availableRoles)
-  const displayRoles: UserRole[] = ['CANDIDATE', 'EMPLOYER', 'EXPERT', 'EMPLOYEE', 'SUPER_ADMIN'];
+  const availableRoles = (
+    appUser.availableRoles?.length ? appUser.availableRoles : [appUser.activeRole || appUser.role]
+  ).filter((role): role is UserRole => Boolean(ROLE_META[role]));
+
+  if (availableRoles.length === 0) {
+    return <Navigate to="/unauthorized" replace />;
+  }
+
+  if (availableRoles.length === 1) {
+    return <Navigate to={ROLE_META[availableRoles[0]].path} replace />;
+  }
 
   const handleSelectRole = (role: UserRole) => {
     dispatch(switchActiveRole(role));
@@ -69,7 +77,7 @@ export const LaunchpadPage: React.FC = () => {
           title="Select Workspace — Recruitzaa Enterprise"
           description="Choose your active profile workspace to get started on Recruitzaa."
         />
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col justify-center items-center px-4 py-12">
+        <main className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col justify-center items-center px-4 py-12">
           <div className="max-w-5xl w-full space-y-8">
             {/* Header branding */}
             <div className="text-center space-y-3">
@@ -77,7 +85,7 @@ export const LaunchpadPage: React.FC = () => {
               <h1 className="text-2xl font-black text-[#1e2229] dark:text-white tracking-tight">
                 Enterprise Launchpad
               </h1>
-              <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">
+              <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto">
                 Welcome back,{' '}
                 <span className="font-extrabold text-[#c14f16]">{appUser.displayName}</span>. Please
                 choose which profile workspace you want to enter for this session.
@@ -86,7 +94,7 @@ export const LaunchpadPage: React.FC = () => {
 
             {/* Grid of portal cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
-              {displayRoles.map((role) => {
+              {availableRoles.map((role) => {
                 const meta = ROLE_META[role];
                 if (!meta) return null;
                 const IconComponent = meta.icon;
@@ -111,7 +119,7 @@ export const LaunchpadPage: React.FC = () => {
                         </p>
                       </div>
                     </div>
-                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 group-hover:text-[#c14f16] transition-colors mt-4 block">
+                    <span className="text-sm font-extrabold uppercase tracking-wider text-slate-400 group-hover:text-[#c14f16] transition-colors mt-4 block">
                       Enter Portal &rarr;
                     </span>
                   </button>
@@ -119,7 +127,7 @@ export const LaunchpadPage: React.FC = () => {
               })}
             </div>
           </div>
-        </div>
+        </main>
       </PageTransition>
     </>
   );

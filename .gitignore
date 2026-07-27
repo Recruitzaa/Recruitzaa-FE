@@ -24,21 +24,45 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Editor/System files
+# Editor, OS & Workspace files
 .vscode/
 !.vscode/extensions.json
 .idea/
 .DS_Store
+._*
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+*.swp
+*.swo
+*.tmp
+*.bak
+*.code-workspace
+.eslintcache
+*.tsbuildinfo
 
-# Graphify indexes
+# Duplicate files from OS/copy operations
+* 2.*
+* 3.*
+* 4.*
+* 5.*
+# Local audit, readiness, status reports & proposal docs
+PRODUCTION_READINESS.md
+UI_UX_AUDIT.md
+UI_UX_FIX_STATUS.md
+*_AUDIT.md
+*_FIX_STATUS.md
+*_READINESS.md
+*_audit_report.md
+implementation_plan*
+recruitzaa_proposal.md
+
 graphify-out/
 
 # Test coverage reports
 coverage/
 web/coverage/
+
 

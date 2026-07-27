@@ -31,7 +31,7 @@ export const PersonalDetailsEditForm = ({
   return (
     <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-4 text-left">
       <div className="flex justify-between items-center pb-2 border-b">
-        <h3 className="text-xs font-bold text-slate-700">Edit Personal Details</h3>
+        <h3 className="text-sm font-bold text-slate-700">Edit Personal Details</h3>
         <button
           type="button"
           onClick={() => setIsEditingPersonal(false)}
@@ -43,87 +43,85 @@ export const PersonalDetailsEditForm = ({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-1">
-          <label className="text-[10px] font-bold text-slate-500 uppercase">First Name</label>
+          <label className="text-sm font-bold text-slate-500 uppercase">First Name</label>
           <input
             type="text"
             value={personalForm.firstName}
             onChange={(e) => setPersonalForm({ ...personalForm, firstName: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
           />
         </div>
         <div className="space-y-1">
-          <label className="text-[10px] font-bold text-slate-500 uppercase">Last Name</label>
+          <label className="text-sm font-bold text-slate-500 uppercase">Last Name</label>
           <input
             type="text"
             value={personalForm.lastName}
             onChange={(e) => setPersonalForm({ ...personalForm, lastName: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
           />
         </div>
         <div className="space-y-1">
-          <label className="text-[10px] font-bold text-slate-500 uppercase">Phone</label>
+          <label className="text-sm font-bold text-slate-500 uppercase">Phone</label>
           <input
             type="text"
             value={personalForm.phone}
             onChange={(e) => setPersonalForm({ ...personalForm, phone: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
           />
         </div>
         <div className="space-y-1">
-          <label className="text-[10px] font-bold text-slate-500 uppercase">Location</label>
+          <label className="text-sm font-bold text-slate-500 uppercase">Location</label>
           <input
             type="text"
             value={personalForm.location}
             onChange={(e) => setPersonalForm({ ...personalForm, location: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
           />
         </div>
         <div className="space-y-1">
-          <label className="text-[10px] font-bold text-slate-500 uppercase">Current Company</label>
+          <label className="text-sm font-bold text-slate-500 uppercase">Current Company</label>
           <input
             type="text"
             value={personalForm.currentCompany}
             onChange={(e) => setPersonalForm({ ...personalForm, currentCompany: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
           />
         </div>
         <div className="space-y-1">
-          <label className="text-[10px] font-bold text-slate-500 uppercase">
-            Current Designation
-          </label>
+          <label className="text-sm font-bold text-slate-500 uppercase">Current Designation</label>
           <input
             type="text"
             value={personalForm.currentDesignation}
             onChange={(e) =>
               setPersonalForm({ ...personalForm, currentDesignation: e.target.value })
             }
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
           />
         </div>
         <div className="space-y-1">
-          <label className="text-[10px] font-bold text-slate-500 uppercase">Total Experience</label>
+          <label className="text-sm font-bold text-slate-500 uppercase">Total Experience</label>
           <input
             type="text"
             value={personalForm.totalExperience}
             onChange={(e) => setPersonalForm({ ...personalForm, totalExperience: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
           />
         </div>
         <div className="space-y-1">
-          <label className="text-[10px] font-bold text-slate-500 uppercase">Current CTC</label>
+          <label className="text-sm font-bold text-slate-500 uppercase">Current CTC</label>
           <input
             type="text"
             value={personalForm.currentCTC}
             onChange={(e) => setPersonalForm({ ...personalForm, currentCTC: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
           />
         </div>
         <div className="space-y-1 sm:col-span-2">
-          <label className="text-[10px] font-bold text-slate-500 uppercase">Notice Period</label>
+          <label className="text-sm font-bold text-slate-500 uppercase">Notice Period</label>
           <select
             value={personalForm.noticePeriod}
             onChange={(e) => setPersonalForm({ ...personalForm, noticePeriod: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
           >
             <option>Immediate (15 days or less)</option>
             <option>1 Month (30 days)</option>
@@ -138,14 +136,14 @@ export const PersonalDetailsEditForm = ({
         <button
           type="button"
           onClick={() => setIsEditingPersonal(false)}
-          className="px-3 py-1.5 border rounded text-xs hover:bg-slate-100 font-semibold text-slate-700 bg-white"
+          className="px-3 py-1.5 border rounded text-sm hover:bg-slate-100 font-semibold text-slate-700 bg-white"
         >
           Cancel
         </button>
         <button
           type="button"
           onClick={savePersonalDetails}
-          className="px-3 py-1.5 bg-brand-primary text-white rounded text-xs hover:bg-brand-primary-hover font-semibold"
+          className="px-3 py-1.5 bg-brand-primary text-white rounded text-sm hover:bg-brand-primary-hover font-semibold"
         >
           Save Changes
         </button>

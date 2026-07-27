@@ -1,56 +1,45 @@
 import { Link } from 'react-router-dom';
 import { Card } from '../../../components/ui/Card';
 import { Button } from '../../../components/ui/Button';
-import { Badge } from '../../../components/ui/Badge';
 import styles from '../EmployerDashboardPage.module.css';
 
-export const EmployerDashboardSideCol = () => {
-  return (
-    <div className={styles.sideCol}>
-      {/* Quick Actions */}
-      <Card className={styles.panelCard}>
-        <h2 className={styles.panelTitle}>Quick Actions</h2>
-        <div className={styles.actionStack}>
-          <Link to="/employer/post-job" className="no-underline">
-            <Button className={styles.fullWidthBtn}>Post a New Job</Button>
-          </Link>
+export const EmployerDashboardSideCol = ({ draftCount }: { draftCount: number }) => (
+  <div className={styles.sideCol}>
+    <Card className={styles.panelCard}>
+      <h2 className={styles.panelTitle}>Next actions</h2>
+      <div className={styles.actionStack}>
+        <Link to="/employer/post-job" className="no-underline">
+          <Button className={styles.fullWidthBtn}>Post a new job</Button>
+        </Link>
+        <Link to="/employer/my-jobs" className="no-underline">
           <Button variant="outline" className={styles.fullWidthBtn}>
-            Search Resumes
+            {draftCount > 0
+              ? `Review ${draftCount} draft${draftCount === 1 ? '' : 's'}`
+              : 'Manage listings'}
           </Button>
-          <Button variant="outline" className={styles.fullWidthBtn}>
-            Manage Subscription
-          </Button>
-        </div>
-      </Card>
-
-      {/* Plan Details */}
-      <Card className={styles.panelCard}>
-        <div className={styles.panelHead}>
-          <h2 className={styles.panelTitle}>Current Plan</h2>
-          <Badge variant="primary">Enterprise</Badge>
-        </div>
-
-        <div className={styles.meterItem}>
-          <div className={styles.meterHead}>
-            <span>Active Listings Quota</span>
-            <span>4 / 10</span>
-          </div>
-          <div className={styles.meterBar}>
-            <div className={styles.meterFill} style={{ width: '40%' }}></div>
-          </div>
-        </div>
-        <div className={styles.meterItem}>
-          <div className={styles.meterHead}>
-            <span>AI Screenings</span>
-            <span>142 / 500</span>
-          </div>
-          <div className={styles.meterBar}>
-            <div className={styles.meterFill} style={{ width: '28%' }}></div>
-          </div>
-        </div>
-        <p className={`${styles.subText} mt-4`}>Your plan renews on August 1st, 2025.</p>
-      </Card>
-    </div>
-  );
-};
+        </Link>
+      </div>
+    </Card>
+    <Card className={styles.panelCard}>
+      <h2 className={styles.panelTitle}>Production readiness</h2>
+      <ul className={styles.readinessList}>
+        <li>
+          <span aria-hidden="true">✓</span> Job drafting and status controls
+        </li>
+        <li>
+          <span aria-hidden="true">○</span> Applicant ingestion and review
+        </li>
+        <li>
+          <span aria-hidden="true">○</span> Team permissions and audit log
+        </li>
+        <li>
+          <span aria-hidden="true">○</span> Billing and plan enforcement
+        </li>
+      </ul>
+      <p className={styles.subText}>
+        Unchecked workflows are deliberately disabled instead of showing fabricated business data.
+      </p>
+    </Card>
+  </div>
+);
 export default EmployerDashboardSideCol;

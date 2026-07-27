@@ -3,8 +3,26 @@ import { Link } from 'react-router-dom';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import styles from '../LandingPage.module.css';
 
+interface PortalContent {
+  title: string;
+  description: string;
+  bullets: string[];
+  cta: string;
+}
+interface LandingSectionsContent {
+  portals: { seekers: PortalContent; employers: PortalContent };
+  services: Array<{ num: string; title: string; desc: string }>;
+  aboutUs: {
+    tag: string;
+    title: string;
+    subtitle: string;
+    differentiators: Array<{ title: string; desc: string }>;
+  };
+  faqs: Array<{ q: string; a: string }>;
+}
+
 interface LandingPageSectionsProps {
-  content: any;
+  content: LandingSectionsContent;
 }
 
 export const LandingPageSections = ({ content }: LandingPageSectionsProps) => {
@@ -18,7 +36,7 @@ export const LandingPageSections = ({ content }: LandingPageSectionsProps) => {
           <h2 id="landing-solutions-title">Built for Candidates & Enterprise Employers</h2>
           <span>
             Whether you are scaling a technical team or advancing your career, Recruitzaa provides
-            structured tools for measurable outcomes.
+            structured tools for clearer workflows.
           </span>
         </div>
 
@@ -27,7 +45,7 @@ export const LandingPageSections = ({ content }: LandingPageSectionsProps) => {
             <h3>{content.portals.seekers.title}</h3>
             <p>{content.portals.seekers.description}</p>
             <ul>
-              {content.portals.seekers.bullets.map((b: string) => (
+              {content.portals.seekers.bullets.map((b) => (
                 <li key={b}>{b}</li>
               ))}
             </ul>
@@ -40,7 +58,7 @@ export const LandingPageSections = ({ content }: LandingPageSectionsProps) => {
             <h3>{content.portals.employers.title}</h3>
             <p>{content.portals.employers.description}</p>
             <ul>
-              {content.portals.employers.bullets.map((b: string) => (
+              {content.portals.employers.bullets.map((b) => (
                 <li key={b}>{b}</li>
               ))}
             </ul>
@@ -61,7 +79,7 @@ export const LandingPageSections = ({ content }: LandingPageSectionsProps) => {
         </div>
 
         <div className={styles.servicesGrid}>
-          {content.services.map((service: any) => (
+          {content.services.map((service) => (
             <article key={service.title} className={styles.serviceCard}>
               <div className={styles.serviceNum} aria-hidden="true">
                 {service.num}
@@ -81,7 +99,7 @@ export const LandingPageSections = ({ content }: LandingPageSectionsProps) => {
         </div>
 
         <div className={styles.aboutGrid}>
-          {content.aboutUs.differentiators.map((diff: any, i: number) => (
+          {content.aboutUs.differentiators.map((diff, i) => (
             <article key={`${diff.title}-${i}`} className={styles.aboutCard}>
               <div className={styles.aboutIcon} aria-hidden="true">
                 {String(i + 1).padStart(2, '0')}
@@ -100,7 +118,7 @@ export const LandingPageSections = ({ content }: LandingPageSectionsProps) => {
           <span>Everything you need to know about the product and matching process.</span>
         </div>
         <div className={styles.faqList}>
-          {content.faqs.map((faq: any, index: number) => (
+          {content.faqs.map((faq, index) => (
             <details
               key={faq.q}
               className={`${styles.faqItem} ${openFaq === index ? styles.faqOpen : ''}`}

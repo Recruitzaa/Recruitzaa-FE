@@ -1,18 +1,6 @@
 import type { ApplicationCard } from '../../features/applications/types/kanban.types';
 import type { ActiveApplication } from '../../data/mockDashboard';
 
-export const fitScoresMap: Record<string, number> = {
-  a1: 92,
-  a2: 89,
-  a3: 94,
-  a4: 85,
-  a5: 91,
-  a6: 96,
-  rj1: 94,
-  rj2: 91,
-  rj3: 86,
-};
-
 export const mapReduxAppToActiveApp = (app: ApplicationCard): ActiveApplication => {
   let stageStatus = 'Applied';
   let stageVariant: ActiveApplication['stageVariant'] = 'neutral';

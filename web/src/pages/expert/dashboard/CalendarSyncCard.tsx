@@ -41,10 +41,10 @@ export const CalendarSyncCard: React.FC = () => {
         <div className="space-y-4">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+              <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                 Sync Google Calendar
               </span>
-              <span className="text-[10px] text-slate-400 dark:text-slate-500">
+              <span className="text-sm text-slate-400 dark:text-slate-500">
                 Auto-block slots matching GCal appointments.
               </span>
             </div>
@@ -66,10 +66,10 @@ export const CalendarSyncCard: React.FC = () => {
 
           <div className="flex items-center justify-between gap-4">
             <div>
-              <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+              <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                 Sync Outlook Calendar
               </span>
-              <span className="text-[10px] text-slate-400 dark:text-slate-500">
+              <span className="text-sm text-slate-400 dark:text-slate-500">
                 Sync slots matching Microsoft Exchange bookings.
               </span>
             </div>
@@ -97,10 +97,10 @@ export const CalendarSyncCard: React.FC = () => {
           <div className="flex items-start gap-2">
             <ShieldAlert size={14} className="text-[#c14f16] shrink-0 mt-0.5" />
             <div>
-              <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+              <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                 Max Sessions / Week
               </span>
-              <span className="text-[10px] text-slate-400 dark:text-slate-500">
+              <span className="text-sm text-slate-400 dark:text-slate-500">
                 Throttle intake capacity to prevent burn-out.
               </span>
             </div>
@@ -109,7 +109,7 @@ export const CalendarSyncCard: React.FC = () => {
             value={settings.maxSessionsPerWeek}
             onChange={handleCapacityChange}
             aria-label="Set maximum mentorship sessions per week"
-            className="border border-slate-200 dark:border-slate-850 rounded-lg px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px] min-w-[80px]"
+            className="border border-slate-200 dark:border-slate-850 rounded-lg px-2.5 py-1.5 text-sm bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px] min-w-[80px]"
           >
             {[3, 5, 8, 10, 15].map((count) => (
               <option key={count} value={count}>

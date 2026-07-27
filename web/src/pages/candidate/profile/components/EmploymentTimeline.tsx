@@ -45,7 +45,7 @@ export const EmploymentTimeline = ({
         <button
           type="button"
           onClick={addNewHistoryItem}
-          className="flex items-center gap-1 text-xs text-brand-primary hover:text-brand-primary-hover font-bold"
+          className="flex items-center gap-1 text-sm text-brand-primary hover:text-brand-primary-hover font-bold"
         >
           <Plus size={14} /> Add Role
         </button>
@@ -61,7 +61,7 @@ export const EmploymentTimeline = ({
               <div className="flex justify-between items-start">
                 <div>
                   <h4 className="text-sm font-bold text-slate-800">{item.designation}</h4>
-                  <div className="text-xs font-semibold text-slate-500 mt-0.5">
+                  <div className="text-sm font-semibold text-slate-500 mt-0.5">
                     {item.company} &bull;{' '}
                     <span className="font-normal text-slate-400">{item.duration}</span>
                   </div>
@@ -79,7 +79,7 @@ export const EmploymentTimeline = ({
               </div>
 
               {editingHistoryIndex !== index ? (
-                <ul className="list-disc pl-4 text-xs text-slate-600 space-y-1">
+                <ul className="list-disc pl-4 text-sm text-slate-600 space-y-1">
                   {item.keyResponsibilities.map((resp, i) => (
                     <li key={i}>{resp}</li>
                   ))}
@@ -97,7 +97,7 @@ export const EmploymentTimeline = ({
                         onChange={(e) =>
                           setHistoryForm({ ...historyForm, designation: e.target.value })
                         }
-                        className="w-full border border-slate-200 rounded px-2.5 py-1 text-xs outline-none focus:border-brand-primary"
+                        className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:border-brand-primary"
                       />
                     </div>
                     <div className="space-y-1">
@@ -110,7 +110,7 @@ export const EmploymentTimeline = ({
                         onChange={(e) =>
                           setHistoryForm({ ...historyForm, company: e.target.value })
                         }
-                        className="w-full border border-slate-200 rounded px-2.5 py-1 text-xs outline-none focus:border-brand-primary"
+                        className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:border-brand-primary"
                       />
                     </div>
                     <div className="space-y-1 sm:col-span-2">
@@ -123,7 +123,7 @@ export const EmploymentTimeline = ({
                         onChange={(e) =>
                           setHistoryForm({ ...historyForm, duration: e.target.value })
                         }
-                        className="w-full border border-slate-200 rounded px-2.5 py-1 text-xs outline-none focus:border-brand-primary"
+                        className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:border-brand-primary"
                       />
                     </div>
                     <div className="space-y-1 sm:col-span-2">
@@ -134,7 +134,7 @@ export const EmploymentTimeline = ({
                         value={historyResponsibilitiesText}
                         onChange={(e) => setHistoryResponsibilitiesText(e.target.value)}
                         rows={4}
-                        className="w-full border border-slate-200 rounded px-2.5 py-1 text-xs outline-none focus:border-brand-primary resize-none"
+                        className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:border-brand-primary resize-none"
                       />
                     </div>
                   </div>
@@ -150,14 +150,14 @@ export const EmploymentTimeline = ({
                     <button
                       type="button"
                       onClick={() => setEditingHistoryIndex(null)}
-                      className="px-3 py-1.5 border rounded text-xs hover:bg-slate-100 font-semibold"
+                      className="px-3 py-1.5 border rounded text-sm hover:bg-slate-100 font-semibold"
                     >
                       Cancel
                     </button>
                     <button
                       type="button"
                       onClick={() => saveHistoryItem(index)}
-                      className="px-3 py-1.5 bg-brand-primary text-white rounded text-xs hover:bg-brand-primary-hover font-semibold"
+                      className="px-3 py-1.5 bg-brand-primary text-white rounded text-sm hover:bg-brand-primary-hover font-semibold"
                     >
                       Save
                     </button>

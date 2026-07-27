@@ -26,7 +26,7 @@ export const ProfilePage = () => {
             <h1 className="text-2xl font-bold text-brand-charcoal dark:text-white font-sans">
               My Professional Profile
             </h1>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
               Verify credentials, configure employment metrics, and sync resume structures.
             </p>
           </div>
@@ -35,7 +35,7 @@ export const ProfilePage = () => {
             type="button"
             onClick={form.handleTriggerAIParsing}
             disabled={form.isParsing}
-            className="flex items-center gap-2 bg-brand-primary hover:bg-brand-primary-hover text-white font-bold text-xs py-2.5 px-4 rounded-lg shadow-sm border border-transparent transition-all self-stretch md:self-auto justify-center"
+            className="flex items-center gap-2 bg-brand-primary hover:bg-brand-primary-hover text-white font-bold text-sm py-2.5 px-4 rounded-lg shadow-sm border border-transparent transition-all self-stretch md:self-auto justify-center"
           >
             {form.isParsing ? (
               <>

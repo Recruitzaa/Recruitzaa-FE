@@ -16,22 +16,22 @@ export const ResumeOptimizer: React.FC = () => {
       id: 'b1',
       original: 'Responsible for building mobile applications in React Native.',
       optimized:
-        'Architected and launched 4 high-performance mobile applications using React Native and TypeScript, resulting in a 35% increase in user retention.',
-      benefit: 'Uses strong action verbs and quantifies impact on retention.',
+        'Built [number] mobile applications using React Native and TypeScript, contributing to [measured outcome].',
+      benefit: 'Prompts you to add only outcomes you can verify.',
     },
     {
       id: 'b2',
       original: 'Worked on fixing bugs and improving the UI speed.',
       optimized:
-        'Optimized state management and rendering pathways, reducing app launch latency by 42% and eliminating 15+ major memory leaks.',
-      benefit: 'Highlights specific technical achievements and details performance metrics.',
+        'Optimized state management and rendering pathways, reducing app launch latency from [before] to [after].',
+      benefit: 'Uses a specific before-and-after structure without inventing results.',
     },
     {
       id: 'b3',
       original: 'Collaborated with designers and backend API developers.',
       optimized:
-        'Partnered with cross-functional UI/UX designers and backend teams to integrate REST/GraphQL APIs, reducing API response parser error rates by 18%.',
-      benefit: 'Shows teamwork and specifies integration technology.',
+        'Partnered with design and backend teams to integrate [API type], improving [verified team or user outcome].',
+      benefit: 'Shows collaboration while leaving evidence-based details to the candidate.',
     },
   ]);
 
@@ -44,8 +44,9 @@ export const ResumeOptimizer: React.FC = () => {
   return (
     <Card className="p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
       <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-1">Resume Optimizer</h2>
-      <p className="text-xs text-slate-500 dark:text-slate-400 mb-5">
-        Tailor your achievements with professional action verbs and impact metrics.
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-5">
+        Examples only. Replace bracketed prompts with facts you can verify; never copy invented
+        metrics.
       </p>
 
       <div className="space-y-4">
@@ -57,10 +58,10 @@ export const ResumeOptimizer: React.FC = () => {
             {/* Original Text */}
             <div className="flex flex-col justify-between">
               <div>
-                <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wide">
+                <span className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wide">
                   Original
                 </span>
-                <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 italic">
+                <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 italic">
                   "{bullet.original}"
                 </p>
               </div>
@@ -69,10 +70,10 @@ export const ResumeOptimizer: React.FC = () => {
             {/* AI Optimized Text */}
             <div className="flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-slate-700 pt-3 lg:pt-0 lg:pl-4">
               <div>
-                <span className="text-[10px] font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-wide">
-                  AI-Optimized Suggestion
+                <span className="text-sm font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-wide">
+                  Example rewrite
                 </span>
-                <p className="text-xs text-slate-900 dark:text-slate-100 font-medium mt-1">
+                <p className="text-sm text-slate-900 dark:text-slate-100 font-medium mt-1">
                   "{bullet.optimized}"
                 </p>
                 <div className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-2 flex items-center gap-1">
@@ -85,7 +86,7 @@ export const ResumeOptimizer: React.FC = () => {
                   size="sm"
                   variant="outline"
                   onClick={() => handleCopy(bullet.id, bullet.optimized)}
-                  className="text-xs"
+                  className="text-sm"
                 >
                   {copiedId === bullet.id ? 'Copied!' : 'Copy to Clipboard'}
                 </Button>

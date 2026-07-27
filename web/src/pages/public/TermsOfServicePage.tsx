@@ -14,19 +14,19 @@ export const TermsOfServicePage = () => {
           <div className="mb-6">
             <Link
               to="/"
-              className="text-xs font-bold text-brand-primary hover:text-brand-primary-hover transition-colors"
+              className="text-sm font-bold text-brand-primary hover:text-brand-primary-hover transition-colors"
             >
               &larr; Back to Home
             </Link>
             <h1 className="text-2xl font-black text-slate-900 dark:text-white mt-3">
               Terms of Service
             </h1>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
               Last Updated: July 14, 2026
             </p>
           </div>
 
-          <div className="prose dark:prose-invert text-xs text-slate-600 dark:text-slate-300 space-y-5 leading-relaxed">
+          <div className="prose dark:prose-invert text-sm text-slate-600 dark:text-slate-300 space-y-5 leading-relaxed">
             <p>
               Welcome to recruitZaa. By creating a job seeker or employer account on our workspace
               platform, you agree to comply with and be bound by the following Terms of Service.

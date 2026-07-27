@@ -1,3 +1,53 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: var(--color-overlay);
+  backdrop-filter: blur(3px);
+}
 .modal {
-  /* Add Modal styles here */
+  width: min(100%, 560px);
+  max-height: min(90vh, 760px);
+  overflow: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-card);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-lg);
+}
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.header h2 {
+  margin: 0;
+  color: var(--color-dark);
+  font-size: 1.15rem;
+}
+.header p {
+  margin-top: 0.3rem;
+  color: var(--color-slate);
+  font-size: 0.875rem;
+}
+.header button {
+  display: inline-flex;
+  min-width: var(--tap-target);
+  min-height: var(--tap-target);
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+.body {
+  padding: 1.25rem;
 }

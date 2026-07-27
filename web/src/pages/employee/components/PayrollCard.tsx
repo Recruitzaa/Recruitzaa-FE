@@ -36,7 +36,7 @@ export const PayrollCard: React.FC = () => {
             <FileText size={16} className="text-[#c14f16]" aria-hidden="true" /> Payroll Ledger &
             Payslips
           </h2>
-          <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
+          <p className="text-sm text-slate-400 dark:text-slate-500 mt-0.5">
             View monthly salary payouts and download digital tax compliance receipts.
           </p>
         </div>
@@ -56,10 +56,10 @@ export const PayrollCard: React.FC = () => {
                   <FileText size={14} />
                 </div>
                 <div>
-                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+                  <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                     {slip.month}
                   </span>
-                  <span className="text-[10px] text-slate-400 dark:text-slate-500">
+                  <span className="text-sm text-slate-400 dark:text-slate-500">
                     {slip.amount} • {slip.status}
                   </span>
                 </div>
@@ -83,11 +83,11 @@ export const PayrollCard: React.FC = () => {
         </div>
 
         {/* Reimbursement Pipeline */}
-        <div className="pt-4 border-t border-slate-105 dark:border-slate-850 flex items-center justify-between text-[10px]">
+        <div className="pt-4 border-t border-slate-105 dark:border-slate-850 flex items-center justify-between text-sm">
           <span className="font-bold text-slate-650 dark:text-slate-400 flex items-center gap-1">
             <Clock size={11} className="text-amber-500" aria-hidden="true" /> Reimbursement Pipeline
           </span>
-          <span className="text-[10px] text-slate-500">₹4,200 Pending Review</span>
+          <span className="text-sm text-slate-500">₹4,200 Pending Review</span>
         </div>
       </section>
     </>

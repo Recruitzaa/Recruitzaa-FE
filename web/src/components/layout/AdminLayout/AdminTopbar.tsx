@@ -1,6 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Button } from '../../ui/Button';
-import { Bell, Moon, Sun } from 'lucide-react';
+import { Menu, Moon, Sun } from 'lucide-react';
 import { useTheme } from '../../../hooks/useTheme';
 
 const BREADCRUMB_MAP: Record<string, string> = {
@@ -12,16 +11,24 @@ const BREADCRUMB_MAP: Record<string, string> = {
   '/admin/settings': 'Settings & API',
 };
 
-export const AdminTopbar = () => {
+export const AdminTopbar = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
   const location = useLocation();
   const { toggleTheme, isDark } = useTheme();
   const currentPage = BREADCRUMB_MAP[location.pathname] ?? 'Admin';
 
   return (
     <header className="h-16 bg-white dark:bg-[#0f1117] border-b border-slate-200 dark:border-slate-800 px-6 flex items-center justify-between sticky top-0 z-30 shadow-sm">
+      <button
+        type="button"
+        onClick={onOpenMenu}
+        className="md:hidden min-w-11 min-h-11 inline-flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700"
+        aria-label="Open admin navigation"
+      >
+        <Menu size={20} />
+      </button>
       {/* Breadcrumbs */}
       <div>
-        <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-500">
+        <div className="hidden sm:flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-500">
           <Link to="/" className="hover:text-slate-800 dark:hover:text-slate-300 transition-colors">
             Home
           </Link>
@@ -50,17 +57,6 @@ export const AdminTopbar = () => {
         >
           {isDark ? <Sun size={16} /> : <Moon size={16} />}
         </button>
-        <button
-          type="button"
-          className="relative p-2 rounded-lg text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-          aria-label="Notifications"
-        >
-          <Bell size={16} />
-          <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-red-500 rounded-full" />
-        </button>
-        <Button variant="outline" size="sm">
-          Generate Report
-        </Button>
       </div>
     </header>
   );

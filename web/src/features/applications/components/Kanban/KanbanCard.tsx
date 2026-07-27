@@ -27,13 +27,13 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({ application }) => {
       {...listeners}
       className="bg-white dark:bg-slate-800 p-4 border border-slate-200 dark:border-slate-700 rounded-lg shadow-sm hover:shadow transition-shadow select-none"
     >
-      <div className="text-[10px] font-bold text-[#c14f16] uppercase tracking-wide">
+      <div className="text-sm font-bold text-[#c14f16] uppercase tracking-wide">
         {application.companyName}
       </div>
-      <h4 className="text-xs font-bold text-slate-900 dark:text-white mt-1 mb-2">
+      <h4 className="text-sm font-bold text-slate-900 dark:text-white mt-1 mb-2">
         {application.jobTitle}
       </h4>
-      <div className="flex justify-between items-center text-[10px] text-slate-500 dark:text-slate-400 border-t border-slate-100 dark:border-slate-700 pt-2">
+      <div className="flex justify-between items-center text-sm text-slate-500 dark:text-slate-400 border-t border-slate-100 dark:border-slate-700 pt-2">
         <span>{application.salaryEstimate}</span>
         <span>{application.updatedAt}</span>
       </div>

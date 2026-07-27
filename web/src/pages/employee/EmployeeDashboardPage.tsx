@@ -21,7 +21,7 @@ export const EmployeeDashboardPage: React.FC = () => {
               <Calendar className="text-[#c14f16]" size={20} aria-hidden="true" /> Timesheets &
               Leaves Console
             </h1>
-            <p className="text-xs text-slate-505 dark:text-slate-400">
+            <p className="text-sm text-slate-505 dark:text-slate-400">
               Submit your weekly hour deliverables, review authorization statuses, and track
               remaining leave balances.
             </p>
@@ -39,7 +39,7 @@ export const EmployeeDashboardPage: React.FC = () => {
               <FileText className="text-[#c14f16]" size={20} aria-hidden="true" /> Payroll, Tax &
               Reimbursements
             </h1>
-            <p className="text-xs text-slate-505 dark:text-slate-400">
+            <p className="text-sm text-slate-505 dark:text-slate-400">
               View your monthly salary disbursements, download digital payslips, and check pending
               reimbursement pipeline status.
             </p>
@@ -57,7 +57,7 @@ export const EmployeeDashboardPage: React.FC = () => {
             <ClipboardList className="text-[#c14f16]" size={20} aria-hidden="true" /> Employee
             Control Room
           </h1>
-          <p className="text-xs text-slate-505 dark:text-slate-400">
+          <p className="text-sm text-slate-505 dark:text-slate-400">
             Monitor active corporate projects, review shift schedules, and manage your assigned
             tasks.
           </p>

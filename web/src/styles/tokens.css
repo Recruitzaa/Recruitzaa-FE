@@ -11,6 +11,8 @@
   --color-border: #e5e7eb;
   --color-surface: #f8fafc;
   --color-white: #ffffff;
+  --color-card: #ffffff;
+  --color-overlay: rgba(15, 23, 42, 0.56);
   --color-success: #059669;
   --color-success-light: #ecfdf5;
   --color-warning: #d97706;
@@ -31,12 +33,15 @@
   --navbar-height: 76px;
   --container-max: 1280px;
   --transition: 0.2s ease-in-out;
+  --space-page: clamp(1rem, 3vw, 2rem);
+  --tap-target: 44px;
 }
 
 /* ── Dark Mode System Overrides ───────────────────── */
 .dark {
   --color-surface: #0b0f17; /* Dark background layout surface */
   --color-white: #131924; /* Dark card backgrounds */
+  --color-card: #131924;
   --color-ink: #f3f4f6; /* Bright white body copy */
   --color-slate: #9ca3af; /* Light muted slate text */
   --color-border: #232a37; /* Dark mode border details */

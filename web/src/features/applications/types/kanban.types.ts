@@ -7,4 +7,7 @@ export interface ApplicationCard {
   salaryEstimate: string;
   updatedAt: string;
   stage: PipelineStage;
+  owner: string;
+  expectedResponse: string;
+  nextAction: string;
 }

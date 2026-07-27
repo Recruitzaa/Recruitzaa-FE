@@ -1,152 +1,225 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { ChevronDown, Menu, Moon, Sun, X } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../../store/hooks';
 import { logOut } from '../../../services/auth.service';
+import { useFocusTrap } from '../../../hooks/useFocusTrap';
 import styles from './Navbar.module.css';
 import logo from '../../../assets/logo.png';
 import { ROUTES } from '../../../config/routes';
+import { useTheme } from '../../../hooks/useTheme';
+
+type MenuName = 'jobs' | 'employers' | null;
 
 export const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { appUser, isAuthenticated } = useAppSelector((s) => s.auth);
-  const pathname = location.pathname;
+  const [openMenu, setOpenMenu] = useState<MenuName>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const { isDark, toggleTheme } = useTheme();
+  const mobilePanelRef = useRef<HTMLDivElement>(null);
+  const closeMobile = useCallback(() => setMobileOpen(false), []);
+  useFocusTrap(mobileOpen, mobilePanelRef, { onEscape: closeMobile });
+
+  useEffect(() => {
+    setOpenMenu(null);
+    setMobileOpen(false);
+  }, [location.pathname, location.search, location.hash]);
 
   const handleSignOut = async () => {
     try {
       await logOut();
-      navigate('/auth');
+      navigate('/login');
     } catch (err) {
       console.error('Logout failed:', err);
     }
   };
 
   const getDashboardRoute = () => {
-    if (!appUser) return '/auth';
-    if (appUser.role === 'SUPER_ADMIN') return '/admin/dashboard';
-    if (appUser.role === 'EMPLOYER') return ROUTES.EMPLOYER.DASHBOARD;
+    const role = appUser?.activeRole ?? appUser?.role;
+    if (!role) return '/login';
+    if (role === 'SUPER_ADMIN') return '/admin/dashboard';
+    if (role === 'EMPLOYER') return ROUTES.EMPLOYER.DASHBOARD;
+    if (role === 'EXPERT') return '/expert/dashboard';
+    if (role === 'EMPLOYEE') return '/employee/dashboard';
     return ROUTES.CANDIDATE.DASHBOARD;
   };
 
+  const authLink = (intent: 'signin' | 'candidate' | 'employer') =>
+    intent === 'signin' ? '/login' : `/register?intent=${intent}`;
+  const canSeeJobs = !isAuthenticated || appUser?.role !== 'EMPLOYER';
+  const canSeeEmployers = !isAuthenticated || appUser?.role !== 'CANDIDATE';
+
+  const primaryLinks = (
+    <>
+      {canSeeJobs && (
+        <Link to="/jobs" className={styles.mobileLink}>
+          Find Jobs
+        </Link>
+      )}
+      {canSeeEmployers && (
+        <Link to="/employers" className={styles.mobileLink}>
+          For Employers
+        </Link>
+      )}
+      {canSeeJobs && (
+        <Link
+          to={isAuthenticated ? '/candidate/ai-hub' : authLink('candidate')}
+          className={styles.mobileLink}
+        >
+          Career Tools
+        </Link>
+      )}
+      {isAuthenticated && (
+        <Link to={getDashboardRoute()} className={styles.mobileLink}>
+          Dashboard
+        </Link>
+      )}
+      <Link to="/#about" className={styles.mobileLink}>
+        About Recruitzaa
+      </Link>
+    </>
+  );
+
   return (
-    <header className={styles.header} role="banner">
+    <header className={styles.header}>
       <div className={styles.container}>
-        <Link to="/" className={styles.brand}>
-          <img src={logo} alt="Recruitzaa logo" width="140" height="36" />
+        <Link to="/" className={styles.brand} aria-label="Recruitzaa home">
+          <img src={logo} alt="" width="140" height="36" />
         </Link>
 
-        <nav className={styles.navMenu} aria-label="Primary" role="navigation">
-          {(!isAuthenticated || appUser?.role !== 'EMPLOYER') && (
+        <nav className={styles.navMenu} aria-label="Primary navigation">
+          {canSeeJobs && (
             <div className={styles.navItem}>
               <Link
                 to="/jobs"
                 className={styles.navLink}
-                aria-current={pathname.startsWith('/jobs') ? 'page' : undefined}
+                aria-current={location.pathname.startsWith('/jobs') ? 'page' : undefined}
               >
-                Find Jobs <span className={styles.caret}>▼</span>
+                Find Jobs
               </Link>
-              <div className={styles.megaMenu}>
+              <button
+                type="button"
+                className={styles.menuTrigger}
+                aria-label="Open Find Jobs menu"
+                aria-expanded={openMenu === 'jobs'}
+                aria-controls="jobs-mega-menu"
+                onClick={() => setOpenMenu(openMenu === 'jobs' ? null : 'jobs')}
+              >
+                <ChevronDown size={15} aria-hidden="true" />
+              </button>
+              <div
+                id="jobs-mega-menu"
+                className={`${styles.megaMenu} ${openMenu === 'jobs' ? styles.megaMenuOpen : ''}`}
+              >
                 <div>
-                  <div className={styles.mmTitle}>By Category</div>
-                  <Link to="/jobs" className={styles.mmItem}>
-                    <div className={styles.mmItemTitle}>IT & Software Engineering</div>
-                    <div className={styles.mmItemDesc}>3,420 Active Roles in India</div>
+                  <div className={styles.mmTitle}>Browse roles</div>
+                  <Link to="/jobs?keyword=engineer" className={styles.mmItem}>
+                    <div className={styles.mmItemTitle}>Engineering roles</div>
+                    <div className={styles.mmItemDesc}>
+                      Filter the currently available job catalogue
+                    </div>
                   </Link>
-                  <Link to="/jobs" className={styles.mmItem}>
-                    <div className={styles.mmItemTitle}>Remote & Hybrid Work</div>
-                    <div className={styles.mmItemDesc}>Flexible Work Positions</div>
+                  <Link to="/jobs?workplace=Remote" className={styles.mmItem}>
+                    <div className={styles.mmItemTitle}>Remote work</div>
+                    <div className={styles.mmItemDesc}>Roles marked as remote by employers</div>
                   </Link>
                 </div>
                 <div>
-                  <div className={styles.mmTitle}>Career Tools</div>
-                  <Link to="/candidate/ai-hub" className={styles.mmItem}>
-                    <div className={styles.mmItemTitle}>ATS Resume Score Check</div>
-                    <div className={styles.mmItemDesc}>Test Parseability Score</div>
+                  <div className={styles.mmTitle}>Career tools</div>
+                  <Link
+                    to={isAuthenticated ? '/candidate/ai-hub' : authLink('candidate')}
+                    className={styles.mmItem}
+                  >
+                    <div className={styles.mmItemTitle}>Resume tools</div>
+                    <div className={styles.mmItemDesc}>Sign in to use profile-based tools</div>
                   </Link>
-                  <Link to="/candidate/dashboard" className={styles.mmItem}>
-                    <div className={styles.mmItemTitle}>Candidate Workspace</div>
-                    <div className={styles.mmItemDesc}>Dashboard & Pipeline</div>
+                  <Link
+                    to={isAuthenticated ? getDashboardRoute() : authLink('candidate')}
+                    className={styles.mmItem}
+                  >
+                    <div className={styles.mmItemTitle}>Candidate workspace</div>
+                    <div className={styles.mmItemDesc}>Track jobs and applications</div>
                   </Link>
                 </div>
               </div>
             </div>
           )}
 
-          {(!isAuthenticated || appUser?.role !== 'CANDIDATE') && (
+          {canSeeEmployers && (
             <div className={styles.navItem}>
               <Link
                 to="/employers"
                 className={styles.navLink}
-                aria-current={
-                  pathname === '/employers' || pathname.startsWith('/employer') ? 'page' : undefined
-                }
+                aria-current={location.pathname.startsWith('/employer') ? 'page' : undefined}
               >
-                Employer Services <span className={styles.caret}>▼</span>
+                Employer Services
               </Link>
-              <div className={styles.megaMenu}>
+              <button
+                type="button"
+                className={styles.menuTrigger}
+                aria-label="Open Employer Services menu"
+                aria-expanded={openMenu === 'employers'}
+                aria-controls="employer-mega-menu"
+                onClick={() => setOpenMenu(openMenu === 'employers' ? null : 'employers')}
+              >
+                <ChevronDown size={15} aria-hidden="true" />
+              </button>
+              <div
+                id="employer-mega-menu"
+                className={`${styles.megaMenu} ${openMenu === 'employers' ? styles.megaMenuOpen : ''}`}
+              >
                 <div>
-                  <div className={styles.mmTitle}>Staffing Engagement</div>
-                  <Link to="/employers" className={styles.mmItem}>
-                    <div className={styles.mmItemTitle}>Permanent Placement</div>
-                    <div className={styles.mmItemDesc}>Full-Cycle Recruitment</div>
+                  <div className={styles.mmTitle}>Hiring options</div>
+                  <Link to="/employers#services" className={styles.mmItem}>
+                    <div className={styles.mmItemTitle}>Permanent placement</div>
+                    <div className={styles.mmItemDesc}>Explore the recruitment workflow</div>
                   </Link>
-                  <Link to="/employers" className={styles.mmItem}>
-                    <div className={styles.mmItemTitle}>Contract Staffing</div>
-                    <div className={styles.mmItemDesc}>Rapid Contractor Deployment</div>
+                  <Link to="/employers#services" className={styles.mmItem}>
+                    <div className={styles.mmItemTitle}>Contract staffing</div>
+                    <div className={styles.mmItemDesc}>Discuss flexible hiring requirements</div>
                   </Link>
                 </div>
                 <div>
-                  <div className={styles.mmTitle}>Enterprise Solutions</div>
-                  <Link to="/employers" className={styles.mmItem}>
-                    <div className={styles.mmItemTitle}>Executive Search</div>
-                    <div className={styles.mmItemDesc}>Confidential Headhunting</div>
-                  </Link>
-                  <Link to="/auth" className={styles.mmItem}>
-                    <div className={styles.mmItemTitle}>Post a Job Listing</div>
-                    <div className={styles.mmItemDesc}>Employer Account Setup</div>
+                  <div className={styles.mmTitle}>Employer workspace</div>
+                  <Link
+                    to={isAuthenticated ? getDashboardRoute() : authLink('employer')}
+                    className={styles.mmItem}
+                  >
+                    <div className={styles.mmItemTitle}>Post and manage jobs</div>
+                    <div className={styles.mmItemDesc}>Sign in with an employer account</div>
                   </Link>
                 </div>
               </div>
             </div>
           )}
-
-          {(!isAuthenticated || appUser?.role !== 'EMPLOYER') && (
+          {canSeeJobs && (
             <Link
-              to="/candidate/ai-hub"
+              to={isAuthenticated ? '/candidate/ai-hub' : authLink('candidate')}
               className={styles.navLink}
-              aria-current={pathname.startsWith('/candidate/ai-hub') ? 'page' : undefined}
             >
-              AI Career Hub
+              Career Tools
             </Link>
           )}
-          {isAuthenticated && (
-            <Link
-              to={getDashboardRoute()}
-              className={styles.navLink}
-              aria-current={
-                pathname.startsWith('/candidate') ||
-                pathname.startsWith('/employer') ||
-                pathname.startsWith('/admin')
-                  ? 'page'
-                  : undefined
-              }
-            >
-              Dashboard
-            </Link>
-          )}
-          <Link
-            to="/#about"
-            className={styles.navLink}
-            aria-current={pathname === '/' ? 'page' : undefined}
-          >
+          <Link to="/#about" className={styles.navLink}>
             About Us
           </Link>
         </nav>
 
         <div className={styles.actions}>
+          <button
+            type="button"
+            className={styles.themeButton}
+            onClick={toggleTheme}
+            aria-label={isDark ? 'Use light theme' : 'Use dark theme'}
+          >
+            {isDark ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
+          </button>
           {isAuthenticated ? (
             <>
               <Link to={getDashboardRoute()} className={`${styles.button} ${styles.primary}`}>
-                Go to Workspace
+                Workspace
               </Link>
               <button
                 type="button"
@@ -158,19 +231,95 @@ export const Navbar = () => {
             </>
           ) : (
             <>
-              <Link to="/auth" className={`${styles.button} ${styles.outline}`}>
+              <Link to={authLink('signin')} className={`${styles.button} ${styles.outline}`}>
                 Sign In
               </Link>
-              <Link to="/auth" className={`${styles.button} ${styles.dark}`}>
+              <Link to={authLink('employer')} className={`${styles.button} ${styles.dark}`}>
                 Post a Job
               </Link>
-              <Link to="/auth" className={`${styles.button} ${styles.primary}`}>
-                Register Free
+              <Link to={authLink('candidate')} className={`${styles.button} ${styles.primary}`}>
+                Create Account
               </Link>
             </>
           )}
         </div>
+
+        <button
+          type="button"
+          className={styles.mobileTrigger}
+          onClick={() => setMobileOpen(true)}
+          aria-label="Open navigation"
+          aria-expanded={mobileOpen}
+        >
+          <Menu aria-hidden="true" />
+        </button>
       </div>
+
+      {mobileOpen && (
+        <div
+          className={styles.mobileOverlay}
+          onMouseDown={(event) => event.target === event.currentTarget && closeMobile()}
+        >
+          <div
+            ref={mobilePanelRef}
+            className={styles.mobilePanel}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="mobile-nav-title"
+            tabIndex={-1}
+          >
+            <div className={styles.mobileHeader}>
+              <span id="mobile-nav-title">Menu</span>
+              <button type="button" onClick={closeMobile} aria-label="Close navigation">
+                <X aria-hidden="true" />
+              </button>
+            </div>
+            <nav className={styles.mobileNav} aria-label="Mobile navigation">
+              {primaryLinks}
+            </nav>
+            <div className={styles.mobileActions}>
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className={`${styles.button} ${styles.outline}`}
+              >
+                {isDark ? (
+                  <Sun size={18} aria-hidden="true" />
+                ) : (
+                  <Moon size={18} aria-hidden="true" />
+                )}
+                {isDark ? 'Use light theme' : 'Use dark theme'}
+              </button>
+              {isAuthenticated ? (
+                <>
+                  <Link to={getDashboardRoute()} className={`${styles.button} ${styles.primary}`}>
+                    Go to workspace
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={handleSignOut}
+                    className={`${styles.button} ${styles.outline}`}
+                  >
+                    Sign out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to={authLink('candidate')} className={`${styles.button} ${styles.primary}`}>
+                    Create candidate account
+                  </Link>
+                  <Link to={authLink('employer')} className={`${styles.button} ${styles.dark}`}>
+                    Create employer account
+                  </Link>
+                  <Link to={authLink('signin')} className={`${styles.button} ${styles.outline}`}>
+                    Sign in
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

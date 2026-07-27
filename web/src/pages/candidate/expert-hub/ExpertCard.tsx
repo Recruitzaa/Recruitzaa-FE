@@ -37,7 +37,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({ expert, onBookClick }) =
             >
               {expert.name}
             </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
+            <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
               {expert.headline}
             </p>
           </div>
@@ -72,7 +72,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({ expert, onBookClick }) =
               type="button"
               onClick={onBookClick}
               aria-label={`Book mentorship session with ${expert.name}`}
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#c14f16] hover:bg-[#a94210] text-white rounded-lg text-xs font-bold transition-colors min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2"
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#c14f16] hover:bg-[#a94210] text-white rounded-lg text-sm font-bold transition-colors min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2"
             >
               <Calendar size={13} aria-hidden="true" /> Book Session
             </button>

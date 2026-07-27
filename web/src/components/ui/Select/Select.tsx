@@ -57,7 +57,7 @@ export const Select: React.FC<CustomSelectProps> = ({
       {label && (
         <label
           htmlFor={selectId}
-          className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block"
+          className="text-sm font-bold text-slate-500 uppercase tracking-wider block"
         >
           {label}
         </label>
@@ -67,7 +67,7 @@ export const Select: React.FC<CustomSelectProps> = ({
           id={selectId}
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center justify-between w-full border border-slate-200 hover:border-brand-primary rounded-lg px-3 py-2 text-xs bg-white text-slate-800 outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all shadow-sm min-h-[36px]"
+          className="flex items-center justify-between w-full border border-slate-200 hover:border-brand-primary rounded-lg px-3 py-2 text-sm bg-white text-slate-800 outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all shadow-sm min-h-[36px]"
           aria-haspopup="listbox"
           aria-expanded={isOpen}
         >
@@ -86,7 +86,7 @@ export const Select: React.FC<CustomSelectProps> = ({
             role="listbox"
           >
             {normalizedOptions.length === 0 ? (
-              <li className="px-3 py-2 text-xs text-slate-400">No options available</li>
+              <li className="px-3 py-2 text-sm text-slate-400">No options available</li>
             ) : (
               normalizedOptions.map((opt) => {
                 const isSelected = opt.value === value;
@@ -94,7 +94,7 @@ export const Select: React.FC<CustomSelectProps> = ({
                   <li
                     key={opt.value}
                     onClick={() => handleSelect(opt.value)}
-                    className={`flex items-center justify-between px-3 py-2 text-xs cursor-pointer select-none transition-colors ${
+                    className={`flex items-center justify-between px-3 py-2 text-sm cursor-pointer select-none transition-colors ${
                       isSelected
                         ? 'bg-brand-primary-light text-brand-primary font-semibold'
                         : 'text-slate-700 hover:bg-slate-50'

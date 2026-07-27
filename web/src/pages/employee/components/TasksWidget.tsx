@@ -65,7 +65,7 @@ export const TasksWidget: React.FC = () => {
             <ClipboardList size={16} className="text-[#c14f16]" aria-hidden="true" /> Assigned Tasks
             & Deadline Tracker
           </h2>
-          <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
+          <p className="text-sm text-slate-400 dark:text-slate-500 mt-0.5">
             Monitor sprint deliverables, trace task completion milestones, and check remaining
             deadline windows.
           </p>
@@ -87,7 +87,7 @@ export const TasksWidget: React.FC = () => {
                     <span className="text-[9px] font-extrabold text-[#c14f16] tracking-wider uppercase block">
                       {task.project}
                     </span>
-                    <span className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-0.5 block">
+                    <span className="text-sm font-bold text-slate-800 dark:text-slate-200 mt-0.5 block">
                       {task.title}
                     </span>
                   </div>
@@ -108,7 +108,7 @@ export const TasksWidget: React.FC = () => {
                         handleUpdateStatus(task.id, e.target.value as Task['status'])
                       }
                       aria-label={`Update status for ${task.title}`}
-                      className="border border-slate-200 dark:border-slate-800 rounded px-2 py-1 text-[10px] bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-350 focus-visible:outline-2 focus-visible:outline-[#c14f16]"
+                      className="border border-slate-200 dark:border-slate-800 rounded px-2 py-1 text-sm bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-350 focus-visible:outline-2 focus-visible:outline-[#c14f16]"
                     >
                       <option value="Not Started">Not Started</option>
                       <option value="In Progress">In Progress</option>
@@ -118,7 +118,7 @@ export const TasksWidget: React.FC = () => {
                 </div>
 
                 {/* Progress bar / Deadline info */}
-                <div className="flex items-center justify-between text-[10px] text-slate-500 pt-2 border-t border-slate-100 dark:border-slate-850">
+                <div className="flex items-center justify-between text-sm text-slate-500 pt-2 border-t border-slate-100 dark:border-slate-850">
                   <div className="flex items-center gap-1">
                     {task.status === 'Completed' ? (
                       <CheckCircle2

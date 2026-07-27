@@ -55,12 +55,12 @@ export const ProfileBannerCard = ({
             <p className="text-sm font-semibold text-brand-primary mt-0.5 font-sans">
               {profile.employmentDetails.currentDesignation}
             </p>
-            <p className="text-xs font-medium text-slate-500 mt-0.5">
+            <p className="text-sm font-medium text-slate-500 mt-0.5">
               {profile.employmentDetails.currentCompany}
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center md:justify-start gap-4 text-xs text-slate-600">
+          <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600">
             <span className="flex items-center gap-1">
               <MapPin size={14} className="text-slate-400" />
               {profile.personalInfo.location}
@@ -72,11 +72,11 @@ export const ProfileBannerCard = ({
           </div>
 
           <div className="flex flex-wrap justify-center md:justify-start gap-2 pt-2">
-            <span className="inline-flex items-center gap-1 px-3 py-1 bg-slate-50 text-slate-700 rounded-full border text-xs">
+            <span className="inline-flex items-center gap-1 px-3 py-1 bg-slate-50 text-slate-700 rounded-full border text-sm">
               <Phone size={12} className="text-slate-400" />
               {profile.personalInfo.phone}
             </span>
-            <span className="inline-flex items-center gap-1 px-3 py-1 bg-slate-50 text-slate-700 rounded-full border text-xs">
+            <span className="inline-flex items-center gap-1 px-3 py-1 bg-slate-50 text-slate-700 rounded-full border text-sm">
               <Mail size={12} className="text-slate-400" />
               {profile.personalInfo.email}
             </span>
@@ -95,9 +95,9 @@ export const ProfileBannerCard = ({
         )}
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-100 text-xs">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-100 text-sm">
         <div>
-          <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+          <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
             Current CTC
           </div>
           <div className="font-bold text-brand-charcoal mt-0.5">
@@ -105,7 +105,7 @@ export const ProfileBannerCard = ({
           </div>
         </div>
         <div>
-          <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+          <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
             Notice Period
           </div>
           <div className="font-bold text-brand-charcoal mt-0.5">
@@ -113,7 +113,7 @@ export const ProfileBannerCard = ({
           </div>
         </div>
         <div className="col-span-2 sm:col-span-1">
-          <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+          <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
             Job Search Status
           </div>
           <div className="font-bold text-green-600 mt-0.5">Active & Interviewing</div>

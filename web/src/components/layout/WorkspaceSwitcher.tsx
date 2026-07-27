@@ -44,7 +44,7 @@ export const WorkspaceSwitcher: React.FC = () => {
   return (
     <>
       <div className="px-4 py-3 border-t border-slate-100 dark:border-slate-850 space-y-2">
-        <span className="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">
+        <span className="text-sm font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">
           Shift To...
         </span>
         <div className="space-y-1">
@@ -54,7 +54,7 @@ export const WorkspaceSwitcher: React.FC = () => {
               type="button"
               onClick={() => handleSwitch(role)}
               aria-label={`Switch to ${ROLE_LABELS[role]} workspace`}
-              className="flex items-center gap-2 w-full text-left px-3 py-2 text-xs font-bold rounded-lg text-slate-600 dark:text-slate-450 hover:bg-slate-50 dark:hover:bg-slate-900/60 hover:text-[#c14f16] dark:hover:text-[#c14f16] transition-colors min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2"
+              className="flex items-center gap-2 w-full text-left px-3 py-2 text-sm font-bold rounded-lg text-slate-600 dark:text-slate-450 hover:bg-slate-50 dark:hover:bg-slate-900/60 hover:text-[#c14f16] dark:hover:text-[#c14f16] transition-colors min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2"
             >
               <RefreshCw
                 size={12}

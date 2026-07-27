@@ -2,8 +2,9 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../../store/hooks';
 import { Button } from '../../ui/Button';
 import styles from './PortalTopbar.module.css';
+import { Menu } from 'lucide-react';
 
-export const PortalTopbar = () => {
+export const PortalTopbar = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
   const location = useLocation();
   const { appUser } = useAppSelector((s) => s.auth);
   const isEmployer = location.pathname.startsWith('/employer');
@@ -14,16 +15,26 @@ export const PortalTopbar = () => {
 
   return (
     <div className={styles.topbar}>
+      <button
+        type="button"
+        className={styles.menuButton}
+        onClick={onOpenMenu}
+        aria-label="Open workspace navigation"
+      >
+        <Menu size={20} />
+      </button>
       <div>
         <div className={styles.breadcrumbs}>
-          <Link to="/">Home</Link> <span>/</span> 
+          <Link to="/">Home</Link> <span>/</span>
           {isEmployer ? (
             <>
-              <Link to="/employer/dashboard">Employer Workspace</Link> <span>/</span> <span className={styles.active}>Dashboard</span>
+              <Link to="/employer/dashboard">Employer Workspace</Link> <span>/</span>{' '}
+              <span className={styles.active}>Dashboard</span>
             </>
           ) : (
             <>
-              <Link to="/candidate/dashboard">Candidate Workspace</Link> <span>/</span> <span className={styles.active}>Overview Dashboard</span>
+              <Link to="/candidate/dashboard">Candidate Workspace</Link> <span>/</span>{' '}
+              <span className={styles.active}>Overview Dashboard</span>
             </>
           )}
         </div>

@@ -4,9 +4,16 @@ The frontend codebase for recruitZaa, featuring a React Native (TypeScript) mobi
 
 ## Version History
 
-**Current Version: `v0.1.0`** _(Matches `web/package.json`)_
+**Current Version: `v0.2.0`**
 
 ### Changelog
+
+**[v0.2.0] - 2026-07-23** _(Branch: `fix/Ui-improvements`)_
+
+- **CI/CD Pipeline Fix**: Tracked missing `web/check-numbered-duplicates.mjs` script required by `npm run verify` in GitHub Actions workflow (`frontend-verify.yml`), resolving GitHub pipeline build failures.
+- **UI/UX Refactoring & Improvements**: Cleaned up and polished responsive layouts, module CSS styles, design tokens, and components across Candidate, Employee, and Employer dashboards, `JobDetailPage`, and `JobListingsPage`.
+- **Codebase Clean-up**: Removed obsolete duplicate files (`* 2.tsx`, `* 3.tsx`, `* 4.tsx`, etc.) across components, pages, forms, and Redux store slices.
+- **Git Hygiene & Security**: Added `.gitignore` rules for local audit reports (`*_AUDIT.md`, `*_FIX_STATUS.md`, `PRODUCTION_READINESS.md`, `*_READINESS.md`, `*_audit_report.md`, `implementation_plan*`, `recruitzaa_proposal.md`) and added workspace agent rules (`.agents/AGENTS.md`) to prevent generated audit reports from being committed.
 
 **[v0.1.0] - 2026-07-11**
 

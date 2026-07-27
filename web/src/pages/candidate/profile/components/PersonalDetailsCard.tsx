@@ -50,15 +50,15 @@ export const PersonalDetailsCard = ({
       </div>
 
       {!isEditingExtendedPersonal ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 text-xs text-slate-700">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 text-sm text-slate-700">
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
               Gender
             </div>
             <div className="font-semibold text-slate-800 mt-1">{extendedPersonal.gender}</div>
           </div>
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
               Marital Status
             </div>
             <div className="font-semibold text-slate-800 mt-1">
@@ -66,25 +66,25 @@ export const PersonalDetailsCard = ({
             </div>
           </div>
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
               Date of Birth
             </div>
             <div className="font-semibold text-slate-800 mt-1">{extendedPersonal.dob}</div>
           </div>
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
               Category
             </div>
             <div className="font-semibold text-slate-800 mt-1">{extendedPersonal.category}</div>
           </div>
           <div className="sm:col-span-2">
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
               Permanent Address
             </div>
             <div className="font-semibold text-slate-800 mt-1">{extendedPersonal.address}</div>
           </div>
           <div className="sm:col-span-2">
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
               Languages Known
             </div>
             <div className="flex flex-wrap gap-1.5 mt-1.5">
@@ -103,13 +103,13 @@ export const PersonalDetailsCard = ({
         <div className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-slate-500 uppercase">Gender</label>
+              <label className="text-sm font-bold text-slate-500 uppercase">Gender</label>
               <select
                 value={extendedPersonalForm.gender}
                 onChange={(e) =>
                   setExtendedPersonalForm({ ...extendedPersonalForm, gender: e.target.value })
                 }
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary bg-white text-slate-800"
+                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
               >
                 <option>Male</option>
                 <option>Female</option>
@@ -117,9 +117,7 @@ export const PersonalDetailsCard = ({
               </select>
             </div>
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-slate-500 uppercase">
-                Marital Status
-              </label>
+              <label className="text-sm font-bold text-slate-500 uppercase">Marital Status</label>
               <select
                 value={extendedPersonalForm.maritalStatus}
                 onChange={(e) =>
@@ -128,7 +126,7 @@ export const PersonalDetailsCard = ({
                     maritalStatus: e.target.value,
                   })
                 }
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary bg-white text-slate-800"
+                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
               >
                 <option>Single / Unmarried</option>
                 <option>Married</option>
@@ -136,31 +134,29 @@ export const PersonalDetailsCard = ({
               </select>
             </div>
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-slate-500 uppercase">
-                Date of Birth
-              </label>
+              <label className="text-sm font-bold text-slate-500 uppercase">Date of Birth</label>
               <input
                 type="text"
                 value={extendedPersonalForm.dob}
                 onChange={(e) =>
                   setExtendedPersonalForm({ ...extendedPersonalForm, dob: e.target.value })
                 }
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary"
+                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary"
               />
             </div>
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-slate-500 uppercase">Category</label>
+              <label className="text-sm font-bold text-slate-500 uppercase">Category</label>
               <input
                 type="text"
                 value={extendedPersonalForm.category}
                 onChange={(e) =>
                   setExtendedPersonalForm({ ...extendedPersonalForm, category: e.target.value })
                 }
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary"
+                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary"
               />
             </div>
             <div className="space-y-1 sm:col-span-2">
-              <label className="text-[10px] font-bold text-slate-500 uppercase">
+              <label className="text-sm font-bold text-slate-500 uppercase">
                 Languages (comma separated)
               </label>
               <input
@@ -172,11 +168,11 @@ export const PersonalDetailsCard = ({
                     languagesText: e.target.value,
                   })
                 }
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary"
+                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary"
               />
             </div>
             <div className="space-y-1 sm:col-span-2">
-              <label className="text-[10px] font-bold text-slate-500 uppercase">
+              <label className="text-sm font-bold text-slate-500 uppercase">
                 Permanent Address
               </label>
               <textarea
@@ -185,7 +181,7 @@ export const PersonalDetailsCard = ({
                   setExtendedPersonalForm({ ...extendedPersonalForm, address: e.target.value })
                 }
                 rows={2}
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs outline-none focus:border-brand-primary resize-none"
+                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary resize-none"
               />
             </div>
           </div>
@@ -194,14 +190,14 @@ export const PersonalDetailsCard = ({
             <button
               type="button"
               onClick={() => setIsEditingExtendedPersonal(false)}
-              className="px-3 py-1.5 border rounded text-xs hover:bg-slate-100 font-semibold"
+              className="px-3 py-1.5 border rounded text-sm hover:bg-slate-100 font-semibold"
             >
               Cancel
             </button>
             <button
               type="button"
               onClick={saveExtendedPersonal}
-              className="px-3 py-1.5 bg-brand-primary text-white rounded text-xs hover:bg-brand-primary-hover font-semibold"
+              className="px-3 py-1.5 bg-brand-primary text-white rounded text-sm hover:bg-brand-primary-hover font-semibold"
             >
               Save Details
             </button>

@@ -37,7 +37,7 @@ export const ProjectsCard = ({
         <button
           type="button"
           onClick={addNewProjectItem}
-          className="flex items-center gap-1 text-xs text-brand-primary hover:text-brand-primary-hover font-bold"
+          className="flex items-center gap-1 text-sm text-brand-primary hover:text-brand-primary-hover font-bold"
         >
           <Plus size={14} /> Add Project
         </button>
@@ -58,7 +58,7 @@ export const ProjectsCard = ({
               <div className="flex justify-between items-start">
                 <div>
                   <h4 className="text-sm font-bold text-slate-800">{proj.name}</h4>
-                  <div className="text-xs font-semibold text-slate-500 mt-0.5">
+                  <div className="text-sm font-semibold text-slate-500 mt-0.5">
                     {proj.client} <span aria-hidden="true">&bull;</span>{' '}
                     <span className="font-normal text-slate-400">{proj.duration}</span>
                   </div>
@@ -76,7 +76,7 @@ export const ProjectsCard = ({
               </div>
 
               {editingProjectIndex !== index ? (
-                <p className="text-xs text-slate-600 leading-relaxed">{proj.description}</p>
+                <p className="text-sm text-slate-600 leading-relaxed">{proj.description}</p>
               ) : (
                 <div className="bg-slate-50 p-4 rounded border border-slate-200 space-y-3 mt-2">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -92,7 +92,7 @@ export const ProjectsCard = ({
                         type="text"
                         value={projectForm.name}
                         onChange={(e) => setProjectForm({ ...projectForm, name: e.target.value })}
-                        className="w-full border border-slate-200 rounded px-2.5 py-1 text-xs outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                        className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
                       />
                     </div>
                     <div className="space-y-1">
@@ -107,7 +107,7 @@ export const ProjectsCard = ({
                         type="text"
                         value={projectForm.client}
                         onChange={(e) => setProjectForm({ ...projectForm, client: e.target.value })}
-                        className="w-full border border-slate-200 rounded px-2.5 py-1 text-xs outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                        className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
                       />
                     </div>
                     <div className="space-y-1 sm:col-span-2">
@@ -124,7 +124,7 @@ export const ProjectsCard = ({
                         onChange={(e) =>
                           setProjectForm({ ...projectForm, duration: e.target.value })
                         }
-                        className="w-full border border-slate-200 rounded px-2.5 py-1 text-xs outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                        className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
                       />
                     </div>
                     <div className="space-y-1 sm:col-span-2">
@@ -141,7 +141,7 @@ export const ProjectsCard = ({
                           setProjectForm({ ...projectForm, description: e.target.value })
                         }
                         rows={4}
-                        className="w-full border border-slate-200 rounded px-2.5 py-1 text-xs outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent resize-none"
+                        className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent resize-none"
                       />
                     </div>
                   </div>
@@ -157,14 +157,14 @@ export const ProjectsCard = ({
                     <button
                       type="button"
                       onClick={() => setEditingProjectIndex(null)}
-                      className="px-3 py-1.5 border rounded text-xs hover:bg-slate-100 font-semibold"
+                      className="px-3 py-1.5 border rounded text-sm hover:bg-slate-100 font-semibold"
                     >
                       Cancel
                     </button>
                     <button
                       type="button"
                       onClick={() => saveProjectItem(index)}
-                      className="px-3 py-1.5 bg-brand-primary text-white rounded text-xs hover:bg-brand-primary-hover font-semibold"
+                      className="px-3 py-1.5 bg-brand-primary text-white rounded text-sm hover:bg-brand-primary-hover font-semibold"
                     >
                       Save
                     </button>

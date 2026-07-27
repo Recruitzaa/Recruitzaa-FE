@@ -17,19 +17,22 @@ export const ApplicationTable: React.FC<ApplicationTableProps> = ({
         <table className="min-w-full table-auto">
           <thead>
             <tr className="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 text-left">
-              <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+              <th className="py-3 px-4 text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                 Job / Company
               </th>
-              <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+              <th className="py-3 px-4 text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                 Last Activity
               </th>
-              <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+              <th className="py-3 px-4 text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                 Salary
               </th>
-              <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+              <th className="py-3 px-4 text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                 Status
               </th>
-              <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 text-right">
+              <th className="py-3 px-4 text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                Owner / response
+              </th>
+              <th className="py-3 px-4 text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 text-right">
                 Actions
               </th>
             </tr>
@@ -41,8 +44,8 @@ export const ApplicationTable: React.FC<ApplicationTableProps> = ({
             {applications.length === 0 && (
               <tr>
                 <td
-                  colSpan={5}
-                  className="py-12 text-center text-xs text-slate-400 dark:text-slate-500 italic bg-white dark:bg-slate-800"
+                  colSpan={6}
+                  className="py-12 text-center text-sm text-slate-400 dark:text-slate-500 italic bg-white dark:bg-slate-800"
                 >
                   No matching applications found
                 </td>

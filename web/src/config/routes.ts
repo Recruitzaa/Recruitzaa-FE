@@ -6,7 +6,7 @@ export const ROUTES = {
     JOB_DETAIL: (id: string) => `/jobs/${id}`,
   },
   AUTH: {
-    LOGIN: '/auth',
+    LOGIN: '/login',
   },
   CANDIDATE: {
     DASHBOARD: '/candidate/dashboard',

@@ -69,7 +69,7 @@ export const AdminSettingsPage = () => {
             </div>
             <div>
               <h2 className="text-sm font-bold text-slate-900 dark:text-white">API Credentials</h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-sm text-slate-500 dark:text-slate-400">
                 Your production API key for server-to-server integration.
               </p>
             </div>
@@ -78,21 +78,21 @@ export const AdminSettingsPage = () => {
           <div className="p-6 space-y-4">
             <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
               <div className="flex items-center justify-between gap-3">
-                <code className="text-xs font-mono text-slate-700 dark:text-slate-300 break-all flex-1">
+                <code className="text-sm font-mono text-slate-700 dark:text-slate-300 break-all flex-1">
                   {masked ? '•'.repeat(MOCK_API_KEY.length) : MOCK_API_KEY}
                 </code>
                 <div className="flex items-center gap-2 shrink-0">
                   <button
                     type="button"
                     onClick={() => setMasked(!masked)}
-                    className="text-[10px] font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white border border-slate-200 dark:border-slate-700 rounded px-2 py-1 transition-colors"
+                    className="text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white border border-slate-200 dark:border-slate-700 rounded px-2 py-1 transition-colors"
                   >
                     {masked ? 'Reveal' : 'Hide'}
                   </button>
                   <button
                     type="button"
                     onClick={handleCopy}
-                    className="flex items-center gap-1 text-[10px] font-bold text-[#c14f16] border border-[#c14f16]/30 rounded px-2 py-1 hover:bg-[#fef3ee] dark:hover:bg-[#c14f16]/10 transition-colors"
+                    className="flex items-center gap-1 text-sm font-bold text-[#c14f16] border border-[#c14f16]/30 rounded px-2 py-1 hover:bg-[#fef3ee] dark:hover:bg-[#c14f16]/10 transition-colors"
                   >
                     {copied ? <CheckCircle2 size={11} /> : <Copy size={11} />}
                     {copied ? 'Copied!' : 'Copy'}
@@ -103,12 +103,12 @@ export const AdminSettingsPage = () => {
             <div className="flex items-center gap-3">
               <button
                 type="button"
-                className="flex items-center gap-1.5 text-xs font-bold text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 border border-red-200 dark:border-red-900/40 rounded-lg px-3 py-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                className="flex items-center gap-1.5 text-sm font-bold text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 border border-red-200 dark:border-red-900/40 rounded-lg px-3 py-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
               >
                 <RefreshCw size={11} />
                 Regenerate Key
               </button>
-              <p className="text-[10px] text-slate-400 dark:text-slate-500">
+              <p className="text-sm text-slate-400 dark:text-slate-500">
                 ⚠ Regenerating will immediately invalidate the old key.
               </p>
             </div>
@@ -123,7 +123,7 @@ export const AdminSettingsPage = () => {
             </div>
             <div>
               <h2 className="text-sm font-bold text-slate-900 dark:text-white">Security</h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-sm text-slate-500 dark:text-slate-400">
                 Access control and authentication configuration.
               </p>
             </div>
@@ -159,7 +159,7 @@ export const AdminSettingsPage = () => {
                   <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
                     {setting.label}
                   </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
                     {setting.desc}
                   </p>
                 </div>
@@ -194,13 +194,13 @@ export const AdminSettingsPage = () => {
               <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {section.fields.map((field) => (
                   <div key={field.label} className="space-y-1">
-                    <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                    <label className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
                       {field.label}
                     </label>
                     <input
                       type={field.type}
                       defaultValue={field.value}
-                      className="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-800 dark:text-slate-200 outline-none focus:border-[#c14f16] transition-colors"
+                      className="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-[#c14f16] transition-colors"
                     />
                   </div>
                 ))}
@@ -208,7 +208,7 @@ export const AdminSettingsPage = () => {
               <div className="px-6 pb-5">
                 <button
                   type="button"
-                  className="text-xs font-bold text-white bg-[#c14f16] hover:bg-[#a94210] px-4 py-2 rounded-lg transition-colors"
+                  className="text-sm font-bold text-white bg-[#c14f16] hover:bg-[#a94210] px-4 py-2 rounded-lg transition-colors"
                 >
                   Save {section.label}
                 </button>

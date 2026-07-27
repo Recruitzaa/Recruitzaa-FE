@@ -1,5 +1,5 @@
 .page {
-  background: #fff;
+  background: var(--color-white);
 }
 
 .container {
@@ -25,7 +25,7 @@
 .hero {
   padding: 2.5rem 0;
   border-bottom: 1px solid var(--color-border);
-  background: linear-gradient(180deg, #fff 0%, var(--color-surface) 100%);
+  background: linear-gradient(180deg, var(--color-white) 0%, var(--color-surface) 100%);
 }
 
 .heroTop {
@@ -59,13 +59,18 @@
   background: var(--color-primary);
   color: #fff;
   font-weight: 600;
+  transition: background var(--transition);
+}
+
+.heroCta:hover {
+  background: var(--color-primary-hover);
 }
 
 .searchBar {
   display: grid;
   gap: 0.75rem;
   padding: 0.8rem;
-  background: #fff;
+  background: var(--color-white);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
@@ -83,16 +88,97 @@
 
 .searchBar input,
 .searchBar select {
+  min-height: 44px;
   border: 0;
-  outline: 0;
+  border-bottom: 1px solid var(--color-border);
+  background: transparent;
   font-size: 0.92rem;
   color: var(--color-dark);
+}
+
+.searchButton {
+  min-height: 48px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 750;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.searchButton:hover {
+  background: var(--color-primary-hover);
 }
 
 .mainLayout {
   display: grid;
   gap: 1.5rem;
   padding: 2rem 0 4rem;
+}
+
+.mobileTools {
+  display: none;
+  gap: 0.65rem;
+  padding-top: 1rem;
+}
+.mobileTools button,
+.alertButton,
+.applyFiltersButton,
+.saveAlertButton,
+.pagination button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-white);
+  color: var(--color-dark);
+  font-weight: 700;
+  transition:
+    background var(--transition),
+    color var(--transition),
+    border-color var(--transition);
+}
+.mobileTools button {
+  flex: 1;
+}
+.mobileTools button:hover,
+.pagination button:not(:disabled):hover {
+  background: var(--color-surface);
+}
+.alertButton {
+  width: 100%;
+  margin-top: 0.75rem;
+  color: var(--color-primary-contrast);
+}
+.alertButton:hover {
+  background: var(--color-primary-light);
+  border-color: rgba(193, 79, 22, 0.2);
+}
+.manageLink {
+  display: block;
+  margin-top: 0.75rem;
+  color: var(--color-primary-contrast);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.applyFiltersButton,
+.saveAlertButton {
+  width: 100%;
+  margin-top: 1rem;
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+}
+.applyFiltersButton:hover,
+.saveAlertButton:hover {
+  background: var(--color-primary-hover);
 }
 
 .filterCard,
@@ -102,7 +188,7 @@
 
 .filterCard {
   border: 1px solid var(--color-border);
-  background: #fff;
+  background: var(--color-white);
   padding: 1.25rem;
 }
 
@@ -116,20 +202,55 @@
   font-size: 0.92rem;
 }
 
-.filterPills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 1rem;
+.filterCard fieldset {
+  margin: 1rem 0;
+  border: 0;
 }
 
-.filterPills span {
-  padding: 0.35rem 0.65rem;
-  border-radius: 999px;
+.filterCard legend {
+  margin-bottom: 0.45rem;
+  color: var(--color-dark);
+  font-size: 0.85rem;
+  font-weight: 750;
+}
+
+.radioLabel,
+.checkLabel {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--color-ink);
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+.radioLabel input,
+.checkLabel input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-primary);
+}
+
+.clearButton,
+.emptyState button {
+  min-height: 42px;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-white);
+  color: var(--color-primary-contrast);
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background var(--transition),
+    border-color var(--transition);
+}
+
+.clearButton:hover,
+.emptyState button:hover {
   background: var(--color-primary-light);
-  color: var(--color-primary);
-  font-size: 0.78rem;
-  font-weight: 600;
+  border-color: rgba(193, 79, 22, 0.2);
 }
 
 .feedHeader {
@@ -144,11 +265,86 @@
   color: var(--color-dark);
 }
 
+.sortLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sortLabel select {
+  min-height: 40px;
+  padding: 0 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+  color: var(--color-ink);
+  transition: border-color var(--transition);
+}
+
+.sortLabel select:hover {
+  border-color: var(--color-primary);
+}
+
+.dataNotice {
+  margin: -0.25rem 0 1rem;
+  padding: 0.75rem;
+  border-left: 3px solid var(--color-warning);
+  background: var(--color-warning-light);
+  color: var(--color-ink);
+  font-size: 0.82rem;
+}
+
+.emptyState {
+  padding: 3rem 1.5rem;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.emptyState p {
+  margin: 0.5rem 0 1rem;
+  color: var(--color-slate);
+}
+
 .list {
   display: grid;
   gap: 1rem;
   list-style: none;
   padding: 0;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  color: var(--color-slate);
+  font-size: 0.875rem;
+}
+.pagination button:disabled {
+  opacity: 0.5;
+}
+.frequency {
+  display: grid;
+  gap: 0.5rem;
+  border: 0;
+}
+.frequency legend {
+  margin-bottom: 0.5rem;
+  color: var(--color-dark);
+  font-weight: 750;
+}
+.frequency label {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.6rem;
+}
+.frequency input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-primary);
 }
 
 @media (min-width: 1024px) {
@@ -157,7 +353,7 @@
   }
 
   .searchBar {
-    grid-template-columns: 1.2fr 1fr 1fr;
+    grid-template-columns: 1.2fr 1fr 0.9fr auto;
     align-items: end;
   }
 
@@ -165,5 +361,36 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 1rem;
+  }
+  .hero {
+    padding: 1.75rem 0;
+  }
+  .feedHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .sortLabel {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 1023px) {
+  .mobileTools {
+    display: flex;
+  }
+  .sidebar {
+    display: none;
+  }
+  .filterCard {
+    border: 0;
+    padding: 0;
+    box-shadow: none;
   }
 }

@@ -37,14 +37,14 @@ export const ITSkillsCard = ({
         <button
           type="button"
           onClick={addNewITSkillItem}
-          className="flex items-center gap-1 text-xs text-brand-primary hover:text-brand-primary-hover font-bold"
+          className="flex items-center gap-1 text-sm text-brand-primary hover:text-brand-primary-hover font-bold"
         >
           <Plus size={14} /> Add Skill Detail
         </button>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full text-left text-xs border-collapse">
+        <table className="w-full text-left text-sm border-collapse">
           <thead>
             <tr className="border-b border-slate-200 text-slate-400 font-medium">
               <th className="py-2.5">Skills</th>
@@ -101,7 +101,7 @@ export const ITSkillsCard = ({
                               onChange={(e) =>
                                 setITSkillForm({ ...itSkillForm, skill: e.target.value })
                               }
-                              className="w-full border border-slate-200 rounded px-2.5 py-1 text-xs outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                              className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
                             />
                           </div>
                           <div className="space-y-1">
@@ -118,7 +118,7 @@ export const ITSkillsCard = ({
                               onChange={(e) =>
                                 setITSkillForm({ ...itSkillForm, version: e.target.value })
                               }
-                              className="w-full border border-slate-200 rounded px-2.5 py-1 text-xs outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                              className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
                             />
                           </div>
                           <div className="space-y-1">
@@ -135,7 +135,7 @@ export const ITSkillsCard = ({
                               onChange={(e) =>
                                 setITSkillForm({ ...itSkillForm, lastUsed: e.target.value })
                               }
-                              className="w-full border border-slate-200 rounded px-2.5 py-1 text-xs outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                              className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
                             />
                           </div>
                           <div className="space-y-1">
@@ -152,7 +152,7 @@ export const ITSkillsCard = ({
                               onChange={(e) =>
                                 setITSkillForm({ ...itSkillForm, experience: e.target.value })
                               }
-                              className="w-full border border-slate-200 rounded px-2.5 py-1 text-xs outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                              className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
                             />
                           </div>
                         </div>
@@ -168,14 +168,14 @@ export const ITSkillsCard = ({
                           <button
                             type="button"
                             onClick={() => setEditingITSkillIndex(null)}
-                            className="px-3 py-1.5 border rounded text-xs hover:bg-slate-100 font-semibold"
+                            className="px-3 py-1.5 border rounded text-sm hover:bg-slate-100 font-semibold"
                           >
                             Cancel
                           </button>
                           <button
                             type="button"
                             onClick={() => saveITSkillItem(index)}
-                            className="px-3 py-1.5 bg-brand-primary text-white rounded text-xs hover:bg-brand-primary-hover font-semibold"
+                            className="px-3 py-1.5 bg-brand-primary text-white rounded text-sm hover:bg-brand-primary-hover font-semibold"
                           >
                             Save
                           </button>

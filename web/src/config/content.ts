@@ -9,54 +9,54 @@ export const SITE_CONTENT = {
   },
   landingPage: {
     hero: {
-      badge: 'Next-Generation Recruitment Platform',
-      titleHighlight: 'Hire Starts Here.',
-      titlePrefix: 'Your Next Great ',
+      badge: 'Recruitment workspace',
+      titleHighlight: 'move forward.',
+      titlePrefix: 'Find work. Build teams. ',
       subtitle:
-        'Recruitzaa connects top-tier talent with leading enterprises across IT, engineering, finance, and healthcare - powered by precision AI matching.',
+        'Recruitzaa brings job discovery and structured hiring workflows into one clear workspace for candidates and employers.',
       metrics: [
-        { value: '12,800+', label: 'Active Listings' },
-        { value: '50,000+', label: 'Verified Candidates' },
-        { value: '2,300+', label: 'Enterprise Clients' },
+        { value: 'Search', label: 'Current roles' },
+        { value: 'Track', label: 'Applications' },
+        { value: 'Manage', label: 'Hiring workflows' },
       ],
     },
     featuredJobs: [
       {
         title: 'Senior React Native Engineer',
         meta: 'Infosys Limited · Bangalore · Full-Time',
-        match: '89% Match',
+        match: 'View role',
       },
       {
         title: 'Mobile App Specialist (iOS / React)',
         meta: 'Zomato · Gurugram · Hybrid',
-        match: '92% Match',
+        match: 'View role',
       },
       {
         title: 'Lead Frontend Architect',
         meta: 'Flipkart · Bangalore · Remote',
-        match: '86% Match',
+        match: 'View role',
       },
     ],
     portals: {
       seekers: {
         title: 'For Job Seekers',
         description:
-          'Discover AI-ranked positions that align with your verified skill set, salary expectations, and work preferences. Build ATS-optimized resumes and prepare with interactive mock interview tools.',
+          'Browse roles by title, location, workplace, and experience. Use the candidate workspace to organize profile and application information.',
         bullets: [
-          'AI-powered resume ATS scoring & optimization',
-          'Real-time application status tracking board',
-          'Personalized salary benchmarks by role and city',
+          'Profile and resume tools in one workspace',
+          'Structured application tracking board',
+          'Role, location, and workplace filters',
         ],
         cta: 'Explore All Jobs',
       },
       employers: {
         title: 'For Enterprise Employers',
         description:
-          'Streamline candidate acquisition with automated sourcing across multiple channels. Evaluate pre-screened profiles with verified technical skills and reduced time-to-fill.',
+          'Create roles and organize candidate review in a structured employer workspace. Production sourcing and screening depend on approved integrations.',
         bullets: [
-          'Automated candidate matching & shortlisting',
-          'Multi-channel job distribution (LinkedIn, Naukri, Indeed)',
-          'Dedicated talent acquisition account managers',
+          'Structured candidate review and shortlisting',
+          'Centralized job and candidate management',
+          'Role-based employer workspaces',
         ],
         cta: 'Start Hiring Talent',
       },
@@ -65,12 +65,12 @@ export const SITE_CONTENT = {
       {
         num: '01',
         title: 'Permanent Placement',
-        desc: 'Full-cycle recruitment for core engineering, product, and leadership roles with guaranteed placement periods.',
+        desc: 'A structured engagement for discussing permanent engineering, product, and leadership hiring needs.',
       },
       {
         num: '02',
         title: 'Contract Staffing',
-        desc: 'Rapid deployment of specialized technical contractors for project-based demands and peak workloads.',
+        desc: 'A workflow for discussing technical contractors for project-based or changing staffing needs.',
       },
       {
         num: '03',
@@ -79,69 +79,69 @@ export const SITE_CONTENT = {
       },
       {
         num: '04',
-        title: 'AI Screening & Sourcing',
-        desc: 'Automated profile enrichment and qualification matching to reduce recruiter screening overhead by 60%.',
+        title: 'Structured Profile Review',
+        desc: 'Structured profile comparison designed to help recruiters review role requirements consistently.',
       },
     ],
     faqs: [
       {
         q: "How does Recruitzaa's AI candidate matching work?",
-        a: 'Our AI analyzes candidate skills, experience, and preferences to find the best match for employer requirements, ensuring high-quality placements.',
+        a: 'The current demo compares profile skills and preferences with job attributes. Production scoring requires validated models, clear explanations, and human review.',
       },
       {
         q: 'Is Recruitzaa free for job seekers?',
-        a: 'Yes, our core platform features, including job matching, resume scoring, and applications, are completely free for candidates.',
+        a: 'The demo does not publish pricing commitments. Candidate pricing and feature availability should be confirmed before launch.',
       },
       {
         q: 'How do I optimize my resume for ATS on Recruitzaa?',
-        a: 'Our AI Hub provides a built-in ATS resume scorer that highlights missing keywords and formatting issues compared to the job description.',
+        a: 'The Career Tools workspace is designed to compare resume content with a job description. Treat its suggestions as guidance, not a hiring decision.',
       },
       {
         q: 'What industries and locations do you cover?',
-        a: 'We specialize in IT, Engineering, Healthcare, and Finance across major global tech hubs and remote opportunities.',
+        a: 'Coverage depends on the roles employers publish. Use the job catalogue filters to see what is currently represented.',
       },
       {
         q: 'How quickly can employers hire through Recruitzaa?',
-        a: 'With our pre-vetted talent pool and automated screening, employers typically reduce their time-to-fill by 40%.',
+        a: 'Hiring time varies by role and process. Recruitzaa is designed to centralize review steps; no time-to-hire outcome is guaranteed.',
       },
     ],
     aboutUs: {
       tag: 'Who We Are',
       title: 'Redefining the Recruitment Paradigm',
       subtitle:
-        'Recruitzaa is a unified AI-native staffing and talent matching ecosystem designed to bridge candidate potential with enterprise demands.',
+        'Recruitzaa is being designed as a shared workspace for candidates, employers, experts, employees, and platform operators.',
       differentiators: [
         {
           title: 'Explainable AI Match Scoring',
-          desc: 'Ditch black-box screening. We analyze skill overlaps, experience fits, and salary expectations to compute explainable fit scores.',
+          desc: 'Profile comparisons should show which job attributes contributed to a score and always leave the decision with a person.',
         },
         {
-          title: 'Stealth Job Sourcing',
-          desc: 'Our isolated Playwright-based Celery workers continuously parse company portals to ensure fresh, direct job listings.',
+          title: 'Clear Listing Sources',
+          desc: 'Production listings should identify their employer or approved source and display a reliable posted and closing date.',
         },
         {
-          title: 'Hardware-Backed Security',
-          desc: 'Candidate data and JWT sessions are secured using encrypted hardware keys and verified business email audits.',
+          title: 'Privacy by Design',
+          desc: 'Collect only the candidate and employer data needed for the workflow, with clear access controls and retention policies.',
         },
       ],
     },
   },
   employerLandingPage: {
     hero: {
-      title: 'Enterprise Staffing & Precision Hiring',
+      title: 'A structured workspace for hiring teams',
       subtitle:
         'Recruitzaa helps enterprise teams hire faster with structured sourcing, verified talent, and a review-first workflow that keeps quality high.',
       cta: 'Start Hiring',
     },
     stats: [
-      { value: '50,000+', label: 'Candidates' },
-      { value: '2,300+', label: 'Companies' },
-      { value: '12,800+', label: 'Jobs' },
+      { value: 'Create', label: 'Job listings' },
+      { value: 'Review', label: 'Candidates' },
+      { value: 'Track', label: 'Hiring stages' },
     ],
     services: [
       {
         title: 'Contract Staffing',
-        desc: 'Flexible, short-term talent deployment for project-based needs with full compliance.',
+        desc: 'A workflow for discussing flexible, project-based staffing requirements.',
       },
       {
         title: 'Permanent Placement',
@@ -153,13 +153,13 @@ export const SITE_CONTENT = {
       },
       {
         title: 'Payroll Management',
-        desc: 'Comprehensive payroll processing, tax compliance, and benefits administration.',
+        desc: 'A planned workspace for payroll operations; availability depends on production integrations and jurisdictional review.',
       },
     ],
     steps: [
       { number: '1', title: 'Register your company' },
-      { number: '2', title: 'Post a job, reviewed within 24h' },
-      { number: '3', title: 'Receive AI-matched candidates' },
+      { number: '2', title: 'Create and review a job listing' },
+      { number: '3', title: 'Review candidate profiles' },
     ],
   },
 };

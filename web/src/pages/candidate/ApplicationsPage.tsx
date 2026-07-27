@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAppSelector } from '../../store/hooks';
 import { ApplicationFilterBar } from '../../features/applications/components/ApplicationList/ApplicationFilterBar';
 import { ApplicationTable } from '../../features/applications/components/ApplicationList/ApplicationTable';
+import { useToast } from '../../hooks/useToast';
 
 /**
  * ApplicationsPage — Main candidate applications history screen.
@@ -9,6 +10,7 @@ import { ApplicationTable } from '../../features/applications/components/Applica
  */
 export const ApplicationsPage = () => {
   const applications = useAppSelector((state) => state.kanban.applications);
+  const toast = useToast();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
@@ -24,7 +26,7 @@ export const ApplicationsPage = () => {
   });
 
   const handleViewDetails = (id: string) => {
-    alert(`Redirecting to details for application: ${id}`);
+    toast.info(`Application ${id} has no linked production record in this demo.`);
   };
 
   return (
@@ -33,8 +35,8 @@ export const ApplicationsPage = () => {
         <h1 className="text-xl font-extrabold text-slate-900 dark:text-white">
           Job Applications History
         </h1>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-          Review, filter, and track details of all your submitted roles and resumes.
+        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+          Illustrative browser-only records. No employer has received these applications.
         </p>
       </div>
 

@@ -13,7 +13,6 @@ export const env = {
     APP_ID: import.meta.env.VITE_FIREBASE_APP_ID || '',
     MEASUREMENT_ID: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || '',
   },
-  OPENAI_API_KEY: import.meta.env.VITE_OPENAI_API_KEY || '',
   APP_NAME: import.meta.env.VITE_APP_NAME || 'Recruitzaa',
   APP_ENV: (import.meta.env.VITE_APP_ENV as 'development' | 'production' | 'test') || 'development',
   isDev: import.meta.env.DEV,
