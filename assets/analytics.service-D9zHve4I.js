@@ -1,0 +1,1 @@
+var e=(e,t={})=>{if(typeof window>`u`)return;window.dispatchEvent(new CustomEvent(`recruitzaa:analytics`,{detail:{name:e,properties:t}}));let n=window;window.localStorage.getItem(`recruitzaa:analytics-consent`)===`granted`&&n.gtag?.(`event`,e,t)};export{e as t};

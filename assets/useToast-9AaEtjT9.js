@@ -1,1 +1,0 @@
-import{t as e}from"./hooks-CkVnnvni.js";import{t}from"./ui.slice-DXnhiHtV.js";var n=()=>{let n=e();return{success:e=>n(t({type:`success`,message:e})),error:e=>n(t({type:`error`,message:e})),warning:e=>n(t({type:`warning`,message:e})),info:e=>n(t({type:`info`,message:e}))}};export{n as t};
