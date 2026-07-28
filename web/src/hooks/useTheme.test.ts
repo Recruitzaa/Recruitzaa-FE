@@ -9,7 +9,7 @@ describe('useTheme Hook', () => {
     vi.restoreAllMocks();
   });
 
-  it('should initialize with light theme by default if media query matches light', () => {
+  it('should initialize with light theme by default', () => {
     window.matchMedia = vi.fn().mockImplementation((query: string) => ({
       matches: false,
       media: query,
@@ -28,7 +28,7 @@ describe('useTheme Hook', () => {
     expect(document.documentElement.classList.contains('dark')).toBe(false);
   });
 
-  it('should initialize with dark theme if system prefers-color-scheme matches dark', () => {
+  it('should remain light for a first-time visitor whose system prefers dark', () => {
     window.matchMedia = vi.fn().mockImplementation((query: string) => ({
       matches: query.includes('dark'),
       media: query,
@@ -42,13 +42,13 @@ describe('useTheme Hook', () => {
 
     const { result } = renderHook(() => useTheme());
 
-    expect(result.current.theme).toBe('dark');
-    expect(result.current.isDark).toBe(true);
-    expect(document.documentElement.classList.contains('dark')).toBe(true);
+    expect(result.current.theme).toBe('light');
+    expect(result.current.isDark).toBe(false);
+    expect(document.documentElement.classList.contains('dark')).toBe(false);
   });
 
-  it('should initialize with theme from localStorage if present', () => {
-    localStorage.setItem('theme', 'dark');
+  it('should initialize with an explicitly saved theme', () => {
+    localStorage.setItem('recruitzaa-theme-v2', 'dark');
 
     const { result } = renderHook(() => useTheme());
 
@@ -79,7 +79,7 @@ describe('useTheme Hook', () => {
 
     expect(result.current.theme).toBe('dark');
     expect(result.current.isDark).toBe(true);
-    expect(localStorage.getItem('theme')).toBe('dark');
+    expect(localStorage.getItem('recruitzaa-theme-v2')).toBe('dark');
     expect(document.documentElement.classList.contains('dark')).toBe(true);
 
     act(() => {
@@ -88,7 +88,7 @@ describe('useTheme Hook', () => {
 
     expect(result.current.theme).toBe('light');
     expect(result.current.isDark).toBe(false);
-    expect(localStorage.getItem('theme')).toBe('light');
+    expect(localStorage.getItem('recruitzaa-theme-v2')).toBe('light');
     expect(document.documentElement.classList.contains('dark')).toBe(false);
   });
 });

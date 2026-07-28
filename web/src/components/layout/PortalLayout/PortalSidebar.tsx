@@ -60,8 +60,12 @@ export const PortalSidebar = ({ isOpen, onClose }: PortalSidebarProps) => {
         <div className={styles.brand}>
           <Link to={isEmployer ? '/employers' : '/'}>
             <span className={styles.logoText}>
-              RecruitZaa{' '}
-              {isEmployer && <span className="text-sm text-[#c14f16] font-bold ml-1">PRO</span>}
+              Recruitzaa{' '}
+              {isEmployer && (
+                <span className="text-xs text-[#c14f16] font-bold ml-1 uppercase tracking-wider">
+                  Employer
+                </span>
+              )}
             </span>
           </Link>
           <button

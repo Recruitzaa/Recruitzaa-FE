@@ -9,12 +9,39 @@
   white-space: nowrap;
 }
 
-.pending   { background: var(--color-warning-light); color: var(--color-warning); }
-.approved  { background: var(--color-success-light); color: var(--color-success); }
-.rejected  { background: var(--color-error-light);   color: var(--color-error);   }
-.expired   { background: #f3f4f6; color: var(--color-slate); }
-.saved     { background: #eff6ff; color: #3b82f6; }
-.applied   { background: var(--color-primary-light); color: var(--color-primary); }
-.screening { background: var(--color-warning-light); color: var(--color-warning); }
-.interview { background: #faf5ff; color: #7c3aed; }
-.offer     { background: var(--color-success-light); color: var(--color-success); }
+.pending {
+  background: var(--color-warning-light);
+  color: var(--color-warning);
+}
+.approved {
+  background: var(--color-success-light);
+  color: var(--color-success);
+}
+.rejected {
+  background: var(--color-error-light);
+  color: var(--color-error);
+}
+.expired {
+  background: var(--color-surface);
+  color: var(--color-slate);
+}
+.saved {
+  background: var(--color-info-light);
+  color: var(--color-info);
+}
+.applied {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+.screening {
+  background: var(--color-warning-light);
+  color: var(--color-warning);
+}
+.interview {
+  background: var(--color-primary-light);
+  color: var(--color-primary-contrast);
+}
+.offer {
+  background: var(--color-success-light);
+  color: var(--color-success);
+}

@@ -5,8 +5,9 @@ import { switchActiveRole } from '../../store/slices/auth.slice';
 import type { UserRole } from '../../types/auth.types';
 import { PageTransition } from '../../components/layout/PageTransition';
 import { SEO } from '../../components/seo/SEO';
-import { Shield, Briefcase, GraduationCap, Laptop, FileText } from 'lucide-react';
+import { Shield, Briefcase, GraduationCap, Laptop, FileText, Moon, Sun } from 'lucide-react';
 import logo from '../../assets/logo.png';
+import { useTheme } from '../../hooks/useTheme';
 
 const ROLE_META: Record<
   UserRole,
@@ -47,6 +48,7 @@ const ROLE_META: Record<
 export const LaunchpadPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { isDark, toggleTheme } = useTheme();
   const { appUser } = useAppSelector((state) => state.auth);
 
   if (!appUser) {
@@ -77,8 +79,17 @@ export const LaunchpadPage: React.FC = () => {
           title="Select Workspace — Recruitzaa Enterprise"
           description="Choose your active profile workspace to get started on Recruitzaa."
         />
-        <main className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col justify-center items-center px-4 py-12">
-          <div className="max-w-5xl w-full space-y-8">
+        <main className="relative min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center px-4 py-8 lg:py-10">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={isDark ? 'Use light theme' : 'Use dark theme'}
+            title={isDark ? 'Use light theme' : 'Use dark theme'}
+            className="absolute top-4 right-4 inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 shadow-sm transition-colors hover:border-[#c14f16] hover:bg-[#fef3ee] hover:text-[#a94210] dark:border-slate-700 dark:bg-slate-850 dark:text-slate-200 dark:hover:border-orange-500 dark:hover:bg-orange-950/30 dark:hover:text-orange-300"
+          >
+            {isDark ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
+          </button>
+          <div className="max-w-5xl w-full space-y-6 my-auto">
             {/* Header branding */}
             <div className="text-center space-y-3">
               <img src={logo} alt="Recruitzaa Logo" className="h-10 mx-auto" />
@@ -93,7 +104,7 @@ export const LaunchpadPage: React.FC = () => {
             </div>
 
             {/* Grid of portal cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-2">
               {availableRoles.map((role) => {
                 const meta = ROLE_META[role];
                 if (!meta) return null;
@@ -104,7 +115,7 @@ export const LaunchpadPage: React.FC = () => {
                     key={role}
                     type="button"
                     onClick={() => handleSelectRole(role)}
-                    className="group bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-6 text-left shadow-sm hover:shadow-md hover:border-[#c14f16] dark:hover:border-[#c14f16] transition-all flex flex-col justify-between h-56 w-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2 min-h-[44px]"
+                    className="group bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-6 text-left shadow-sm hover:shadow-md hover:border-[#c14f16] dark:hover:border-[#c14f16] transition-all flex flex-col justify-between min-h-52 w-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2"
                   >
                     <div className="space-y-3">
                       <div className="p-3 bg-slate-50 dark:bg-slate-900 group-hover:bg-[#fef3ee] text-slate-500 dark:text-slate-400 group-hover:text-[#c14f16] rounded-lg w-fit transition-colors">

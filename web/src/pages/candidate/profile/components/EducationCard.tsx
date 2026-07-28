@@ -38,7 +38,7 @@ export const EducationCard = ({
           <button
             type="button"
             onClick={startEditingEducation}
-            className="text-slate-400 hover:text-brand-primary"
+            className="inline-flex min-w-11 min-h-11 items-center justify-center rounded-lg text-slate-400 hover:text-brand-primary hover:bg-slate-50 transition-colors"
             aria-label="Edit education"
           >
             <Edit2 size={16} />

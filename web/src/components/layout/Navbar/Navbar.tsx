@@ -19,6 +19,7 @@ export const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { isDark, toggleTheme } = useTheme();
   const mobilePanelRef = useRef<HTMLDivElement>(null);
+  const navMenuRef = useRef<HTMLElement>(null);
   const closeMobile = useCallback(() => setMobileOpen(false), []);
   useFocusTrap(mobileOpen, mobilePanelRef, { onEscape: closeMobile });
 
@@ -26,6 +27,25 @@ export const Navbar = () => {
     setOpenMenu(null);
     setMobileOpen(false);
   }, [location.pathname, location.search, location.hash]);
+
+  // Close dropdown when clicking outside the nav or pressing Escape
+  useEffect(() => {
+    if (!openMenu) return;
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (navMenuRef.current && !navMenuRef.current.contains(e.target as Node)) {
+        setOpenMenu(null);
+      }
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpenMenu(null);
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [openMenu]);
 
   const handleSignOut = async () => {
     try {
@@ -48,8 +68,10 @@ export const Navbar = () => {
 
   const authLink = (intent: 'signin' | 'candidate' | 'employer') =>
     intent === 'signin' ? '/login' : `/register?intent=${intent}`;
-  const canSeeJobs = !isAuthenticated || appUser?.role !== 'EMPLOYER';
-  const canSeeEmployers = !isAuthenticated || appUser?.role !== 'CANDIDATE';
+  const userRole = appUser?.activeRole ?? appUser?.role;
+  const canSeeJobs = !isAuthenticated || userRole !== 'EMPLOYER';
+  // Employer tab is a pre-login marketing element — hide it for ALL authenticated users
+  const canSeeEmployers = !isAuthenticated;
 
   const primaryLinks = (
     <>
@@ -89,26 +111,34 @@ export const Navbar = () => {
           <img src={logo} alt="" width="140" height="36" />
         </Link>
 
-        <nav className={styles.navMenu} aria-label="Primary navigation">
+        <nav ref={navMenuRef} className={styles.navMenu} aria-label="Primary navigation">
           {canSeeJobs && (
             <div className={styles.navItem}>
-              <Link
-                to="/jobs"
-                className={styles.navLink}
-                aria-current={location.pathname.startsWith('/jobs') ? 'page' : undefined}
+              <div
+                className={`${styles.navGroup} ${openMenu === 'jobs' ? styles.navGroupActive : ''}`}
               >
-                Find Jobs
-              </Link>
-              <button
-                type="button"
-                className={styles.menuTrigger}
-                aria-label="Open Find Jobs menu"
-                aria-expanded={openMenu === 'jobs'}
-                aria-controls="jobs-mega-menu"
-                onClick={() => setOpenMenu(openMenu === 'jobs' ? null : 'jobs')}
-              >
-                <ChevronDown size={15} aria-hidden="true" />
-              </button>
+                <Link
+                  to="/jobs"
+                  className={styles.navLink}
+                  aria-current={location.pathname.startsWith('/jobs') ? 'page' : undefined}
+                >
+                  Find Jobs
+                </Link>
+                <button
+                  type="button"
+                  className={styles.menuTrigger}
+                  aria-label="Open Find Jobs menu"
+                  aria-expanded={openMenu === 'jobs'}
+                  aria-controls="jobs-mega-menu"
+                  onClick={() => setOpenMenu(openMenu === 'jobs' ? null : 'jobs')}
+                >
+                  <ChevronDown
+                    size={15}
+                    aria-hidden="true"
+                    className={`${styles.chevron} ${openMenu === 'jobs' ? styles.chevronOpen : ''}`}
+                  />
+                </button>
+              </div>
               <div
                 id="jobs-mega-menu"
                 className={`${styles.megaMenu} ${openMenu === 'jobs' ? styles.megaMenuOpen : ''}`}
@@ -149,23 +179,31 @@ export const Navbar = () => {
 
           {canSeeEmployers && (
             <div className={styles.navItem}>
-              <Link
-                to="/employers"
-                className={styles.navLink}
-                aria-current={location.pathname.startsWith('/employer') ? 'page' : undefined}
+              <div
+                className={`${styles.navGroup} ${openMenu === 'employers' ? styles.navGroupActive : ''}`}
               >
-                Employer Services
-              </Link>
-              <button
-                type="button"
-                className={styles.menuTrigger}
-                aria-label="Open Employer Services menu"
-                aria-expanded={openMenu === 'employers'}
-                aria-controls="employer-mega-menu"
-                onClick={() => setOpenMenu(openMenu === 'employers' ? null : 'employers')}
-              >
-                <ChevronDown size={15} aria-hidden="true" />
-              </button>
+                <Link
+                  to="/employers"
+                  className={styles.navLink}
+                  aria-current={location.pathname.startsWith('/employer') ? 'page' : undefined}
+                >
+                  Employer Services
+                </Link>
+                <button
+                  type="button"
+                  className={styles.menuTrigger}
+                  aria-label="Open Employer Services menu"
+                  aria-expanded={openMenu === 'employers'}
+                  aria-controls="employer-mega-menu"
+                  onClick={() => setOpenMenu(openMenu === 'employers' ? null : 'employers')}
+                >
+                  <ChevronDown
+                    size={15}
+                    aria-hidden="true"
+                    className={`${styles.chevron} ${openMenu === 'employers' ? styles.chevronOpen : ''}`}
+                  />
+                </button>
+              </div>
               <div
                 id="employer-mega-menu"
                 className={`${styles.megaMenu} ${openMenu === 'employers' ? styles.megaMenuOpen : ''}`}

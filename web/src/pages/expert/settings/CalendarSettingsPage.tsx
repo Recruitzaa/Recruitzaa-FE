@@ -71,7 +71,7 @@ export const CalendarSettingsPage: React.FC = () => {
                   className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2 ${
                     settings.googleCalendarConnected
                       ? 'bg-[#c14f16]'
-                      : 'bg-slate-250 dark:bg-slate-800'
+                      : 'bg-slate-300 dark:bg-slate-700'
                   }`}
                 >
                   <span
@@ -98,7 +98,7 @@ export const CalendarSettingsPage: React.FC = () => {
                   className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2 ${
                     settings.outlookCalendarConnected
                       ? 'bg-[#c14f16]'
-                      : 'bg-slate-250 dark:bg-slate-800'
+                      : 'bg-slate-300 dark:bg-slate-700'
                   }`}
                 >
                   <span

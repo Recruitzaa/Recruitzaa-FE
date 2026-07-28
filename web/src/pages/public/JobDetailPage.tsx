@@ -125,6 +125,27 @@ export const JobDetailPage = () => {
               {job.company} · {displayLocation} · {job.type} · Posted {job.postedAt}
             </p>
             <div className={styles.headerActions}>
+              {!isAuthenticated ? (
+                <Link
+                  className={styles.headerApply}
+                  to={`/login?next=${encodeURIComponent(nextPath)}`}
+                >
+                  Sign in to apply
+                </Link>
+              ) : isCandidate ? (
+                <button
+                  type="button"
+                  className={styles.headerApply}
+                  disabled
+                  title="Applications require the production application service."
+                >
+                  Applications unavailable in demo
+                </button>
+              ) : (
+                <Link className={styles.headerApply} to="/launchpad">
+                  Switch workspace to apply
+                </Link>
+              )}
               <button type="button" onClick={handleSave} aria-pressed={isSaved}>
                 <Bookmark size={18} fill={isSaved ? 'currentColor' : 'none'} aria-hidden="true" />
                 {isSaved ? 'Saved' : 'Save job'}

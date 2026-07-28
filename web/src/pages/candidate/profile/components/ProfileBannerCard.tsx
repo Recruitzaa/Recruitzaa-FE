@@ -87,7 +87,7 @@ export const ProfileBannerCard = ({
           <button
             type="button"
             onClick={startEditingPersonal}
-            className="absolute right-0 top-0 text-slate-400 hover:text-brand-primary"
+            className="absolute right-0 top-0 inline-flex min-w-11 min-h-11 items-center justify-center rounded-lg text-slate-400 hover:text-brand-primary hover:bg-slate-50 transition-colors"
             aria-label="Edit personal details"
           >
             <Edit2 size={16} />

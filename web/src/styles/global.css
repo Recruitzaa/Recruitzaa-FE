@@ -14,11 +14,31 @@
 html {
   scroll-behavior: smooth;
   background: var(--color-surface);
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 :focus-visible {
-  outline: 3px solid var(--color-primary);
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--color-primary-light);
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* ── Override Tailwind's default red ring colour ─────────────── */
+*,
+*::before,
+*::after {
+  --tw-ring-color: rgba(193, 79, 22, 0.35);
 }
 
 ::placeholder {
@@ -48,6 +68,43 @@ textarea {
   font-family: inherit;
 }
 
+input,
+select,
+textarea {
+  color: var(--color-ink);
+}
+
+/* ── Shared input/textarea field style ───────────────────────── */
+/* Apply to any raw <input> or <textarea> not using Input.module.css */
+.field-input {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-ink);
+  background: var(--color-white);
+  outline: none;
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.field-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.field-input::placeholder {
+  color: var(--color-slate-muted);
+}
+
+.dark input,
+.dark select,
+.dark textarea {
+  border-color: var(--color-border);
+}
+
 button:not(:disabled) {
   cursor: pointer;
 }
@@ -72,7 +129,7 @@ button:disabled {
   top: 0;
   z-index: 1000;
   padding: 0.75rem 1rem;
-  background: var(--color-dark);
+  background: var(--color-inverse);
   color: #fff;
   border-radius: 0 0 var(--radius) 0;
 }

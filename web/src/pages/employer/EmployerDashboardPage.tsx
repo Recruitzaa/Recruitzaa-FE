@@ -46,8 +46,12 @@ export const EmployerDashboardPage = () => {
             <span className={styles.kpiTitle}>Applications</span>
             <span className={`${styles.kpiTag} ${styles.tagWarning}`}>Not connected</span>
           </div>
-          <div className={styles.kpiValue} aria-label="Applications unavailable">
-            —
+          <div
+            className={styles.kpiValue}
+            aria-label="Application count unavailable until the service is connected"
+            title="Application data will appear after the production application service is connected."
+          >
+            N/A
           </div>
         </Card>
       </div>

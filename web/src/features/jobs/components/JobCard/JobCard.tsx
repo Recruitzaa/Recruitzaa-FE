@@ -71,9 +71,7 @@ export const JobCard = ({
             {matchScore > 0 ? `${matchScore}% profile match` : 'Match not calculated'}
           </div>
         ) : (
-          <Link to={`/login?next=${encodeURIComponent(detailsLink)}`} className={styles.matchLink}>
-            Sign in to see match
-          </Link>
+          <span className={styles.matchPill}>Profile match after sign-in</span>
         )}
         <button
           type="button"

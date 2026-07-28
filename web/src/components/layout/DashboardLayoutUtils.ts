@@ -26,6 +26,10 @@ export const getRoleLabel = (role?: string) => {
       return 'Job Seeker Account';
     case 'EMPLOYER':
       return 'Employer Account';
+    case 'EXPERT':
+      return 'Tutor Account';
+    case 'EMPLOYEE':
+      return 'Employee Account';
     case 'SUPER_ADMIN':
       return 'Admin Account';
     default:

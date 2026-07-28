@@ -76,7 +76,7 @@ export const ITSkillsCard = ({
                         <button
                           type="button"
                           onClick={() => startEditingITSkill(index)}
-                          className="text-slate-450 hover:text-brand-primary"
+                          className="inline-flex min-w-11 min-h-11 items-center justify-center rounded-lg text-slate-450 hover:text-brand-primary hover:bg-slate-50 transition-colors"
                           aria-label={`Edit ${item.skill}`}
                         >
                           <Edit2 size={13} />

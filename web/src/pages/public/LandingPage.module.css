@@ -71,7 +71,15 @@
 .field {
   display: flex;
   flex-direction: column;
-  padding: 0.3rem 0.6rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius);
+  transition:
+    background var(--transition),
+    box-shadow var(--transition);
+}
+
+.field:focus-within {
+  background: var(--color-surface);
 }
 
 .field label {
@@ -88,16 +96,17 @@
   outline: 0;
   font-size: 0.9rem;
   color: var(--color-dark);
+  background: transparent;
 }
 
+.field input:focus,
 .field input:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 4px;
-  border-radius: 2px;
+  outline: none;
+  box-shadow: none !important;
 }
 
 .field input::placeholder {
-  color: #4b5563;
+  color: var(--color-slate);
 }
 
 .searchButton,
@@ -129,12 +138,12 @@
 }
 
 .darkLink {
-  background: var(--color-dark);
+  background: var(--color-inverse);
   color: #fff;
 }
 
 .darkLink:hover {
-  background: var(--color-dark-muted);
+  background: var(--color-inverse-hover);
 }
 
 .metrics {

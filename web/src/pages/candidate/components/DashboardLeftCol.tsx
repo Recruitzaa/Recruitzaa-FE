@@ -51,7 +51,11 @@ export const DashboardLeftCol = ({ jobs, activeApps }: DashboardLeftColProps) =>
                       <td>{job.location}</td>
                       <td>{job.salary}</td>
                       <td>
-                        <span className={styles.scoreText}>{job.matchedSkills} skill matches</span>
+                        <span className={styles.scoreText}>
+                          {job.matchedSkills === 1
+                            ? '1 matching skill'
+                            : `${job.matchedSkills} matching skills`}
+                        </span>
                       </td>
                       <td>
                         <Link to={`/jobs/${job.id}`} className="no-underline">

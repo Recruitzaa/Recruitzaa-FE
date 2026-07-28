@@ -121,7 +121,7 @@ export const DashboardLayout = () => {
                 {appUser ? appUser.displayName : 'Loading...'}
               </div>
               <div className="text-sm text-slate-500 dark:text-slate-400 font-semibold truncate">
-                {appUser ? getRoleLabel(appUser.role) : 'Account'}
+                {appUser ? getRoleLabel(appUser.activeRole || appUser.role) : 'Account'}
               </div>
             </div>
           </div>

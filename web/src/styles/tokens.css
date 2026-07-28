@@ -1,10 +1,13 @@
 :root {
+  color-scheme: light;
   --color-primary: #c14f16;
   --color-primary-hover: #a94210;
   --color-primary-contrast: #a94210;
   --color-primary-light: #fef3ee;
   --color-dark: #1e2229;
   --color-dark-muted: #2d323c;
+  --color-inverse: #1e2229;
+  --color-inverse-hover: #2d323c;
   --color-ink: #111827;
   --color-slate: #4b5563;
   --color-slate-muted: #9ca3af;
@@ -19,6 +22,8 @@
   --color-warning-light: #fffbeb;
   --color-error: #dc2626;
   --color-error-light: #fef2f2;
+  --color-info: #2563eb;
+  --color-info-light: #eff6ff;
   --color-admin-accent: #6366f1;
   --color-admin-surface: #0f1117;
   --radius-sm: 6px;
@@ -39,11 +44,32 @@
 
 /* ── Dark Mode System Overrides ───────────────────── */
 .dark {
-  --color-surface: #0b0f17; /* Dark background layout surface */
-  --color-white: #131924; /* Dark card backgrounds */
-  --color-card: #131924;
-  --color-ink: #f3f4f6; /* Bright white body copy */
-  --color-slate: #9ca3af; /* Light muted slate text */
-  --color-border: #232a37; /* Dark mode border details */
-  --color-primary-light: #2c1a11; /* Dark primary brand light background */
+  color-scheme: dark;
+  --color-primary-hover: #e06422;
+  --color-primary-contrast: #fb923c;
+  --color-primary-light: #321b12;
+  --color-dark: #f8fafc;
+  --color-dark-muted: #e2e8f0;
+  --color-inverse: #111827;
+  --color-inverse-hover: #263244;
+  --color-ink: #f1f5f9;
+  --color-slate: #cbd5e1;
+  --color-slate-muted: #94a3b8;
+  --color-border: #334155;
+  --color-surface: #0f172a;
+  --color-white: #172033;
+  --color-card: #172033;
+  --color-overlay: rgba(2, 6, 23, 0.78);
+  --color-success: #34d399;
+  --color-success-light: rgba(6, 78, 59, 0.32);
+  --color-warning: #fbbf24;
+  --color-warning-light: rgba(120, 53, 15, 0.34);
+  --color-error: #f87171;
+  --color-error-light: rgba(127, 29, 29, 0.32);
+  --color-info: #60a5fa;
+  --color-info-light: rgba(30, 58, 138, 0.34);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --shadow: 0 2px 6px rgba(0, 0, 0, 0.32);
+  --shadow-md: 0 8px 24px -8px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 18px 40px rgba(0, 0, 0, 0.55);
 }

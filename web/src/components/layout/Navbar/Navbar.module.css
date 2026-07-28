@@ -36,18 +36,39 @@
   align-items: center;
 }
 
+/* Unified hover group — both the link text and chevron respond together */
+.navGroup {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition);
+}
+
+.navGroup:hover,
+.navGroupActive {
+  background: var(--color-primary-light);
+}
+
+.navGroup:hover .navLink,
+.navGroupActive .navLink {
+  color: var(--color-primary);
+}
+
+.navGroup:hover .menuTrigger,
+.navGroupActive .menuTrigger {
+  color: var(--color-primary);
+}
+
 .navLink {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.75rem;
   border-radius: var(--radius-sm);
   color: var(--color-dark);
   font-size: 0.85rem;
   font-weight: 500;
-  transition:
-    background var(--transition),
-    color var(--transition);
+  transition: color var(--transition);
 }
 
 .menuTrigger {
@@ -67,12 +88,21 @@
 .menuTrigger:hover,
 .menuTrigger[aria-expanded='true'] {
   color: var(--color-primary);
-  background: var(--color-primary-light);
+  background: transparent;
 }
 
 .navLink:hover {
   color: var(--color-primary);
-  background: var(--color-primary-light);
+  /* background handled by navGroup hover */
+}
+
+/* Chevron rotation animation */
+.chevron {
+  transition: transform 0.2s ease-in-out;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
 }
 
 .caret {
@@ -267,12 +297,12 @@
 }
 
 .dark {
-  background: var(--color-dark);
+  background: var(--color-inverse);
   color: #fff;
 }
 
 .dark:hover {
-  background: var(--color-dark-muted);
+  background: var(--color-inverse-hover);
 }
 
 .outline {
