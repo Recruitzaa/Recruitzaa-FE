@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import type { FormEvent } from 'react';
 import { Search } from 'lucide-react';
-import { useEffect, useId, useMemo } from 'react';
+import { useEffect, useId } from 'react';
 import { PageTransition } from '../../components/layout/PageTransition';
 import { SEO } from '../../components/seo/SEO';
 import styles from './LandingPage.module.css';
@@ -44,15 +44,111 @@ const faqSchema = {
 };
 
 export const LandingPage = () => {
-  const jobs = useAppSelector((state) => state.jobs.jobsList);
-  const recentJobs = useMemo(
-    () => jobs.filter((job) => job.status === 'Active').slice(0, 3),
-    [jobs]
-  );
+  const { isAuthenticated, appUser } = useAppSelector((state) => state.auth);
   const location = useLocation();
   const navigate = useNavigate();
   const keywordId = useId();
   const locationId = useId();
+  const activeRole = appUser?.activeRole ?? appUser?.role;
+  const workspaceRoute =
+    activeRole === 'EMPLOYER'
+      ? '/employer/dashboard'
+      : activeRole === 'EXPERT'
+        ? '/expert/dashboard'
+        : activeRole === 'EMPLOYEE'
+          ? '/employee/dashboard'
+          : activeRole === 'SUPER_ADMIN'
+            ? '/admin/dashboard'
+            : '/candidate/dashboard';
+  const roleTask =
+    activeRole === 'EMPLOYER'
+      ? {
+          title: 'Manage job listings',
+          description: 'Review active roles, drafts, and listing information.',
+          action: 'Manage jobs',
+          to: '/employer/my-jobs',
+        }
+      : activeRole === 'EXPERT'
+        ? {
+            title: 'Manage your availability',
+            description: 'Review calendar connections and session availability.',
+            action: 'Open calendar',
+            to: '/expert/calendar-settings',
+          }
+        : activeRole === 'EMPLOYEE'
+          ? {
+              title: 'Review employee tools',
+              description: 'Return to your work dashboard and available employee services.',
+              action: 'View tools',
+              to: '/employee/dashboard',
+            }
+          : activeRole === 'SUPER_ADMIN'
+            ? {
+                title: 'Review job approvals',
+                description: 'Continue with platform review and moderation work.',
+                action: 'Review queue',
+                to: '/admin/job-approvals',
+              }
+            : {
+                title: 'Browse opportunities',
+                description:
+                  'Search the current catalogue by role, location, workplace, and experience.',
+                action: 'Browse jobs',
+                to: '/jobs',
+              };
+  const accountTask =
+    activeRole === 'CANDIDATE'
+      ? {
+          title: 'Strengthen your profile',
+          description:
+            'Keep your skills, experience, and preferences current for better comparisons.',
+          action: 'Review profile',
+          to: '/candidate/profile',
+        }
+      : activeRole === 'EMPLOYER'
+        ? {
+            title: 'Review company information',
+            description: 'Keep your employer profile and organization details current.',
+            action: 'Company profile',
+            to: '/employer/profile',
+          }
+        : {
+            title: 'Return to your workspace',
+            description: 'Access the information and controls available for your active role.',
+            action: 'Open workspace',
+            to: workspaceRoute,
+          };
+  const previewItems = isAuthenticated
+    ? [
+        {
+          title: 'Open your workspace',
+          description: 'Continue with the tools and information for your active role.',
+          action: 'Continue',
+          to: workspaceRoute,
+        },
+        roleTask,
+        accountTask,
+      ]
+    : [
+        {
+          title: 'Discover opportunities',
+          description: 'Search roles by title, location, workplace, and experience.',
+          action: 'Browse jobs',
+          to: '/jobs',
+        },
+        {
+          title: 'Build your professional profile',
+          description: 'Keep skills, experience, and application information in one workspace.',
+          action: 'Get started',
+          to: '/register?intent=candidate',
+        },
+        {
+          title: 'Explore Job Opportunities',
+          description: 'Discover the latest job openings and find your dream career.',
+          action: 'Explore Jobs',
+          to: '/jobs',
+        },
+      ];
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -143,20 +239,24 @@ export const LandingPage = () => {
 
           <div className={styles.preview}>
             <div className={styles.previewHeader}>
-              <span>Recently added demo roles</span>
-              <span>Sign in for profile tools</span>
+              <span>
+                {isAuthenticated
+                  ? `Welcome back${appUser?.displayName ? `, ${appUser.displayName.split(' ')[0]}` : ''}`
+                  : 'Explore Recruitzaa'}
+              </span>
+              <Link to={isAuthenticated ? workspaceRoute : '/register?intent=candidate'}>
+                {isAuthenticated ? 'Open workspace' : 'Create your workspace'}
+              </Link>
             </div>
             <ul className={styles.previewList}>
-              {recentJobs.map((job) => (
-                <li key={job.id}>
-                  <Link to={`/jobs/${job.id}`} className={styles.previewCard}>
+              {previewItems.map((item) => (
+                <li key={item.title}>
+                  <Link to={item.to} className={styles.previewCard}>
                     <div>
-                      <strong>{job.title}</strong>
-                      <p>
-                        {job.company} · {job.location} · {job.type} · Posted {job.postedAt}
-                      </p>
+                      <strong>{item.title}</strong>
+                      <p>{item.description}</p>
                     </div>
-                    <span>View role</span>
+                    <span>{item.action}</span>
                   </Link>
                 </li>
               ))}
