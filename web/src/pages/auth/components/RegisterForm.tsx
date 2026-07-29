@@ -9,6 +9,7 @@ import {
   registerWithEmail,
 } from '../../../services/auth.service';
 import { registerUser } from '../../../services/api.service';
+import { registerEmployerCompany } from '../../../services/companies.service';
 import { FloatingInput } from './FloatingInput';
 import { PasswordStrengthMeter } from './PasswordStrengthMeter';
 import { SocialAuthButtons } from './SocialAuthButtons';
@@ -71,7 +72,15 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ role, onSuccess, onS
     isEmployer && workEmailDomain && PERSONAL_EMAIL_DOMAINS.includes(workEmailDomain);
 
   const handleSocialSignIn = async (
-    providerFn: () => Promise<{ uid?: string; getIdToken?: (force?: boolean) => Promise<string>; displayName?: string | null } | null | undefined>,
+    providerFn: () => Promise<
+      | {
+          uid?: string;
+          getIdToken?: (force?: boolean) => Promise<string>;
+          displayName?: string | null;
+        }
+      | null
+      | undefined
+    >,
     name: string
   ) => {
     setError(null);
@@ -88,7 +97,14 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ role, onSuccess, onS
         try {
           const token = await (user as any).getIdToken(true);
           const requestedRole = isEmployer ? 'EMPLOYER' : 'CANDIDATE';
-          const appUser = await registerUser(token, requestedRole, (user as any).displayName || fullName.trim() || undefined);
+          const appUser = await registerUser(
+            token,
+            requestedRole,
+            (user as any).displayName || fullName.trim() || undefined
+          );
+          if (isEmployer) {
+            await registerEmployerCompany(companyName.trim(), companyWebsite.trim() || undefined);
+          }
           dispatch(setUser(appUser));
         } catch (backendErr) {
           console.error('Backend registration failed:', backendErr);
@@ -159,6 +175,9 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ role, onSuccess, onS
           const token = await user.getIdToken(true);
           const requestedRole = isEmployer ? 'EMPLOYER' : 'CANDIDATE';
           const appUser = await registerUser(token, requestedRole, fullName.trim() || undefined);
+          if (isEmployer) {
+            await registerEmployerCompany(companyName.trim(), companyWebsite.trim() || undefined);
+          }
           dispatch(setUser(appUser));
         } catch (backendErr) {
           console.error('Backend registration failed:', backendErr);

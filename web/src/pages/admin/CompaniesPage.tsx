@@ -1,33 +1,246 @@
-import { Card } from '../../components/ui/Card';
-import { Button } from '../../components/ui/Button';
+import { useEffect, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { Badge } from '../../components/ui/Badge';
+import { Button } from '../../components/ui/Button';
+import { Card } from '../../components/ui/Card';
 import { Input } from '../../components/ui/Input';
+import { Modal } from '../../components/ui/Modal';
+import { Pagination } from '../../components/ui/Pagination/Pagination';
+import { Spinner } from '../../components/ui/Spinner/Spinner';
+import { useToast } from '../../hooks/useToast';
+import {
+  createCompany,
+  listCompanies,
+  updateCompany,
+  type Company,
+  type CompanyInput,
+  type CompanyPlan,
+  type CompanyStatus,
+} from '../../services/companies.service';
 import styles from './CompaniesPage.module.css';
 
+const PAGE_SIZE = 20;
+
+const errorMessage = (error: unknown) => {
+  if (error instanceof AxiosError) {
+    return error.response?.data?.detail || error.message;
+  }
+  return 'Something went wrong. Please try again.';
+};
+
+const initials = (name: string) =>
+  name
+    .split(/\s+/)
+    .slice(0, 3)
+    .map((part) => part[0]?.toUpperCase())
+    .join('');
+
+const emptyCompany: CompanyInput = {
+  name: '',
+  website: '',
+  industry: '',
+  companySize: '',
+  companyType: '',
+  hqLocation: '',
+  status: 'PENDING',
+  plan: 'FREE',
+};
+
+const companyToInput = (company: Company): CompanyInput => ({
+  name: company.name,
+  website: company.website || '',
+  industry: company.industry || '',
+  companySize: company.companySize || '',
+  companyType: company.companyType || '',
+  hqLocation: company.hqLocation || '',
+  status: company.status,
+  plan: company.plan,
+});
+
+const CompanyEditor = ({
+  company,
+  isOpen,
+  isSaving,
+  onClose,
+  onSave,
+}: {
+  company: Company | null;
+  isOpen: boolean;
+  isSaving: boolean;
+  onClose: () => void;
+  onSave: (input: CompanyInput) => void;
+}) => {
+  const [form, setForm] = useState<CompanyInput>(emptyCompany);
+
+  useEffect(() => {
+    if (isOpen) setForm(company ? companyToInput(company) : emptyCompany);
+  }, [company, isOpen]);
+
+  const field = (key: keyof CompanyInput) => ({
+    value: form[key] || '',
+    onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+      setForm((current) => ({ ...current, [key]: event.target.value })),
+  });
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      title={company ? 'Manage company' : 'Register company'}
+      description={
+        company
+          ? 'Update verification, plan, and company information.'
+          : 'Create a company record that employer accounts can join.'
+      }
+      onClose={onClose}
+    >
+      <form
+        className={styles.editor}
+        onSubmit={(event) => {
+          event.preventDefault();
+          onSave(form);
+        }}
+      >
+        <Input label="Company name" required {...field('name')} />
+        <Input label="Website" type="url" placeholder="https://example.com" {...field('website')} />
+        <div className={styles.formGrid}>
+          <Input label="Industry" {...field('industry')} />
+          <Input label="Company size" {...field('companySize')} />
+          <Input label="Company type" {...field('companyType')} />
+          <Input label="Headquarters" {...field('hqLocation')} />
+          <label className={styles.fieldLabel}>
+            Verification status
+            <select
+              className={styles.select}
+              {...field('status')}
+              onChange={(event) =>
+                setForm((current) => ({
+                  ...current,
+                  status: event.target.value as CompanyStatus,
+                }))
+              }
+            >
+              <option value="PENDING">Pending</option>
+              <option value="VERIFIED">Verified</option>
+              <option value="SUSPENDED">Suspended</option>
+            </select>
+          </label>
+          <label className={styles.fieldLabel}>
+            Plan
+            <select
+              className={styles.select}
+              {...field('plan')}
+              onChange={(event) =>
+                setForm((current) => ({
+                  ...current,
+                  plan: event.target.value as CompanyPlan,
+                }))
+              }
+            >
+              <option value="FREE">Free</option>
+              <option value="PRO">Pro</option>
+              <option value="ENTERPRISE">Enterprise</option>
+            </select>
+          </label>
+        </div>
+        <div className={styles.modalActions}>
+          <Button variant="outline" onClick={onClose} disabled={isSaving}>
+            Cancel
+          </Button>
+          <Button type="submit" disabled={isSaving || !form.name.trim()}>
+            {isSaving ? 'Saving…' : company ? 'Save changes' : 'Register company'}
+          </Button>
+        </div>
+      </form>
+    </Modal>
+  );
+};
+
 export const CompaniesPage = () => {
+  const toast = useToast();
+  const queryClient = useQueryClient();
+  const [page, setPage] = useState(1);
+  const [searchInput, setSearchInput] = useState('');
+  const [search, setSearch] = useState('');
+  const [status, setStatus] = useState<CompanyStatus | ''>('');
+  const [editorOpen, setEditorOpen] = useState(false);
+  const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => {
+      setSearch(searchInput.trim());
+      setPage(1);
+    }, 350);
+    return () => window.clearTimeout(timeout);
+  }, [searchInput]);
+
+  const companiesQuery = useQuery({
+    queryKey: ['admin-companies', page, search, status],
+    queryFn: () =>
+      listCompanies({
+        page,
+        pageSize: PAGE_SIZE,
+        search: search || undefined,
+        status: status || undefined,
+      }),
+  });
+
+  const saveCompany = useMutation({
+    mutationFn: (input: CompanyInput) =>
+      selectedCompany ? updateCompany(selectedCompany.id, input) : createCompany(input),
+    onSuccess: async () => {
+      setEditorOpen(false);
+      setSelectedCompany(null);
+      await queryClient.invalidateQueries({ queryKey: ['admin-companies'] });
+      toast.success(selectedCompany ? 'Company updated.' : 'Company registered.');
+    },
+    onError: (error) => toast.error(errorMessage(error)),
+  });
+
+  const companies = companiesQuery.data?.items ?? [];
+
   return (
     <div className={styles.page}>
       <div className={styles.header}>
         <div>
-          <h1 className={styles.title}>Company Directory</h1>
-          <p className={styles.subtitle}>
-            Manage verified enterprise and agency companies on the platform.
-          </p>
+          <h1 className={styles.title}>Company directory</h1>
+          <p className={styles.subtitle}>Register, verify, and manage employer companies.</p>
         </div>
-        <Button>+ Add Company</Button>
+        <Button
+          onClick={() => {
+            setSelectedCompany(null);
+            setEditorOpen(true);
+          }}
+        >
+          + Register company
+        </Button>
       </div>
 
       <Card className={styles.card}>
         <div className={styles.toolbar}>
           <div className={styles.searchBox}>
-            <Input placeholder="Search by company name or domain..." />
+            <Input
+              type="search"
+              value={searchInput}
+              onChange={(event) => setSearchInput(event.target.value)}
+              placeholder="Search by company name or domain..."
+              aria-label="Search companies"
+            />
           </div>
           <div className={styles.filters}>
-            <select className={styles.select}>
-              <option>All Statuses</option>
-              <option>Verified</option>
-              <option>Pending Verification</option>
-              <option>Suspended</option>
+            <select
+              className={styles.select}
+              value={status}
+              aria-label="Filter companies by status"
+              onChange={(event) => {
+                setStatus(event.target.value as CompanyStatus | '');
+                setPage(1);
+              }}
+            >
+              <option value="">All statuses</option>
+              <option value="VERIFIED">Verified</option>
+              <option value="PENDING">Pending verification</option>
+              <option value="SUSPENDED">Suspended</option>
             </select>
           </div>
         </div>
@@ -37,102 +250,106 @@ export const CompaniesPage = () => {
             <thead>
               <tr>
                 <th>Company</th>
-                <th>Plan Level</th>
-                <th>Active Jobs</th>
-                <th>Admin Users</th>
+                <th>Plan</th>
+                <th>Active jobs</th>
+                <th>Employers</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  <div className={styles.companyInfo}>
-                    <div className={styles.avatar}>TCS</div>
-                    <div>
-                      <div className={styles.roleText}>TCS Digital</div>
-                      <div className={styles.subText}>tcs.com</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <Badge variant="primary">Enterprise</Badge>
-                </td>
-                <td>
-                  <span className={styles.subTextDark}>14</span>
-                </td>
-                <td>
-                  <span className={styles.subTextDark}>3</span>
-                </td>
-                <td>
-                  <Badge variant="success">Verified</Badge>
-                </td>
-                <td>
-                  <Button size="sm" variant="outline">
-                    Manage
-                  </Button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div className={styles.companyInfo}>
-                    <div className={`${styles.avatar} bg-emerald-600 text-white`}>INF</div>
-                    <div>
-                      <div className={styles.roleText}>Infosys Limited</div>
-                      <div className={styles.subText}>infosys.com</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <Badge variant="primary">Enterprise</Badge>
-                </td>
-                <td>
-                  <span className={styles.subTextDark}>4</span>
-                </td>
-                <td>
-                  <span className={styles.subTextDark}>1</span>
-                </td>
-                <td>
-                  <Badge variant="success">Verified</Badge>
-                </td>
-                <td>
-                  <Button size="sm" variant="outline">
-                    Manage
-                  </Button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div className={styles.companyInfo}>
-                    <div className={`${styles.avatar} bg-red-600 text-white`}>ZOM</div>
-                    <div>
-                      <div className={styles.roleText}>Zomato Media</div>
-                      <div className={styles.subText}>zomato.com</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <Badge variant="warning">Pro</Badge>
-                </td>
-                <td>
-                  <span className={styles.subTextDark}>1</span>
-                </td>
-                <td>
-                  <span className={styles.subTextDark}>2</span>
-                </td>
-                <td>
-                  <Badge variant="warning">Pending Verification</Badge>
-                </td>
-                <td>
-                  <Button size="sm" variant="outline">
-                    Manage
-                  </Button>
-                </td>
-              </tr>
+              {companiesQuery.isLoading ? (
+                <tr>
+                  <td colSpan={6} className={styles.stateCell}>
+                    <Spinner size="md" />
+                    <span>Loading companies…</span>
+                  </td>
+                </tr>
+              ) : companiesQuery.isError ? (
+                <tr>
+                  <td colSpan={6} className={styles.errorCell}>
+                    <span>{errorMessage(companiesQuery.error)}</span>
+                    <Button size="sm" variant="outline" onClick={() => companiesQuery.refetch()}>
+                      Try again
+                    </Button>
+                  </td>
+                </tr>
+              ) : companies.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className={styles.stateCell}>
+                    No companies match these filters.
+                  </td>
+                </tr>
+              ) : (
+                companies.map((company) => (
+                  <tr key={company.id}>
+                    <td>
+                      <div className={styles.companyInfo}>
+                        <div className={styles.avatar}>{initials(company.name)}</div>
+                        <div>
+                          <div className={styles.roleText}>{company.name}</div>
+                          <div className={styles.subText}>{company.domain || 'No website'}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <Badge variant={company.plan === 'FREE' ? 'neutral' : 'primary'}>
+                        {company.plan}
+                      </Badge>
+                    </td>
+                    <td className={styles.subTextDark}>{company.activeJobs}</td>
+                    <td className={styles.subTextDark}>{company.employerCount}</td>
+                    <td>
+                      <Badge
+                        variant={
+                          company.status === 'VERIFIED'
+                            ? 'success'
+                            : company.status === 'SUSPENDED'
+                              ? 'error'
+                              : 'warning'
+                        }
+                      >
+                        {company.status === 'PENDING' ? 'Pending verification' : company.status}
+                      </Badge>
+                    </td>
+                    <td>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          setSelectedCompany(company);
+                          setEditorOpen(true);
+                        }}
+                      >
+                        Manage
+                      </Button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
+
+        {companiesQuery.data && (
+          <div className={styles.paginationRow}>
+            <span>{companiesQuery.data.total.toLocaleString()} companies</span>
+            <Pagination
+              page={companiesQuery.data.page}
+              totalPages={companiesQuery.data.totalPages}
+              onPageChange={setPage}
+            />
+          </div>
+        )}
       </Card>
+
+      <CompanyEditor
+        company={selectedCompany}
+        isOpen={editorOpen}
+        isSaving={saveCompany.isPending}
+        onClose={() => !saveCompany.isPending && setEditorOpen(false)}
+        onSave={(input) => saveCompany.mutate(input)}
+      />
     </div>
   );
 };
