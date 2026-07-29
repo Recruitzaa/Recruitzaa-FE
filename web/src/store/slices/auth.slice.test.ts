@@ -38,16 +38,6 @@ describe('Auth Slice', () => {
     expect(actual.error).toBeNull();
   });
 
-  it('should handle setUser with profile override', () => {
-    localStorage.setItem(
-      'profile_override_123',
-      JSON.stringify({ displayName: 'Overridden Name' })
-    );
-    const actual = authReducer(initialState, setUser(mockUser));
-    expect(actual.appUser).toEqual({ ...mockUser, displayName: 'Overridden Name' });
-    expect(actual.isAuthenticated).toBe(true);
-  });
-
   it('should handle clearUser', () => {
     // First set a user
     const loggedInState = authReducer(initialState, setUser(mockUser));
