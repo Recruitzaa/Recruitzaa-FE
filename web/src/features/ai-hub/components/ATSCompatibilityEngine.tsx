@@ -38,7 +38,7 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
           <div className="bg-slate-50 dark:bg-slate-900 p-4 border border-dashed border-slate-200 dark:border-slate-700 rounded-lg text-center">
             <div className="text-sm font-bold text-slate-900 dark:text-white mb-2">Resume text</div>
             <textarea
-              className="w-full min-h-32 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 p-3 text-left text-sm text-slate-900 dark:text-slate-100"
+              className="w-full min-h-32 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 p-3 text-left text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-shadow"
               value={resumeText}
               onChange={(event) => setResumeText(event.target.value)}
               aria-label="Resume text"

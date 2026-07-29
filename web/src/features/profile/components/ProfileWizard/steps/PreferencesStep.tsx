@@ -46,7 +46,7 @@ export const PreferencesStep: React.FC<PreferencesStepProps> = ({ data, onChange
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-semibold text-slate-600 dark:text-slate-400 mb-1">
             Minimum Salary (INR / Annum)

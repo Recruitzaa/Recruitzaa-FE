@@ -6,7 +6,9 @@ import {
   BriefcaseBusiness,
   ClipboardList,
   MessageSquareQuote,
+  Moon,
   Sparkles,
+  Sun,
   Target,
 } from 'lucide-react';
 import { PageTransition } from '../../components/layout/PageTransition';
@@ -18,6 +20,7 @@ import { LoginForm } from './components/LoginForm';
 import { RegisterForm } from './components/RegisterForm';
 import { SegmentedControl } from './components/SegmentedControl';
 import { trackEvent } from '../../services/analytics.service';
+import { useTheme } from '../../hooks/useTheme';
 
 type Role = 'candidate' | 'employer';
 type Mode = 'login' | 'register';
@@ -39,6 +42,7 @@ export const AuthPage = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const dispatch = useAppDispatch();
+  const { isDark, toggleTheme } = useTheme();
 
   const intent = searchParams.get('intent');
   const [role, setRole] = useState<Role>(intent === 'employer' ? 'employer' : 'candidate');
@@ -85,6 +89,15 @@ export const AuthPage = () => {
         />
       </Helmet>
       <main className={styles.page}>
+        <button
+          type="button"
+          className={styles.themeToggle}
+          onClick={toggleTheme}
+          aria-label={isDark ? 'Use light theme' : 'Use dark theme'}
+          title={isDark ? 'Use light theme' : 'Use dark theme'}
+        >
+          {isDark ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
+        </button>
         {/* ── Left brand panel (desktop only) ── */}
         <section className={styles.brandPanel}>
           <Link to="/" className={styles.logoContainer} aria-label="Recruitzaa home">

@@ -4,9 +4,16 @@ The frontend codebase for recruitZaa, featuring a React Native (TypeScript) mobi
 
 ## Version History
 
-**Current Version: `v0.2.0`**
+**Current Version: `v0.2.1`**
 
 ### Changelog
+
+**[v0.2.1] - 2026-07-29** _(Branch: `ui-improvementts-final`)_
+
+- **Security & Dependency Fixes**: Resolved high-severity vulnerability in `react-router` (GHSA-qwww-vcr4-c8h2) by adding package dependency overrides to force version `8.3.0`.
+- **Navbar Interactions**: Added outside-click click-away and `Escape` key dismissals for dropdown menus, unified hover zones for chevron triggers, and added visual chevron open/close state transitions.
+- **Input Focus Styles**: Reset browser/global focus outline boxes on raw text inputs and textareas. Implemented a premium focus-within background highlight for landing page search fields.
+- **Contextual Navigation**: Made the utility bar and navbar links auth-aware to hide employer links from logged-in candidates.
 
 **[v0.2.0] - 2026-07-23** _(Branch: `fix/Ui-improvements`)_
 

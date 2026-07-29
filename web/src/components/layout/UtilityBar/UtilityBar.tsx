@@ -1,10 +1,17 @@
 import { Link, useLocation } from 'react-router-dom';
 import styles from './UtilityBar.module.css';
 import { SITE_CONTENT } from '../../../config/content';
+import { useAppSelector } from '../../../store/hooks';
 
 export const UtilityBar = () => {
   const { contact } = SITE_CONTENT;
   const location = useLocation();
+  const { isAuthenticated } = useAppSelector((s) => s.auth);
+
+  // The utility bar is a pre-login marketing element.
+  // Hide it entirely for authenticated users to avoid role confusion.
+  if (isAuthenticated) return null;
+
   const pathname = location.pathname;
   const isJobSeekersActive =
     pathname === '/' || pathname.startsWith('/jobs') || pathname.startsWith('/candidate');

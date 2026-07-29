@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useRef } from 'react';
-import { BrowserRouter, HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Navigate, Routes, Route, useLocation } from 'react-router-dom';
 import { ToastContainer } from './components/ui/Toast/ToastContainer';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
@@ -220,6 +220,23 @@ function App() {
                       />
                     }
                   >
+                    {/* Legacy/private entry points must authenticate before routing by role. */}
+                    {[
+                      '/dashboard',
+                      '/candidates',
+                      '/pipeline',
+                      '/settings',
+                      '/profile',
+                      '/interviews',
+                      '/onboarding',
+                    ].map((path) => (
+                      <Route
+                        key={path}
+                        path={path}
+                        element={<Navigate to="/launchpad" replace />}
+                      />
+                    ))}
+
                     {/* Candidate Only */}
                     <Route element={<RoleGuard allowedRoles={['CANDIDATE']} />}>
                       <Route element={<DashboardLayout />}>

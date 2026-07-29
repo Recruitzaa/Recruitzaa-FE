@@ -4,9 +4,18 @@
 
 .header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
   margin-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+  .header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
 }
 
 .title {
@@ -107,7 +116,7 @@
   width: 32px;
   height: 32px;
   border-radius: 4px;
-  background-color: var(--color-dark);
+  background-color: var(--color-inverse);
   color: var(--color-white);
   font-weight: 700;
   font-size: 0.6875rem;

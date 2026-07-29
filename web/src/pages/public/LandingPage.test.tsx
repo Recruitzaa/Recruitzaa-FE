@@ -28,5 +28,8 @@ describe('LandingPage accessibility', () => {
     expect(locationInput).not.toHaveAttribute('required');
     expect(faqItem).toBeInTheDocument();
     expect(faqItem?.querySelector('summary')).toBeInTheDocument();
+    expect(screen.queryByText(/demo roles/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/sign in for profile tools/i)).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /create your workspace/i })).toBeInTheDocument();
   });
 });

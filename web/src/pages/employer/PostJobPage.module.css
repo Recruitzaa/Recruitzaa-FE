@@ -35,7 +35,8 @@
   }
 }
 
-.mainCol, .sideCol {
+.mainCol,
+.sideCol {
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -84,7 +85,8 @@
   color: var(--color-dark);
 }
 
-.select, .textarea {
+.select,
+.textarea {
   width: 100%;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
@@ -96,8 +98,11 @@
   background-color: var(--color-white);
 }
 
-.select:focus, .textarea:focus {
+.select:focus,
+.textarea:focus {
   border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+  outline: none;
 }
 
 .textarea {

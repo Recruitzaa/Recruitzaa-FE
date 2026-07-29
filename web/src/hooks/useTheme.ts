@@ -1,31 +1,26 @@
 import { useEffect, useState } from 'react';
 
 export type Theme = 'light' | 'dark';
+const THEME_STORAGE_KEY = 'recruitzaa-theme-v2';
 
 /**
  * useTheme — React hook to manage light and dark mode state.
- * - Detects system prefers-color-scheme on initial load.
+ * - Defaults first-time visitors to light mode.
  * - Persists theme selection to localStorage.
  * - Dynamically toggles the `.dark` class on the <html> element to trigger Tailwind.
  */
 export const useTheme = () => {
   const [theme, setTheme] = useState<Theme>(() => {
-    const savedTheme = localStorage.getItem('theme') as Theme | null;
-    if (savedTheme === 'light' || savedTheme === 'dark') {
-      return savedTheme;
-    }
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    return systemPrefersDark ? 'dark' : 'light';
+    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    return savedTheme === 'dark' ? 'dark' : 'light';
   });
 
   useEffect(() => {
     const root = window.document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-    localStorage.setItem('theme', theme);
+    root.classList.toggle('dark', theme === 'dark');
+    root.dataset.theme = theme;
+    root.style.colorScheme = theme;
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
   }, [theme]);
 
   const toggleTheme = () => {

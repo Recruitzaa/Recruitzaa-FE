@@ -23,6 +23,7 @@ export const ProfileQuickLinks = ({ scrollToSection }: ProfileQuickLinksProps) =
           className="hover:text-brand-primary flex justify-between items-center py-0.5 font-medium transition-colors w-full text-left bg-transparent border-none cursor-pointer"
         >
           <span>Resume Headline</span>
+          <span className="text-sm text-brand-primary font-bold">Update</span>
         </button>
         <button
           type="button"

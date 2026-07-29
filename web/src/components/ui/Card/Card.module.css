@@ -31,3 +31,8 @@
   border: 1px solid rgba(255, 255, 255, 0.5);
   box-shadow: var(--shadow);
 }
+
+:global(.dark) .variant-glass {
+  background: rgba(23, 32, 51, 0.82);
+  border-color: rgba(148, 163, 184, 0.24);
+}

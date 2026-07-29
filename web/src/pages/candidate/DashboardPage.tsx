@@ -10,6 +10,7 @@ export const DashboardPage = () => {
   const reduxApps = useAppSelector((state) => state.kanban.applications);
   const { jobsList } = useAppSelector((state) => state.jobs);
   const profile = useAppSelector((state) => state.profile);
+  const appUser = useAppSelector((state) => state.auth.appUser);
   const { savedJobIds } = useJobPreferences();
   const normalizedSkills = profile.skills.map((skill) => skill.toLowerCase());
   const jobs = jobsList
@@ -33,14 +34,19 @@ export const DashboardPage = () => {
 
   const totalSubmitted = reduxApps.length;
   const interviewsCount = reduxApps.filter((app) => app.stage === 'INTERVIEWING').length;
-  const profileSections = [
-    profile.personalInfo.email,
-    profile.professionalSummary.headline,
-    profile.skills.length,
-    profile.employmentHistory.length,
-    profile.education.degree,
-    profile.projects.length,
-  ];
+  const profileBelongsToUser =
+    Boolean(appUser?.email) &&
+    profile.personalInfo.email.trim().toLowerCase() === appUser?.email.trim().toLowerCase();
+  const profileSections = profileBelongsToUser
+    ? [
+        profile.personalInfo.email,
+        profile.professionalSummary.headline,
+        profile.skills.length,
+        profile.employmentHistory.length,
+        profile.education.degree,
+        profile.projects.length,
+      ]
+    : [appUser?.email, false, false, false, false, false];
   const profileCompleteness = Math.round(
     (profileSections.filter(Boolean).length / profileSections.length) * 100
   );

@@ -71,7 +71,15 @@
 .field {
   display: flex;
   flex-direction: column;
-  padding: 0.3rem 0.6rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius);
+  transition:
+    background var(--transition),
+    box-shadow var(--transition);
+}
+
+.field:focus-within {
+  background: var(--color-surface);
 }
 
 .field label {
@@ -88,16 +96,17 @@
   outline: 0;
   font-size: 0.9rem;
   color: var(--color-dark);
+  background: transparent;
 }
 
+.field input:focus,
 .field input:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 4px;
-  border-radius: 2px;
+  outline: none;
+  box-shadow: none !important;
 }
 
 .field input::placeholder {
-  color: #4b5563;
+  color: var(--color-slate);
 }
 
 .searchButton,
@@ -129,12 +138,12 @@
 }
 
 .darkLink {
-  background: var(--color-dark);
+  background: var(--color-inverse);
   color: #fff;
 }
 
 .darkLink:hover {
-  background: var(--color-dark-muted);
+  background: var(--color-inverse-hover);
 }
 
 .metrics {
@@ -173,19 +182,29 @@
 .previewHeader {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.65rem;
   padding-bottom: 0.9rem;
   margin-bottom: 0.9rem;
   border-bottom: 1px solid var(--color-border);
   font-weight: 700;
 }
 
-.previewHeader span:last-child {
+.previewHeader a:last-child {
+  display: inline-flex;
+  align-items: center;
   font-size: 0.72rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--color-primary-contrast);
   background: var(--color-primary-light);
   padding: 0.22rem 0.5rem;
   border-radius: 4px;
+}
+
+.previewHeader a:last-child:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .previewList {
@@ -235,6 +254,13 @@
   font-size: 0.75rem;
   font-weight: 700;
   white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .previewCard {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
 
 .section,

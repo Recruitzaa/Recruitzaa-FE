@@ -51,7 +51,7 @@ export const EducationStep: React.FC<EducationStepProps> = ({ data, onChange }) 
           placeholder="Institution (e.g. Stanford University)"
           className="w-full text-sm p-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
         />
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <input
             type="text"
             value={degree}
@@ -67,7 +67,7 @@ export const EducationStep: React.FC<EducationStepProps> = ({ data, onChange }) 
             className="text-sm p-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
           />
         </div>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <input
             type="text"
             value={start}

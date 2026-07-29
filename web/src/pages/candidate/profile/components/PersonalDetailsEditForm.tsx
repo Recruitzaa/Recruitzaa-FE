@@ -35,7 +35,8 @@ export const PersonalDetailsEditForm = ({
         <button
           type="button"
           onClick={() => setIsEditingPersonal(false)}
-          className="text-slate-400 hover:text-slate-600"
+          className="inline-flex min-w-11 min-h-11 items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+          aria-label="Close edit form"
         >
           <X size={14} />
         </button>

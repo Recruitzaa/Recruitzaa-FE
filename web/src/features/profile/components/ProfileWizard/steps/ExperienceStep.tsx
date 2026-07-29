@@ -44,7 +44,7 @@ export const ExperienceStep: React.FC<ExperienceStepProps> = ({ data, onChange }
       </h3>
 
       <div className="space-y-3 p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg border border-slate-200 dark:border-slate-800">
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <input
             type="text"
             value={company}
@@ -60,7 +60,7 @@ export const ExperienceStep: React.FC<ExperienceStepProps> = ({ data, onChange }
             className="text-sm p-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
           />
         </div>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <input
             type="text"
             value={start}
