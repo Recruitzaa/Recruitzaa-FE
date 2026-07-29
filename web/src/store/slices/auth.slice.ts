@@ -20,22 +20,17 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<AppUser>) {
-      const rawUser = action.payload;
-      const savedProfile =
-        typeof localStorage !== 'undefined' && typeof localStorage.getItem === 'function'
-          ? localStorage.getItem(`profile_override_${rawUser.id}`)
-          : null;
-      const profileData = savedProfile ? { ...rawUser, ...JSON.parse(savedProfile) } : rawUser;
-
-      // Dev Override ("God Mode") Sandbox: Force availableRoles to include all 5 workspaces only in development
-      const availableRoles: UserRole[] = import.meta.env.DEV
-        ? ['CANDIDATE', 'EMPLOYER', 'EXPERT', 'EMPLOYEE', 'SUPER_ADMIN']
-        : profileData.availableRoles || [profileData.role || 'CANDIDATE'];
-      const activeRole = profileData.activeRole || profileData.role || 'CANDIDATE';
+      const user = action.payload;
+      
+      // Restore last active role on refresh
+      const savedActiveRole = typeof localStorage !== 'undefined' 
+        ? localStorage.getItem(`active_role_${user.id}`) as UserRole | null 
+        : null;
+      const activeRole = savedActiveRole || user.activeRole || user.role || 'CANDIDATE';
 
       state.appUser = {
-        ...profileData,
-        availableRoles,
+        ...user,
+        availableRoles: user.availableRoles || [activeRole],
         activeRole,
         role: activeRole, // sync legacy role field
       };
@@ -44,6 +39,9 @@ const authSlice = createSlice({
       state.error = null;
     },
     clearUser(state) {
+      if (state.appUser) {
+        localStorage.removeItem(`active_role_${state.appUser.id}`);
+      }
       state.appUser = null;
       state.isAuthenticated = false;
       state.isLoading = false;
@@ -58,6 +56,7 @@ const authSlice = createSlice({
       if (state.appUser) {
         state.appUser.activeRole = action.payload;
         state.appUser.role = action.payload; // sync legacy role field
+        localStorage.setItem(`active_role_${state.appUser.id}`, action.payload);
       }
     },
     setAuthLoading(state, action: PayloadAction<boolean>) {

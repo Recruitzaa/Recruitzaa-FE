@@ -57,21 +57,7 @@ const saveJobsState = (jobsState: RootState['jobs']) => {
   }
 };
 
-const saveAuthState = (authState: RootState['auth']) => {
-  if (authState.appUser) {
-    try {
-      // Deliberately omit `role` — it must always be re-resolved from the
-      // Firebase ID token on each session, never restored from a cached value.
-      const { role: _omitRole, ...profileWithoutRole } = authState.appUser;
-      localStorage.setItem(
-        `profile_override_${authState.appUser.id}`,
-        JSON.stringify(profileWithoutRole)
-      );
-    } catch (err) {
-      console.error('Failed to serialize auth state:', err);
-    }
-  }
-};
+
 
 const saveEmployerProfileState = (state: RootState) => {
   try {
@@ -84,6 +70,5 @@ const saveEmployerProfileState = (state: RootState) => {
 store.subscribe(() => {
   saveKanbanState(store.getState().kanban);
   saveJobsState(store.getState().jobs);
-  saveAuthState(store.getState().auth);
   saveEmployerProfileState(store.getState());
 });

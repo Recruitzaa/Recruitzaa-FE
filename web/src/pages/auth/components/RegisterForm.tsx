@@ -8,10 +8,13 @@ import {
   signInWithLinkedIn,
   registerWithEmail,
 } from '../../../services/auth.service';
+import { registerUser } from '../../../services/api.service';
 import { FloatingInput } from './FloatingInput';
 import { PasswordStrengthMeter } from './PasswordStrengthMeter';
 import { SocialAuthButtons } from './SocialAuthButtons';
 import { isPasswordValid } from './passwordUtils';
+import { useAppDispatch } from '../../../store/hooks';
+import { setUser } from '../../../store/slices/auth.slice';
 
 interface RegisterFormProps {
   role: 'candidate' | 'employer';
@@ -59,6 +62,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ role, onSuccess, onS
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const dispatch = useAppDispatch();
 
   const isEmployer = role === 'employer';
   const emailLabel = isEmployer ? 'Work Email' : 'Email Address';
@@ -67,7 +71,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ role, onSuccess, onS
     isEmployer && workEmailDomain && PERSONAL_EMAIL_DOMAINS.includes(workEmailDomain);
 
   const handleSocialSignIn = async (
-    providerFn: () => Promise<{ uid?: string } | null | undefined>,
+    providerFn: () => Promise<{ uid?: string; getIdToken?: (force?: boolean) => Promise<string>; displayName?: string | null } | null | undefined>,
     name: string
   ) => {
     setError(null);
@@ -80,6 +84,15 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ role, onSuccess, onS
           companyName: companyName.trim() || undefined,
           companyWebsite: companyWebsite.trim() || undefined,
         });
+        // Register on Backend
+        try {
+          const token = await (user as any).getIdToken(true);
+          const requestedRole = isEmployer ? 'EMPLOYER' : 'CANDIDATE';
+          const appUser = await registerUser(token, requestedRole, (user as any).displayName || fullName.trim() || undefined);
+          dispatch(setUser(appUser));
+        } catch (backendErr) {
+          console.error('Backend registration failed:', backendErr);
+        }
         onSuccess(user.uid);
       }
     } catch (err: unknown) {
@@ -141,6 +154,15 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ role, onSuccess, onS
           companyName: companyName.trim() || undefined,
           companyWebsite: companyWebsite.trim() || undefined,
         });
+        // Register on Backend
+        try {
+          const token = await user.getIdToken(true);
+          const requestedRole = isEmployer ? 'EMPLOYER' : 'CANDIDATE';
+          const appUser = await registerUser(token, requestedRole, fullName.trim() || undefined);
+          dispatch(setUser(appUser));
+        } catch (backendErr) {
+          console.error('Backend registration failed:', backendErr);
+        }
         onSuccess(user.uid);
       }
     } catch (err: unknown) {
