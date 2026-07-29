@@ -6,4 +6,7 @@ export default defineConfig(() => ({
   plugins: [react()],
   // Use root base for custom domain deployments
   base: '/',
+  server: {
+    allowedHosts: true as const,
+  }
 }))

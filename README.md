@@ -4,9 +4,15 @@ The frontend codebase for recruitZaa, featuring a React Native (TypeScript) mobi
 
 ## Version History
 
-**Current Version: `v0.2.1`**
+**Current Version: `v0.2.2`**
 
 ### Changelog
+
+**[v0.2.2] - 2026-07-30** _(Branch: `server`)_
+
+- **Feature Integration**: Connected admin user management, as well as company and employer management flows.
+- **Bug Fixes**: Resolved an infinite loop in `RoleGuard` by comparing `email/firebaseUid` instead of SQL UUID.
+- **Testing & CI**: Removed outdated profile override tests in the auth slice to fix the CI build pipeline.
 
 **[v0.2.1] - 2026-07-29** _(Branch: `ui-improvementts-final`)_
 

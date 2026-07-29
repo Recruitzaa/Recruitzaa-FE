@@ -4,7 +4,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setUser, clearUser } from '../../store/slices/auth.slice';
 import type { UserRole } from '../../types/auth.types';
-import allowlistRaw from '../../config/allowlist.txt?raw';
+import { getMe, registerUser } from '../../services/api.service';
 
 interface RoleGuardProps {
   allowedRoles: UserRole[];
@@ -14,7 +14,7 @@ interface RoleGuardProps {
 /**
  * RoleGuard — Protects routes based on authentication state and user roles.
  * - Shows a spinning loader while the Firebase auth session is initializing.
- * - Resolves the Firebase ID token and custom role claims asynchronously.
+ * - Calls the Backend GET /auth/me to fetch the real user profile and roles.
  * - Navigates to `/login` if the user is unauthenticated.
  * - Navigates to `/unauthorized` if the user lacks permissions.
  */
@@ -26,59 +26,59 @@ export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) 
 
   useEffect(() => {
     if (isInitializing) return;
-    if (user && appUser && appUser.id === user.uid) return;
+    if (user && appUser && (appUser.firebaseUid === user.uid || appUser.email === user.email)) return;
 
     const resolveRole = async () => {
       if (user) {
         try {
-          const tokenResult = await user.getIdTokenResult();
-          const savedRole = localStorage.getItem('selected_role');
-          const role =
-            (tokenResult.claims['role'] as UserRole) ??
-            (savedRole === 'employer' ? 'EMPLOYER' : 'CANDIDATE');
+          // Fetch the real user profile and roles from the Backend
+          const backendUser = await getMe();
+          dispatch(setUser(backendUser));
+        } catch (err: any) {
+          console.error('Error fetching user from Backend:', err);
 
-          const savedProfileKey = `profile_override_${user.uid}`;
-          let savedProfileData: any = {};
-
-          // --- ALLOWLIST LOGIC ---
-          const allowedEmails = allowlistRaw
-            .split('\n')
-            .map((e) => e.trim())
-            .filter(Boolean);
-          if (user.email && allowedEmails.includes(user.email)) {
-            // Give all roles to users in the allowlist.txt
-            savedProfileData.availableRoles = [
-              'CANDIDATE',
-              'EMPLOYER',
-              'EXPERT',
-              'EMPLOYEE',
-              'SUPER_ADMIN',
-            ];
-          } else {
+          // If Backend returns 404 (user not registered yet), auto-register them
+          if (err?.response?.status === 404) {
             try {
-              const raw = localStorage.getItem(savedProfileKey);
-              if (raw) savedProfileData = JSON.parse(raw);
-            } catch {
-              savedProfileData = {};
+              const token = await user.getIdToken(true);
+              const savedRole = localStorage.getItem('selected_role');
+              const requestedRole = savedRole === 'employer' ? 'EMPLOYER' : 'CANDIDATE';
+              const registeredUser = await registerUser(token, requestedRole, user.displayName ?? undefined);
+              dispatch(setUser(registeredUser));
+            } catch (regErr) {
+              console.error('Auto-registration failed:', regErr);
+              // Fallback to Firebase-only data
+              const savedRole = localStorage.getItem('selected_role');
+              const role: UserRole = savedRole === 'employer' ? 'EMPLOYER' : 'CANDIDATE';
+              dispatch(
+                setUser({
+                  id: user.uid,
+                  email: user.email ?? '',
+                  displayName: user.displayName ?? user.email ?? '',
+                  photoURL: user.photoURL ?? undefined,
+                  role,
+                  availableRoles: [role],
+                })
+              );
             }
+          } else if (err?.response?.status === 401) {
+            // Unauthenticated on Backend
+            dispatch(clearUser());
+          } else {
+            // Other errors (e.g. Network error) — Fallback to Firebase data so user is not locked out
+            const savedRole = localStorage.getItem('selected_role');
+            const role: UserRole = savedRole === 'employer' ? 'EMPLOYER' : 'CANDIDATE';
+            dispatch(
+              setUser({
+                id: user.uid,
+                email: user.email ?? '',
+                displayName: user.displayName ?? user.email ?? '',
+                photoURL: user.photoURL ?? undefined,
+                role,
+                availableRoles: [role],
+              })
+            );
           }
-
-          dispatch(
-            setUser({
-              id: user.uid,
-              email: user.email ?? '',
-              displayName: user.displayName ?? user.email ?? '',
-              photoURL: user.photoURL ?? undefined,
-              ...savedProfileData,
-              // ⚠️ role MUST come after the spread — savedProfileData may contain
-              // a stale role from a previous session. The freshly-resolved token
-              // role always takes final precedence.
-              role,
-            })
-          );
-        } catch (err) {
-          console.error('Error resolving user role:', err);
-          dispatch(clearUser());
         }
       } else {
         dispatch(clearUser());
