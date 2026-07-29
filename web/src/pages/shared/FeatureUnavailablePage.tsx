@@ -2,15 +2,15 @@ import { Link } from 'react-router-dom';
 import { Construction } from 'lucide-react';
 
 interface FeatureUnavailablePageProps {
-  title: string;
-  description: string;
-  backTo: string;
+  title?: string;
+  description?: string;
+  backTo?: string;
 }
 
 export const FeatureUnavailablePage = ({
-  title,
-  description,
-  backTo,
+  title = 'Feature Under Construction',
+  description = 'We are working on bringing this capability to your workspace.',
+  backTo = '/',
 }: FeatureUnavailablePageProps) => (
   <section
     className="min-h-[55vh] grid place-content-center px-4 text-center"
