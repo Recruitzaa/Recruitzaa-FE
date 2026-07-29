@@ -4,6 +4,7 @@ import { AxiosError } from 'axios';
 import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
+import { ConfirmDialog } from '../../components/ui/ConfirmDialog/ConfirmDialog';
 import { Input } from '../../components/ui/Input';
 import { Modal } from '../../components/ui/Modal';
 import { Pagination } from '../../components/ui/Pagination/Pagination';
@@ -11,6 +12,8 @@ import { Spinner } from '../../components/ui/Spinner/Spinner';
 import { useToast } from '../../hooks/useToast';
 import {
   createCompany,
+  deleteCompany,
+  getCompany,
   listCompanies,
   updateCompany,
   type Company,
@@ -165,6 +168,7 @@ export const CompaniesPage = () => {
   const [status, setStatus] = useState<CompanyStatus | ''>('');
   const [editorOpen, setEditorOpen] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<Company | null>(null);
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
@@ -198,6 +202,25 @@ export const CompaniesPage = () => {
   });
 
   const companies = companiesQuery.data?.items ?? [];
+
+  const removeCompany = useMutation({
+    mutationFn: deleteCompany,
+    onSuccess: async () => {
+      setDeleteTarget(null);
+      await queryClient.invalidateQueries({ queryKey: ['admin-companies'] });
+      toast.success('Company deleted.');
+    },
+    onError: (error) => toast.error(errorMessage(error)),
+  });
+
+  const openCompany = async (company: Company) => {
+    try {
+      setSelectedCompany(await getCompany(company.id));
+      setEditorOpen(true);
+    } catch (error) {
+      toast.error(errorMessage(error));
+    }
+  };
 
   return (
     <div className={styles.page}>
@@ -297,7 +320,7 @@ export const CompaniesPage = () => {
                         {company.plan}
                       </Badge>
                     </td>
-                    <td className={styles.subTextDark}>{company.activeJobs}</td>
+                    <td className={styles.subTextDark}>{company.activeJobs ?? '—'}</td>
                     <td className={styles.subTextDark}>{company.employerCount}</td>
                     <td>
                       <Badge
@@ -313,16 +336,18 @@ export const CompaniesPage = () => {
                       </Badge>
                     </td>
                     <td>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => {
-                          setSelectedCompany(company);
-                          setEditorOpen(true);
-                        }}
-                      >
-                        Manage
-                      </Button>
+                      <div className={styles.rowActions}>
+                        <Button size="sm" variant="outline" onClick={() => openCompany(company)}>
+                          Manage
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setDeleteTarget(company)}
+                        >
+                          Delete
+                        </Button>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -349,6 +374,21 @@ export const CompaniesPage = () => {
         isSaving={saveCompany.isPending}
         onClose={() => !saveCompany.isPending && setEditorOpen(false)}
         onSave={(input) => saveCompany.mutate(input)}
+      />
+      <ConfirmDialog
+        isOpen={Boolean(deleteTarget)}
+        title="Delete company?"
+        message={
+          deleteTarget
+            ? `${deleteTarget.name} can only be deleted after all employer accounts are reassigned.`
+            : ''
+        }
+        confirmLabel={removeCompany.isPending ? 'Deleting…' : 'Delete company'}
+        variant="danger"
+        onCancel={() => !removeCompany.isPending && setDeleteTarget(null)}
+        onConfirm={() =>
+          deleteTarget && !removeCompany.isPending && removeCompany.mutate(deleteTarget.id)
+        }
       />
     </div>
   );

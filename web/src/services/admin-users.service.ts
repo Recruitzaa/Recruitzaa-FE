@@ -15,6 +15,25 @@ export interface AdminUser {
   phone?: string;
   location?: string;
   bio?: string;
+  skills?: string[];
+  resumeFileName?: string;
+  resumeFileSize?: string;
+}
+
+export interface AdminUserInput {
+  primaryRole: UserRole;
+  availableRoles: UserRole[];
+  isActive: boolean;
+  displayName?: string;
+  phone?: string;
+  location?: string;
+  bio?: string;
+}
+
+export interface AdminUserCreateInput extends AdminUserInput {
+  email: string;
+  password: string;
+  displayName: string;
 }
 
 export interface AdminUserPage {
@@ -68,4 +87,26 @@ export const updateAdminUserStatus = async (
     isActive,
   });
   return data;
+};
+
+export const getAdminUser = async (userId: string): Promise<AdminUser> => {
+  const { data } = await api.get<AdminUser>(`/admin/users/${userId}`);
+  return data;
+};
+
+export const createAdminUser = async (input: AdminUserCreateInput): Promise<AdminUser> => {
+  const { data } = await api.post<AdminUser>('/admin/users', input);
+  return data;
+};
+
+export const updateAdminUser = async (
+  userId: string,
+  input: AdminUserInput
+): Promise<AdminUser> => {
+  const { data } = await api.put<AdminUser>(`/admin/users/${userId}`, input);
+  return data;
+};
+
+export const deleteAdminUser = async (userId: string): Promise<void> => {
+  await api.delete(`/admin/users/${userId}`);
 };

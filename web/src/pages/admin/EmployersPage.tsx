@@ -10,7 +10,7 @@ import { Pagination } from '../../components/ui/Pagination/Pagination';
 import { Spinner } from '../../components/ui/Spinner/Spinner';
 import { useToast } from '../../hooks/useToast';
 import {
-  listCompanies,
+  listAllCompanyOptions,
   listEmployers,
   updateEmployer,
   type CompanyMemberRole,
@@ -156,8 +156,8 @@ export const EmployersPage = () => {
   }, [searchInput]);
 
   const companiesQuery = useQuery({
-    queryKey: ['admin-companies', 'employer-filter'],
-    queryFn: () => listCompanies({ page: 1, pageSize: 100 }),
+    queryKey: ['admin-company-options'],
+    queryFn: listAllCompanyOptions,
   });
 
   const employersQuery = useQuery({
@@ -186,6 +186,7 @@ export const EmployersPage = () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['admin-employers'] }),
         queryClient.invalidateQueries({ queryKey: ['admin-companies'] }),
+        queryClient.invalidateQueries({ queryKey: ['admin-company-options'] }),
       ]);
       toast.success('Employer account updated.');
     },
@@ -193,7 +194,7 @@ export const EmployersPage = () => {
   });
 
   const employers = employersQuery.data?.items ?? [];
-  const companies = companiesQuery.data?.items ?? [];
+  const companies = companiesQuery.data ?? [];
 
   return (
     <div className={styles.page}>

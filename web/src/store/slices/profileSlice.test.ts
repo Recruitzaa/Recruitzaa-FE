@@ -2,10 +2,17 @@ import { describe, it, expect } from 'vitest';
 import reducer, {
   addSkill,
   removeSkill,
-  updatePersonalInfo,
+  setFullProfile,
+  updateAccomplishments,
+  updateCareerProfile,
+  updateEducation,
   updateEmploymentDetails,
-  updateProfessionalSummary,
   updateEmploymentHistory,
+  updateExtendedPersonal,
+  updateITSkills,
+  updatePersonalInfo,
+  updateProfessionalSummary,
+  updateProjects,
 } from './profileSlice';
 
 describe('profileSlice Reducer', () => {
@@ -336,5 +343,70 @@ describe('profileSlice Reducer', () => {
     ];
     const state = reducer(previousState, updateEmploymentHistory(newHistory));
     expect(state.employmentHistory).toEqual(newHistory);
+  });
+
+  it('handles the remaining profile reducers', () => {
+    const baseState = reducer(undefined, { type: 'unknown' });
+    const fullProfile = {
+      ...baseState,
+      personalInfo: { ...baseState.personalInfo, firstName: 'Full' },
+    };
+
+    let state = reducer(baseState, setFullProfile(fullProfile));
+    expect(state.personalInfo.firstName).toBe('Full');
+
+    state = reducer(
+      state,
+      updateEducation({
+        degree: 'B.Tech',
+        university: 'IIT',
+        duration: '2018-2022',
+        type: 'Full-time',
+      })
+    );
+    state = reducer(
+      state,
+      updateProjects([
+        {
+          name: 'Platform',
+          client: 'Acme',
+          duration: '6 months',
+          description: 'Built APIs',
+        },
+      ])
+    );
+    state = reducer(
+      state,
+      updateITSkills([{ skill: 'TypeScript', version: '5', lastUsed: '2026', experience: '3 yrs' }])
+    );
+    state = reducer(
+      state,
+      updateCareerProfile({
+        ...state.careerProfile,
+        industry: 'Technology',
+        jobRole: 'Engineer',
+      })
+    );
+    state = reducer(
+      state,
+      updateExtendedPersonal({
+        ...state.extendedPersonal,
+        gender: 'Prefer not to say',
+      })
+    );
+    state = reducer(
+      state,
+      updateAccomplishments({
+        ...state.accomplishments,
+        certification: 'AWS',
+      })
+    );
+
+    expect(state.education.degree).toBe('B.Tech');
+    expect(state.projects[0]?.name).toBe('Platform');
+    expect(state.itSkills[0]?.skill).toBe('TypeScript');
+    expect(state.careerProfile.industry).toBe('Technology');
+    expect(state.extendedPersonal.gender).toBe('Prefer not to say');
+    expect(state.accomplishments.certification).toBe('AWS');
   });
 });

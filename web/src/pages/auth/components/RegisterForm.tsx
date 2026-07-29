@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AxiosError } from 'axios';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Building2, Globe, Mail, UserRound } from 'lucide-react';
 import styles from '../AuthPage.module.css';
@@ -38,6 +39,14 @@ const isValidUrl = (value: string) => {
   } catch {
     return false;
   }
+};
+
+const registrationErrorMessage = (error: unknown, fallback: string) => {
+  if (error instanceof AxiosError) {
+    const detail = error.response?.data?.detail;
+    if (typeof detail === 'string') return detail;
+  }
+  return error instanceof Error ? error.message : fallback;
 };
 
 const persistRegistrationProfile = (
@@ -84,6 +93,16 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ role, onSuccess, onS
     name: string
   ) => {
     setError(null);
+    if (isEmployer && companyName.trim().length < 2) {
+      setTouched((current) => ({ ...current, companyName: true }));
+      setError('Enter your company name before continuing with social sign-in.');
+      return;
+    }
+    if (isEmployer && companyWebsite.trim() && !isValidUrl(companyWebsite.trim())) {
+      setTouched((current) => ({ ...current, companyWebsite: true }));
+      setError('Enter a valid company website URL.');
+      return;
+    }
     setLoading(true);
     try {
       const user = await providerFn();
@@ -93,26 +112,21 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ role, onSuccess, onS
           companyName: companyName.trim() || undefined,
           companyWebsite: companyWebsite.trim() || undefined,
         });
-        // Register on Backend
-        try {
-          const token = await (user as any).getIdToken(true);
-          const requestedRole = isEmployer ? 'EMPLOYER' : 'CANDIDATE';
-          const appUser = await registerUser(
-            token,
-            requestedRole,
-            (user as any).displayName || fullName.trim() || undefined
-          );
-          if (isEmployer) {
-            await registerEmployerCompany(companyName.trim(), companyWebsite.trim() || undefined);
-          }
-          dispatch(setUser(appUser));
-        } catch (backendErr) {
-          console.error('Backend registration failed:', backendErr);
+        const token = await (user as any).getIdToken(true);
+        const requestedRole = isEmployer ? 'EMPLOYER' : 'CANDIDATE';
+        const appUser = await registerUser(
+          token,
+          requestedRole,
+          (user as any).displayName || fullName.trim() || undefined
+        );
+        if (isEmployer) {
+          await registerEmployerCompany(companyName.trim(), companyWebsite.trim() || undefined);
         }
+        dispatch(setUser(appUser));
         onSuccess(user.uid);
       }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : `${name} sign-in failed.`;
+      const msg = registrationErrorMessage(err, `${name} sign-in failed.`);
       if (!msg.includes('popup-closed-by-user') && !msg.includes('cancelled-popup-request')) {
         setError(msg);
       }
@@ -165,27 +179,35 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ role, onSuccess, onS
     try {
       const user = await registerWithEmail(email.trim(), password);
       if (user?.uid) {
+        let backendRegistered = false;
         persistRegistrationProfile(role, {
           fullName: fullName.trim() || undefined,
           companyName: companyName.trim() || undefined,
           companyWebsite: companyWebsite.trim() || undefined,
         });
-        // Register on Backend
         try {
           const token = await user.getIdToken(true);
           const requestedRole = isEmployer ? 'EMPLOYER' : 'CANDIDATE';
           const appUser = await registerUser(token, requestedRole, fullName.trim() || undefined);
+          backendRegistered = true;
           if (isEmployer) {
             await registerEmployerCompany(companyName.trim(), companyWebsite.trim() || undefined);
           }
           dispatch(setUser(appUser));
         } catch (backendErr) {
-          console.error('Backend registration failed:', backendErr);
+          if (!backendRegistered) {
+            try {
+              await user.delete();
+            } catch (cleanupError) {
+              console.error('Could not clean up incomplete Firebase registration:', cleanupError);
+            }
+          }
+          throw backendErr;
         }
         onSuccess(user.uid);
       }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Registration failed.';
+      const msg = registrationErrorMessage(err, 'Registration failed.');
       if (msg.includes('email-already-in-use')) {
         setError('An account with this email already exists.');
       } else if (msg.includes('weak-password')) {

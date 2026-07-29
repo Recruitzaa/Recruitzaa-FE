@@ -16,7 +16,7 @@ export interface Company {
   status: CompanyStatus;
   plan: CompanyPlan;
   employerCount: number;
-  activeJobs: number;
+  activeJobs: number | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -50,7 +50,7 @@ export interface EmployerAccount {
   companyName?: string;
   companyStatus?: CompanyStatus;
   memberRole?: CompanyMemberRole;
-  activeJobs: number;
+  activeJobs: number | null;
 }
 
 export interface EmployerPage {
@@ -97,6 +97,28 @@ export const createCompany = async (input: CompanyInput): Promise<Company> => {
 export const updateCompany = async (companyId: string, input: CompanyInput): Promise<Company> => {
   const { data } = await api.put<Company>(`/admin/companies/${companyId}`, input);
   return data;
+};
+
+export const getCompany = async (companyId: string): Promise<Company> => {
+  const { data } = await api.get<Company>(`/admin/companies/${companyId}`);
+  return data;
+};
+
+export const deleteCompany = async (companyId: string): Promise<void> => {
+  await api.delete(`/admin/companies/${companyId}`);
+};
+
+export const listAllCompanyOptions = async (): Promise<{ id: string; name: string }[]> => {
+  const firstPage = await listCompanies({ page: 1, pageSize: 100 });
+  const pages = Array.from(
+    { length: Math.max(firstPage.totalPages - 1, 0) },
+    (_, index) => index + 2
+  );
+  const remaining = await Promise.all(pages.map((page) => listCompanies({ page, pageSize: 100 })));
+  return [firstPage, ...remaining]
+    .flatMap((result) => result.items)
+    .map(({ id, name }) => ({ id, name }))
+    .sort((left, right) => left.name.localeCompare(right.name));
 };
 
 export const listEmployers = async (params: {

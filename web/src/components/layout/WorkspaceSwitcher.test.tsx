@@ -87,4 +87,17 @@ describe('WorkspaceSwitcher Component', () => {
       expect(mockNavigate).toHaveBeenCalledWith('/employer/dashboard');
     });
   });
+
+  it('renders nothing when the user only has one workspace role', () => {
+    const singleRoleUser: AppUser = { ...mockAppUser, availableRoles: ['CANDIDATE'] };
+    store.dispatch(setUser(singleRoleUser));
+    const { container } = render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <WorkspaceSwitcher />
+        </MemoryRouter>
+      </Provider>
+    );
+    expect(container).toBeEmptyDOMElement();
+  });
 });

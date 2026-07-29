@@ -13,6 +13,10 @@ api.interceptors.request.use(async (config) => {
     const token = await user.getIdToken();
     config.headers.Authorization = `Bearer ${token}`;
   }
+  const activeRole = localStorage.getItem('recruitzaa_active_role');
+  if (activeRole) {
+    config.headers['X-Active-Role'] = activeRole;
+  }
   return config;
 });
 

@@ -21,12 +21,16 @@ const authSlice = createSlice({
   reducers: {
     setUser(state, action: PayloadAction<AppUser>) {
       const user = action.payload;
-      
+
       // Restore last active role on refresh
-      const savedActiveRole = typeof localStorage !== 'undefined' 
-        ? localStorage.getItem(`active_role_${user.id}`) as UserRole | null 
-        : null;
-      const activeRole = savedActiveRole || user.activeRole || user.role || 'CANDIDATE';
+      const savedActiveRole =
+        typeof localStorage !== 'undefined'
+          ? (localStorage.getItem(`active_role_${user.id}`) as UserRole | null)
+          : null;
+      const requestedActiveRole = savedActiveRole || user.activeRole || user.role || 'CANDIDATE';
+      const activeRole = user.availableRoles?.includes(requestedActiveRole)
+        ? requestedActiveRole
+        : user.role || user.availableRoles?.[0] || 'CANDIDATE';
 
       state.appUser = {
         ...user,
@@ -34,6 +38,9 @@ const authSlice = createSlice({
         activeRole,
         role: activeRole, // sync legacy role field
       };
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('recruitzaa_active_role', activeRole);
+      }
       state.isAuthenticated = true;
       state.isLoading = false;
       state.error = null;
@@ -43,6 +50,7 @@ const authSlice = createSlice({
         localStorage.removeItem(`active_role_${state.appUser.id}`);
       }
       state.appUser = null;
+      localStorage.removeItem('recruitzaa_active_role');
       state.isAuthenticated = false;
       state.isLoading = false;
       state.error = null;
@@ -57,6 +65,7 @@ const authSlice = createSlice({
         state.appUser.activeRole = action.payload;
         state.appUser.role = action.payload; // sync legacy role field
         localStorage.setItem(`active_role_${state.appUser.id}`, action.payload);
+        localStorage.setItem('recruitzaa_active_role', action.payload);
       }
     },
     setAuthLoading(state, action: PayloadAction<boolean>) {
