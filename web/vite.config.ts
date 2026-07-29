@@ -7,6 +7,6 @@ export default defineConfig(() => ({
   // Use root base for custom domain deployments
   base: '/',
   server: {
-    allowedHosts: true,
+    allowedHosts: true as const,
   }
 }))

@@ -30,6 +30,12 @@
   color: var(--color-slate);
 }
 
+.userCount {
+  color: var(--color-slate);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
 .card {
   padding: 1.5rem;
 }
@@ -56,6 +62,7 @@
 
 .filters {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.75rem;
 }
 
@@ -106,6 +113,21 @@
   border-bottom: none;
 }
 
+.stateCell,
+.errorCell {
+  height: 180px;
+  text-align: center;
+  color: var(--color-slate);
+}
+
+.stateCell > * {
+  margin: 0 auto 0.5rem;
+}
+
+.errorCell > * {
+  margin: 0.35rem;
+}
+
 .userInfo {
   display: flex;
   align-items: center;
@@ -141,7 +163,127 @@
   color: var(--color-dark);
 }
 
-.actionGroup {
+.roleList {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
+}
+
+.roleList span {
+  padding: 0.2rem 0.45rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-slate);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.paginationRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.25rem;
+  color: var(--color-slate);
+  font-size: 0.8rem;
+}
+
+.editor {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.fieldset legend,
+.fieldLabel {
+  color: var(--color-dark);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.roleGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-top: 0.75rem;
+}
+
+.checkOption {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-ink);
+  font-size: 0.82rem;
+}
+
+.checkOption input,
+.statusToggle input {
+  accent-color: var(--color-primary);
+}
+
+.fieldLabel {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.statusToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-dark);
+}
+
+.statusToggle span {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.statusToggle small {
+  color: var(--color-slate);
+  font-weight: 400;
+}
+
+.statusToggle input {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 0.25rem;
+}
+
+@media (max-width: 639px) {
+  .searchBox,
+  .select {
+    width: 100%;
+    max-width: none;
+  }
+
+  .filters {
+    width: 100%;
+  }
+
+  .roleGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .paginationRow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }

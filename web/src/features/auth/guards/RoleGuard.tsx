@@ -43,6 +43,7 @@ export const RoleGuard = ({ allowedRole }: RoleGuardProps) => {
             id: firebaseUser.uid,
             email: firebaseUser.email ?? '',
             role,
+            availableRoles: [role],
             displayName: firebaseUser.displayName ?? firebaseUser.email ?? '',
             photoURL: firebaseUser.photoURL ?? undefined,
             ...savedProfileData,
