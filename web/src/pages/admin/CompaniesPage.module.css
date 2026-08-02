@@ -145,3 +145,75 @@
   display: flex;
   gap: 0.5rem;
 }
+
+.stateCell,
+.errorCell {
+  height: 180px;
+  text-align: center;
+  color: var(--color-slate);
+}
+
+.stateCell > *,
+.errorCell > * {
+  margin: 0.35rem auto;
+}
+
+.paginationRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.25rem;
+  color: var(--color-slate);
+  font-size: 0.8rem;
+}
+
+.editor {
+  display: grid;
+  gap: 1rem;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.fieldLabel {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--color-dark);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}
+
+.rowActions {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+@media (max-width: 639px) {
+  .searchBox,
+  .filters,
+  .select {
+    width: 100%;
+    max-width: none;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .paginationRow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

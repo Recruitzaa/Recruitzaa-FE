@@ -5,6 +5,7 @@ import authReducer, {
   setAuthLoading,
   updateUserProfile,
   setAuthError,
+  switchActiveRole,
 } from './auth.slice';
 import type { AppUser } from '../../types/auth.types';
 
@@ -38,16 +39,6 @@ describe('Auth Slice', () => {
     expect(actual.error).toBeNull();
   });
 
-  it('should handle setUser with profile override', () => {
-    localStorage.setItem(
-      'profile_override_123',
-      JSON.stringify({ displayName: 'Overridden Name' })
-    );
-    const actual = authReducer(initialState, setUser(mockUser));
-    expect(actual.appUser).toEqual({ ...mockUser, displayName: 'Overridden Name' });
-    expect(actual.isAuthenticated).toBe(true);
-  });
-
   it('should handle clearUser', () => {
     // First set a user
     const loggedInState = authReducer(initialState, setUser(mockUser));
@@ -57,6 +48,16 @@ describe('Auth Slice', () => {
     expect(actual.appUser).toBeNull();
     expect(actual.isAuthenticated).toBe(false);
     expect(actual.isLoading).toBe(false);
+  });
+
+  it('discards a persisted role that the backend has revoked', () => {
+    localStorage.setItem('active_role_123', 'SUPER_ADMIN');
+    const actual = authReducer(
+      initialState,
+      setUser({ ...mockUser, availableRoles: ['CANDIDATE'], activeRole: undefined })
+    );
+    expect(actual.appUser?.activeRole).toBe('CANDIDATE');
+    expect(localStorage.getItem('recruitzaa_active_role')).toBe('CANDIDATE');
   });
 
   it('should handle updateUserProfile when appUser is set', () => {
@@ -80,5 +81,16 @@ describe('Auth Slice', () => {
     const actual = authReducer(initialState, setAuthError('Failed to sign in'));
     expect(actual.error).toBe('Failed to sign in');
     expect(actual.isLoading).toBe(false);
+  });
+
+  it('should handle switchActiveRole and persist workspace context', () => {
+    localStorage.clear();
+    const loggedInState = authReducer(initialState, setUser(mockUser));
+    const actual = authReducer(loggedInState, switchActiveRole('EMPLOYER'));
+
+    expect(actual.appUser?.activeRole).toBe('EMPLOYER');
+    expect(actual.appUser?.role).toBe('EMPLOYER');
+    expect(localStorage.getItem('active_role_123')).toBe('EMPLOYER');
+    expect(localStorage.getItem('recruitzaa_active_role')).toBe('EMPLOYER');
   });
 });

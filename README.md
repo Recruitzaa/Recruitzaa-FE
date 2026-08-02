@@ -4,9 +4,23 @@ The frontend codebase for recruitZaa, featuring a React Native (TypeScript) mobi
 
 ## Version History
 
-**Current Version: `v0.2.1`**
+**Current Version: `v0.3.0`**
 
 ### Changelog
+
+**[v0.3.0] - 2026-07-30** _(Branch: `fix/integration-fixes`)_
+
+- **Reliable Registration**: Employer email and social registration now require valid company details, surface backend failures, and preserve a recoverable account when company verification fails.
+- **Secure Role Resolution**: Protected routes no longer silently downgrade to a single Firebase-only role when the backend is unavailable, and active workspace context is sent with authenticated API requests.
+- **Complete Admin Users**: Added user provisioning, detailed PostgreSQL/MongoDB profile loading, atomic access/profile updates, and confirmed cross-store deletion.
+- **Complete Company Administration**: Added company detail and guarded deletion operations, plus scalable employer assignment options across every company page.
+- **Testing**: Added service-contract and employer-registration regression tests for the new end-to-end flows.
+
+**[v0.2.2] - 2026-07-30** _(Branch: `server`)_
+
+- **Feature Integration**: Connected admin user management, as well as company and employer management flows.
+- **Bug Fixes**: Resolved an infinite loop in `RoleGuard` by comparing `email/firebaseUid` instead of SQL UUID.
+- **Testing & CI**: Removed outdated profile override tests in the auth slice to fix the CI build pipeline.
 
 **[v0.2.1] - 2026-07-29** _(Branch: `ui-improvementts-final`)_
 

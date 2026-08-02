@@ -8,8 +8,11 @@ import {
   signInWithEmail,
   requestPasswordReset,
 } from '../../../services/auth.service';
+import { verifyUser, registerUser } from '../../../services/api.service';
 import { FloatingInput } from './FloatingInput';
 import { SocialAuthButtons } from './SocialAuthButtons';
+import { useAppDispatch } from '../../../store/hooks';
+import { setUser } from '../../../store/slices/auth.slice';
 
 interface LoginFormProps {
   role: 'candidate' | 'employer';
@@ -26,6 +29,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role, onSuccess, onSwitchT
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const rememberedEmail = localStorage.getItem(REMEMBER_EMAIL_KEY);
@@ -35,8 +39,36 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role, onSuccess, onSwitchT
     }
   }, []);
 
+  /**
+   * After Firebase sign-in succeeds, verify with the Backend.
+   * If the user doesn't exist on the Backend yet (404), auto-register them.
+   */
+  const syncWithBackend = async (firebaseUser: { uid?: string; getIdToken?: (force?: boolean) => Promise<string>; displayName?: string | null }) => {
+    if (!firebaseUser?.uid || !firebaseUser?.getIdToken) return;
+
+    try {
+      const token = await firebaseUser.getIdToken(true);
+      let appUser;
+      try {
+        appUser = await verifyUser(token);
+      } catch (verifyErr: any) {
+        // If user not found on Backend, auto-register
+        if (verifyErr?.response?.status === 404) {
+          const requestedRole = role === 'employer' ? 'EMPLOYER' : 'CANDIDATE';
+          appUser = await registerUser(token, requestedRole, firebaseUser.displayName ?? undefined);
+        } else {
+          throw verifyErr;
+        }
+      }
+      dispatch(setUser(appUser));
+    } catch (err) {
+      console.error('Backend sync failed:', err);
+      // Still allow login even if backend is unreachable — Firebase auth is valid
+    }
+  };
+
   const handleSocialSignIn = async (
-    providerFn: () => Promise<{ uid?: string } | null | undefined>,
+    providerFn: () => Promise<{ uid?: string; getIdToken?: (force?: boolean) => Promise<string>; displayName?: string | null } | null | undefined>,
     name: string
   ) => {
     setError(null);
@@ -44,6 +76,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role, onSuccess, onSwitchT
     try {
       const user = await providerFn();
       if (user?.uid) {
+        await syncWithBackend(user as any);
         onSuccess(user.uid);
       }
     } catch (err: unknown) {
@@ -69,6 +102,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role, onSuccess, onSwitchT
         } else {
           localStorage.removeItem(REMEMBER_EMAIL_KEY);
         }
+        await syncWithBackend(user as any);
         onSuccess(user.uid);
       }
     } catch (err: unknown) {

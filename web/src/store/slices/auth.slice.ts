@@ -20,31 +20,37 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<AppUser>) {
-      const rawUser = action.payload;
-      const savedProfile =
-        typeof localStorage !== 'undefined' && typeof localStorage.getItem === 'function'
-          ? localStorage.getItem(`profile_override_${rawUser.id}`)
-          : null;
-      const profileData = savedProfile ? { ...rawUser, ...JSON.parse(savedProfile) } : rawUser;
+      const user = action.payload;
 
-      // Dev Override ("God Mode") Sandbox: Force availableRoles to include all 5 workspaces only in development
-      const availableRoles: UserRole[] = import.meta.env.DEV
-        ? ['CANDIDATE', 'EMPLOYER', 'EXPERT', 'EMPLOYEE', 'SUPER_ADMIN']
-        : profileData.availableRoles || [profileData.role || 'CANDIDATE'];
-      const activeRole = profileData.activeRole || profileData.role || 'CANDIDATE';
+      // Restore last active role on refresh
+      const savedActiveRole =
+        typeof localStorage !== 'undefined'
+          ? (localStorage.getItem(`active_role_${user.id}`) as UserRole | null)
+          : null;
+      const requestedActiveRole = savedActiveRole || user.activeRole || user.role || 'CANDIDATE';
+      const activeRole = user.availableRoles?.includes(requestedActiveRole)
+        ? requestedActiveRole
+        : user.role || user.availableRoles?.[0] || 'CANDIDATE';
 
       state.appUser = {
-        ...profileData,
-        availableRoles,
+        ...user,
+        availableRoles: user.availableRoles || [activeRole],
         activeRole,
         role: activeRole, // sync legacy role field
       };
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('recruitzaa_active_role', activeRole);
+      }
       state.isAuthenticated = true;
       state.isLoading = false;
       state.error = null;
     },
     clearUser(state) {
+      if (state.appUser) {
+        localStorage.removeItem(`active_role_${state.appUser.id}`);
+      }
       state.appUser = null;
+      localStorage.removeItem('recruitzaa_active_role');
       state.isAuthenticated = false;
       state.isLoading = false;
       state.error = null;
@@ -58,6 +64,8 @@ const authSlice = createSlice({
       if (state.appUser) {
         state.appUser.activeRole = action.payload;
         state.appUser.role = action.payload; // sync legacy role field
+        localStorage.setItem(`active_role_${state.appUser.id}`, action.payload);
+        localStorage.setItem('recruitzaa_active_role', action.payload);
       }
     },
     setAuthLoading(state, action: PayloadAction<boolean>) {
