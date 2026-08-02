@@ -45,6 +45,10 @@ export const ProfileBannerCard = ({
           width="96"
           height="96"
           className="w-24 h-24 rounded-full object-cover border-4 border-slate-100 shadow-inner shrink-0"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src =
+              'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256';
+          }}
         />
 
         <div className="flex-1 text-center md:text-left space-y-3">

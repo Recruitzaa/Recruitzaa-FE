@@ -23,6 +23,10 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({ expert, onBookClick }) =
               src={expert.avatar}
               alt=""
               className="w-14 h-14 rounded-xl object-cover border border-slate-105 dark:border-slate-800"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src =
+                  'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=256';
+              }}
             />
             <span className="inline-flex items-center gap-1 text-[9px] font-black text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-0.5 rounded-full uppercase tracking-wider">
               <Award size={10} className="text-[#c14f16]" aria-hidden="true" /> Top Mentor
