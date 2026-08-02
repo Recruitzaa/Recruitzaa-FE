@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
@@ -23,13 +23,22 @@ export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) 
   const { user, isInitializing } = useAuth();
   const appUser = useAppSelector((state) => state.auth.appUser);
   const location = useLocation();
+  const [resolutionError, setResolutionError] = useState<string | null>(null);
+  const [retryNonce, setRetryNonce] = useState(0);
 
   useEffect(() => {
     if (isInitializing) return;
-    if (user && appUser && (appUser.firebaseUid === user.uid || appUser.email === user.email)) return;
+    if (
+      user &&
+      appUser &&
+      (appUser.firebaseUid === user.uid || appUser.email === user.email) &&
+      appUser.id !== user.uid
+    )
+      return;
 
     const resolveRole = async () => {
       if (user) {
+        setResolutionError(null);
         try {
           // Fetch the real user profile and roles from the Backend
           const backendUser = await getMe();
@@ -43,40 +52,28 @@ export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) 
               const token = await user.getIdToken(true);
               const savedRole = localStorage.getItem('selected_role');
               const requestedRole = savedRole === 'employer' ? 'EMPLOYER' : 'CANDIDATE';
-              const registeredUser = await registerUser(token, requestedRole, user.displayName ?? undefined);
+              const registeredUser = await registerUser(
+                token,
+                requestedRole,
+                user.displayName ?? undefined
+              );
               dispatch(setUser(registeredUser));
             } catch (regErr) {
               console.error('Auto-registration failed:', regErr);
-              // Fallback to Firebase-only data
-              const savedRole = localStorage.getItem('selected_role');
-              const role: UserRole = savedRole === 'employer' ? 'EMPLOYER' : 'CANDIDATE';
-              dispatch(
-                setUser({
-                  id: user.uid,
-                  email: user.email ?? '',
-                  displayName: user.displayName ?? user.email ?? '',
-                  photoURL: user.photoURL ?? undefined,
-                  role,
-                  availableRoles: [role],
-                })
+              dispatch(clearUser());
+              setResolutionError(
+                'We could not finish creating your Recruitzaa account. Check the API connection and try again.'
               );
             }
           } else if (err?.response?.status === 401) {
             // Unauthenticated on Backend
             dispatch(clearUser());
           } else {
-            // Other errors (e.g. Network error) — Fallback to Firebase data so user is not locked out
-            const savedRole = localStorage.getItem('selected_role');
-            const role: UserRole = savedRole === 'employer' ? 'EMPLOYER' : 'CANDIDATE';
-            dispatch(
-              setUser({
-                id: user.uid,
-                email: user.email ?? '',
-                displayName: user.displayName ?? user.email ?? '',
-                photoURL: user.photoURL ?? undefined,
-                role,
-                availableRoles: [role],
-              })
+            // Keep the protected route unresolved. A Firebase-only fallback can
+            // silently discard server-managed roles and account status.
+            dispatch(clearUser());
+            setResolutionError(
+              'We could not verify your Recruitzaa account. Check the API connection and try again.'
             );
           }
         }
@@ -86,7 +83,27 @@ export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) 
     };
 
     resolveRole();
-  }, [user, isInitializing, appUser, dispatch]);
+  }, [user, isInitializing, appUser, dispatch, retryNonce]);
+
+  if (resolutionError) {
+    return (
+      <main className="grid min-h-screen place-items-center bg-slate-50 p-6 dark:bg-slate-900">
+        <div className="max-w-md rounded-xl border border-slate-200 bg-white p-6 text-center shadow-sm dark:border-slate-700 dark:bg-slate-800">
+          <h1 className="text-lg font-bold text-slate-900 dark:text-white">
+            Account verification failed
+          </h1>
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{resolutionError}</p>
+          <button
+            type="button"
+            className="mt-5 rounded-lg bg-[#c14f16] px-4 py-2 font-semibold text-white"
+            onClick={() => setRetryNonce((value) => value + 1)}
+          >
+            Try again
+          </button>
+        </div>
+      </main>
+    );
+  }
 
   // Show loading spinner if Firebase is initializing or if a user is logged in
   // but their Redux state (appUser) containing the resolved role is not yet loaded.

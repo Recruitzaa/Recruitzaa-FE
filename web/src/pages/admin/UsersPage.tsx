@@ -4,6 +4,7 @@ import { AxiosError } from 'axios';
 import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
+import { ConfirmDialog } from '../../components/ui/ConfirmDialog/ConfirmDialog';
 import { Input } from '../../components/ui/Input';
 import { Modal } from '../../components/ui/Modal';
 import { Pagination } from '../../components/ui/Pagination/Pagination';
@@ -11,9 +12,12 @@ import { Spinner } from '../../components/ui/Spinner/Spinner';
 import { useToast } from '../../hooks/useToast';
 import {
   listAdminUsers,
-  updateAdminUserRoles,
-  updateAdminUserStatus,
+  createAdminUser,
+  deleteAdminUser,
+  getAdminUser,
+  updateAdminUser,
   type AdminUser,
+  type AdminUserCreateInput,
 } from '../../services/admin-users.service';
 import type { UserRole } from '../../types/auth.types';
 import styles from './UsersPage.module.css';
@@ -53,6 +57,10 @@ interface UserEditorProps {
     primaryRole: UserRole;
     availableRoles: UserRole[];
     isActive: boolean;
+    displayName?: string;
+    phone?: string;
+    location?: string;
+    bio?: string;
   }) => void;
 }
 
@@ -60,12 +68,20 @@ const UserEditor = ({ user, isSaving, onClose, onSave }: UserEditorProps) => {
   const [availableRoles, setAvailableRoles] = useState<UserRole[]>([]);
   const [primaryRole, setPrimaryRole] = useState<UserRole>('CANDIDATE');
   const [isActive, setIsActive] = useState(true);
+  const [displayName, setDisplayName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [location, setLocation] = useState('');
+  const [bio, setBio] = useState('');
 
   useEffect(() => {
     if (!user) return;
     setAvailableRoles(user.availableRoles);
     setPrimaryRole(user.primaryRole);
     setIsActive(user.isActive);
+    setDisplayName(user.displayName || '');
+    setPhone(user.phone || '');
+    setLocation(user.location || '');
+    setBio(user.bio || '');
   }, [user]);
 
   const toggleRole = (role: UserRole) => {
@@ -97,6 +113,10 @@ const UserEditor = ({ user, isSaving, onClose, onSave }: UserEditorProps) => {
               primaryRole,
               availableRoles,
               isActive,
+              displayName: displayName.trim() || undefined,
+              phone: phone.trim() || undefined,
+              location: location.trim() || undefined,
+              bio: bio.trim() || undefined,
             });
           }}
         >
@@ -131,6 +151,21 @@ const UserEditor = ({ user, isSaving, onClose, onSave }: UserEditorProps) => {
             </select>
           </label>
 
+          <div className={styles.formGrid}>
+            <Input
+              label="Display name"
+              value={displayName}
+              onChange={(event) => setDisplayName(event.target.value)}
+            />
+            <Input label="Phone" value={phone} onChange={(event) => setPhone(event.target.value)} />
+            <Input
+              label="Location"
+              value={location}
+              onChange={(event) => setLocation(event.target.value)}
+            />
+            <Input label="Bio" value={bio} onChange={(event) => setBio(event.target.value)} />
+          </div>
+
           <label className={styles.statusToggle}>
             <span>
               <strong>Account enabled</strong>
@@ -157,6 +192,103 @@ const UserEditor = ({ user, isSaving, onClose, onSave }: UserEditorProps) => {
   );
 };
 
+const NewUserEditor = ({
+  isOpen,
+  isSaving,
+  onClose,
+  onSave,
+}: {
+  isOpen: boolean;
+  isSaving: boolean;
+  onClose: () => void;
+  onSave: (input: AdminUserCreateInput) => void;
+}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [displayName, setDisplayName] = useState('');
+  const [primaryRole, setPrimaryRole] = useState<UserRole>('CANDIDATE');
+
+  useEffect(() => {
+    if (isOpen) {
+      setEmail('');
+      setPassword('');
+      setDisplayName('');
+      setPrimaryRole('CANDIDATE');
+    }
+  }, [isOpen]);
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      title="Add user"
+      description="Provision a Firebase and Recruitzaa account."
+      onClose={onClose}
+    >
+      <form
+        className={styles.editor}
+        onSubmit={(event) => {
+          event.preventDefault();
+          onSave({
+            email: email.trim(),
+            password,
+            displayName: displayName.trim(),
+            primaryRole,
+            availableRoles: [primaryRole],
+            isActive: true,
+          });
+        }}
+      >
+        <Input
+          label="Display name"
+          required
+          value={displayName}
+          onChange={(event) => setDisplayName(event.target.value)}
+        />
+        <Input
+          label="Email"
+          type="email"
+          required
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+        />
+        <Input
+          label="Temporary password"
+          type="password"
+          required
+          minLength={8}
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        />
+        <label className={styles.fieldLabel}>
+          Initial role
+          <select
+            className={styles.select}
+            value={primaryRole}
+            onChange={(event) => setPrimaryRole(event.target.value as UserRole)}
+          >
+            {ROLES.map((item) => (
+              <option key={item} value={item}>
+                {roleLabel(item)}
+              </option>
+            ))}
+          </select>
+        </label>
+        <div className={styles.modalActions}>
+          <Button variant="outline" onClick={onClose} disabled={isSaving}>
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            disabled={isSaving || displayName.trim().length < 2 || password.length < 8}
+          >
+            {isSaving ? 'Creating…' : 'Create user'}
+          </Button>
+        </div>
+      </form>
+    </Modal>
+  );
+};
+
 export const UsersPage = () => {
   const queryClient = useQueryClient();
   const toast = useToast();
@@ -166,6 +298,8 @@ export const UsersPage = () => {
   const [role, setRole] = useState<UserRole | ''>('');
   const [status, setStatus] = useState<'active' | 'inactive' | ''>('');
   const [selectedUser, setSelectedUser] = useState<AdminUser | null>(null);
+  const [createOpen, setCreateOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<AdminUser | null>(null);
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
@@ -194,10 +328,7 @@ export const UsersPage = () => {
       availableRoles: UserRole[];
       isActive: boolean;
     }) => {
-      await Promise.all([
-        updateAdminUserRoles(values.userId, values.primaryRole, values.availableRoles),
-        updateAdminUserStatus(values.userId, values.isActive),
-      ]);
+      await updateAdminUser(values.userId, values);
     },
     onSuccess: async () => {
       setSelectedUser(null);
@@ -206,6 +337,35 @@ export const UsersPage = () => {
     },
     onError: (error) => toast.error(errorMessage(error)),
   });
+
+  const createUser = useMutation({
+    mutationFn: createAdminUser,
+    onSuccess: async () => {
+      setCreateOpen(false);
+      await queryClient.invalidateQueries({ queryKey: ['admin-users'] });
+      toast.success('User created.');
+    },
+    onError: (error) => toast.error(errorMessage(error)),
+  });
+
+  const removeUser = useMutation({
+    mutationFn: deleteAdminUser,
+    onSuccess: async () => {
+      setDeleteTarget(null);
+      setSelectedUser(null);
+      await queryClient.invalidateQueries({ queryKey: ['admin-users'] });
+      toast.success('User deleted.');
+    },
+    onError: (error) => toast.error(errorMessage(error)),
+  });
+
+  const openUser = async (user: AdminUser) => {
+    try {
+      setSelectedUser(await getAdminUser(user.id));
+    } catch (error) {
+      toast.error(errorMessage(error));
+    }
+  };
 
   const users = usersQuery.data?.items ?? [];
 
@@ -219,7 +379,10 @@ export const UsersPage = () => {
           </p>
         </div>
         {usersQuery.data && (
-          <span className={styles.userCount}>{usersQuery.data.total.toLocaleString()} users</span>
+          <div className={styles.headerActions}>
+            <span className={styles.userCount}>{usersQuery.data.total.toLocaleString()} users</span>
+            <Button onClick={() => setCreateOpen(true)}>+ Add user</Button>
+          </div>
         )}
       </div>
 
@@ -339,9 +502,14 @@ export const UsersPage = () => {
                       </Badge>
                     </td>
                     <td>
-                      <Button size="sm" variant="outline" onClick={() => setSelectedUser(user)}>
-                        Manage
-                      </Button>
+                      <div className={styles.rowActions}>
+                        <Button size="sm" variant="outline" onClick={() => openUser(user)}>
+                          Manage
+                        </Button>
+                        <Button size="sm" variant="outline" onClick={() => setDeleteTarget(user)}>
+                          Delete
+                        </Button>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -370,6 +538,27 @@ export const UsersPage = () => {
         isSaving={updateUser.isPending}
         onClose={() => !updateUser.isPending && setSelectedUser(null)}
         onSave={(values) => updateUser.mutate(values)}
+      />
+      <NewUserEditor
+        isOpen={createOpen}
+        isSaving={createUser.isPending}
+        onClose={() => !createUser.isPending && setCreateOpen(false)}
+        onSave={(input) => createUser.mutate(input)}
+      />
+      <ConfirmDialog
+        isOpen={Boolean(deleteTarget)}
+        title="Delete user permanently?"
+        message={
+          deleteTarget
+            ? `${deleteTarget.email} will be removed from Firebase, PostgreSQL, and MongoDB.`
+            : ''
+        }
+        confirmLabel={removeUser.isPending ? 'Deleting…' : 'Delete user'}
+        variant="danger"
+        onCancel={() => !removeUser.isPending && setDeleteTarget(null)}
+        onConfirm={() =>
+          deleteTarget && !removeUser.isPending && removeUser.mutate(deleteTarget.id)
+        }
       />
     </div>
   );

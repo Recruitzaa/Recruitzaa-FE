@@ -8,5 +8,13 @@ export default defineConfig({
     globals: true,
     setupFiles: './src/setupTests.ts',
     css: true,
+    coverage: {
+      thresholds: {
+        statements: 85,
+        branches: 75,
+        functions: 85,
+        lines: 85,
+      },
+    },
   },
 });
