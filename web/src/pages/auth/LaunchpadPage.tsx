@@ -6,7 +6,7 @@ import type { UserRole } from '../../types/auth.types';
 import { PageTransition } from '../../components/layout/PageTransition';
 import { SEO } from '../../components/seo/SEO';
 import { Shield, Briefcase, GraduationCap, Laptop, FileText, Moon, Sun } from 'lucide-react';
-import logo from '../../assets/logo.png';
+import { BrandLogo } from '../../components/brand/BrandLogo';
 import { useTheme } from '../../hooks/useTheme';
 
 const ROLE_META: Record<
@@ -95,11 +95,11 @@ export const LaunchpadPage: React.FC = () => {
           <div className="max-w-5xl w-full space-y-6 my-auto">
             {/* Header branding */}
             <div className="text-center space-y-3">
-              <img src={logo} alt="Recruitzaa Logo" className="h-10 mx-auto" />
+              <BrandLogo width={140} height={40} className="h-10 w-auto mx-auto" />
               <h1 className="text-2xl font-black text-[#1e2229] dark:text-white tracking-tight">
                 Enterprise Launchpad
               </h1>
-              <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto">
+              <p className="text-sm text-slate-500 max-w-md mx-auto">
                 Welcome back,{' '}
                 <span className="font-extrabold text-[#c14f16]">{appUser.displayName}</span>. Please
                 choose which profile workspace you want to enter for this session.
@@ -121,14 +121,14 @@ export const LaunchpadPage: React.FC = () => {
                     className="group bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-6 text-left shadow-sm hover:shadow-md hover:border-[#c14f16] dark:hover:border-[#c14f16] transition-all flex flex-col justify-between min-h-52 w-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2"
                   >
                     <div className="space-y-3">
-                      <div className="p-3 bg-slate-50 dark:bg-slate-900 group-hover:bg-[#fef3ee] text-slate-500 dark:text-slate-400 group-hover:text-[#c14f16] rounded-lg w-fit transition-colors">
+                      <div className="p-3 bg-slate-50 dark:bg-slate-900 group-hover:bg-[#fef3ee] text-slate-500 group-hover:text-[#c14f16] rounded-lg w-fit transition-colors">
                         <IconComponent size={20} aria-hidden="true" />
                       </div>
                       <div>
                         <h2 className="text-sm font-extrabold text-slate-900 dark:text-white leading-snug">
                           {meta.title}
                         </h2>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed line-clamp-3">
+                        <p className="text-xs text-slate-500 mt-1.5 leading-relaxed line-clamp-3">
                           {meta.desc}
                         </p>
                       </div>

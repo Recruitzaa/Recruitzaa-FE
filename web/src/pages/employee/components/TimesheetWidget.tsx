@@ -25,7 +25,7 @@ export const TimesheetWidget: React.FC = () => {
           >
             <Calendar size={16} className="text-[#c14f16]" aria-hidden="true" /> Timesheets & Leaves
           </h2>
-          <p className="text-sm text-slate-400 dark:text-slate-500 mt-0.5">
+          <p className="text-sm text-slate-400 mt-0.5">
             Log weekly deliverables, review submission statuses, and check leave logs.
           </p>
         </div>
@@ -59,7 +59,7 @@ export const TimesheetWidget: React.FC = () => {
               onClick={handleSubmitTimesheet}
               className={`w-full inline-flex items-center justify-center gap-1.5 px-4 py-2 text-sm font-bold rounded-lg transition-colors min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2 ${
                 submitted
-                  ? 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed'
+                  ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
                   : 'bg-[#c14f16] hover:bg-[#a94210] text-white shadow-sm'
               }`}
             >

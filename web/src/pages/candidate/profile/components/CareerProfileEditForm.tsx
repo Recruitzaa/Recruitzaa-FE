@@ -40,7 +40,7 @@ export const CareerProfileEditForm = ({
         <div className="space-y-1">
           <label
             htmlFor={fieldId('industry')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             Industry
           </label>
@@ -49,13 +49,13 @@ export const CareerProfileEditForm = ({
             type="text"
             value={careerForm.industry}
             onChange={(e) => setCareerForm({ ...careerForm, industry: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
           />
         </div>
         <div className="space-y-1">
           <label
             htmlFor={fieldId('department')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             Department
           </label>
@@ -64,13 +64,13 @@ export const CareerProfileEditForm = ({
             type="text"
             value={careerForm.department}
             onChange={(e) => setCareerForm({ ...careerForm, department: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
           />
         </div>
         <div className="space-y-1">
           <label
             htmlFor={fieldId('roleCategory')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             Role Category
           </label>
@@ -79,13 +79,13 @@ export const CareerProfileEditForm = ({
             type="text"
             value={careerForm.roleCategory}
             onChange={(e) => setCareerForm({ ...careerForm, roleCategory: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
           />
         </div>
         <div className="space-y-1">
           <label
             htmlFor={fieldId('jobRole')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             Job Role
           </label>
@@ -94,13 +94,13 @@ export const CareerProfileEditForm = ({
             type="text"
             value={careerForm.jobRole}
             onChange={(e) => setCareerForm({ ...careerForm, jobRole: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
           />
         </div>
         <div className="space-y-1">
           <label
             htmlFor={fieldId('desiredJobType')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             Desired Job Type
           </label>
@@ -109,13 +109,13 @@ export const CareerProfileEditForm = ({
             type="text"
             value={careerForm.desiredJobType}
             onChange={(e) => setCareerForm({ ...careerForm, desiredJobType: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
           />
         </div>
         <div className="space-y-1">
           <label
             htmlFor={fieldId('desiredEmploymentType')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             Desired Employment Type
           </label>
@@ -126,13 +126,13 @@ export const CareerProfileEditForm = ({
             onChange={(e) =>
               setCareerForm({ ...careerForm, desiredEmploymentType: e.target.value })
             }
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
           />
         </div>
         <div className="space-y-1">
           <label
             htmlFor={fieldId('expectedSalary')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             Expected Salary
           </label>
@@ -141,13 +141,13 @@ export const CareerProfileEditForm = ({
             type="text"
             value={careerForm.expectedSalary}
             onChange={(e) => setCareerForm({ ...careerForm, expectedSalary: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
           />
         </div>
         <div className="space-y-1">
           <label
             htmlFor={fieldId('preferredShift')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             Preferred Shift
           </label>
@@ -156,13 +156,13 @@ export const CareerProfileEditForm = ({
             type="text"
             value={careerForm.preferredShift}
             onChange={(e) => setCareerForm({ ...careerForm, preferredShift: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
           />
         </div>
         <div className="space-y-1">
           <label
             htmlFor={fieldId('preferredWorkMode')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             Preferred Work Mode
           </label>
@@ -170,7 +170,7 @@ export const CareerProfileEditForm = ({
             id={fieldId('preferredWorkMode')}
             value={careerForm.preferredWorkMode}
             onChange={(e) => setCareerForm({ ...careerForm, preferredWorkMode: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
           >
             <option>On-site</option>
             <option>Remote</option>
@@ -181,7 +181,7 @@ export const CareerProfileEditForm = ({
         <div className="space-y-1">
           <label
             htmlFor={fieldId('willingToRelocate')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             Willing to Relocate
           </label>
@@ -189,7 +189,7 @@ export const CareerProfileEditForm = ({
             id={fieldId('willingToRelocate')}
             value={careerForm.willingToRelocate}
             onChange={(e) => setCareerForm({ ...careerForm, willingToRelocate: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
           >
             <option>Yes</option>
             <option>No</option>
@@ -199,7 +199,7 @@ export const CareerProfileEditForm = ({
         <div className="space-y-1 sm:col-span-2">
           <label
             htmlFor={fieldId('workAuthorization')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             Work Authorization
           </label>
@@ -207,7 +207,7 @@ export const CareerProfileEditForm = ({
             id={fieldId('workAuthorization')}
             value={careerForm.workAuthorization}
             onChange={(e) => setCareerForm({ ...careerForm, workAuthorization: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
           >
             <option>Indian Citizen – no visa/sponsorship required</option>
             <option>Require employment visa/work permit sponsorship</option>
@@ -218,7 +218,7 @@ export const CareerProfileEditForm = ({
         <div className="space-y-1 sm:col-span-2">
           <label
             htmlFor={fieldId('desiredLocationsText')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             Desired Locations (comma separated)
           </label>
@@ -227,11 +227,13 @@ export const CareerProfileEditForm = ({
             type="text"
             value={careerForm.desiredLocationsText}
             onChange={(e) => setCareerForm({ ...careerForm, desiredLocationsText: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
             aria-invalid={Boolean(careerErrors.desiredLocationsText)}
           />
           {careerErrors.desiredLocationsText && (
-            <p className="text-xs text-red-600">{careerErrors.desiredLocationsText}</p>
+            <p className="text-xs text-red-600 dark:text-red-400">
+              {careerErrors.desiredLocationsText}
+            </p>
           )}
         </div>
       </div>
@@ -240,7 +242,7 @@ export const CareerProfileEditForm = ({
         <button
           type="button"
           onClick={() => setIsEditingCareer(false)}
-          className="px-3 py-1.5 border rounded text-sm hover:bg-slate-100 font-semibold text-slate-700 bg-white"
+          className="px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-850"
         >
           Cancel
         </button>

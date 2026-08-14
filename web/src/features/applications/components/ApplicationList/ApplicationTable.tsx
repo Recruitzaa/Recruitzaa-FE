@@ -12,27 +12,27 @@ export const ApplicationTable: React.FC<ApplicationTableProps> = ({
   onViewDetails,
 }) => {
   return (
-    <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-sm overflow-hidden w-full select-none">
+    <div className="bg-white dark:bg-slate-800 border border-slate-200 rounded-lg shadow-sm overflow-hidden w-full select-none">
       <div className="overflow-x-auto">
         <table className="min-w-full table-auto">
           <thead>
-            <tr className="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 text-left">
-              <th className="py-3 px-4 text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+            <tr className="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 text-left">
+              <th className="py-3 px-4 text-sm font-bold uppercase tracking-wider text-slate-400">
                 Job / Company
               </th>
-              <th className="py-3 px-4 text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+              <th className="py-3 px-4 text-sm font-bold uppercase tracking-wider text-slate-400">
                 Last Activity
               </th>
-              <th className="py-3 px-4 text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+              <th className="py-3 px-4 text-sm font-bold uppercase tracking-wider text-slate-400">
                 Salary
               </th>
-              <th className="py-3 px-4 text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+              <th className="py-3 px-4 text-sm font-bold uppercase tracking-wider text-slate-400">
                 Status
               </th>
-              <th className="py-3 px-4 text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+              <th className="py-3 px-4 text-sm font-bold uppercase tracking-wider text-slate-400">
                 Owner / response
               </th>
-              <th className="py-3 px-4 text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 text-right">
+              <th className="py-3 px-4 text-sm font-bold uppercase tracking-wider text-slate-400 text-right">
                 Actions
               </th>
             </tr>
@@ -45,7 +45,7 @@ export const ApplicationTable: React.FC<ApplicationTableProps> = ({
               <tr>
                 <td
                   colSpan={6}
-                  className="py-12 text-center text-sm text-slate-400 dark:text-slate-500 italic bg-white dark:bg-slate-800"
+                  className="py-12 text-center text-sm text-slate-400 italic bg-white dark:bg-slate-800"
                 >
                   No matching applications found
                 </td>

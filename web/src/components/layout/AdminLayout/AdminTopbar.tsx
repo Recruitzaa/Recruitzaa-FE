@@ -21,7 +21,7 @@ export const AdminTopbar = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
       <button
         type="button"
         onClick={onOpenMenu}
-        className="md:hidden min-w-11 min-h-11 inline-flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700"
+        className="md:hidden min-w-11 min-h-11 inline-flex items-center justify-center rounded-lg border border-slate-200"
         aria-label="Open admin navigation"
       >
         <Menu size={20} />
@@ -52,7 +52,7 @@ export const AdminTopbar = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
         <button
           type="button"
           onClick={toggleTheme}
-          className="p-2 rounded-lg text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          className="p-2 rounded-lg text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 transition-colors"
           aria-label="Toggle dark mode"
         >
           {isDark ? <Sun size={16} /> : <Moon size={16} />}

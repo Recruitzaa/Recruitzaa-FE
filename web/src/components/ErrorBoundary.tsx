@@ -96,7 +96,7 @@ export class ErrorBoundary extends Component<Props, State> {
               >
                 {isPreloadError ? 'Workspace View Reload Required' : 'Application Error'}
               </h1>
-              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+              <p className="text-sm text-slate-500 leading-relaxed">
                 {isPreloadError
                   ? "This page's assets were updated since it was loaded. Click below to refresh."
                   : 'An unexpected error occurred while loading this workspace page view.'}

@@ -32,7 +32,7 @@ export const CalendarSyncCard: React.FC = () => {
           <h3 className="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
             <Calendar size={16} className="text-[#c14f16]" /> Calendar Sync & Availability
           </h3>
-          <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+          <p className="text-xs text-slate-400 mt-1">
             Connect your calendar to automatically block booked slot schedules.
           </p>
         </div>
@@ -44,7 +44,7 @@ export const CalendarSyncCard: React.FC = () => {
               <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                 Sync Google Calendar
               </span>
-              <span className="text-sm text-slate-400 dark:text-slate-500">
+              <span className="text-sm text-slate-400">
                 Auto-block slots matching GCal appointments.
               </span>
             </div>
@@ -69,7 +69,7 @@ export const CalendarSyncCard: React.FC = () => {
               <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                 Sync Outlook Calendar
               </span>
-              <span className="text-sm text-slate-400 dark:text-slate-500">
+              <span className="text-sm text-slate-400">
                 Sync slots matching Microsoft Exchange bookings.
               </span>
             </div>
@@ -100,7 +100,7 @@ export const CalendarSyncCard: React.FC = () => {
               <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                 Max Sessions / Week
               </span>
-              <span className="text-sm text-slate-400 dark:text-slate-500">
+              <span className="text-sm text-slate-400">
                 Throttle intake capacity to prevent burn-out.
               </span>
             </div>
@@ -109,7 +109,7 @@ export const CalendarSyncCard: React.FC = () => {
             value={settings.maxSessionsPerWeek}
             onChange={handleCapacityChange}
             aria-label="Set maximum mentorship sessions per week"
-            className="border border-slate-200 dark:border-slate-850 rounded-lg px-2.5 py-1.5 text-sm bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px] min-w-[80px]"
+            className="border border-slate-200 dark:border-slate-850 rounded-lg px-2.5 py-1.5 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px] min-w-[80px]"
           >
             {[3, 5, 8, 10, 15].map((count) => (
               <option key={count} value={count}>

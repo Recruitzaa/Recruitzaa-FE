@@ -18,7 +18,7 @@ export const SuperAdminDashboardPage: React.FC = () => {
             <h1 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
               <ShieldAlert className="text-[#c14f16]" size={20} /> Super Admin Command Center
             </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
+            <p className="text-sm text-slate-500">
               Monitor server telemetry logs, approve pending enterprise roles, and moderation flags.
             </p>
           </div>

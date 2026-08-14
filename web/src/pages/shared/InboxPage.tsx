@@ -66,7 +66,7 @@ export const InboxPage: React.FC = () => {
             <h1 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
               <MessageSquare className="text-[#c14f16]" size={20} /> Messaging Hub
             </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-sm text-slate-500 mt-1">
               Direct chat communications with hiring teams, candidate applicants, and FAANG mentors.
             </p>
           </div>
@@ -97,9 +97,7 @@ export const InboxPage: React.FC = () => {
                             <span className="w-1.5 h-1.5 bg-[#c14f16] rounded-full shrink-0" />
                           )}
                         </span>
-                        <span className="text-xs text-slate-400 dark:text-slate-500 block mt-0.5">
-                          {thread.role}
-                        </span>
+                        <span className="text-xs text-slate-400 block mt-0.5">{thread.role}</span>
                         <span className="text-sm text-slate-500 line-clamp-1 mt-1 block">
                           {thread.lastMessage}
                         </span>
@@ -131,12 +129,12 @@ export const InboxPage: React.FC = () => {
                         className={`max-w-xs md:max-w-md rounded-xl p-3.5 space-y-1 ${
                           isMe
                             ? 'bg-[#c14f16] text-white rounded-br-none'
-                            : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-850 text-slate-800 dark:text-slate-100 rounded-bl-none shadow-sm'
+                            : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-850 text-slate-800 rounded-bl-none shadow-sm'
                         }`}
                       >
                         <p className="text-sm leading-relaxed">{msg.text}</p>
                         <span
-                          className={`text-xs block text-right ${isMe ? 'text-white/80' : 'text-slate-400 dark:text-slate-500'}`}
+                          className={`text-xs block text-right ${isMe ? 'text-white/80' : 'text-slate-400'}`}
                         >
                           {msg.time}
                         </span>
@@ -158,7 +156,7 @@ export const InboxPage: React.FC = () => {
                   onChange={(e) => setInputText(e.target.value)}
                   placeholder={`Type a message to ${activeThread.name}...`}
                   aria-label={`Message to ${activeThread.name}`}
-                  className="flex-1 border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
+                  className="flex-1 border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
                 />
                 <button
                   type="submit"

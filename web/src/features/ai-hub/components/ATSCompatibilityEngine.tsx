@@ -26,19 +26,19 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
 }) => {
   return (
     <div className="space-y-6">
-      <Card className="p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+      <Card className="p-6 bg-white dark:bg-slate-800 border border-slate-200">
         <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
           Resume keyword comparison
         </h2>
-        <p className="text-sm text-slate-500 dark:text-slate-400 mb-5">
+        <p className="text-sm text-slate-500 mb-5">
           Compare pasted resume text with a job description using a transparent keyword heuristic.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
-          <div className="bg-slate-50 dark:bg-slate-900 p-4 border border-dashed border-slate-200 dark:border-slate-700 rounded-lg text-center">
+          <div className="bg-slate-50 dark:bg-slate-900 p-4 border border-dashed border-slate-200 rounded-lg text-center">
             <div className="text-sm font-bold text-slate-900 dark:text-white mb-2">Resume text</div>
             <textarea
-              className="w-full min-h-32 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 p-3 text-left text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-shadow"
+              className="w-full min-h-32 rounded border border-slate-200 bg-white dark:bg-slate-950 p-3 text-left text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-shadow"
               value={resumeText}
               onChange={(event) => setResumeText(event.target.value)}
               aria-label="Resume text"
@@ -46,8 +46,8 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
             />
           </div>
 
-          <div className="bg-slate-50 dark:bg-slate-900 p-3 border border-slate-200 dark:border-slate-700 rounded-lg flex flex-col">
-            <div className="text-sm font-bold tracking-wider text-slate-400 dark:text-slate-500 uppercase mb-1">
+          <div className="bg-slate-50 dark:bg-slate-900 p-3 border border-slate-200 rounded-lg flex flex-col">
+            <div className="text-sm font-bold tracking-wider text-slate-400 uppercase mb-1">
               Target Job Description
             </div>
             <textarea
@@ -76,16 +76,16 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
       </Card>
 
       {scoreData && (
-        <Card className="p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+        <Card className="p-6 bg-white dark:bg-slate-800 border border-slate-200">
           <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
             Keyword comparison summary
           </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mb-5">
+          <p className="text-sm text-slate-500 mb-5">
             This score is only the percentage of recognized job-description keywords also present in
             the pasted resume text.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-6 items-center p-5 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-6 items-center p-5 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 mb-6">
             <div className="text-center flex justify-center">
               <div
                 className="w-[120px] h-[120px] rounded-full flex items-center justify-center"
@@ -97,9 +97,7 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
                   <span className="text-2xl font-extrabold text-slate-900 dark:text-white leading-none">
                     {scoreData.overall}
                   </span>
-                  <span className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase mt-0.5">
-                    Score
-                  </span>
+                  <span className="text-sm font-bold text-slate-400 uppercase mt-0.5">Score</span>
                 </div>
               </div>
             </div>
@@ -126,9 +124,7 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
                     </span>
                   ))}
                 {scoreData.keywords.filter((k) => k.found).length === 0 && (
-                  <span className="text-sm text-slate-400 dark:text-slate-500">
-                    No matches found yet.
-                  </span>
+                  <span className="text-sm text-slate-400">No matches found yet.</span>
                 )}
               </div>
             </div>
@@ -157,7 +153,7 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
             </div>
 
             {scoreData.suggestions.length > 0 && (
-              <div className="pt-4 border-t border-slate-200 dark:border-slate-700">
+              <div className="pt-4 border-t border-slate-200">
                 <div className="text-sm font-bold text-slate-900 dark:text-white mb-2">
                   Recommendations
                 </div>

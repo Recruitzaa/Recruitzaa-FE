@@ -58,7 +58,7 @@ export const AdminSettingsPage = () => {
         {/* Header */}
         <div>
           <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white">Settings & API</h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-sm text-slate-500 mt-1">
             Manage platform configuration, API access, and system integrations.
           </p>
         </div>
@@ -71,23 +71,23 @@ export const AdminSettingsPage = () => {
             </div>
             <div>
               <h2 className="text-sm font-bold text-slate-900 dark:text-white">API Credentials</h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
+              <p className="text-sm text-slate-500">
                 Your production API key for server-to-server integration.
               </p>
             </div>
           </div>
 
           <div className="p-6 space-y-4">
-            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
+            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border border-slate-200">
               <div className="flex items-center justify-between gap-3">
-                <code className="text-sm font-mono text-slate-700 dark:text-slate-300 break-all flex-1">
+                <code className="text-sm font-mono text-slate-700 break-all flex-1">
                   {masked ? '•'.repeat(MOCK_API_KEY.length) : MOCK_API_KEY}
                 </code>
                 <div className="flex items-center gap-2 shrink-0">
                   <button
                     type="button"
                     onClick={() => setMasked(!masked)}
-                    className="text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white border border-slate-200 dark:border-slate-700 rounded px-2 py-1 transition-colors"
+                    className="text-sm font-bold text-slate-500 hover:text-slate-800 dark:hover:text-white border border-slate-200 rounded px-2 py-1 transition-colors"
                   >
                     {masked ? 'Reveal' : 'Hide'}
                   </button>
@@ -105,12 +105,12 @@ export const AdminSettingsPage = () => {
             <div className="flex items-center gap-3">
               <button
                 type="button"
-                className="flex items-center gap-1.5 text-sm font-bold text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 border border-red-200 dark:border-red-900/40 rounded-lg px-3 py-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                className="flex items-center gap-1.5 text-sm font-bold text-red-600 hover:text-red-800 dark:hover:text-red-300 border border-red-200 dark:border-red-900/40 rounded-lg px-3 py-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
               >
                 <RefreshCw size={11} />
                 Regenerate Key
               </button>
-              <p className="text-sm text-slate-400 dark:text-slate-500">
+              <p className="text-sm text-slate-400">
                 ⚠ Regenerating will immediately invalidate the old key.
               </p>
             </div>
@@ -125,7 +125,7 @@ export const AdminSettingsPage = () => {
             </div>
             <div>
               <h2 className="text-sm font-bold text-slate-900 dark:text-white">Security</h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
+              <p className="text-sm text-slate-500">
                 Access control and authentication configuration.
               </p>
             </div>
@@ -161,9 +161,7 @@ export const AdminSettingsPage = () => {
                   <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
                     {setting.label}
                   </p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-                    {setting.desc}
-                  </p>
+                  <p className="text-sm text-slate-500 mt-0.5">{setting.desc}</p>
                 </div>
                 <div
                   className={`relative w-9 h-5 rounded-full transition-colors cursor-pointer shrink-0 ${setting.enabled ? 'bg-[#c14f16]' : 'bg-slate-300 dark:bg-slate-700'}`}
@@ -200,7 +198,7 @@ export const AdminSettingsPage = () => {
                     <div key={field.label} className="space-y-1">
                       <label
                         htmlFor={fieldId}
-                        className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider"
+                        className="text-sm font-bold text-slate-400 uppercase tracking-wider"
                       >
                         {field.label}
                       </label>
@@ -208,7 +206,7 @@ export const AdminSettingsPage = () => {
                         id={fieldId}
                         type={field.type}
                         defaultValue={field.value}
-                        className="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-[#c14f16] transition-colors"
+                        className="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-[#c14f16] transition-colors"
                       />
                     </div>
                   );

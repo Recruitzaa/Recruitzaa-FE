@@ -24,7 +24,7 @@ export const ServiceTiersCard: React.FC = () => {
             <ShieldCheck size={16} className="text-[#c14f16]" aria-hidden="true" /> Mentorship
             Active Offerings
           </h3>
-          <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+          <p className="text-xs text-slate-400 mt-1">
             Toggle which service tiers you are currently offering to job seekers.
           </p>
         </div>
@@ -35,7 +35,7 @@ export const ServiceTiersCard: React.FC = () => {
               <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                 1:1 Live Mentorship
               </span>
-              <span className="text-sm text-slate-400 dark:text-slate-500">
+              <span className="text-sm text-slate-400">
                 Live career guidance, strategy, or coding help.
               </span>
             </div>
@@ -60,7 +60,7 @@ export const ServiceTiersCard: React.FC = () => {
               <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                 Mock Interviews
               </span>
-              <span className="text-sm text-slate-400 dark:text-slate-500">
+              <span className="text-sm text-slate-400">
                 Conduct technical mock loops with dynamic feedback reports.
               </span>
             </div>
@@ -85,7 +85,7 @@ export const ServiceTiersCard: React.FC = () => {
               <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                 Async Resume Review
               </span>
-              <span className="text-sm text-slate-400 dark:text-slate-500">
+              <span className="text-sm text-slate-400">
                 Provide written markdown resume feedback within 48 hours.
               </span>
             </div>

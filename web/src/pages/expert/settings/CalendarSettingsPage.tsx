@@ -44,7 +44,7 @@ export const CalendarSettingsPage: React.FC = () => {
             <h1 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
               <Calendar className="text-[#c14f16]" size={20} /> Calendar & Availability Settings
             </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-sm text-slate-500 mt-1">
               Configure how mentees book calendar time and what details they must provide.
             </p>
           </div>
@@ -61,7 +61,7 @@ export const CalendarSettingsPage: React.FC = () => {
                   <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                     Google Calendar Sync
                   </span>
-                  <span className="text-sm text-slate-400 dark:text-slate-500">
+                  <span className="text-sm text-slate-400">
                     Block slots matching your GCal appointments.
                   </span>
                 </div>
@@ -88,7 +88,7 @@ export const CalendarSettingsPage: React.FC = () => {
                   <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                     Outlook Calendar Sync
                   </span>
-                  <span className="text-sm text-slate-400 dark:text-slate-500">
+                  <span className="text-sm text-slate-400">
                     Sync slots matching Microsoft Exchange bookings.
                   </span>
                 </div>
@@ -123,7 +123,7 @@ export const CalendarSettingsPage: React.FC = () => {
                   <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                     Require Pre-Session Brief
                   </span>
-                  <span className="text-sm text-slate-400 dark:text-slate-500">
+                  <span className="text-sm text-slate-400">
                     Mentees must submit details about their objectives before completing a booking.
                   </span>
                 </div>
@@ -149,7 +149,7 @@ export const CalendarSettingsPage: React.FC = () => {
                     <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                       Max Sessions / Week
                     </span>
-                    <span className="text-sm text-slate-400 dark:text-slate-500">
+                    <span className="text-sm text-slate-400">
                       Throttle weekly intake capacity to prevent burnout.
                     </span>
                   </div>
@@ -158,7 +158,7 @@ export const CalendarSettingsPage: React.FC = () => {
                   value={settings.maxSessionsPerWeek}
                   onChange={handleCapacityChange}
                   aria-label="Set maximum mentorship sessions per week"
-                  className="border border-slate-200 dark:border-slate-850 rounded-lg px-2.5 py-1.5 text-sm bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px] min-w-[80px]"
+                  className="border border-slate-200 dark:border-slate-850 rounded-lg px-2.5 py-1.5 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px] min-w-[80px]"
                 >
                   {[3, 5, 8, 10, 15].map((count) => (
                     <option key={count} value={count}>

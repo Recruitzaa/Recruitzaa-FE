@@ -34,13 +34,15 @@ export const PersonalDetailsEditForm = ({
   const fieldId = (name: keyof PersonalFormState) => `${idPrefix}-${name}`;
 
   return (
-    <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-4 text-left">
+    <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg border border-slate-200 dark:border-slate-700 space-y-4 text-left">
       <div className="flex justify-between items-center pb-2 border-b">
-        <h3 className="text-sm font-bold text-slate-700">Edit Personal Details</h3>
+        <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300">
+          Edit Personal Details
+        </h3>
         <button
           type="button"
           onClick={() => setIsEditingPersonal(false)}
-          className="inline-flex min-w-11 min-h-11 items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+          className="inline-flex min-w-11 min-h-11 items-center justify-center rounded-lg text-slate-400 dark:text-slate-500 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           aria-label="Close edit form"
         >
           <X size={14} />
@@ -51,7 +53,7 @@ export const PersonalDetailsEditForm = ({
         <div className="space-y-1">
           <label
             htmlFor={fieldId('firstName')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             First Name
           </label>
@@ -60,17 +62,17 @@ export const PersonalDetailsEditForm = ({
             type="text"
             value={personalForm.firstName}
             onChange={(e) => setPersonalForm({ ...personalForm, firstName: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
             aria-invalid={Boolean(personalErrors.firstName)}
           />
           {personalErrors.firstName && (
-            <p className="text-xs text-red-600">{personalErrors.firstName}</p>
+            <p className="text-xs text-red-600 dark:text-red-400">{personalErrors.firstName}</p>
           )}
         </div>
         <div className="space-y-1">
           <label
             htmlFor={fieldId('lastName')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             Last Name
           </label>
@@ -79,15 +81,18 @@ export const PersonalDetailsEditForm = ({
             type="text"
             value={personalForm.lastName}
             onChange={(e) => setPersonalForm({ ...personalForm, lastName: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
             aria-invalid={Boolean(personalErrors.lastName)}
           />
           {personalErrors.lastName && (
-            <p className="text-xs text-red-600">{personalErrors.lastName}</p>
+            <p className="text-xs text-red-600 dark:text-red-400">{personalErrors.lastName}</p>
           )}
         </div>
         <div className="space-y-1">
-          <label htmlFor={fieldId('phone')} className="text-sm font-bold text-slate-500 uppercase">
+          <label
+            htmlFor={fieldId('phone')}
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
+          >
             Phone
           </label>
           <input
@@ -97,15 +102,17 @@ export const PersonalDetailsEditForm = ({
             autoComplete="tel"
             value={personalForm.phone}
             onChange={(e) => setPersonalForm({ ...personalForm, phone: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
             aria-invalid={Boolean(personalErrors.phone)}
           />
-          {personalErrors.phone && <p className="text-xs text-red-600">{personalErrors.phone}</p>}
+          {personalErrors.phone && (
+            <p className="text-xs text-red-600 dark:text-red-400">{personalErrors.phone}</p>
+          )}
         </div>
         <div className="space-y-1">
           <label
             htmlFor={fieldId('location')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             Location
           </label>
@@ -114,13 +121,13 @@ export const PersonalDetailsEditForm = ({
             type="text"
             value={personalForm.location}
             onChange={(e) => setPersonalForm({ ...personalForm, location: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
           />
         </div>
         <div className="space-y-1">
           <label
             htmlFor={fieldId('currentCompany')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             Current Company
           </label>
@@ -129,13 +136,13 @@ export const PersonalDetailsEditForm = ({
             type="text"
             value={personalForm.currentCompany}
             onChange={(e) => setPersonalForm({ ...personalForm, currentCompany: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
           />
         </div>
         <div className="space-y-1">
           <label
             htmlFor={fieldId('currentDesignation')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             Current Designation
           </label>
@@ -146,13 +153,13 @@ export const PersonalDetailsEditForm = ({
             onChange={(e) =>
               setPersonalForm({ ...personalForm, currentDesignation: e.target.value })
             }
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
           />
         </div>
         <div className="space-y-1">
           <label
             htmlFor={fieldId('totalExperience')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             Total Experience
           </label>
@@ -161,13 +168,13 @@ export const PersonalDetailsEditForm = ({
             type="text"
             value={personalForm.totalExperience}
             onChange={(e) => setPersonalForm({ ...personalForm, totalExperience: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
           />
         </div>
         <div className="space-y-1">
           <label
             htmlFor={fieldId('currentCTC')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             Current CTC
           </label>
@@ -176,13 +183,13 @@ export const PersonalDetailsEditForm = ({
             type="text"
             value={personalForm.currentCTC}
             onChange={(e) => setPersonalForm({ ...personalForm, currentCTC: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
           />
         </div>
         <div className="space-y-1 sm:col-span-2">
           <label
             htmlFor={fieldId('noticePeriod')}
-            className="text-sm font-bold text-slate-500 uppercase"
+            className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase"
           >
             Notice Period
           </label>
@@ -190,7 +197,7 @@ export const PersonalDetailsEditForm = ({
             id={fieldId('noticePeriod')}
             value={personalForm.noticePeriod}
             onChange={(e) => setPersonalForm({ ...personalForm, noticePeriod: e.target.value })}
-            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+            className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
           >
             {/* Explicit empty option: a stored value that matches none of these
                 (e.g. a blank profile) used to silently display the first option
@@ -209,7 +216,7 @@ export const PersonalDetailsEditForm = ({
         <button
           type="button"
           onClick={() => setIsEditingPersonal(false)}
-          className="px-3 py-1.5 border rounded text-sm hover:bg-slate-100 font-semibold text-slate-700 bg-white"
+          className="px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-850"
         >
           Cancel
         </button>

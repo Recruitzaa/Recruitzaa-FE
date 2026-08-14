@@ -106,21 +106,21 @@ export const CompanyHeroCard = ({
               aria-label="Company Name"
               {...field('companyName')}
               placeholder="Company Name"
-              className={`${styles.fieldInput} bg-white/10 text-white border border-white/20`}
+              className={`${styles.fieldInput} bg-white dark:bg-slate-850/10 text-white border border-white/20`}
             />
             <input
               id={`${id}-tagline`}
               aria-label="Company tagline"
               {...field('tagline')}
               placeholder="Company tagline"
-              className={`${styles.fieldInput} bg-white/10 text-white border border-white/20`}
+              className={`${styles.fieldInput} bg-white dark:bg-slate-850/10 text-white border border-white/20`}
             />
             <input
               id={`${id}-foundedYear`}
               aria-label="Founded year"
               {...field('foundedYear')}
               placeholder="Founded year"
-              className={`${styles.fieldInput} bg-white/10 text-white border border-white/20 w-[120px]`}
+              className={`${styles.fieldInput} bg-white dark:bg-slate-850/10 text-white border border-white/20 w-[120px]`}
             />
             <div className="flex gap-2 mt-1">
               <button type="button" onClick={cancelEdit} className={styles.heroEditBtn}>

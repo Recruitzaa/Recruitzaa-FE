@@ -20,19 +20,19 @@ export const AIChatPanel: React.FC<AIChatPanelProps> = ({
   onSendChat,
 }) => {
   return (
-    <Card className="p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 h-[480px] flex flex-col">
+    <Card className="p-6 bg-white dark:bg-slate-800 border border-slate-200 h-[480px] flex flex-col">
       <div className="mb-3">
         <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
           Career guidance demo
         </h2>
-        <p className="text-sm text-slate-500 dark:text-slate-400">
+        <p className="text-sm text-slate-500">
           Explore a small set of scripted resume and interview guidance. Responses are not
           personalized professional advice.
         </p>
       </div>
 
       {/* Messages list */}
-      <div className="flex-1 overflow-y-auto space-y-3 p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg mb-3">
+      <div className="flex-1 overflow-y-auto space-y-3 p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 rounded-lg mb-3">
         {messages.map((msg) => (
           <div
             key={msg.id}
@@ -51,7 +51,7 @@ export const AIChatPanel: React.FC<AIChatPanelProps> = ({
               className={`p-3 rounded-lg border ${
                 msg.role === 'user'
                   ? 'bg-indigo-600 border-indigo-600 text-white'
-                  : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100'
+                  : 'bg-white dark:bg-slate-800 border-slate-200 text-slate-900 dark:text-slate-100'
               }`}
             >
               {msg.content}
@@ -64,7 +64,7 @@ export const AIChatPanel: React.FC<AIChatPanelProps> = ({
             <div className="w-7 h-7 rounded-full bg-slate-800 flex items-center justify-center text-sm font-bold text-white flex-shrink-0">
               AI
             </div>
-            <div className="p-3 rounded-lg border bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 flex items-center gap-2">
+            <div className="p-3 rounded-lg border bg-white dark:bg-slate-800 border-slate-200 text-slate-900 dark:text-slate-100 flex items-center gap-2">
               <Spinner size="sm" /> Thinking...
             </div>
           </div>
@@ -80,7 +80,7 @@ export const AIChatPanel: React.FC<AIChatPanelProps> = ({
           onKeyDown={(e) => e.key === 'Enter' && onSendChat()}
           placeholder="Ask the guidance demo a question..."
           aria-label="Ask the guidance demo a question"
-          className="flex-1 border border-slate-200 dark:border-slate-700 dark:bg-slate-950 rounded p-2 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-indigo-600"
+          className="flex-1 border border-slate-200 dark:bg-slate-950 rounded p-2 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-indigo-600"
           disabled={isChatLoading}
         />
         <Button

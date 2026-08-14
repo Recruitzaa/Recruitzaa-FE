@@ -23,7 +23,7 @@ export const ApplicationFilterBar: React.FC<ApplicationFilterBarProps> = ({
   ];
 
   return (
-    <div className="flex flex-col sm:flex-row gap-3 bg-white dark:bg-slate-800 p-4 border border-slate-200 dark:border-slate-700 rounded-lg shadow-sm mb-6">
+    <div className="flex flex-col sm:flex-row gap-3 bg-white dark:bg-slate-800 p-4 border border-slate-200 rounded-lg shadow-sm mb-6">
       {/* Search Input */}
       <div className="flex-1">
         <input
@@ -32,7 +32,7 @@ export const ApplicationFilterBar: React.FC<ApplicationFilterBarProps> = ({
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search by company or job title..."
           aria-label="Search applications"
-          className="w-full text-sm p-2.5 border border-slate-200 dark:border-slate-700 dark:bg-slate-900 rounded outline-none focus:border-indigo-600 text-slate-900 dark:text-slate-100"
+          className="w-full text-sm p-2.5 border border-slate-200 dark:bg-slate-900 rounded outline-none focus:border-indigo-600 text-slate-900 dark:text-slate-100"
         />
       </div>
 
@@ -42,7 +42,7 @@ export const ApplicationFilterBar: React.FC<ApplicationFilterBarProps> = ({
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
           aria-label="Filter by status"
-          className="w-full text-sm p-2.5 border border-slate-200 dark:border-slate-700 dark:bg-slate-900 rounded outline-none focus:border-indigo-600 text-slate-900 dark:text-slate-100"
+          className="w-full text-sm p-2.5 border border-slate-200 dark:bg-slate-900 rounded outline-none focus:border-indigo-600 text-slate-900 dark:text-slate-100"
         >
           {statuses.map((status) => (
             <option key={status.value} value={status.value}>

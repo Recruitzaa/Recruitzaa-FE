@@ -28,7 +28,7 @@ export const ApplicationRow: React.FC<ApplicationRowProps> = ({ application, onV
         <div className="text-sm font-bold text-slate-900 dark:text-white">
           {application.jobTitle}
         </div>
-        <div className="text-sm text-slate-500 dark:text-slate-400">{application.companyName}</div>
+        <div className="text-sm text-slate-500">{application.companyName}</div>
       </td>
       <td className="py-4 px-4 text-sm text-slate-650 dark:text-slate-400">
         {application.updatedAt}

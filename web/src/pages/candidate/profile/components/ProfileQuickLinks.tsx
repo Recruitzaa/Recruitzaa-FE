@@ -4,11 +4,11 @@ interface ProfileQuickLinksProps {
 
 export const ProfileQuickLinks = ({ scrollToSection }: ProfileQuickLinksProps) => {
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-5 sticky top-24 hidden lg:block space-y-4 text-left">
-      <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider border-b pb-2">
+    <div className="bg-white dark:bg-slate-850 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-5 sticky top-24 hidden lg:block space-y-4 text-left">
+      <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider border-b pb-2">
         Quick links
       </h3>
-      <nav className="flex flex-col gap-2.5 text-sm text-slate-600">
+      <nav className="flex flex-col gap-2.5 text-sm text-slate-600 dark:text-slate-300">
         <button
           type="button"
           onClick={() => scrollToSection('resume-upload')}

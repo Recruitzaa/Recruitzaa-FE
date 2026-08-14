@@ -19,13 +19,13 @@ export const SkillsCard = ({
   return (
     <div
       id="key-skills"
-      className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 space-y-4 scroll-mt-24"
+      className="bg-white dark:bg-slate-850 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-6 space-y-4 scroll-mt-24"
     >
       <h3 className="text-sm font-bold text-brand-charcoal border-b pb-2">Key Skills</h3>
 
       <div className="flex flex-wrap gap-2">
         {skills.length === 0 ? (
-          <span className="text-sm text-slate-400">No skills added yet.</span>
+          <span className="text-sm text-slate-400 dark:text-slate-500">No skills added yet.</span>
         ) : (
           skills.map((skill) => (
             <Badge
@@ -55,7 +55,7 @@ export const SkillsCard = ({
           maxLength={60}
           value={newSkill}
           onChange={(e) => setNewSkill(e.target.value)}
-          className="flex-1 border border-slate-200 rounded-lg px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary"
+          className="flex-1 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary"
         />
         <button
           type="submit"

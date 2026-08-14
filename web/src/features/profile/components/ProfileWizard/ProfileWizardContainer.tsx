@@ -59,10 +59,10 @@ export const ProfileWizardContainer: React.FC = () => {
   const stepsLabel = ['Basic Info', 'Education', 'Experience', 'Skills', 'Preferences', 'Resume'];
 
   return (
-    <Card className="max-w-xl mx-auto p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-lg rounded-xl">
+    <Card className="max-w-xl mx-auto p-6 bg-white dark:bg-slate-800 border border-slate-200 shadow-lg rounded-xl">
       {/* Progress Tracker */}
       <div className="mb-6 text-slate-900 dark:text-slate-100">
-        <div className="flex justify-between items-center text-sm font-bold text-slate-400 dark:text-slate-500 uppercase mb-2">
+        <div className="flex justify-between items-center text-sm font-bold text-slate-400 uppercase mb-2">
           <span>Profile Onboarding Wizard</span>
           <span>Step {step} of 6</span>
         </div>
@@ -101,12 +101,12 @@ export const ProfileWizardContainer: React.FC = () => {
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex justify-between pt-4 border-t border-slate-100 dark:border-slate-700">
+      <div className="flex justify-between pt-4 border-t border-slate-100">
         <Button
           onClick={handleBack}
           disabled={step === 1 || isSaving}
           variant="outline"
-          className="text-sm py-2 px-4 rounded border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-semibold"
+          className="text-sm py-2 px-4 rounded border-slate-200 text-slate-600 dark:text-slate-400 font-semibold"
         >
           Previous
         </Button>

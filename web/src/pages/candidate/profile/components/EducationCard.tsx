@@ -32,12 +32,12 @@ export const EducationCard = ({
   return (
     <div
       id="education"
-      className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 space-y-4 scroll-mt-24"
+      className="bg-white dark:bg-slate-850 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-6 space-y-4 scroll-mt-24"
     >
       <div className="flex justify-between items-center pb-2 border-b">
         <div>
           <h3 className="text-sm font-bold text-brand-charcoal">Education</h3>
-          <p className="text-sm text-slate-400 mt-0.5">
+          <p className="text-sm text-slate-400 dark:text-slate-500 mt-0.5">
             Most employers require 10th, 12th/Diploma and Graduation details with marks.
           </p>
         </div>
@@ -51,7 +51,9 @@ export const EducationCard = ({
       </div>
 
       {education.length === 0 ? (
-        <p className="text-sm text-slate-400 py-2">No education records added yet.</p>
+        <p className="text-sm text-slate-400 dark:text-slate-500 py-2">
+          No education records added yet.
+        </p>
       ) : (
         <div className="space-y-5">
           {education.map((edu) => {
@@ -63,9 +65,12 @@ export const EducationCard = ({
             const percentageId = `${idPrefix}-edu-percentage-${edu.id}`;
 
             return (
-              <div key={edu.id} className="flex gap-4 items-start text-sm text-slate-700">
+              <div
+                key={edu.id}
+                className="flex gap-4 items-start text-sm text-slate-700 dark:text-slate-300"
+              >
                 {editingEducationId !== edu.id && (
-                  <div className="p-3 bg-slate-50 text-brand-primary rounded-lg border shadow-sm shrink-0">
+                  <div className="p-3 bg-slate-50 dark:bg-slate-800 text-brand-primary rounded-lg border shadow-sm shrink-0">
                     <GraduationCap size={24} />
                   </div>
                 )}
@@ -74,19 +79,27 @@ export const EducationCard = ({
                   <div className="space-y-1 flex-1">
                     <div className="flex justify-between items-start">
                       <div>
-                        <div className="text-sm font-bold text-slate-500 uppercase tracking-wider text-xs">
+                        <div className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-xs">
                           {edu.level}
                         </div>
-                        <h4 className="font-bold text-slate-800">{edu.degree}</h4>
-                        <p className="font-semibold text-slate-500">{edu.university}</p>
-                        <p className="text-slate-400">
+                        <h4 className="font-bold text-slate-800 dark:text-slate-100">
+                          {edu.degree}
+                        </h4>
+                        <p className="font-semibold text-slate-500 dark:text-slate-400">
+                          {edu.university}
+                        </p>
+                        <p className="text-slate-400 dark:text-slate-500">
                           {edu.duration} &bull;{' '}
-                          <span className="font-medium text-slate-500">{edu.type}</span>
+                          <span className="font-medium text-slate-500 dark:text-slate-400">
+                            {edu.type}
+                          </span>
                           {edu.percentage && (
                             <>
                               {' '}
                               &bull;{' '}
-                              <span className="font-medium text-slate-500">{edu.percentage}</span>
+                              <span className="font-medium text-slate-500 dark:text-slate-400">
+                                {edu.percentage}
+                              </span>
                             </>
                           )}
                         </p>
@@ -94,7 +107,7 @@ export const EducationCard = ({
                       <button
                         type="button"
                         onClick={() => startEditingEducationItem(edu.id)}
-                        className="inline-flex min-w-11 min-h-11 items-center justify-center rounded-lg text-slate-400 hover:text-brand-primary hover:bg-slate-50 transition-colors"
+                        className="inline-flex min-w-11 min-h-11 items-center justify-center rounded-lg text-slate-400 dark:text-slate-500 hover:text-brand-primary hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
                         aria-label={`Edit ${edu.level || edu.degree}`}
                       >
                         <Edit2 size={14} />
@@ -102,12 +115,12 @@ export const EducationCard = ({
                     </div>
                   </div>
                 ) : (
-                  <div className="bg-slate-50 p-4 rounded border border-slate-200 space-y-3 flex-1">
+                  <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded border border-slate-200 dark:border-slate-700 space-y-3 flex-1">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div className="space-y-1">
                         <label
                           htmlFor={levelId}
-                          className="text-xs font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase block"
                         >
                           Qualification Level
                         </label>
@@ -117,7 +130,7 @@ export const EducationCard = ({
                           onChange={(e) =>
                             setEducationForm({ ...educationForm, level: e.target.value })
                           }
-                          className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent bg-white text-slate-800"
+                          className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
                         >
                           <option>10th</option>
                           <option>12th / Diploma</option>
@@ -129,7 +142,7 @@ export const EducationCard = ({
                       <div className="space-y-1">
                         <label
                           htmlFor={degreeId}
-                          className="text-xs font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase block"
                         >
                           Degree / Course
                         </label>
@@ -140,17 +153,19 @@ export const EducationCard = ({
                           onChange={(e) =>
                             setEducationForm({ ...educationForm, degree: e.target.value })
                           }
-                          className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                          className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
                           aria-invalid={Boolean(educationErrors.degree)}
                         />
                         {educationErrors.degree && (
-                          <p className="text-xs text-red-600">{educationErrors.degree}</p>
+                          <p className="text-xs text-red-600 dark:text-red-400">
+                            {educationErrors.degree}
+                          </p>
                         )}
                       </div>
                       <div className="space-y-1 sm:col-span-2">
                         <label
                           htmlFor={universityId}
-                          className="text-xs font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase block"
                         >
                           University / Board / School
                         </label>
@@ -161,17 +176,19 @@ export const EducationCard = ({
                           onChange={(e) =>
                             setEducationForm({ ...educationForm, university: e.target.value })
                           }
-                          className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                          className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
                           aria-invalid={Boolean(educationErrors.university)}
                         />
                         {educationErrors.university && (
-                          <p className="text-xs text-red-600">{educationErrors.university}</p>
+                          <p className="text-xs text-red-600 dark:text-red-400">
+                            {educationErrors.university}
+                          </p>
                         )}
                       </div>
                       <div className="space-y-1">
                         <label
                           htmlFor={durationId}
-                          className="text-xs font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase block"
                         >
                           Duration (Years)
                         </label>
@@ -182,13 +199,13 @@ export const EducationCard = ({
                           onChange={(e) =>
                             setEducationForm({ ...educationForm, duration: e.target.value })
                           }
-                          className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                          className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
                         />
                       </div>
                       <div className="space-y-1">
                         <label
                           htmlFor={percentageId}
-                          className="text-xs font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase block"
                         >
                           Percentage / CGPA
                         </label>
@@ -200,13 +217,13 @@ export const EducationCard = ({
                           onChange={(e) =>
                             setEducationForm({ ...educationForm, percentage: e.target.value })
                           }
-                          className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                          className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
                         />
                       </div>
                       <div className="space-y-1 sm:col-span-2">
                         <label
                           htmlFor={typeId}
-                          className="text-xs font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase block"
                         >
                           Course Type
                         </label>
@@ -216,7 +233,7 @@ export const EducationCard = ({
                           onChange={(e) =>
                             setEducationForm({ ...educationForm, type: e.target.value })
                           }
-                          className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent bg-white text-slate-800"
+                          className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100"
                         >
                           <option>Full Time</option>
                           <option>Part Time</option>
@@ -229,14 +246,14 @@ export const EducationCard = ({
                       <button
                         type="button"
                         onClick={() => deleteEducationItem(edu.id)}
-                        className="px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 rounded text-xs font-semibold hover:bg-red-100 mr-auto"
+                        className="px-2.5 py-1 bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 rounded text-xs font-semibold hover:bg-red-100 dark:hover:bg-red-900/40 mr-auto"
                       >
                         Delete
                       </button>
                       <button
                         type="button"
                         onClick={cancelEducationEditing}
-                        className="px-3 py-1.5 border rounded text-sm hover:bg-slate-100 font-semibold"
+                        className="px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold"
                       >
                         Cancel
                       </button>

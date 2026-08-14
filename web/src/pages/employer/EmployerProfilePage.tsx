@@ -35,7 +35,7 @@ export const EmployerProfilePage = () => {
                     className={`flex items-center w-full text-left px-3 py-2 rounded-lg font-medium transition-all min-h-[44px] focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-[-2px] ${
                       form.activeSection === s.id
                         ? 'text-[#c14f16] bg-[#fef3ee] dark:bg-orange-950/20 font-bold border-l-2 border-[#c14f16]'
-                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 border-l-2 border-transparent'
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 border-l-2 border-transparent'
                     }`}
                     aria-current={form.activeSection === s.id ? 'true' : undefined}
                   >
@@ -52,7 +52,7 @@ export const EmployerProfilePage = () => {
               <h1 className="text-xl font-extrabold text-slate-900 dark:text-white">
                 Company Profile
               </h1>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+              <p className="text-sm text-slate-500 mt-1">
                 Manage how your company appears to candidates across {BRAND.name}.
               </p>
             </div>

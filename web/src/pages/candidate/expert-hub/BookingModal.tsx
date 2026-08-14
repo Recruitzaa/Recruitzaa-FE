@@ -84,7 +84,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
             type="button"
             onClick={onClose}
             aria-label="Close booking modal"
-            className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-850 dark:hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-[#c14f16]"
+            className="p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-850 dark:hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-[#c14f16]"
           >
             <X size={16} />
           </button>
@@ -108,7 +108,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
                   expert.serviceTiers.find((t) => t.id === e.target.value) || expert.serviceTiers[0]
                 )
               }
-              className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
+              className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
             >
               {expert.serviceTiers.map((tier) => (
                 <option key={tier.id} value={tier.id}>
@@ -133,7 +133,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
                 required
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
+                className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
               />
             </div>
             <div className="space-y-2">
@@ -148,7 +148,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
                 value={selectedTime}
                 onChange={(e) => setSelectedTime(e.target.value)}
                 required
-                className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
+                className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
               >
                 <option value="">Select slot</option>
                 {TIME_SLOTS.map((slot) => (
@@ -172,7 +172,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
               id="booking-timezone"
               value={timezone}
               onChange={(e) => setTimezone(e.target.value)}
-              className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
+              className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
             >
               {TIMEZONES.map((tz) => (
                 <option key={tz} value={tz}>
@@ -197,7 +197,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
               value={brief}
               onChange={(e) => setBrief(e.target.value)}
               placeholder="What questions or goals do you want to cover during this mentorship session?"
-              className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] resize-none"
+              className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] resize-none"
             />
           </div>
 
@@ -206,7 +206,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-450 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg text-sm font-semibold transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-[#c14f16]"
+              className="px-4 py-2 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-450 hover:bg-slate-50 rounded-lg text-sm font-semibold transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-[#c14f16]"
             >
               Cancel
             </button>

@@ -39,7 +39,7 @@ export const EducationStep: React.FC<EducationStepProps> = ({ data, onChange }) 
 
   return (
     <div className="space-y-4">
-      <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wide mb-2">
+      <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wide mb-2">
         Step 2: Education
       </h3>
 
@@ -49,7 +49,7 @@ export const EducationStep: React.FC<EducationStepProps> = ({ data, onChange }) 
           value={inst}
           onChange={(e) => setInst(e.target.value)}
           placeholder="Institution (e.g. Stanford University)"
-          className="w-full text-sm p-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
+          className="w-full text-sm p-2 border border-slate-200 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
         />
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <input
@@ -57,14 +57,14 @@ export const EducationStep: React.FC<EducationStepProps> = ({ data, onChange }) 
             value={degree}
             onChange={(e) => setDegree(e.target.value)}
             placeholder="Degree (e.g. B.Tech)"
-            className="text-sm p-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
+            className="text-sm p-2 border border-slate-200 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
           />
           <input
             type="text"
             value={field}
             onChange={(e) => setField(e.target.value)}
             placeholder="Field of Study (e.g. CS)"
-            className="text-sm p-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
+            className="text-sm p-2 border border-slate-200 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
           />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -73,14 +73,14 @@ export const EducationStep: React.FC<EducationStepProps> = ({ data, onChange }) 
             value={start}
             onChange={(e) => setStart(e.target.value)}
             placeholder="Start Year (e.g. 2020)"
-            className="text-sm p-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
+            className="text-sm p-2 border border-slate-200 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
           />
           <input
             type="text"
             value={end}
             onChange={(e) => setEnd(e.target.value)}
             placeholder="End Year (or Present)"
-            className="text-sm p-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
+            className="text-sm p-2 border border-slate-200 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
           />
         </div>
         <Button
@@ -103,7 +103,7 @@ export const EducationStep: React.FC<EducationStepProps> = ({ data, onChange }) 
               <div className="text-sm font-bold text-slate-900 dark:text-white">
                 {edu.institution}
               </div>
-              <div className="text-xs text-slate-500 dark:text-slate-400">
+              <div className="text-xs text-slate-500">
                 {edu.degree} in {edu.fieldOfStudy} ({edu.startDate} - {edu.endDate || 'Present'})
               </div>
             </div>

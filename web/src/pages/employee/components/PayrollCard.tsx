@@ -36,7 +36,7 @@ export const PayrollCard: React.FC = () => {
             <FileText size={16} className="text-[#c14f16]" aria-hidden="true" /> Payroll Ledger &
             Payslips
           </h2>
-          <p className="text-sm text-slate-400 dark:text-slate-500 mt-0.5">
+          <p className="text-sm text-slate-400 mt-0.5">
             View monthly salary payouts and download digital tax compliance receipts.
           </p>
         </div>
@@ -59,7 +59,7 @@ export const PayrollCard: React.FC = () => {
                   <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                     {slip.month}
                   </span>
-                  <span className="text-sm text-slate-400 dark:text-slate-500">
+                  <span className="text-sm text-slate-400">
                     {slip.amount} • {slip.status}
                   </span>
                 </div>

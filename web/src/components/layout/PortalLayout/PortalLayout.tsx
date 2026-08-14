@@ -8,7 +8,7 @@ export const PortalLayout = () => {
   const openSidebar = useCallback(() => setSidebarOpen(true), []);
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
   return (
-    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100">
+    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800">
       <PortalSidebar isOpen={sidebarOpen} onClose={closeSidebar} />
       <div className="flex-1 md:ml-[260px] min-w-0 flex flex-col">
         <PortalTopbar onOpenMenu={openSidebar} />

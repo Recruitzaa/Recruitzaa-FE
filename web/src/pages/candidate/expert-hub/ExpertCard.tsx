@@ -28,7 +28,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({ expert, onBookClick }) =
                   'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=256';
               }}
             />
-            <span className="inline-flex items-center gap-1 text-xs font-black text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-0.5 rounded-full uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1 text-xs font-black text-slate-500 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-0.5 rounded-full uppercase tracking-wider">
               <Award size={10} className="text-[#c14f16]" aria-hidden="true" /> Top Mentor
             </span>
           </div>
@@ -41,9 +41,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({ expert, onBookClick }) =
             >
               {expert.name}
             </h3>
-            <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
-              {expert.headline}
-            </p>
+            <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed">{expert.headline}</p>
           </div>
 
           {/* Trust Badges */}

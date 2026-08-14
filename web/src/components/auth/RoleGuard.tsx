@@ -207,7 +207,7 @@ export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) 
           <h1 className="text-lg font-bold text-slate-900 dark:text-white">
             Account verification failed
           </h1>
-          <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{resolutionError}</p>
+          <p className="mt-2 text-sm text-slate-600">{resolutionError}</p>
           <button
             type="button"
             className="mt-5 rounded-lg bg-[#c14f16] px-4 py-2 font-semibold text-white"
@@ -233,7 +233,7 @@ export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) 
           <div className="mx-auto w-10 h-10 rounded-full border-4 border-slate-300 border-t-indigo-600 animate-spin" />
           <span className="sr-only">Verifying your account…</span>
           {spinnerTimedOut && (
-            <div className="mt-4 max-w-xs text-sm text-slate-600 dark:text-slate-300">
+            <div className="mt-4 max-w-xs text-sm text-slate-600">
               <p>This is taking longer than expected.</p>
               <button
                 type="button"

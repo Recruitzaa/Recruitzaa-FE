@@ -22,12 +22,10 @@ export const PrivacyPolicyPage = () => {
             <h1 className="text-2xl font-black text-slate-900 dark:text-white mt-3">
               Privacy Policy
             </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Last Updated: July 14, 2026
-            </p>
+            <p className="text-sm text-slate-500 mt-1">Last Updated: July 14, 2026</p>
           </div>
 
-          <div className="prose dark:prose-invert text-sm text-slate-600 dark:text-slate-300 space-y-5 leading-relaxed">
+          <div className="prose dark:prose-invert text-sm text-slate-600 space-y-5 leading-relaxed">
             <p>
               At recruitZaa, we take your privacy and the security of your professional data
               seriously. This Privacy Policy details how we handle candidate profile data, resume

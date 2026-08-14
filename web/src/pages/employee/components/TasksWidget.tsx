@@ -65,7 +65,7 @@ export const TasksWidget: React.FC = () => {
             <ClipboardList size={16} className="text-[#c14f16]" aria-hidden="true" /> Assigned Tasks
             & Deadline Tracker
           </h2>
-          <p className="text-sm text-slate-400 dark:text-slate-500 mt-0.5">
+          <p className="text-sm text-slate-400 mt-0.5">
             Monitor sprint deliverables, trace task completion milestones, and check remaining
             deadline windows.
           </p>

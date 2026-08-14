@@ -3,6 +3,7 @@ import { Bookmark, Bell } from 'lucide-react';
 import { JobCard } from '../../features/jobs/components/JobCard/JobCard';
 import { useJobPreferences } from '../../features/jobs/hooks/useJobPreferences';
 import { useAppSelector } from '../../store/hooks';
+import { ROUTES } from '../../config/routes';
 
 export const SavedJobsPage = () => {
   const jobs = useAppSelector((state) => state.jobs.jobsList);
@@ -17,7 +18,7 @@ export const SavedJobsPage = () => {
         <h1 className="text-xl font-extrabold text-slate-900 dark:text-white">
           Saved jobs and searches
         </h1>
-        <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+        <p className="mt-2 text-sm text-slate-600">
           These demo preferences are stored only in this browser. Cross-device sync and
           notifications require the production service.
         </p>
@@ -32,7 +33,7 @@ export const SavedJobsPage = () => {
             Saved jobs
           </h2>
           <Link
-            to="/jobs"
+            to={ROUTES.CANDIDATE.JOBS}
             className="text-sm font-bold text-brand-primary underline underline-offset-4"
           >
             Browse jobs
@@ -48,11 +49,9 @@ export const SavedJobsPage = () => {
           </ul>
         ) : (
           <div className="rounded-xl border border-dashed border-slate-300 dark:border-slate-700 bg-white dark:bg-[#131924] p-8 text-center">
-            <p className="text-sm text-slate-600 dark:text-slate-300">
-              You have not saved any jobs yet.
-            </p>
+            <p className="text-sm text-slate-600">You have not saved any jobs yet.</p>
             <Link
-              to="/jobs"
+              to={ROUTES.CANDIDATE.JOBS}
               className="mt-4 inline-flex min-h-11 items-center rounded-lg bg-brand-primary px-4 py-2 text-sm font-bold text-white"
             >
               Browse jobs
@@ -83,7 +82,7 @@ export const SavedJobsPage = () => {
                 </div>
                 <div className="flex gap-2">
                   <Link
-                    to={`/jobs?${search.query}`}
+                    to={`${ROUTES.CANDIDATE.JOBS}?${search.query}`}
                     className="inline-flex min-h-11 items-center rounded-lg border border-slate-200 px-3 text-sm font-bold dark:border-slate-700"
                   >
                     Run search
@@ -101,9 +100,7 @@ export const SavedJobsPage = () => {
           </ul>
         ) : (
           <div className="rounded-xl border border-dashed border-slate-300 dark:border-slate-700 bg-white dark:bg-[#131924] p-8 text-center">
-            <p className="text-sm text-slate-600 dark:text-slate-300">
-              No saved search preferences.
-            </p>
+            <p className="text-sm text-slate-600">No saved search preferences.</p>
           </div>
         )}
       </section>

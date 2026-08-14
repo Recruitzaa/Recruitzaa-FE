@@ -44,7 +44,7 @@ export const ExpertDashboardPage: React.FC = () => {
               <h1 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
                 <Compass className="text-[#c14f16]" size={20} /> Mentorship Control Room
               </h1>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+              <p className="text-sm text-slate-500 mt-1">
                 Track live bookings, completed sessions, and payouts.
               </p>
             </div>
@@ -87,7 +87,7 @@ export const ExpertDashboardPage: React.FC = () => {
                                 {booking.preSessionBrief ? 'Arjun Kumar' : 'Mentee'}
                               </div>
                               <div
-                                className="text-sm text-slate-400 dark:text-slate-500 mt-0.5 max-w-xs truncate"
+                                className="text-sm text-slate-400 mt-0.5 max-w-xs truncate"
                                 title={booking.preSessionBrief}
                               >
                                 {booking.preSessionBrief}
