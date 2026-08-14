@@ -3,6 +3,7 @@ import type { KanbanState } from './slices/kanbanSlice';
 import type { Job } from './slices/jobsSlice';
 import type { Audience } from './slices/ui.slice';
 import type { CompanyProfile } from './slices/employerProfileSlice';
+import type { ProfileState } from './slices/profileSlice.types';
 
 /**
  * Storage keys, envelope versions, and Zod shapes for every slice this app
@@ -39,7 +40,11 @@ export const kanbanStateSchema: z.ZodType<KanbanState> = z.object({
 
 // ─── Jobs ─────────────────────────────────────────────────────────
 export const JOBS_STORAGE_KEY = 'recruitzaa_jobs';
-export const JOBS_STORAGE_VERSION = 1;
+// v2: `type` was renamed to `workplace` and structured `employmentType`,
+// `salaryMin`/`salaryMax`, `postedAtIso`, and `experienceMin`/`experienceMax`
+// fields were added. Older payloads fail validation and fall back to the
+// demo catalogue rather than rendering with missing/undefined fields.
+export const JOBS_STORAGE_VERSION = 2;
 
 export const jobsListSchema: z.ZodType<Job[]> = z.array(
   z.object({
@@ -47,9 +52,15 @@ export const jobsListSchema: z.ZodType<Job[]> = z.array(
     title: z.string(),
     company: z.string(),
     location: z.string(),
-    type: z.string(),
+    workplace: z.string(),
+    employmentType: z.enum(['FULL_TIME', 'PART_TIME', 'CONTRACT', 'INTERNSHIP', 'TEMPORARY']),
     salary: z.string(),
+    salaryMin: z.number(),
+    salaryMax: z.number(),
     postedAt: z.string(),
+    postedAtIso: z.string(),
+    experienceMin: z.number(),
+    experienceMax: z.number(),
     matchScore: z.number(),
     tags: z.array(z.string()),
     avatarText: z.string(),
@@ -103,6 +114,129 @@ export const companyProfilePartialSchema: z.ZodType<Partial<CompanyProfile>> = z
     pocPhone: z.string(),
   })
   .partial();
+
+// ─── Candidate profile ───────────────────────────────────────────
+export const PROFILE_STORAGE_KEY = 'recruitzaa_profile';
+// v2: every list item (employment history, education, projects, IT skills,
+// references, certifications) gained a stable `id` field so editing stops
+// being index-based. Payloads written under v1 fail validation and fall
+// back to the (now blank) default profile rather than crashing on a
+// missing `id`.
+export const PROFILE_STORAGE_VERSION = 2;
+
+const jobHistoryItemSchema = z.object({
+  id: z.string(),
+  designation: z.string(),
+  company: z.string(),
+  duration: z.string(),
+  keyResponsibilities: z.array(z.string()),
+});
+
+const educationDetailsSchema = z.object({
+  id: z.string(),
+  level: z.string(),
+  degree: z.string(),
+  university: z.string(),
+  duration: z.string(),
+  type: z.string(),
+  percentage: z.string(),
+});
+
+const projectItemSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  client: z.string(),
+  duration: z.string(),
+  description: z.string(),
+});
+
+const itSkillItemSchema = z.object({
+  id: z.string(),
+  skill: z.string(),
+  version: z.string(),
+  lastUsed: z.string(),
+  experience: z.string(),
+});
+
+const referenceItemSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  relationship: z.string(),
+  company: z.string(),
+  email: z.string(),
+  phone: z.string(),
+});
+
+const certificationItemSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  issuer: z.string(),
+  issueDate: z.string(),
+  credentialId: z.string(),
+  credentialUrl: z.string(),
+  fileName: z.string(),
+  fileSizeLabel: z.string(),
+  fileDataUrl: z.string(),
+});
+
+export const profileStateSchema: z.ZodType<ProfileState> = z.object({
+  personalInfo: z.object({
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    phone: z.string(),
+    location: z.string(),
+    avatar: z.string(),
+  }),
+  employmentDetails: z.object({
+    currentCompany: z.string(),
+    currentDesignation: z.string(),
+    totalExperience: z.string(),
+    currentCTC: z.string(),
+    noticePeriod: z.string(),
+  }),
+  professionalSummary: z.object({
+    headline: z.string(),
+    detailedSummary: z.string(),
+  }),
+  skills: z.array(z.string()),
+  employmentHistory: z.array(jobHistoryItemSchema),
+  education: z.array(educationDetailsSchema),
+  projects: z.array(projectItemSchema),
+  itSkills: z.array(itSkillItemSchema),
+  careerProfile: z.object({
+    industry: z.string(),
+    department: z.string(),
+    roleCategory: z.string(),
+    jobRole: z.string(),
+    desiredJobType: z.string(),
+    desiredEmploymentType: z.string(),
+    desiredLocations: z.array(z.string()),
+    expectedSalary: z.string(),
+    preferredShift: z.string(),
+    workAuthorization: z.string(),
+    willingToRelocate: z.string(),
+    preferredWorkMode: z.string(),
+  }),
+  extendedPersonal: z.object({
+    gender: z.string(),
+    maritalStatus: z.string(),
+    dob: z.string(),
+    address: z.string(),
+    languages: z.array(z.string()),
+    nationality: z.string(),
+    differentlyAbled: z.string(),
+  }),
+  accomplishments: z.object({
+    onlineProfile: z.string(),
+    workSample: z.string(),
+    publication: z.string(),
+    presentation: z.string(),
+    patent: z.string(),
+  }),
+  references: z.array(referenceItemSchema),
+  certifications: z.array(certificationItemSchema),
+});
 
 /** Legacy (pre-versioning) payloads for any of these keys match the current shape 1:1. */
 export const identityMigrate = (data: unknown) => data;

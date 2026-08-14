@@ -25,6 +25,7 @@ interface CareerProfileCardProps {
   startEditingCareer: () => void;
   careerForm: CareerFormType;
   setCareerForm: (form: CareerFormType) => void;
+  careerErrors: Record<string, string>;
   saveCareerProfile: () => void;
 }
 
@@ -35,6 +36,7 @@ export const CareerProfileCard = ({
   startEditingCareer,
   careerForm,
   setCareerForm,
+  careerErrors,
   saveCareerProfile,
 }: CareerProfileCardProps) => {
   return (
@@ -140,7 +142,7 @@ export const CareerProfileCard = ({
               {careerProfile.desiredLocations.map((loc) => (
                 <span
                   key={loc}
-                  className="px-2.5 py-0.5 bg-slate-50 text-slate-700 rounded text-[11px] border"
+                  className="px-2.5 py-0.5 bg-slate-50 text-slate-700 rounded text-xs border"
                 >
                   {loc}
                 </span>
@@ -152,6 +154,7 @@ export const CareerProfileCard = ({
         <CareerProfileEditForm
           careerForm={careerForm}
           setCareerForm={setCareerForm}
+          careerErrors={careerErrors}
           setIsEditingCareer={setIsEditingCareer}
           saveCareerProfile={saveCareerProfile}
         />

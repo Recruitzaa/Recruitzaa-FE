@@ -367,6 +367,7 @@ describe('profileSlice Reducer', () => {
 
     const newHistory = [
       {
+        id: 'test-history-1',
         designation: 'Lead Engineer',
         company: 'Google',
         duration: '2 Years',
@@ -391,6 +392,7 @@ describe('profileSlice Reducer', () => {
       state,
       updateEducation([
         {
+          id: 'test-edu-1',
           level: 'Graduation',
           degree: 'B.Tech',
           university: 'IIT',
@@ -404,6 +406,7 @@ describe('profileSlice Reducer', () => {
       state,
       updateProjects([
         {
+          id: 'test-project-1',
           name: 'Platform',
           client: 'Acme',
           duration: '6 months',
@@ -413,7 +416,15 @@ describe('profileSlice Reducer', () => {
     );
     state = reducer(
       state,
-      updateITSkills([{ skill: 'TypeScript', version: '5', lastUsed: '2026', experience: '3 yrs' }])
+      updateITSkills([
+        {
+          id: 'test-itskill-1',
+          skill: 'TypeScript',
+          version: '5',
+          lastUsed: '2026',
+          experience: '3 yrs',
+        },
+      ])
     );
     state = reducer(
       state,
@@ -441,6 +452,7 @@ describe('profileSlice Reducer', () => {
       state,
       updateReferences([
         {
+          id: 'test-reference-1',
           name: 'Priya Sharma',
           relationship: 'Reporting Manager',
           company: 'Infosys',
@@ -453,6 +465,7 @@ describe('profileSlice Reducer', () => {
       state,
       updateCertifications([
         {
+          id: 'test-certification-1',
           name: 'AWS Certified Solutions Architect',
           issuer: 'Amazon Web Services',
           issueDate: '2025',

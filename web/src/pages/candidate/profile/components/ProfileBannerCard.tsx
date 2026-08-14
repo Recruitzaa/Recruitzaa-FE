@@ -24,6 +24,7 @@ interface ProfileBannerCardProps {
   setIsEditingPersonal: (val: boolean) => void;
   personalForm: PersonalFormState;
   setPersonalForm: React.Dispatch<React.SetStateAction<PersonalFormState>>;
+  personalErrors: Record<string, string>;
   startEditingPersonal: () => void;
   savePersonalDetails: () => void;
   handleAvatarUpload: (dataUrl: string) => void;
@@ -35,6 +36,7 @@ export const ProfileBannerCard = ({
   setIsEditingPersonal,
   personalForm,
   setPersonalForm,
+  personalErrors,
   startEditingPersonal,
   savePersonalDetails,
   handleAvatarUpload,
@@ -163,6 +165,7 @@ export const ProfileBannerCard = ({
         <PersonalDetailsEditForm
           personalForm={personalForm}
           setPersonalForm={setPersonalForm}
+          personalErrors={personalErrors}
           setIsEditingPersonal={setIsEditingPersonal}
           savePersonalDetails={savePersonalDetails}
         />

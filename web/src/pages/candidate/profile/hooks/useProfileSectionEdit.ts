@@ -12,6 +12,14 @@ import {
   type ProfileState,
 } from '../../../../store/slices/profileSlice';
 import { useProfileSkillAndResume } from './useProfileSkillAndResume';
+import {
+  personalDetailsFormSchema,
+  summaryFormSchema,
+  careerFormSchema,
+  extendedPersonalFormSchema,
+  accomplishmentsFormSchema,
+  getFieldErrors,
+} from '../utils/profileValidation';
 
 export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
   const dispatch = useAppDispatch();
@@ -22,6 +30,12 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
   const [isEditingCareer, setIsEditingCareer] = useState(false);
   const [isEditingExtendedPersonal, setIsEditingExtendedPersonal] = useState(false);
   const [isEditingAccomplishments, setIsEditingAccomplishments] = useState(false);
+
+  const [personalErrors, setPersonalErrors] = useState<Record<string, string>>({});
+  const [summaryErrors, setSummaryErrors] = useState<Record<string, string>>({});
+  const [careerErrors, setCareerErrors] = useState<Record<string, string>>({});
+  const [extendedPersonalErrors, setExtendedPersonalErrors] = useState<Record<string, string>>({});
+  const [accomplishmentsErrors, setAccomplishmentsErrors] = useState<Record<string, string>>({});
 
   const [personalForm, setPersonalForm] = useState({
     ...profile.personalInfo,
@@ -38,10 +52,11 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
   });
   const [accomplishmentsForm, setAccomplishmentsForm] = useState({ ...profile.accomplishments });
 
-  const skillResume = useProfileSkillAndResume(appUser);
+  const skillResume = useProfileSkillAndResume(profile.skills, appUser);
 
   const startEditingPersonal = () => {
     setPersonalForm({ ...profile.personalInfo, ...profile.employmentDetails });
+    setPersonalErrors({});
     setIsEditingPersonal(true);
   };
 
@@ -55,6 +70,7 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
 
   const startEditingSummary = () => {
     setSummaryForm({ ...profile.professionalSummary });
+    setSummaryErrors({});
     setIsEditingSummary(true);
   };
 
@@ -63,6 +79,7 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
       ...profile.careerProfile,
       desiredLocationsText: profile.careerProfile.desiredLocations.join(', '),
     });
+    setCareerErrors({});
     setIsEditingCareer(true);
   };
 
@@ -71,15 +88,23 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
       ...profile.extendedPersonal,
       languagesText: profile.extendedPersonal.languages.join(', '),
     });
+    setExtendedPersonalErrors({});
     setIsEditingExtendedPersonal(true);
   };
 
   const startEditingAccomplishments = () => {
     setAccomplishmentsForm({ ...profile.accomplishments });
+    setAccomplishmentsErrors({});
     setIsEditingAccomplishments(true);
   };
 
   const savePersonalDetails = () => {
+    const errors = getFieldErrors(personalDetailsFormSchema, personalForm);
+    if (Object.keys(errors).length > 0) {
+      setPersonalErrors(errors);
+      toast.error('Fix the highlighted fields before saving.');
+      return;
+    }
     dispatch(
       updatePersonalInfo({
         firstName: personalForm.firstName,
@@ -98,6 +123,7 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
       })
     );
     setIsEditingPersonal(false);
+    setPersonalErrors({});
     dispatch(
       updateUserProfile({
         phone: personalForm.phone,
@@ -112,13 +138,26 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
   };
 
   const saveSummary = () => {
+    const errors = getFieldErrors(summaryFormSchema, summaryForm);
+    if (Object.keys(errors).length > 0) {
+      setSummaryErrors(errors);
+      toast.error('Fix the highlighted fields before saving.');
+      return;
+    }
     dispatch(updateProfessionalSummary({ ...summaryForm }));
     setIsEditingSummary(false);
+    setSummaryErrors({});
     dispatch(updateUserProfile({ summary: summaryForm.detailedSummary }));
     toast.success('Resume headline & summary updated.');
   };
 
   const saveCareerProfile = () => {
+    const errors = getFieldErrors(careerFormSchema, careerForm);
+    if (Object.keys(errors).length > 0) {
+      setCareerErrors(errors);
+      toast.error('Fix the highlighted fields before saving.');
+      return;
+    }
     dispatch(
       updateCareerProfile({
         ...careerForm,
@@ -129,10 +168,17 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
       })
     );
     setIsEditingCareer(false);
+    setCareerErrors({});
     toast.success('Career profile updated.');
   };
 
   const saveExtendedPersonal = () => {
+    const errors = getFieldErrors(extendedPersonalFormSchema, extendedPersonalForm);
+    if (Object.keys(errors).length > 0) {
+      setExtendedPersonalErrors(errors);
+      toast.error('Fix the highlighted fields before saving.');
+      return;
+    }
     dispatch(
       updateExtendedPersonal({
         ...extendedPersonalForm,
@@ -143,12 +189,20 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
       })
     );
     setIsEditingExtendedPersonal(false);
+    setExtendedPersonalErrors({});
     toast.success('Personal details updated.');
   };
 
   const saveAccomplishments = () => {
+    const errors = getFieldErrors(accomplishmentsFormSchema, accomplishmentsForm);
+    if (Object.keys(errors).length > 0) {
+      setAccomplishmentsErrors(errors);
+      toast.error('Fix the highlighted fields before saving.');
+      return;
+    }
     dispatch(updateAccomplishments({ ...accomplishmentsForm }));
     setIsEditingAccomplishments(false);
+    setAccomplishmentsErrors({});
     toast.success('Accomplishments updated.');
   };
 
@@ -165,14 +219,19 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
     setIsEditingAccomplishments,
     personalForm,
     setPersonalForm,
+    personalErrors,
     summaryForm,
     setSummaryForm,
+    summaryErrors,
     careerForm,
     setCareerForm,
+    careerErrors,
     extendedPersonalForm,
     setExtendedPersonalForm,
+    extendedPersonalErrors,
     accomplishmentsForm,
     setAccomplishmentsForm,
+    accomplishmentsErrors,
     startEditingPersonal,
     handleAvatarUpload,
     startEditingSummary,

@@ -1,5 +1,12 @@
-import type { ProfileState } from '../../../../store/slices/profileSlice';
+import { nanoid } from 'nanoid';
+import type { ProfileState } from '../../store/slices/profileSlice';
 
+/**
+ * Canned "AI resume parser" output. Only ever loaded when the user explicitly
+ * confirms the "Update resume" AI autofill action — never used as the
+ * default state for a new profile (see profileInitialState.ts, which is
+ * genuinely blank).
+ */
 export const getMockParsedProfile = (email: string): ProfileState => ({
   personalInfo: {
     firstName: 'Arjun',
@@ -34,6 +41,7 @@ export const getMockParsedProfile = (email: string): ProfileState => ({
   ],
   employmentHistory: [
     {
+      id: nanoid(),
       designation: 'Lead Mobile Frontend Architect',
       company: 'Microsoft Corporation',
       duration: 'Oct 2024 to Present (1 year 9 months)',
@@ -43,6 +51,7 @@ export const getMockParsedProfile = (email: string): ProfileState => ({
       ],
     },
     {
+      id: nanoid(),
       designation: 'Senior Mobile Engineer',
       company: 'Amazon Web Services',
       duration: 'Jan 2022 to Oct 2024 (2 years 9 months)',
@@ -53,6 +62,7 @@ export const getMockParsedProfile = (email: string): ProfileState => ({
   ],
   education: [
     {
+      id: nanoid(),
       level: 'Post Graduation',
       degree: 'M.Tech / M.E. Computer Science and Engineering',
       university: 'IIT Madras, Chennai',
@@ -61,6 +71,7 @@ export const getMockParsedProfile = (email: string): ProfileState => ({
       percentage: '8.4 CGPA',
     },
     {
+      id: nanoid(),
       level: 'Graduation',
       degree: 'B.Tech Computer Science and Engineering',
       university: 'IIT Madras, Chennai',
@@ -71,6 +82,7 @@ export const getMockParsedProfile = (email: string): ProfileState => ({
   ],
   projects: [
     {
+      id: nanoid(),
       name: 'CloudSync IoT Client SDK',
       client: 'AWS Platform Group',
       duration: '2023',
@@ -78,8 +90,20 @@ export const getMockParsedProfile = (email: string): ProfileState => ({
     },
   ],
   itSkills: [
-    { skill: 'React Native', version: '0.74', lastUsed: '2026', experience: '4 Years 0 Months' },
-    { skill: 'TypeScript', version: '5.2', lastUsed: '2026', experience: '6 Years 0 Months' },
+    {
+      id: nanoid(),
+      skill: 'React Native',
+      version: '0.74',
+      lastUsed: '2026',
+      experience: '4 Years 0 Months',
+    },
+    {
+      id: nanoid(),
+      skill: 'TypeScript',
+      version: '5.2',
+      lastUsed: '2026',
+      experience: '6 Years 0 Months',
+    },
   ],
   careerProfile: {
     industry: 'IT Services & Consulting',
@@ -114,6 +138,7 @@ export const getMockParsedProfile = (email: string): ProfileState => ({
   references: [],
   certifications: [
     {
+      id: nanoid(),
       name: 'AWS Certified Solutions Architect – Associate',
       issuer: 'Amazon Web Services',
       issueDate: '2025',

@@ -4,23 +4,25 @@ import type { ReferenceItem } from '../../../../store/slices/profileSlice';
 
 interface ReferencesCardProps {
   references: ReferenceItem[];
-  editingReferenceIndex: number | null;
+  editingReferenceId: string | null;
   cancelReferenceEditing: () => void;
-  startEditingReference: (index: number) => void;
+  startEditingReference: (id: string) => void;
   referenceForm: ReferenceItem;
   setReferenceForm: (form: ReferenceItem) => void;
-  saveReferenceItem: (index: number) => void;
-  deleteReferenceItem: (index: number) => void;
+  referenceErrors: Record<string, string>;
+  saveReferenceItem: (id: string) => void;
+  deleteReferenceItem: (id: string) => void;
   addNewReferenceItem: () => void;
 }
 
 export const ReferencesCard = ({
   references,
-  editingReferenceIndex,
+  editingReferenceId,
   cancelReferenceEditing,
   startEditingReference,
   referenceForm,
   setReferenceForm,
+  referenceErrors,
   saveReferenceItem,
   deleteReferenceItem,
   addNewReferenceItem,
@@ -52,18 +54,15 @@ export const ReferencesCard = ({
         <p className="text-sm text-slate-400 py-2">No references added yet.</p>
       ) : (
         <div className="space-y-4">
-          {references.map((ref, index) => {
-            const nameId = `${idPrefix}-ref-name-${index}`;
-            const relationshipId = `${idPrefix}-ref-relationship-${index}`;
-            const companyId = `${idPrefix}-ref-company-${index}`;
-            const emailId = `${idPrefix}-ref-email-${index}`;
-            const phoneId = `${idPrefix}-ref-phone-${index}`;
+          {references.map((ref) => {
+            const nameId = `${idPrefix}-ref-name-${ref.id}`;
+            const relationshipId = `${idPrefix}-ref-relationship-${ref.id}`;
+            const companyId = `${idPrefix}-ref-company-${ref.id}`;
+            const emailId = `${idPrefix}-ref-email-${ref.id}`;
+            const phoneId = `${idPrefix}-ref-phone-${ref.id}`;
 
             return (
-              <div
-                key={`${ref.name}-${index}`}
-                className="relative border-l-2 border-orange-200 pl-4 space-y-2"
-              >
+              <div key={ref.id} className="relative border-l-2 border-orange-200 pl-4 space-y-2">
                 <div className="flex justify-between items-start">
                   <div className="flex items-start gap-2.5">
                     <User size={16} className="text-slate-400 shrink-0 mt-0.5" aria-hidden="true" />
@@ -75,10 +74,10 @@ export const ReferencesCard = ({
                       </div>
                     </div>
                   </div>
-                  {editingReferenceIndex !== index && (
+                  {editingReferenceId !== ref.id && (
                     <button
                       type="button"
-                      onClick={() => startEditingReference(index)}
+                      onClick={() => startEditingReference(ref.id)}
                       className="inline-flex min-w-11 min-h-11 items-center justify-center rounded-lg text-slate-400 hover:text-brand-primary hover:bg-slate-50 transition-colors"
                       aria-label={`Edit reference ${ref.name}`}
                     >
@@ -87,7 +86,7 @@ export const ReferencesCard = ({
                   )}
                 </div>
 
-                {editingReferenceIndex !== index ? (
+                {editingReferenceId !== ref.id ? (
                   <p className="text-sm text-slate-600 leading-relaxed">
                     {ref.email} <span aria-hidden="true">&bull;</span> {ref.phone}
                   </p>
@@ -97,7 +96,7 @@ export const ReferencesCard = ({
                       <div className="space-y-1">
                         <label
                           htmlFor={nameId}
-                          className="text-[9px] font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 uppercase block"
                         >
                           Full Name
                         </label>
@@ -109,12 +108,16 @@ export const ReferencesCard = ({
                             setReferenceForm({ ...referenceForm, name: e.target.value })
                           }
                           className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                          aria-invalid={Boolean(referenceErrors.name)}
                         />
+                        {referenceErrors.name && (
+                          <p className="text-xs text-red-600">{referenceErrors.name}</p>
+                        )}
                       </div>
                       <div className="space-y-1">
                         <label
                           htmlFor={relationshipId}
-                          className="text-[9px] font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 uppercase block"
                         >
                           Relationship / Designation
                         </label>
@@ -126,12 +129,16 @@ export const ReferencesCard = ({
                             setReferenceForm({ ...referenceForm, relationship: e.target.value })
                           }
                           className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                          aria-invalid={Boolean(referenceErrors.relationship)}
                         />
+                        {referenceErrors.relationship && (
+                          <p className="text-xs text-red-600">{referenceErrors.relationship}</p>
+                        )}
                       </div>
                       <div className="space-y-1 sm:col-span-2">
                         <label
                           htmlFor={companyId}
-                          className="text-[9px] font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 uppercase block"
                         >
                           Company
                         </label>
@@ -148,7 +155,7 @@ export const ReferencesCard = ({
                       <div className="space-y-1">
                         <label
                           htmlFor={emailId}
-                          className="text-[9px] font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 uppercase block"
                         >
                           Email
                         </label>
@@ -160,12 +167,16 @@ export const ReferencesCard = ({
                             setReferenceForm({ ...referenceForm, email: e.target.value })
                           }
                           className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                          aria-invalid={Boolean(referenceErrors.email)}
                         />
+                        {referenceErrors.email && (
+                          <p className="text-xs text-red-600">{referenceErrors.email}</p>
+                        )}
                       </div>
                       <div className="space-y-1">
                         <label
                           htmlFor={phoneId}
-                          className="text-[9px] font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 uppercase block"
                         >
                           Phone
                         </label>
@@ -177,15 +188,19 @@ export const ReferencesCard = ({
                             setReferenceForm({ ...referenceForm, phone: e.target.value })
                           }
                           className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                          aria-invalid={Boolean(referenceErrors.phone)}
                         />
+                        {referenceErrors.phone && (
+                          <p className="text-xs text-red-600">{referenceErrors.phone}</p>
+                        )}
                       </div>
                     </div>
 
                     <div className="flex gap-2 justify-end pt-2">
                       <button
                         type="button"
-                        onClick={() => deleteReferenceItem(index)}
-                        className="px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 rounded text-[11px] font-semibold hover:bg-red-100 mr-auto"
+                        onClick={() => deleteReferenceItem(ref.id)}
+                        className="px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 rounded text-xs font-semibold hover:bg-red-100 mr-auto"
                       >
                         Delete
                       </button>
@@ -198,7 +213,7 @@ export const ReferencesCard = ({
                       </button>
                       <button
                         type="button"
-                        onClick={() => saveReferenceItem(index)}
+                        onClick={() => saveReferenceItem(ref.id)}
                         className="px-3 py-1.5 bg-brand-primary text-white rounded text-sm hover:bg-brand-primary-hover font-semibold"
                       >
                         Save

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { nanoid } from 'nanoid';
 import { useAppDispatch } from '../../../../store/hooks';
 import { useToast } from '../../../../hooks/useToast';
 import {
@@ -17,59 +18,84 @@ import {
 } from '../../../../store/slices/profileSlice';
 import type { JobHistoryItem } from '../components/EmploymentTimeline';
 import { readDocumentAsDataUrl, DocumentUploadError } from '../../../../lib/documentUpload';
+import {
+  jobHistorySchema,
+  projectItemSchema,
+  itSkillItemSchema,
+  referenceItemSchema,
+  educationItemSchema,
+  certificationItemSchema,
+  getFieldErrors,
+} from '../utils/profileValidation';
 
+/**
+ * List editing keyed off each item's stable `id`, not its array index.
+ * Index-based editing broke as soon as the underlying list was resorted,
+ * filtered, or edited from two places — the wrong row would end up saved,
+ * deleted, or (Add-then-Cancel) left behind as an orphaned placeholder.
+ */
 export const useProfileListEdit = (profile: ProfileState) => {
   const dispatch = useAppDispatch();
   const toast = useToast();
 
-  const [editingHistoryIndex, setEditingHistoryIndex] = useState<number | null>(null);
-  const [editingProjectIndex, setEditingProjectIndex] = useState<number | null>(null);
-  const [editingITSkillIndex, setEditingITSkillIndex] = useState<number | null>(null);
-  const [editingReferenceIndex, setEditingReferenceIndex] = useState<number | null>(null);
-  const [editingEducationIndex, setEditingEducationIndex] = useState<number | null>(null);
-  const [editingCertificationIndex, setEditingCertificationIndex] = useState<number | null>(null);
+  const [editingHistoryId, setEditingHistoryId] = useState<string | null>(null);
+  const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
+  const [editingITSkillId, setEditingITSkillId] = useState<string | null>(null);
+  const [editingReferenceId, setEditingReferenceId] = useState<string | null>(null);
+  const [editingEducationId, setEditingEducationId] = useState<string | null>(null);
+  const [editingCertificationId, setEditingCertificationId] = useState<string | null>(null);
   const [isUploadingCertificateFile, setIsUploadingCertificateFile] = useState(false);
 
-  // Tracks the index of a row that was optimistically inserted by an
+  // Tracks the id of a row that was optimistically inserted by an
   // "Add new" action but not yet confirmed with Save. Lets Cancel drop the
   // placeholder instead of leaving fake data in the profile.
-  const [pendingNewHistoryIndex, setPendingNewHistoryIndex] = useState<number | null>(null);
-  const [pendingNewProjectIndex, setPendingNewProjectIndex] = useState<number | null>(null);
-  const [pendingNewITSkillIndex, setPendingNewITSkillIndex] = useState<number | null>(null);
-  const [pendingNewReferenceIndex, setPendingNewReferenceIndex] = useState<number | null>(null);
-  const [pendingNewEducationIndex, setPendingNewEducationIndex] = useState<number | null>(null);
-  const [pendingNewCertificationIndex, setPendingNewCertificationIndex] = useState<number | null>(
-    null
-  );
+  const [pendingNewHistoryId, setPendingNewHistoryId] = useState<string | null>(null);
+  const [pendingNewProjectId, setPendingNewProjectId] = useState<string | null>(null);
+  const [pendingNewITSkillId, setPendingNewITSkillId] = useState<string | null>(null);
+  const [pendingNewReferenceId, setPendingNewReferenceId] = useState<string | null>(null);
+  const [pendingNewEducationId, setPendingNewEducationId] = useState<string | null>(null);
+  const [pendingNewCertificationId, setPendingNewCertificationId] = useState<string | null>(null);
 
   const [historyForm, setHistoryForm] = useState<JobHistoryItem>({
+    id: '',
     designation: '',
     company: '',
     duration: '',
     keyResponsibilities: [],
   });
   const [historyResponsibilitiesText, setHistoryResponsibilitiesText] = useState('');
+  const [historyErrors, setHistoryErrors] = useState<Record<string, string>>({});
 
   const [projectForm, setProjectForm] = useState<ProjectItem>({
+    id: '',
     name: '',
     client: '',
     duration: '',
     description: '',
   });
+  const [projectErrors, setProjectErrors] = useState<Record<string, string>>({});
+
   const [itSkillForm, setITSkillForm] = useState<ITSkillItem>({
+    id: '',
     skill: '',
     version: '',
     lastUsed: '',
     experience: '',
   });
+  const [itSkillErrors, setITSkillErrors] = useState<Record<string, string>>({});
+
   const [referenceForm, setReferenceForm] = useState<ReferenceItem>({
+    id: '',
     name: '',
     relationship: '',
     company: '',
     email: '',
     phone: '',
   });
+  const [referenceErrors, setReferenceErrors] = useState<Record<string, string>>({});
+
   const [educationForm, setEducationForm] = useState<EducationDetails>({
+    id: '',
     level: '',
     degree: '',
     university: '',
@@ -77,7 +103,10 @@ export const useProfileListEdit = (profile: ProfileState) => {
     type: '',
     percentage: '',
   });
+  const [educationErrors, setEducationErrors] = useState<Record<string, string>>({});
+
   const [certificationForm, setCertificationForm] = useState<CertificationItem>({
+    id: '',
     name: '',
     issuer: '',
     issueDate: '',
@@ -87,97 +116,113 @@ export const useProfileListEdit = (profile: ProfileState) => {
     fileSizeLabel: '',
     fileDataUrl: '',
   });
+  const [certificationErrors, setCertificationErrors] = useState<Record<string, string>>({});
 
-  const startEditingHistory = (index: number) => {
-    const item = profile.employmentHistory[index];
+  const startEditingHistory = (id: string) => {
+    const item = profile.employmentHistory.find((entry) => entry.id === id);
+    if (!item) return;
     setHistoryForm({ ...item });
     setHistoryResponsibilitiesText(item.keyResponsibilities.join('\n'));
-    setEditingHistoryIndex(index);
+    setHistoryErrors({});
+    setEditingHistoryId(id);
   };
 
-  const startEditingProject = (index: number) => {
-    const item = profile.projects[index];
+  const startEditingProject = (id: string) => {
+    const item = profile.projects.find((entry) => entry.id === id);
+    if (!item) return;
     setProjectForm({ ...item });
-    setEditingProjectIndex(index);
+    setProjectErrors({});
+    setEditingProjectId(id);
   };
 
-  const startEditingITSkill = (index: number) => {
-    const item = profile.itSkills[index];
+  const startEditingITSkill = (id: string) => {
+    const item = profile.itSkills.find((entry) => entry.id === id);
+    if (!item) return;
     setITSkillForm({ ...item });
-    setEditingITSkillIndex(index);
+    setITSkillErrors({});
+    setEditingITSkillId(id);
   };
 
-  const startEditingReference = (index: number) => {
-    const item = profile.references[index];
+  const startEditingReference = (id: string) => {
+    const item = profile.references.find((entry) => entry.id === id);
+    if (!item) return;
     setReferenceForm({ ...item });
-    setEditingReferenceIndex(index);
+    setReferenceErrors({});
+    setEditingReferenceId(id);
   };
 
-  const startEditingEducationItem = (index: number) => {
-    const item = profile.education[index];
+  const startEditingEducationItem = (id: string) => {
+    const item = profile.education.find((entry) => entry.id === id);
+    if (!item) return;
     setEducationForm({ ...item });
-    setEditingEducationIndex(index);
+    setEducationErrors({});
+    setEditingEducationId(id);
   };
 
-  const startEditingCertification = (index: number) => {
-    const item = profile.certifications[index];
+  const startEditingCertification = (id: string) => {
+    const item = profile.certifications.find((entry) => entry.id === id);
+    if (!item) return;
     setCertificationForm({ ...item });
-    setEditingCertificationIndex(index);
+    setCertificationErrors({});
+    setEditingCertificationId(id);
   };
 
   const addNewHistoryItem = () => {
     const newItem = {
+      id: nanoid(),
       designation: 'Designation Role',
       company: 'Company Name',
       duration: 'Duration (e.g. 2023 - 2024)',
       keyResponsibilities: ['Key responsibility 1', 'Key responsibility 2'],
     };
     dispatch(updateEmploymentHistory([newItem, ...profile.employmentHistory]));
-    startEditingHistory(0);
-    setPendingNewHistoryIndex(0);
+    startEditingHistory(newItem.id);
+    setPendingNewHistoryId(newItem.id);
   };
 
   const addNewProjectItem = () => {
     const newItem = {
+      id: nanoid(),
       name: 'Project Name',
       client: 'Client Name',
       duration: 'Duration',
       description: 'Brief description of the work.',
     };
     dispatch(updateProjects([newItem, ...profile.projects]));
-    startEditingProject(0);
-    setPendingNewProjectIndex(0);
+    startEditingProject(newItem.id);
+    setPendingNewProjectId(newItem.id);
   };
 
   const addNewITSkillItem = () => {
     const newItem = {
+      id: nanoid(),
       skill: 'Skill Name',
       version: '1.0',
       lastUsed: '2026',
       experience: '1 Year 0 Months',
     };
-    const updated = [...profile.itSkills, newItem];
-    dispatch(updateITSkills(updated));
-    startEditingITSkill(updated.length - 1);
-    setPendingNewITSkillIndex(updated.length - 1);
+    dispatch(updateITSkills([...profile.itSkills, newItem]));
+    startEditingITSkill(newItem.id);
+    setPendingNewITSkillId(newItem.id);
   };
 
   const addNewReferenceItem = () => {
     const newItem = {
+      id: nanoid(),
       name: 'Reference Name',
       relationship: 'Reporting Manager',
       company: 'Company Name',
       email: 'name@company.com',
       phone: '+91 00000 00000',
     };
-    const updated = [...profile.references, newItem];
-    dispatch(updateReferences(updated));
-    startEditingReference(updated.length - 1);
-    setPendingNewReferenceIndex(updated.length - 1);
+    dispatch(updateReferences([...profile.references, newItem]));
+    startEditingReference(newItem.id);
+    setPendingNewReferenceId(newItem.id);
   };
 
   const addNewEducationItem = () => {
     const newItem: EducationDetails = {
+      id: nanoid(),
       level: 'Graduation',
       degree: 'Degree Name',
       university: 'University / Board Name',
@@ -185,14 +230,14 @@ export const useProfileListEdit = (profile: ProfileState) => {
       type: 'Full Time',
       percentage: '',
     };
-    const updated = [...profile.education, newItem];
-    dispatch(updateEducation(updated));
-    startEditingEducationItem(updated.length - 1);
-    setPendingNewEducationIndex(updated.length - 1);
+    dispatch(updateEducation([...profile.education, newItem]));
+    startEditingEducationItem(newItem.id);
+    setPendingNewEducationId(newItem.id);
   };
 
   const addNewCertificationItem = () => {
     const newItem: CertificationItem = {
+      id: nanoid(),
       name: 'Certification Name',
       issuer: 'Issuing Organization',
       issueDate: '',
@@ -202,74 +247,77 @@ export const useProfileListEdit = (profile: ProfileState) => {
       fileSizeLabel: '',
       fileDataUrl: '',
     };
-    const updated = [...profile.certifications, newItem];
-    dispatch(updateCertifications(updated));
-    startEditingCertification(updated.length - 1);
-    setPendingNewCertificationIndex(updated.length - 1);
+    dispatch(updateCertifications([...profile.certifications, newItem]));
+    startEditingCertification(newItem.id);
+    setPendingNewCertificationId(newItem.id);
   };
 
   // Cancel handlers: if the row being edited was an unsaved "Add new"
   // placeholder, drop it from the profile instead of leaving fake data
   // behind. Otherwise just close the editor for the existing item.
   const cancelHistoryEditing = () => {
-    if (pendingNewHistoryIndex !== null && pendingNewHistoryIndex === editingHistoryIndex) {
+    if (pendingNewHistoryId !== null && pendingNewHistoryId === editingHistoryId) {
       dispatch(
         updateEmploymentHistory(
-          profile.employmentHistory.filter((_, i) => i !== pendingNewHistoryIndex)
+          profile.employmentHistory.filter((e) => e.id !== pendingNewHistoryId)
         )
       );
-      setPendingNewHistoryIndex(null);
+      setPendingNewHistoryId(null);
     }
-    setEditingHistoryIndex(null);
+    setHistoryErrors({});
+    setEditingHistoryId(null);
   };
 
   const cancelProjectEditing = () => {
-    if (pendingNewProjectIndex !== null && pendingNewProjectIndex === editingProjectIndex) {
-      dispatch(updateProjects(profile.projects.filter((_, i) => i !== pendingNewProjectIndex)));
-      setPendingNewProjectIndex(null);
+    if (pendingNewProjectId !== null && pendingNewProjectId === editingProjectId) {
+      dispatch(updateProjects(profile.projects.filter((e) => e.id !== pendingNewProjectId)));
+      setPendingNewProjectId(null);
     }
-    setEditingProjectIndex(null);
+    setProjectErrors({});
+    setEditingProjectId(null);
   };
 
   const cancelITSkillEditing = () => {
-    if (pendingNewITSkillIndex !== null && pendingNewITSkillIndex === editingITSkillIndex) {
-      dispatch(updateITSkills(profile.itSkills.filter((_, i) => i !== pendingNewITSkillIndex)));
-      setPendingNewITSkillIndex(null);
+    if (pendingNewITSkillId !== null && pendingNewITSkillId === editingITSkillId) {
+      dispatch(updateITSkills(profile.itSkills.filter((e) => e.id !== pendingNewITSkillId)));
+      setPendingNewITSkillId(null);
     }
-    setEditingITSkillIndex(null);
+    setITSkillErrors({});
+    setEditingITSkillId(null);
   };
 
   const cancelReferenceEditing = () => {
-    if (pendingNewReferenceIndex !== null && pendingNewReferenceIndex === editingReferenceIndex) {
-      dispatch(
-        updateReferences(profile.references.filter((_, i) => i !== pendingNewReferenceIndex))
-      );
-      setPendingNewReferenceIndex(null);
+    if (pendingNewReferenceId !== null && pendingNewReferenceId === editingReferenceId) {
+      dispatch(updateReferences(profile.references.filter((e) => e.id !== pendingNewReferenceId)));
+      setPendingNewReferenceId(null);
     }
-    setEditingReferenceIndex(null);
+    setReferenceErrors({});
+    setEditingReferenceId(null);
   };
 
   const cancelEducationEditing = () => {
-    if (pendingNewEducationIndex !== null && pendingNewEducationIndex === editingEducationIndex) {
-      dispatch(updateEducation(profile.education.filter((_, i) => i !== pendingNewEducationIndex)));
-      setPendingNewEducationIndex(null);
+    if (pendingNewEducationId !== null && pendingNewEducationId === editingEducationId) {
+      dispatch(updateEducation(profile.education.filter((e) => e.id !== pendingNewEducationId)));
+      setPendingNewEducationId(null);
     }
-    setEditingEducationIndex(null);
+    setEducationErrors({});
+    setEditingEducationId(null);
   };
 
   const cancelCertificationEditing = () => {
     if (
-      pendingNewCertificationIndex !== null &&
-      pendingNewCertificationIndex === editingCertificationIndex
+      pendingNewCertificationId !== null &&
+      pendingNewCertificationId === editingCertificationId
     ) {
       dispatch(
         updateCertifications(
-          profile.certifications.filter((_, i) => i !== pendingNewCertificationIndex)
+          profile.certifications.filter((e) => e.id !== pendingNewCertificationId)
         )
       );
-      setPendingNewCertificationIndex(null);
+      setPendingNewCertificationId(null);
     }
-    setEditingCertificationIndex(null);
+    setCertificationErrors({});
+    setEditingCertificationId(null);
   };
 
   // Reads the certificate proof file (PDF/image) and stages it onto the form
@@ -298,141 +346,184 @@ export const useProfileListEdit = (profile: ProfileState) => {
     setCertificationForm((prev) => ({ ...prev, fileName: '', fileSizeLabel: '', fileDataUrl: '' }));
   };
 
-  const saveHistoryItem = (index: number) => {
-    const updatedHistory = [...profile.employmentHistory];
-    updatedHistory[index] = {
+  const saveHistoryItem = (id: string) => {
+    const candidate = {
       ...historyForm,
       keyResponsibilities: historyResponsibilitiesText
         .split('\n')
         .map((r) => r.trim())
         .filter((r) => r.length > 0),
     };
-    dispatch(updateEmploymentHistory(updatedHistory));
-    setEditingHistoryIndex(null);
-    setPendingNewHistoryIndex(null);
+    const errors = getFieldErrors(jobHistorySchema, candidate);
+    if (Object.keys(errors).length > 0) {
+      setHistoryErrors(errors);
+      toast.error('Fix the highlighted fields before saving.');
+      return;
+    }
+    dispatch(
+      updateEmploymentHistory(
+        profile.employmentHistory.map((item) => (item.id === id ? candidate : item))
+      )
+    );
+    setEditingHistoryId(null);
+    setPendingNewHistoryId(null);
+    setHistoryErrors({});
     toast.success('Employment record updated.');
   };
 
-  const deleteHistoryItem = (index: number) => {
-    const updatedHistory = profile.employmentHistory.filter((_, i) => i !== index);
-    dispatch(updateEmploymentHistory(updatedHistory));
-    setEditingHistoryIndex(null);
-    setPendingNewHistoryIndex(null);
+  const deleteHistoryItem = (id: string) => {
+    dispatch(updateEmploymentHistory(profile.employmentHistory.filter((item) => item.id !== id)));
+    setEditingHistoryId(null);
+    setPendingNewHistoryId(null);
     toast.info('Removed employment record.');
   };
 
-  const saveProjectItem = (index: number) => {
-    const updatedProjects = [...profile.projects];
-    updatedProjects[index] = { ...projectForm };
-    dispatch(updateProjects(updatedProjects));
-    setEditingProjectIndex(null);
-    setPendingNewProjectIndex(null);
+  const saveProjectItem = (id: string) => {
+    const errors = getFieldErrors(projectItemSchema, projectForm);
+    if (Object.keys(errors).length > 0) {
+      setProjectErrors(errors);
+      toast.error('Fix the highlighted fields before saving.');
+      return;
+    }
+    dispatch(updateProjects(profile.projects.map((item) => (item.id === id ? projectForm : item))));
+    setEditingProjectId(null);
+    setPendingNewProjectId(null);
+    setProjectErrors({});
     toast.success('Project details saved.');
   };
 
-  const deleteProjectItem = (index: number) => {
-    const updatedProjects = profile.projects.filter((_, i) => i !== index);
-    dispatch(updateProjects(updatedProjects));
-    setEditingProjectIndex(null);
-    setPendingNewProjectIndex(null);
+  const deleteProjectItem = (id: string) => {
+    dispatch(updateProjects(profile.projects.filter((item) => item.id !== id)));
+    setEditingProjectId(null);
+    setPendingNewProjectId(null);
     toast.info('Project record deleted.');
   };
 
-  const saveITSkillItem = (index: number) => {
-    const updatedITSkills = [...profile.itSkills];
-    updatedITSkills[index] = { ...itSkillForm };
-    dispatch(updateITSkills(updatedITSkills));
-    setEditingITSkillIndex(null);
-    setPendingNewITSkillIndex(null);
+  const saveITSkillItem = (id: string) => {
+    const errors = getFieldErrors(itSkillItemSchema, itSkillForm);
+    if (Object.keys(errors).length > 0) {
+      setITSkillErrors(errors);
+      toast.error('Fix the highlighted fields before saving.');
+      return;
+    }
+    dispatch(updateITSkills(profile.itSkills.map((item) => (item.id === id ? itSkillForm : item))));
+    setEditingITSkillId(null);
+    setPendingNewITSkillId(null);
+    setITSkillErrors({});
     toast.success('IT Skill updated.');
   };
 
-  const deleteITSkillItem = (index: number) => {
-    const updatedITSkills = profile.itSkills.filter((_, i) => i !== index);
-    dispatch(updateITSkills(updatedITSkills));
-    setEditingITSkillIndex(null);
-    setPendingNewITSkillIndex(null);
+  const deleteITSkillItem = (id: string) => {
+    dispatch(updateITSkills(profile.itSkills.filter((item) => item.id !== id)));
+    setEditingITSkillId(null);
+    setPendingNewITSkillId(null);
     toast.info('IT Skill removed.');
   };
 
-  const saveReferenceItem = (index: number) => {
-    const updatedReferences = [...profile.references];
-    updatedReferences[index] = { ...referenceForm };
-    dispatch(updateReferences(updatedReferences));
-    setEditingReferenceIndex(null);
-    setPendingNewReferenceIndex(null);
+  const saveReferenceItem = (id: string) => {
+    const errors = getFieldErrors(referenceItemSchema, referenceForm);
+    if (Object.keys(errors).length > 0) {
+      setReferenceErrors(errors);
+      toast.error('Fix the highlighted fields before saving.');
+      return;
+    }
+    dispatch(
+      updateReferences(profile.references.map((item) => (item.id === id ? referenceForm : item)))
+    );
+    setEditingReferenceId(null);
+    setPendingNewReferenceId(null);
+    setReferenceErrors({});
     toast.success('Reference saved.');
   };
 
-  const deleteReferenceItem = (index: number) => {
-    const updatedReferences = profile.references.filter((_, i) => i !== index);
-    dispatch(updateReferences(updatedReferences));
-    setEditingReferenceIndex(null);
-    setPendingNewReferenceIndex(null);
+  const deleteReferenceItem = (id: string) => {
+    dispatch(updateReferences(profile.references.filter((item) => item.id !== id)));
+    setEditingReferenceId(null);
+    setPendingNewReferenceId(null);
     toast.info('Reference removed.');
   };
 
-  const saveEducationItem = (index: number) => {
-    const updatedEducation = [...profile.education];
-    updatedEducation[index] = { ...educationForm };
-    dispatch(updateEducation(updatedEducation));
-    setEditingEducationIndex(null);
-    setPendingNewEducationIndex(null);
+  const saveEducationItem = (id: string) => {
+    const errors = getFieldErrors(educationItemSchema, educationForm);
+    if (Object.keys(errors).length > 0) {
+      setEducationErrors(errors);
+      toast.error('Fix the highlighted fields before saving.');
+      return;
+    }
+    dispatch(
+      updateEducation(profile.education.map((item) => (item.id === id ? educationForm : item)))
+    );
+    setEditingEducationId(null);
+    setPendingNewEducationId(null);
+    setEducationErrors({});
     toast.success('Education record saved.');
   };
 
-  const deleteEducationItem = (index: number) => {
-    const updatedEducation = profile.education.filter((_, i) => i !== index);
-    dispatch(updateEducation(updatedEducation));
-    setEditingEducationIndex(null);
-    setPendingNewEducationIndex(null);
+  const deleteEducationItem = (id: string) => {
+    dispatch(updateEducation(profile.education.filter((item) => item.id !== id)));
+    setEditingEducationId(null);
+    setPendingNewEducationId(null);
     toast.info('Education record removed.');
   };
 
-  const saveCertificationItem = (index: number) => {
-    const updatedCertifications = [...profile.certifications];
-    updatedCertifications[index] = { ...certificationForm };
-    dispatch(updateCertifications(updatedCertifications));
-    setEditingCertificationIndex(null);
-    setPendingNewCertificationIndex(null);
+  const saveCertificationItem = (id: string) => {
+    const errors = getFieldErrors(certificationItemSchema, certificationForm);
+    if (Object.keys(errors).length > 0) {
+      setCertificationErrors(errors);
+      toast.error('Fix the highlighted fields before saving.');
+      return;
+    }
+    dispatch(
+      updateCertifications(
+        profile.certifications.map((item) => (item.id === id ? certificationForm : item))
+      )
+    );
+    setEditingCertificationId(null);
+    setPendingNewCertificationId(null);
+    setCertificationErrors({});
     toast.success('Certification saved.');
   };
 
-  const deleteCertificationItem = (index: number) => {
-    const updatedCertifications = profile.certifications.filter((_, i) => i !== index);
-    dispatch(updateCertifications(updatedCertifications));
-    setEditingCertificationIndex(null);
-    setPendingNewCertificationIndex(null);
+  const deleteCertificationItem = (id: string) => {
+    dispatch(updateCertifications(profile.certifications.filter((item) => item.id !== id)));
+    setEditingCertificationId(null);
+    setPendingNewCertificationId(null);
     toast.info('Certification removed.');
   };
 
   return {
-    editingHistoryIndex,
-    setEditingHistoryIndex,
-    editingProjectIndex,
-    setEditingProjectIndex,
-    editingITSkillIndex,
-    setEditingITSkillIndex,
+    editingHistoryId,
+    setEditingHistoryId,
+    editingProjectId,
+    setEditingProjectId,
+    editingITSkillId,
+    setEditingITSkillId,
     historyForm,
     setHistoryForm,
     historyResponsibilitiesText,
     setHistoryResponsibilitiesText,
+    historyErrors,
     projectForm,
     setProjectForm,
+    projectErrors,
     itSkillForm,
     setITSkillForm,
-    editingReferenceIndex,
-    setEditingReferenceIndex,
+    itSkillErrors,
+    editingReferenceId,
+    setEditingReferenceId,
     referenceForm,
     setReferenceForm,
-    editingEducationIndex,
-    setEditingEducationIndex,
+    referenceErrors,
+    editingEducationId,
+    setEditingEducationId,
     educationForm,
     setEducationForm,
-    editingCertificationIndex,
-    setEditingCertificationIndex,
+    educationErrors,
+    editingCertificationId,
+    setEditingCertificationId,
     certificationForm,
     setCertificationForm,
+    certificationErrors,
     isUploadingCertificateFile,
     startEditingHistory,
     startEditingProject,

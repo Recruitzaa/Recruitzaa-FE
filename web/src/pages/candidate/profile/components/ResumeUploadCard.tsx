@@ -1,17 +1,24 @@
 import { FileText, Upload } from 'lucide-react';
+import { ConfirmDialog } from '../../../../components/ui/ConfirmDialog/ConfirmDialog';
 
 interface ResumeUploadCardProps {
-  resumeFileName: string;
-  resumeFileSize: string;
+  resumeFileName: string | null;
+  resumeFileSize: string | null;
   isParsing: boolean;
-  handleTriggerAIParsing: () => void;
+  isAIParsingConfirmOpen: boolean;
+  requestAIParsing: () => void;
+  cancelAIParsing: () => void;
+  confirmAIParsing: () => void;
 }
 
 export const ResumeUploadCard = ({
   resumeFileName,
   resumeFileSize,
   isParsing,
-  handleTriggerAIParsing,
+  isAIParsingConfirmOpen,
+  requestAIParsing,
+  cancelAIParsing,
+  confirmAIParsing,
 }: ResumeUploadCardProps) => {
   return (
     <div
@@ -28,9 +35,13 @@ export const ResumeUploadCard = ({
             <FileText size={24} />
           </div>
           <div>
-            <h4 className="text-sm font-bold text-slate-800 break-all">{resumeFileName}</h4>
+            <h4 className="text-sm font-bold text-slate-800 break-all">
+              {resumeFileName ?? 'No resume on file'}
+            </h4>
             <p className="text-sm text-slate-400 mt-0.5">
-              {resumeFileSize} &bull; Uploaded recently
+              {resumeFileName
+                ? `${resumeFileSize} \u2022 Uploaded recently`
+                : 'Upload a resume or run AI autofill below.'}
             </p>
           </div>
         </div>
@@ -38,14 +49,14 @@ export const ResumeUploadCard = ({
         <div className="w-full sm:w-auto flex flex-col gap-2">
           <button
             type="button"
-            onClick={handleTriggerAIParsing}
+            onClick={requestAIParsing}
             disabled={isParsing}
             className="inline-flex items-center justify-center gap-1.5 text-sm font-semibold py-2 px-4 border border-slate-200 hover:bg-slate-100 rounded-lg text-slate-700 bg-white shadow-sm transition-all"
           >
             <Upload size={13} />
-            Update resume
+            {resumeFileName ? 'Update resume' : 'Run AI autofill'}
           </button>
-          <p className="text-[9px] text-slate-400 text-center sm:text-left">
+          <p className="text-xs text-slate-400 text-center sm:text-left">
             Supported Formats: doc, docx, rtf, pdf, max 2 MB
           </p>
         </div>
@@ -59,6 +70,16 @@ export const ResumeUploadCard = ({
           ></div>
         </div>
       )}
+
+      <ConfirmDialog
+        isOpen={isAIParsingConfirmOpen}
+        title="Replace profile with AI-parsed resume?"
+        message="This overwrites your personal details, summary, employment history, education, projects, skills, and certifications with data parsed from the new resume. This cannot be undone."
+        confirmLabel="Replace profile"
+        variant="warning"
+        onConfirm={confirmAIParsing}
+        onCancel={cancelAIParsing}
+      />
     </div>
   );
 };

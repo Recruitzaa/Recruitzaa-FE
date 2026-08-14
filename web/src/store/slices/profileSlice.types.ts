@@ -1,4 +1,6 @@
 export interface JobHistoryItem {
+  /** Stable client-generated id — list editing keys off this, never off array index. */
+  id: string;
   designation: string;
   company: string;
   duration: string;
@@ -6,6 +8,7 @@ export interface JobHistoryItem {
 }
 
 export interface EducationDetails {
+  id: string;
   level: string;
   degree: string;
   university: string;
@@ -18,6 +21,7 @@ export interface EducationDetails {
 }
 
 export interface ProjectItem {
+  id: string;
   name: string;
   client: string;
   duration: string;
@@ -25,6 +29,7 @@ export interface ProjectItem {
 }
 
 export interface ITSkillItem {
+  id: string;
   skill: string;
   version: string;
   lastUsed: string;
@@ -62,6 +67,7 @@ export interface ExtendedPersonalInfo {
 }
 
 export interface ReferenceItem {
+  id: string;
   name: string;
   relationship: string;
   company: string;
@@ -78,6 +84,7 @@ export interface Accomplishments {
 }
 
 export interface CertificationItem {
+  id: string;
   name: string;
   issuer: string;
   issueDate: string;

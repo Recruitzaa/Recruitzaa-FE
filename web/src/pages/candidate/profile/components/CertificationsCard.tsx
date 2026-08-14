@@ -1,16 +1,18 @@
 import { useId, useRef } from 'react';
 import { Plus, Edit2, Award, Link as LinkIcon, Paperclip, X, Loader2 } from 'lucide-react';
 import type { CertificationItem } from '../../../../store/slices/profileSlice';
+import { toSafeHref } from '../../../../lib/sanitizeUrl';
 
 interface CertificationsCardProps {
   certifications: CertificationItem[];
-  editingCertificationIndex: number | null;
+  editingCertificationId: string | null;
   cancelCertificationEditing: () => void;
-  startEditingCertification: (index: number) => void;
+  startEditingCertification: (id: string) => void;
   certificationForm: CertificationItem;
   setCertificationForm: (form: CertificationItem) => void;
-  saveCertificationItem: (index: number) => void;
-  deleteCertificationItem: (index: number) => void;
+  certificationErrors: Record<string, string>;
+  saveCertificationItem: (id: string) => void;
+  deleteCertificationItem: (id: string) => void;
   addNewCertificationItem: () => void;
   isUploadingCertificateFile: boolean;
   handleCertificateFileUpload: (file: File) => void;
@@ -19,11 +21,12 @@ interface CertificationsCardProps {
 
 export const CertificationsCard = ({
   certifications,
-  editingCertificationIndex,
+  editingCertificationId,
   cancelCertificationEditing,
   startEditingCertification,
   certificationForm,
   setCertificationForm,
+  certificationErrors,
   saveCertificationItem,
   deleteCertificationItem,
   addNewCertificationItem,
@@ -59,25 +62,22 @@ export const CertificationsCard = ({
         <p className="text-sm text-slate-400 py-2">No certifications added yet.</p>
       ) : (
         <div className="space-y-5">
-          {certifications.map((cert, index) => {
-            const nameId = `${idPrefix}-cert-name-${index}`;
-            const issuerId = `${idPrefix}-cert-issuer-${index}`;
-            const issueDateId = `${idPrefix}-cert-date-${index}`;
-            const credentialIdId = `${idPrefix}-cert-credid-${index}`;
-            const credentialUrlId = `${idPrefix}-cert-url-${index}`;
+          {certifications.map((cert) => {
+            const nameId = `${idPrefix}-cert-name-${cert.id}`;
+            const issuerId = `${idPrefix}-cert-issuer-${cert.id}`;
+            const issueDateId = `${idPrefix}-cert-date-${cert.id}`;
+            const credentialIdId = `${idPrefix}-cert-credid-${cert.id}`;
+            const credentialUrlId = `${idPrefix}-cert-url-${cert.id}`;
 
             return (
-              <div
-                key={`${cert.name}-${index}`}
-                className="flex gap-4 items-start text-sm text-slate-700"
-              >
-                {editingCertificationIndex !== index && (
+              <div key={cert.id} className="flex gap-4 items-start text-sm text-slate-700">
+                {editingCertificationId !== cert.id && (
                   <div className="p-3 bg-slate-50 text-brand-primary rounded-lg border shadow-sm shrink-0">
                     <Award size={24} />
                   </div>
                 )}
 
-                {editingCertificationIndex !== index ? (
+                {editingCertificationId !== cert.id ? (
                   <div className="space-y-1 flex-1">
                     <div className="flex justify-between items-start">
                       <div>
@@ -96,9 +96,9 @@ export const CertificationsCard = ({
                           )}
                         </p>
                         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1.5">
-                          {cert.credentialUrl && (
+                          {toSafeHref(cert.credentialUrl) && (
                             <a
-                              href={cert.credentialUrl}
+                              href={toSafeHref(cert.credentialUrl)}
                               target="_blank"
                               rel="noreferrer"
                               className="inline-flex items-center gap-1 text-brand-primary font-bold hover:underline text-sm"
@@ -119,7 +119,7 @@ export const CertificationsCard = ({
                       </div>
                       <button
                         type="button"
-                        onClick={() => startEditingCertification(index)}
+                        onClick={() => startEditingCertification(cert.id)}
                         className="inline-flex min-w-11 min-h-11 items-center justify-center rounded-lg text-slate-400 hover:text-brand-primary hover:bg-slate-50 transition-colors"
                         aria-label={`Edit ${cert.name}`}
                       >
@@ -133,7 +133,7 @@ export const CertificationsCard = ({
                       <div className="space-y-1 sm:col-span-2">
                         <label
                           htmlFor={nameId}
-                          className="text-[9px] font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 uppercase block"
                         >
                           Certification Name
                         </label>
@@ -145,12 +145,16 @@ export const CertificationsCard = ({
                             setCertificationForm({ ...certificationForm, name: e.target.value })
                           }
                           className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                          aria-invalid={Boolean(certificationErrors.name)}
                         />
+                        {certificationErrors.name && (
+                          <p className="text-xs text-red-600">{certificationErrors.name}</p>
+                        )}
                       </div>
                       <div className="space-y-1">
                         <label
                           htmlFor={issuerId}
-                          className="text-[9px] font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 uppercase block"
                         >
                           Issuing Organization
                         </label>
@@ -162,12 +166,16 @@ export const CertificationsCard = ({
                             setCertificationForm({ ...certificationForm, issuer: e.target.value })
                           }
                           className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                          aria-invalid={Boolean(certificationErrors.issuer)}
                         />
+                        {certificationErrors.issuer && (
+                          <p className="text-xs text-red-600">{certificationErrors.issuer}</p>
+                        )}
                       </div>
                       <div className="space-y-1">
                         <label
                           htmlFor={issueDateId}
-                          className="text-[9px] font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 uppercase block"
                         >
                           Issue Date / Year
                         </label>
@@ -188,7 +196,7 @@ export const CertificationsCard = ({
                       <div className="space-y-1">
                         <label
                           htmlFor={credentialIdId}
-                          className="text-[9px] font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 uppercase block"
                         >
                           Credential ID (optional)
                         </label>
@@ -208,7 +216,7 @@ export const CertificationsCard = ({
                       <div className="space-y-1">
                         <label
                           htmlFor={credentialUrlId}
-                          className="text-[9px] font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 uppercase block"
                         >
                           Credential / Verification Link
                         </label>
@@ -224,11 +232,17 @@ export const CertificationsCard = ({
                             })
                           }
                           className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                          aria-invalid={Boolean(certificationErrors.credentialUrl)}
                         />
+                        {certificationErrors.credentialUrl && (
+                          <p className="text-xs text-red-600">
+                            {certificationErrors.credentialUrl}
+                          </p>
+                        )}
                       </div>
                       <div className="space-y-1 sm:col-span-2">
-                        <span className="text-[9px] font-bold text-slate-500 uppercase block">
-                          Certificate File (PDF, JPG, PNG — max 10 MB)
+                        <span className="text-xs font-bold text-slate-500 uppercase block">
+                          Certificate File (PDF, JPG, PNG, or WEBP — max 10 MB)
                         </span>
                         {certificationForm.fileName ? (
                           <div className="flex items-center gap-2 bg-white border border-slate-200 rounded px-2.5 py-1.5">
@@ -236,7 +250,7 @@ export const CertificationsCard = ({
                             <span className="text-sm text-slate-700 truncate flex-1">
                               {certificationForm.fileName}
                             </span>
-                            <span className="text-[9px] text-slate-400 shrink-0">
+                            <span className="text-xs text-slate-400 shrink-0">
                               {certificationForm.fileSizeLabel}
                             </span>
                             <button
@@ -257,7 +271,7 @@ export const CertificationsCard = ({
                           >
                             {isUploadingCertificateFile ? (
                               <>
-                                <Loader2 size={14} className="animate-spin" /> Uploading...
+                                <Loader2 size={14} className="animate-spin" /> Processing file...
                               </>
                             ) : (
                               <>
@@ -283,8 +297,8 @@ export const CertificationsCard = ({
                     <div className="flex gap-2 justify-end pt-2">
                       <button
                         type="button"
-                        onClick={() => deleteCertificationItem(index)}
-                        className="px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 rounded text-[11px] font-semibold hover:bg-red-100 mr-auto"
+                        onClick={() => deleteCertificationItem(cert.id)}
+                        className="px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 rounded text-xs font-semibold hover:bg-red-100 mr-auto"
                       >
                         Delete
                       </button>
@@ -297,7 +311,7 @@ export const CertificationsCard = ({
                       </button>
                       <button
                         type="button"
-                        onClick={() => saveCertificationItem(index)}
+                        onClick={() => saveCertificationItem(cert.id)}
                         className="px-3 py-1.5 bg-brand-primary text-white rounded text-sm hover:bg-brand-primary-hover font-semibold"
                       >
                         Save

@@ -3,10 +3,9 @@ import authReducer from './slices/auth.slice';
 import uiReducer, { initialState as uiInitialState } from './slices/ui.slice';
 import kanbanReducer from './slices/kanbanSlice';
 import jobsReducer from './slices/jobsSlice';
-import profileReducer from './slices/profileSlice';
+import profileReducer, { type ProfileState } from './slices/profileSlice';
 import expertReducer from './slices/expertSlice';
 import employerProfileReducer from './slices/employerProfileSlice';
-import { profileApi } from '../features/profile/services/profileApi';
 import { loadPersisted, savePersisted, removePersisted } from '../lib/persist';
 import {
   AUDIENCE_STORAGE_KEY,
@@ -17,9 +16,12 @@ import {
   JOBS_STORAGE_VERSION,
   KANBAN_STORAGE_KEY,
   KANBAN_STORAGE_VERSION,
+  PROFILE_STORAGE_KEY,
+  PROFILE_STORAGE_VERSION,
   audienceSchema,
   identityMigrate,
   kanbanStateSchema,
+  profileStateSchema,
 } from './persistedState.schemas';
 
 // ─── LocalStorage Persistence ─────────────────────────────────────
@@ -41,6 +43,16 @@ const loadAudience = () =>
     migrate: identityMigrate,
   }) ?? null;
 
+const loadProfileState = () =>
+  loadPersisted({
+    key: PROFILE_STORAGE_KEY,
+    version: PROFILE_STORAGE_VERSION,
+    schema: profileStateSchema,
+    migrate: identityMigrate,
+  });
+
+const persistedProfile = loadProfileState();
+
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -50,7 +62,6 @@ export const store = configureStore({
     jobs: jobsReducer,
     expert: expertReducer,
     employerProfile: employerProfileReducer,
-    [profileApi.reducerPath]: profileApi.reducer,
   },
   preloadedState: {
     // Cast needed: feeding a concretely-typed (Zod-inferred) value into a
@@ -59,12 +70,12 @@ export const store = configureStore({
     // own internal `Reducer`/`GetDefaultMiddleware` types). The runtime
     // value is still fully schema-validated by loadPersisted() above.
     kanban: (persistedKanban ?? undefined) as never,
+    profile: (persistedProfile ?? undefined) as never,
     ui: {
       ...uiInitialState,
       audience: loadAudience(),
     },
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(profileApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
@@ -109,6 +120,15 @@ const saveAudience = (audience: RootState['ui']['audience']) => {
   }
 };
 
+const saveProfileState = (profile: ProfileState) => {
+  try {
+    const ok = savePersisted(PROFILE_STORAGE_KEY, PROFILE_STORAGE_VERSION, profile);
+    if (!ok) throw new Error('storage write failed');
+  } catch (err) {
+    console.error('Failed to save profile:', err);
+  }
+};
+
 // Dirty-check against the previous reference for each persisted slice so a
 // dispatch anywhere in the app (a toast, an unrelated profile edit, an RTK
 // Query cache update) doesn't re-serialize and re-write every persisted key
@@ -117,6 +137,7 @@ let lastKanban = store.getState().kanban;
 let lastJobs = store.getState().jobs;
 let lastEmployerProfile = store.getState().employerProfile.profile;
 let lastAudience = store.getState().ui.audience;
+let lastProfile = store.getState().profile;
 
 store.subscribe(() => {
   const state = store.getState();
@@ -136,5 +157,9 @@ store.subscribe(() => {
   if (state.ui.audience !== lastAudience) {
     lastAudience = state.ui.audience;
     saveAudience(state.ui.audience);
+  }
+  if (state.profile !== lastProfile) {
+    lastProfile = state.profile;
+    saveProfileState(state.profile);
   }
 });

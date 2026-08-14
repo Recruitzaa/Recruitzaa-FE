@@ -1,5 +1,11 @@
-const MAX_DOCUMENT_BYTES = 10 * 1024 * 1024; // 10 MB
-const ACCEPTED_TYPES = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
+// Exported so callers (e.g. CertificationsCard's `accept` attribute and
+// helper copy) read from this single source instead of duplicating the
+// list as literals, which previously let the visible copy drift out of
+// sync with what was actually accepted (it said PDF/JPG/PNG while WEBP
+// silently worked too).
+export const MAX_DOCUMENT_BYTES = 10 * 1024 * 1024; // 10 MB
+export const ACCEPTED_DOCUMENT_TYPES = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
+const ACCEPTED_TYPES = ACCEPTED_DOCUMENT_TYPES;
 
 export class DocumentUploadError extends Error {}
 

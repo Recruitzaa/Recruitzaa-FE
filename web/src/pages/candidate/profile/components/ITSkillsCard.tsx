@@ -4,23 +4,25 @@ import type { ITSkillItem } from '../../../../store/slices/profileSlice';
 
 interface ITSkillsCardProps {
   itSkills: ITSkillItem[];
-  editingITSkillIndex: number | null;
+  editingITSkillId: string | null;
   cancelITSkillEditing: () => void;
-  startEditingITSkill: (index: number) => void;
+  startEditingITSkill: (id: string) => void;
   itSkillForm: ITSkillItem;
   setITSkillForm: (form: ITSkillItem) => void;
-  saveITSkillItem: (index: number) => void;
-  deleteITSkillItem: (index: number) => void;
+  itSkillErrors: Record<string, string>;
+  saveITSkillItem: (id: string) => void;
+  deleteITSkillItem: (id: string) => void;
   addNewITSkillItem: () => void;
 }
 
 export const ITSkillsCard = ({
   itSkills,
-  editingITSkillIndex,
+  editingITSkillId,
   cancelITSkillEditing,
   startEditingITSkill,
   itSkillForm,
   setITSkillForm,
+  itSkillErrors,
   saveITSkillItem,
   deleteITSkillItem,
   addNewITSkillItem,
@@ -55,18 +57,15 @@ export const ITSkillsCard = ({
             </tr>
           </thead>
           <tbody>
-            {itSkills.map((item, index) => {
-              const skillId = `${idPrefix}-skill-${index}`;
-              const versionId = `${idPrefix}-version-${index}`;
-              const lastUsedId = `${idPrefix}-lastUsed-${index}`;
-              const experienceId = `${idPrefix}-experience-${index}`;
+            {itSkills.map((item) => {
+              const skillId = `${idPrefix}-skill-${item.id}`;
+              const versionId = `${idPrefix}-version-${item.id}`;
+              const lastUsedId = `${idPrefix}-lastUsed-${item.id}`;
+              const experienceId = `${idPrefix}-experience-${item.id}`;
 
               return (
-                <tr
-                  key={`${item.skill}-${index}`}
-                  className="border-b border-slate-100 text-slate-700"
-                >
-                  {editingITSkillIndex !== index ? (
+                <tr key={item.id} className="border-b border-slate-100 text-slate-700">
+                  {editingITSkillId !== item.id ? (
                     <>
                       <td className="py-3 font-semibold text-slate-800">{item.skill}</td>
                       <td className="py-3">{item.version}</td>
@@ -75,7 +74,7 @@ export const ITSkillsCard = ({
                       <td className="py-3 text-right">
                         <button
                           type="button"
-                          onClick={() => startEditingITSkill(index)}
+                          onClick={() => startEditingITSkill(item.id)}
                           className="inline-flex min-w-11 min-h-11 items-center justify-center rounded-lg text-slate-450 hover:text-brand-primary hover:bg-slate-50 transition-colors"
                           aria-label={`Edit ${item.skill}`}
                         >
@@ -90,7 +89,7 @@ export const ITSkillsCard = ({
                           <div className="space-y-1">
                             <label
                               htmlFor={skillId}
-                              className="text-[9px] font-bold text-slate-500 uppercase block"
+                              className="text-xs font-bold text-slate-500 uppercase block"
                             >
                               Skill
                             </label>
@@ -102,12 +101,16 @@ export const ITSkillsCard = ({
                                 setITSkillForm({ ...itSkillForm, skill: e.target.value })
                               }
                               className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                              aria-invalid={Boolean(itSkillErrors.skill)}
                             />
+                            {itSkillErrors.skill && (
+                              <p className="text-xs text-red-600">{itSkillErrors.skill}</p>
+                            )}
                           </div>
                           <div className="space-y-1">
                             <label
                               htmlFor={versionId}
-                              className="text-[9px] font-bold text-slate-500 uppercase block"
+                              className="text-xs font-bold text-slate-500 uppercase block"
                             >
                               Version
                             </label>
@@ -124,7 +127,7 @@ export const ITSkillsCard = ({
                           <div className="space-y-1">
                             <label
                               htmlFor={lastUsedId}
-                              className="text-[9px] font-bold text-slate-500 uppercase block"
+                              className="text-xs font-bold text-slate-500 uppercase block"
                             >
                               Last Used
                             </label>
@@ -141,7 +144,7 @@ export const ITSkillsCard = ({
                           <div className="space-y-1">
                             <label
                               htmlFor={experienceId}
-                              className="text-[9px] font-bold text-slate-500 uppercase block"
+                              className="text-xs font-bold text-slate-500 uppercase block"
                             >
                               Experience
                             </label>
@@ -160,8 +163,8 @@ export const ITSkillsCard = ({
                         <div className="flex gap-2 justify-end pt-2">
                           <button
                             type="button"
-                            onClick={() => deleteITSkillItem(index)}
-                            className="px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 rounded text-[11px] font-semibold hover:bg-red-100 mr-auto"
+                            onClick={() => deleteITSkillItem(item.id)}
+                            className="px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 rounded text-xs font-semibold hover:bg-red-100 mr-auto"
                           >
                             Delete
                           </button>
@@ -174,7 +177,7 @@ export const ITSkillsCard = ({
                           </button>
                           <button
                             type="button"
-                            onClick={() => saveITSkillItem(index)}
+                            onClick={() => saveITSkillItem(item.id)}
                             className="px-3 py-1.5 bg-brand-primary text-white rounded text-sm hover:bg-brand-primary-hover font-semibold"
                           >
                             Save

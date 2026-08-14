@@ -4,23 +4,25 @@ import type { EducationDetails } from '../../../../store/slices/profileSlice';
 
 interface EducationCardProps {
   education: EducationDetails[];
-  editingEducationIndex: number | null;
+  editingEducationId: string | null;
   cancelEducationEditing: () => void;
-  startEditingEducationItem: (index: number) => void;
+  startEditingEducationItem: (id: string) => void;
   educationForm: EducationDetails;
   setEducationForm: (form: EducationDetails) => void;
-  saveEducationItem: (index: number) => void;
-  deleteEducationItem: (index: number) => void;
+  educationErrors: Record<string, string>;
+  saveEducationItem: (id: string) => void;
+  deleteEducationItem: (id: string) => void;
   addNewEducationItem: () => void;
 }
 
 export const EducationCard = ({
   education,
-  editingEducationIndex,
+  editingEducationId,
   cancelEducationEditing,
   startEditingEducationItem,
   educationForm,
   setEducationForm,
+  educationErrors,
   saveEducationItem,
   deleteEducationItem,
   addNewEducationItem,
@@ -52,30 +54,27 @@ export const EducationCard = ({
         <p className="text-sm text-slate-400 py-2">No education records added yet.</p>
       ) : (
         <div className="space-y-5">
-          {education.map((edu, index) => {
-            const levelId = `${idPrefix}-edu-level-${index}`;
-            const degreeId = `${idPrefix}-edu-degree-${index}`;
-            const universityId = `${idPrefix}-edu-university-${index}`;
-            const durationId = `${idPrefix}-edu-duration-${index}`;
-            const typeId = `${idPrefix}-edu-type-${index}`;
-            const percentageId = `${idPrefix}-edu-percentage-${index}`;
+          {education.map((edu) => {
+            const levelId = `${idPrefix}-edu-level-${edu.id}`;
+            const degreeId = `${idPrefix}-edu-degree-${edu.id}`;
+            const universityId = `${idPrefix}-edu-university-${edu.id}`;
+            const durationId = `${idPrefix}-edu-duration-${edu.id}`;
+            const typeId = `${idPrefix}-edu-type-${edu.id}`;
+            const percentageId = `${idPrefix}-edu-percentage-${edu.id}`;
 
             return (
-              <div
-                key={`${edu.degree}-${index}`}
-                className="flex gap-4 items-start text-sm text-slate-700"
-              >
-                {editingEducationIndex !== index && (
+              <div key={edu.id} className="flex gap-4 items-start text-sm text-slate-700">
+                {editingEducationId !== edu.id && (
                   <div className="p-3 bg-slate-50 text-brand-primary rounded-lg border shadow-sm shrink-0">
                     <GraduationCap size={24} />
                   </div>
                 )}
 
-                {editingEducationIndex !== index ? (
+                {editingEducationId !== edu.id ? (
                   <div className="space-y-1 flex-1">
                     <div className="flex justify-between items-start">
                       <div>
-                        <div className="text-sm font-bold text-slate-500 uppercase tracking-wider text-[9px]">
+                        <div className="text-sm font-bold text-slate-500 uppercase tracking-wider text-xs">
                           {edu.level}
                         </div>
                         <h4 className="font-bold text-slate-800">{edu.degree}</h4>
@@ -94,7 +93,7 @@ export const EducationCard = ({
                       </div>
                       <button
                         type="button"
-                        onClick={() => startEditingEducationItem(index)}
+                        onClick={() => startEditingEducationItem(edu.id)}
                         className="inline-flex min-w-11 min-h-11 items-center justify-center rounded-lg text-slate-400 hover:text-brand-primary hover:bg-slate-50 transition-colors"
                         aria-label={`Edit ${edu.level || edu.degree}`}
                       >
@@ -108,7 +107,7 @@ export const EducationCard = ({
                       <div className="space-y-1">
                         <label
                           htmlFor={levelId}
-                          className="text-[9px] font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 uppercase block"
                         >
                           Qualification Level
                         </label>
@@ -130,7 +129,7 @@ export const EducationCard = ({
                       <div className="space-y-1">
                         <label
                           htmlFor={degreeId}
-                          className="text-[9px] font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 uppercase block"
                         >
                           Degree / Course
                         </label>
@@ -142,12 +141,16 @@ export const EducationCard = ({
                             setEducationForm({ ...educationForm, degree: e.target.value })
                           }
                           className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                          aria-invalid={Boolean(educationErrors.degree)}
                         />
+                        {educationErrors.degree && (
+                          <p className="text-xs text-red-600">{educationErrors.degree}</p>
+                        )}
                       </div>
                       <div className="space-y-1 sm:col-span-2">
                         <label
                           htmlFor={universityId}
-                          className="text-[9px] font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 uppercase block"
                         >
                           University / Board / School
                         </label>
@@ -159,12 +162,16 @@ export const EducationCard = ({
                             setEducationForm({ ...educationForm, university: e.target.value })
                           }
                           className="w-full border border-slate-200 rounded px-2.5 py-1 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                          aria-invalid={Boolean(educationErrors.university)}
                         />
+                        {educationErrors.university && (
+                          <p className="text-xs text-red-600">{educationErrors.university}</p>
+                        )}
                       </div>
                       <div className="space-y-1">
                         <label
                           htmlFor={durationId}
-                          className="text-[9px] font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 uppercase block"
                         >
                           Duration (Years)
                         </label>
@@ -181,7 +188,7 @@ export const EducationCard = ({
                       <div className="space-y-1">
                         <label
                           htmlFor={percentageId}
-                          className="text-[9px] font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 uppercase block"
                         >
                           Percentage / CGPA
                         </label>
@@ -199,7 +206,7 @@ export const EducationCard = ({
                       <div className="space-y-1 sm:col-span-2">
                         <label
                           htmlFor={typeId}
-                          className="text-[9px] font-bold text-slate-500 uppercase block"
+                          className="text-xs font-bold text-slate-500 uppercase block"
                         >
                           Course Type
                         </label>
@@ -221,8 +228,8 @@ export const EducationCard = ({
                     <div className="flex gap-2 justify-end pt-2">
                       <button
                         type="button"
-                        onClick={() => deleteEducationItem(index)}
-                        className="px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 rounded text-[11px] font-semibold hover:bg-red-100 mr-auto"
+                        onClick={() => deleteEducationItem(edu.id)}
+                        className="px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 rounded text-xs font-semibold hover:bg-red-100 mr-auto"
                       >
                         Delete
                       </button>
@@ -235,7 +242,7 @@ export const EducationCard = ({
                       </button>
                       <button
                         type="button"
-                        onClick={() => saveEducationItem(index)}
+                        onClick={() => saveEducationItem(edu.id)}
                         className="px-3 py-1.5 bg-brand-primary text-white rounded text-sm hover:bg-brand-primary-hover font-semibold"
                       >
                         Save

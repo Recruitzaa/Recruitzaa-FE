@@ -35,7 +35,7 @@ export const ProfilePage = () => {
 
           <button
             type="button"
-            onClick={form.handleTriggerAIParsing}
+            onClick={form.requestAIParsing}
             disabled={form.isParsing}
             className="flex items-center gap-2 bg-brand-primary hover:bg-brand-primary-hover text-white font-bold text-sm py-2.5 px-4 rounded-lg shadow-sm border border-transparent transition-all self-stretch md:self-auto justify-center"
           >
@@ -69,6 +69,7 @@ export const ProfilePage = () => {
               setIsEditingPersonal={form.setIsEditingPersonal}
               personalForm={form.personalForm}
               setPersonalForm={form.setPersonalForm}
+              personalErrors={form.personalErrors}
               startEditingPersonal={form.startEditingPersonal}
               savePersonalDetails={form.savePersonalDetails}
               handleAvatarUpload={form.handleAvatarUpload}
@@ -79,7 +80,10 @@ export const ProfilePage = () => {
               resumeFileName={form.resumeFileName}
               resumeFileSize={form.resumeFileSize}
               isParsing={form.isParsing}
-              handleTriggerAIParsing={form.handleTriggerAIParsing}
+              isAIParsingConfirmOpen={form.isAIParsingConfirmOpen}
+              requestAIParsing={form.requestAIParsing}
+              cancelAIParsing={form.cancelAIParsing}
+              confirmAIParsing={form.confirmAIParsing}
             />
 
             {/* ─── RESUME HEADLINE & PROFESSIONAL SUMMARY ────────────────────────── */}
@@ -89,6 +93,7 @@ export const ProfilePage = () => {
               setIsEditingSummary={form.setIsEditingSummary}
               summaryForm={form.summaryForm}
               setSummaryForm={form.setSummaryForm}
+              summaryErrors={form.summaryErrors}
               startEditingSummary={form.startEditingSummary}
               saveSummary={form.saveSummary}
             />
@@ -105,13 +110,14 @@ export const ProfilePage = () => {
             {/* ─── EMPLOYMENT HISTORY TIMELINE ──────────────────────────────────── */}
             <EmploymentTimeline
               employmentHistory={form.profile.employmentHistory}
-              editingHistoryIndex={form.editingHistoryIndex}
+              editingHistoryId={form.editingHistoryId}
               cancelHistoryEditing={form.cancelHistoryEditing}
               startEditingHistory={form.startEditingHistory}
               historyForm={form.historyForm}
               setHistoryForm={form.setHistoryForm}
               historyResponsibilitiesText={form.historyResponsibilitiesText}
               setHistoryResponsibilitiesText={form.setHistoryResponsibilitiesText}
+              historyErrors={form.historyErrors}
               saveHistoryItem={form.saveHistoryItem}
               deleteHistoryItem={form.deleteHistoryItem}
               addNewHistoryItem={form.addNewHistoryItem}
@@ -120,11 +126,12 @@ export const ProfilePage = () => {
             {/* ─── IT SKILLS CARD (TABULAR LAYOUT) ───────────────────────────────── */}
             <ITSkillsCard
               itSkills={form.profile.itSkills}
-              editingITSkillIndex={form.editingITSkillIndex}
+              editingITSkillId={form.editingITSkillId}
               cancelITSkillEditing={form.cancelITSkillEditing}
               startEditingITSkill={form.startEditingITSkill}
               itSkillForm={form.itSkillForm}
               setITSkillForm={form.setITSkillForm}
+              itSkillErrors={form.itSkillErrors}
               saveITSkillItem={form.saveITSkillItem}
               deleteITSkillItem={form.deleteITSkillItem}
               addNewITSkillItem={form.addNewITSkillItem}
@@ -133,11 +140,12 @@ export const ProfilePage = () => {
             {/* ─── PROJECTS CARD ───────────────────────────────────────────────── */}
             <ProjectsCard
               projects={form.profile.projects}
-              editingProjectIndex={form.editingProjectIndex}
+              editingProjectId={form.editingProjectId}
               cancelProjectEditing={form.cancelProjectEditing}
               startEditingProject={form.startEditingProject}
               projectForm={form.projectForm}
               setProjectForm={form.setProjectForm}
+              projectErrors={form.projectErrors}
               saveProjectItem={form.saveProjectItem}
               deleteProjectItem={form.deleteProjectItem}
               addNewProjectItem={form.addNewProjectItem}
@@ -146,11 +154,12 @@ export const ProfilePage = () => {
             {/* ─── EDUCATION CARD ──────────────────────────────────────────────── */}
             <EducationCard
               education={form.profile.education}
-              editingEducationIndex={form.editingEducationIndex}
+              editingEducationId={form.editingEducationId}
               cancelEducationEditing={form.cancelEducationEditing}
               startEditingEducationItem={form.startEditingEducationItem}
               educationForm={form.educationForm}
               setEducationForm={form.setEducationForm}
+              educationErrors={form.educationErrors}
               saveEducationItem={form.saveEducationItem}
               deleteEducationItem={form.deleteEducationItem}
               addNewEducationItem={form.addNewEducationItem}
@@ -164,6 +173,7 @@ export const ProfilePage = () => {
               startEditingCareer={form.startEditingCareer}
               careerForm={form.careerForm}
               setCareerForm={form.setCareerForm}
+              careerErrors={form.careerErrors}
               saveCareerProfile={form.saveCareerProfile}
             />
 
@@ -175,6 +185,7 @@ export const ProfilePage = () => {
               startEditingExtendedPersonal={form.startEditingExtendedPersonal}
               extendedPersonalForm={form.extendedPersonalForm}
               setExtendedPersonalForm={form.setExtendedPersonalForm}
+              extendedPersonalErrors={form.extendedPersonalErrors}
               saveExtendedPersonal={form.saveExtendedPersonal}
             />
 
@@ -186,17 +197,19 @@ export const ProfilePage = () => {
               startEditingAccomplishments={form.startEditingAccomplishments}
               accomplishmentsForm={form.accomplishmentsForm}
               setAccomplishmentsForm={form.setAccomplishmentsForm}
+              accomplishmentsErrors={form.accomplishmentsErrors}
               saveAccomplishments={form.saveAccomplishments}
             />
 
             {/* ─── CERTIFICATIONS & LICENSES CARD ─────────────────────────────────── */}
             <CertificationsCard
               certifications={form.profile.certifications}
-              editingCertificationIndex={form.editingCertificationIndex}
+              editingCertificationId={form.editingCertificationId}
               cancelCertificationEditing={form.cancelCertificationEditing}
               startEditingCertification={form.startEditingCertification}
               certificationForm={form.certificationForm}
               setCertificationForm={form.setCertificationForm}
+              certificationErrors={form.certificationErrors}
               saveCertificationItem={form.saveCertificationItem}
               deleteCertificationItem={form.deleteCertificationItem}
               addNewCertificationItem={form.addNewCertificationItem}
@@ -208,11 +221,12 @@ export const ProfilePage = () => {
             {/* ─── BLOCK 11: PROFESSIONAL REFERENCES CARD ─────────────────────────── */}
             <ReferencesCard
               references={form.profile.references}
-              editingReferenceIndex={form.editingReferenceIndex}
+              editingReferenceId={form.editingReferenceId}
               cancelReferenceEditing={form.cancelReferenceEditing}
               startEditingReference={form.startEditingReference}
               referenceForm={form.referenceForm}
               setReferenceForm={form.setReferenceForm}
+              referenceErrors={form.referenceErrors}
               saveReferenceItem={form.saveReferenceItem}
               deleteReferenceItem={form.deleteReferenceItem}
               addNewReferenceItem={form.addNewReferenceItem}
