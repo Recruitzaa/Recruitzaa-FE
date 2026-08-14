@@ -30,6 +30,18 @@ export const useProfileListEdit = (profile: ProfileState) => {
   const [editingCertificationIndex, setEditingCertificationIndex] = useState<number | null>(null);
   const [isUploadingCertificateFile, setIsUploadingCertificateFile] = useState(false);
 
+  // Tracks the index of a row that was optimistically inserted by an
+  // "Add new" action but not yet confirmed with Save. Lets Cancel drop the
+  // placeholder instead of leaving fake data in the profile.
+  const [pendingNewHistoryIndex, setPendingNewHistoryIndex] = useState<number | null>(null);
+  const [pendingNewProjectIndex, setPendingNewProjectIndex] = useState<number | null>(null);
+  const [pendingNewITSkillIndex, setPendingNewITSkillIndex] = useState<number | null>(null);
+  const [pendingNewReferenceIndex, setPendingNewReferenceIndex] = useState<number | null>(null);
+  const [pendingNewEducationIndex, setPendingNewEducationIndex] = useState<number | null>(null);
+  const [pendingNewCertificationIndex, setPendingNewCertificationIndex] = useState<number | null>(
+    null
+  );
+
   const [historyForm, setHistoryForm] = useState<JobHistoryItem>({
     designation: '',
     company: '',
@@ -122,6 +134,7 @@ export const useProfileListEdit = (profile: ProfileState) => {
     };
     dispatch(updateEmploymentHistory([newItem, ...profile.employmentHistory]));
     startEditingHistory(0);
+    setPendingNewHistoryIndex(0);
   };
 
   const addNewProjectItem = () => {
@@ -133,6 +146,7 @@ export const useProfileListEdit = (profile: ProfileState) => {
     };
     dispatch(updateProjects([newItem, ...profile.projects]));
     startEditingProject(0);
+    setPendingNewProjectIndex(0);
   };
 
   const addNewITSkillItem = () => {
@@ -145,6 +159,7 @@ export const useProfileListEdit = (profile: ProfileState) => {
     const updated = [...profile.itSkills, newItem];
     dispatch(updateITSkills(updated));
     startEditingITSkill(updated.length - 1);
+    setPendingNewITSkillIndex(updated.length - 1);
   };
 
   const addNewReferenceItem = () => {
@@ -158,6 +173,7 @@ export const useProfileListEdit = (profile: ProfileState) => {
     const updated = [...profile.references, newItem];
     dispatch(updateReferences(updated));
     startEditingReference(updated.length - 1);
+    setPendingNewReferenceIndex(updated.length - 1);
   };
 
   const addNewEducationItem = () => {
@@ -172,6 +188,7 @@ export const useProfileListEdit = (profile: ProfileState) => {
     const updated = [...profile.education, newItem];
     dispatch(updateEducation(updated));
     startEditingEducationItem(updated.length - 1);
+    setPendingNewEducationIndex(updated.length - 1);
   };
 
   const addNewCertificationItem = () => {
@@ -188,6 +205,71 @@ export const useProfileListEdit = (profile: ProfileState) => {
     const updated = [...profile.certifications, newItem];
     dispatch(updateCertifications(updated));
     startEditingCertification(updated.length - 1);
+    setPendingNewCertificationIndex(updated.length - 1);
+  };
+
+  // Cancel handlers: if the row being edited was an unsaved "Add new"
+  // placeholder, drop it from the profile instead of leaving fake data
+  // behind. Otherwise just close the editor for the existing item.
+  const cancelHistoryEditing = () => {
+    if (pendingNewHistoryIndex !== null && pendingNewHistoryIndex === editingHistoryIndex) {
+      dispatch(
+        updateEmploymentHistory(
+          profile.employmentHistory.filter((_, i) => i !== pendingNewHistoryIndex)
+        )
+      );
+      setPendingNewHistoryIndex(null);
+    }
+    setEditingHistoryIndex(null);
+  };
+
+  const cancelProjectEditing = () => {
+    if (pendingNewProjectIndex !== null && pendingNewProjectIndex === editingProjectIndex) {
+      dispatch(updateProjects(profile.projects.filter((_, i) => i !== pendingNewProjectIndex)));
+      setPendingNewProjectIndex(null);
+    }
+    setEditingProjectIndex(null);
+  };
+
+  const cancelITSkillEditing = () => {
+    if (pendingNewITSkillIndex !== null && pendingNewITSkillIndex === editingITSkillIndex) {
+      dispatch(updateITSkills(profile.itSkills.filter((_, i) => i !== pendingNewITSkillIndex)));
+      setPendingNewITSkillIndex(null);
+    }
+    setEditingITSkillIndex(null);
+  };
+
+  const cancelReferenceEditing = () => {
+    if (pendingNewReferenceIndex !== null && pendingNewReferenceIndex === editingReferenceIndex) {
+      dispatch(
+        updateReferences(profile.references.filter((_, i) => i !== pendingNewReferenceIndex))
+      );
+      setPendingNewReferenceIndex(null);
+    }
+    setEditingReferenceIndex(null);
+  };
+
+  const cancelEducationEditing = () => {
+    if (pendingNewEducationIndex !== null && pendingNewEducationIndex === editingEducationIndex) {
+      dispatch(updateEducation(profile.education.filter((_, i) => i !== pendingNewEducationIndex)));
+      setPendingNewEducationIndex(null);
+    }
+    setEditingEducationIndex(null);
+  };
+
+  const cancelCertificationEditing = () => {
+    if (
+      pendingNewCertificationIndex !== null &&
+      pendingNewCertificationIndex === editingCertificationIndex
+    ) {
+      dispatch(
+        updateCertifications(
+          profile.certifications.filter((_, i) => i !== pendingNewCertificationIndex)
+        )
+      );
+      setPendingNewCertificationIndex(null);
+    }
+    setEditingCertificationIndex(null);
   };
 
   // Reads the certificate proof file (PDF/image) and stages it onto the form
@@ -227,6 +309,7 @@ export const useProfileListEdit = (profile: ProfileState) => {
     };
     dispatch(updateEmploymentHistory(updatedHistory));
     setEditingHistoryIndex(null);
+    setPendingNewHistoryIndex(null);
     toast.success('Employment record updated.');
   };
 
@@ -234,6 +317,7 @@ export const useProfileListEdit = (profile: ProfileState) => {
     const updatedHistory = profile.employmentHistory.filter((_, i) => i !== index);
     dispatch(updateEmploymentHistory(updatedHistory));
     setEditingHistoryIndex(null);
+    setPendingNewHistoryIndex(null);
     toast.info('Removed employment record.');
   };
 
@@ -242,6 +326,7 @@ export const useProfileListEdit = (profile: ProfileState) => {
     updatedProjects[index] = { ...projectForm };
     dispatch(updateProjects(updatedProjects));
     setEditingProjectIndex(null);
+    setPendingNewProjectIndex(null);
     toast.success('Project details saved.');
   };
 
@@ -249,6 +334,7 @@ export const useProfileListEdit = (profile: ProfileState) => {
     const updatedProjects = profile.projects.filter((_, i) => i !== index);
     dispatch(updateProjects(updatedProjects));
     setEditingProjectIndex(null);
+    setPendingNewProjectIndex(null);
     toast.info('Project record deleted.');
   };
 
@@ -257,6 +343,7 @@ export const useProfileListEdit = (profile: ProfileState) => {
     updatedITSkills[index] = { ...itSkillForm };
     dispatch(updateITSkills(updatedITSkills));
     setEditingITSkillIndex(null);
+    setPendingNewITSkillIndex(null);
     toast.success('IT Skill updated.');
   };
 
@@ -264,6 +351,7 @@ export const useProfileListEdit = (profile: ProfileState) => {
     const updatedITSkills = profile.itSkills.filter((_, i) => i !== index);
     dispatch(updateITSkills(updatedITSkills));
     setEditingITSkillIndex(null);
+    setPendingNewITSkillIndex(null);
     toast.info('IT Skill removed.');
   };
 
@@ -272,6 +360,7 @@ export const useProfileListEdit = (profile: ProfileState) => {
     updatedReferences[index] = { ...referenceForm };
     dispatch(updateReferences(updatedReferences));
     setEditingReferenceIndex(null);
+    setPendingNewReferenceIndex(null);
     toast.success('Reference saved.');
   };
 
@@ -279,6 +368,7 @@ export const useProfileListEdit = (profile: ProfileState) => {
     const updatedReferences = profile.references.filter((_, i) => i !== index);
     dispatch(updateReferences(updatedReferences));
     setEditingReferenceIndex(null);
+    setPendingNewReferenceIndex(null);
     toast.info('Reference removed.');
   };
 
@@ -287,6 +377,7 @@ export const useProfileListEdit = (profile: ProfileState) => {
     updatedEducation[index] = { ...educationForm };
     dispatch(updateEducation(updatedEducation));
     setEditingEducationIndex(null);
+    setPendingNewEducationIndex(null);
     toast.success('Education record saved.');
   };
 
@@ -294,6 +385,7 @@ export const useProfileListEdit = (profile: ProfileState) => {
     const updatedEducation = profile.education.filter((_, i) => i !== index);
     dispatch(updateEducation(updatedEducation));
     setEditingEducationIndex(null);
+    setPendingNewEducationIndex(null);
     toast.info('Education record removed.');
   };
 
@@ -302,6 +394,7 @@ export const useProfileListEdit = (profile: ProfileState) => {
     updatedCertifications[index] = { ...certificationForm };
     dispatch(updateCertifications(updatedCertifications));
     setEditingCertificationIndex(null);
+    setPendingNewCertificationIndex(null);
     toast.success('Certification saved.');
   };
 
@@ -309,6 +402,7 @@ export const useProfileListEdit = (profile: ProfileState) => {
     const updatedCertifications = profile.certifications.filter((_, i) => i !== index);
     dispatch(updateCertifications(updatedCertifications));
     setEditingCertificationIndex(null);
+    setPendingNewCertificationIndex(null);
     toast.info('Certification removed.');
   };
 
@@ -352,6 +446,12 @@ export const useProfileListEdit = (profile: ProfileState) => {
     addNewReferenceItem,
     addNewEducationItem,
     addNewCertificationItem,
+    cancelHistoryEditing,
+    cancelProjectEditing,
+    cancelITSkillEditing,
+    cancelReferenceEditing,
+    cancelEducationEditing,
+    cancelCertificationEditing,
     saveHistoryItem,
     deleteHistoryItem,
     saveProjectItem,

@@ -5,7 +5,7 @@ import type { ReferenceItem } from '../../../../store/slices/profileSlice';
 interface ReferencesCardProps {
   references: ReferenceItem[];
   editingReferenceIndex: number | null;
-  setEditingReferenceIndex: (index: number | null) => void;
+  cancelReferenceEditing: () => void;
   startEditingReference: (index: number) => void;
   referenceForm: ReferenceItem;
   setReferenceForm: (form: ReferenceItem) => void;
@@ -17,7 +17,7 @@ interface ReferencesCardProps {
 export const ReferencesCard = ({
   references,
   editingReferenceIndex,
-  setEditingReferenceIndex,
+  cancelReferenceEditing,
   startEditingReference,
   referenceForm,
   setReferenceForm,
@@ -191,7 +191,7 @@ export const ReferencesCard = ({
                       </button>
                       <button
                         type="button"
-                        onClick={() => setEditingReferenceIndex(null)}
+                        onClick={cancelReferenceEditing}
                         className="px-3 py-1.5 border rounded text-sm hover:bg-slate-100 font-semibold"
                       >
                         Cancel

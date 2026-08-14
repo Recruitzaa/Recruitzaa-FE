@@ -5,7 +5,7 @@ import type { CertificationItem } from '../../../../store/slices/profileSlice';
 interface CertificationsCardProps {
   certifications: CertificationItem[];
   editingCertificationIndex: number | null;
-  setEditingCertificationIndex: (index: number | null) => void;
+  cancelCertificationEditing: () => void;
   startEditingCertification: (index: number) => void;
   certificationForm: CertificationItem;
   setCertificationForm: (form: CertificationItem) => void;
@@ -20,7 +20,7 @@ interface CertificationsCardProps {
 export const CertificationsCard = ({
   certifications,
   editingCertificationIndex,
-  setEditingCertificationIndex,
+  cancelCertificationEditing,
   startEditingCertification,
   certificationForm,
   setCertificationForm,
@@ -290,7 +290,7 @@ export const CertificationsCard = ({
                       </button>
                       <button
                         type="button"
-                        onClick={() => setEditingCertificationIndex(null)}
+                        onClick={cancelCertificationEditing}
                         className="px-3 py-1.5 border rounded text-sm hover:bg-slate-100 font-semibold"
                       >
                         Cancel

@@ -106,7 +106,7 @@ export const ProfilePage = () => {
             <EmploymentTimeline
               employmentHistory={form.profile.employmentHistory}
               editingHistoryIndex={form.editingHistoryIndex}
-              setEditingHistoryIndex={form.setEditingHistoryIndex}
+              cancelHistoryEditing={form.cancelHistoryEditing}
               startEditingHistory={form.startEditingHistory}
               historyForm={form.historyForm}
               setHistoryForm={form.setHistoryForm}
@@ -121,7 +121,7 @@ export const ProfilePage = () => {
             <ITSkillsCard
               itSkills={form.profile.itSkills}
               editingITSkillIndex={form.editingITSkillIndex}
-              setEditingITSkillIndex={form.setEditingITSkillIndex}
+              cancelITSkillEditing={form.cancelITSkillEditing}
               startEditingITSkill={form.startEditingITSkill}
               itSkillForm={form.itSkillForm}
               setITSkillForm={form.setITSkillForm}
@@ -134,7 +134,7 @@ export const ProfilePage = () => {
             <ProjectsCard
               projects={form.profile.projects}
               editingProjectIndex={form.editingProjectIndex}
-              setEditingProjectIndex={form.setEditingProjectIndex}
+              cancelProjectEditing={form.cancelProjectEditing}
               startEditingProject={form.startEditingProject}
               projectForm={form.projectForm}
               setProjectForm={form.setProjectForm}
@@ -147,7 +147,7 @@ export const ProfilePage = () => {
             <EducationCard
               education={form.profile.education}
               editingEducationIndex={form.editingEducationIndex}
-              setEditingEducationIndex={form.setEditingEducationIndex}
+              cancelEducationEditing={form.cancelEducationEditing}
               startEditingEducationItem={form.startEditingEducationItem}
               educationForm={form.educationForm}
               setEducationForm={form.setEducationForm}
@@ -193,7 +193,7 @@ export const ProfilePage = () => {
             <CertificationsCard
               certifications={form.profile.certifications}
               editingCertificationIndex={form.editingCertificationIndex}
-              setEditingCertificationIndex={form.setEditingCertificationIndex}
+              cancelCertificationEditing={form.cancelCertificationEditing}
               startEditingCertification={form.startEditingCertification}
               certificationForm={form.certificationForm}
               setCertificationForm={form.setCertificationForm}
@@ -209,7 +209,7 @@ export const ProfilePage = () => {
             <ReferencesCard
               references={form.profile.references}
               editingReferenceIndex={form.editingReferenceIndex}
-              setEditingReferenceIndex={form.setEditingReferenceIndex}
+              cancelReferenceEditing={form.cancelReferenceEditing}
               startEditingReference={form.startEditingReference}
               referenceForm={form.referenceForm}
               setReferenceForm={form.setReferenceForm}

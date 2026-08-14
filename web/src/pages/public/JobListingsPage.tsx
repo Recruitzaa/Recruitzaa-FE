@@ -286,12 +286,10 @@ export const JobListingsPage = () => {
                   </select>
                 </label>
               </div>
-              {import.meta.env.DEV && (
-                <p className={styles.dataNotice}>
-                  Listings shown here are demo catalogue data until the production jobs API is
-                  connected.
-                </p>
-              )}
+              <p className={styles.dataNotice}>
+                Listings shown here are demo catalogue data until the production jobs API is
+                connected.
+              </p>
               {filteredJobs.length > 0 ? (
                 <>
                   <ul className={styles.list}>

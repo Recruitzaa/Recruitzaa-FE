@@ -5,7 +5,7 @@ import type { ProjectItem } from '../../../../store/slices/profileSlice';
 interface ProjectsCardProps {
   projects: ProjectItem[];
   editingProjectIndex: number | null;
-  setEditingProjectIndex: (index: number | null) => void;
+  cancelProjectEditing: () => void;
   startEditingProject: (index: number) => void;
   projectForm: ProjectItem;
   setProjectForm: (form: ProjectItem) => void;
@@ -17,7 +17,7 @@ interface ProjectsCardProps {
 export const ProjectsCard = ({
   projects,
   editingProjectIndex,
-  setEditingProjectIndex,
+  cancelProjectEditing,
   startEditingProject,
   projectForm,
   setProjectForm,
@@ -156,7 +156,7 @@ export const ProjectsCard = ({
                     </button>
                     <button
                       type="button"
-                      onClick={() => setEditingProjectIndex(null)}
+                      onClick={cancelProjectEditing}
                       className="px-3 py-1.5 border rounded text-sm hover:bg-slate-100 font-semibold"
                     >
                       Cancel

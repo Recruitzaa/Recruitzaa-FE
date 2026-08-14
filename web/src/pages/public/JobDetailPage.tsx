@@ -139,9 +139,7 @@ export const JobDetailPage = () => {
         <Breadcrumbs currentLabel={job.title} />
         <header className={styles.header}>
           <div className={styles.container}>
-            <p className={styles.eyebrow}>
-              {import.meta.env.DEV ? 'Demo catalogue listing' : 'Job listing'}
-            </p>
+            <p className={styles.eyebrow}>Demo catalogue listing</p>
             <h1>{job.title}</h1>
             <p>
               {job.company} · {displayLocation} · {job.type} · Posted {job.postedAt}
@@ -152,20 +150,14 @@ export const JobDetailPage = () => {
                   Sign in to apply
                 </Link>
               ) : isCandidate ? (
-                import.meta.env.DEV ? (
-                  <button
-                    type="button"
-                    className={styles.headerApply}
-                    disabled
-                    title="Applications require the production application service."
-                  >
-                    Applications unavailable in demo
-                  </button>
-                ) : (
-                  <button type="button" className={styles.headerApply} disabled>
-                    Apply
-                  </button>
-                )
+                <button
+                  type="button"
+                  className={styles.headerApply}
+                  disabled
+                  title="Applications are unavailable until the production application service is connected."
+                >
+                  Applications unavailable
+                </button>
               ) : (
                 <Link className={styles.headerApply} to="/launchpad">
                   Switch workspace to apply
@@ -329,15 +321,15 @@ export const JobDetailPage = () => {
                         variant="primary"
                         className="w-full py-3 px-4 text-sm font-bold"
                         disabled
+                        title="Applications are unavailable until the production application service is connected."
+                        aria-describedby="apply-unavailable-note"
                       >
-                        {import.meta.env.DEV ? 'Applications unavailable in demo' : 'Apply'}
+                        Applications unavailable
                       </Button>
-                      {import.meta.env.DEV && (
-                        <p className={styles.serviceNotice}>
-                          No application has been submitted. Connect the production application API
-                          to enable this action.
-                        </p>
-                      )}
+                      <p id="apply-unavailable-note" className={styles.serviceNotice}>
+                        No application has been submitted. Connect the production application API to
+                        enable this action.
+                      </p>
                     </>
                   )}
                 </div>

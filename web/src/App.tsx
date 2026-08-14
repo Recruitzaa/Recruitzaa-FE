@@ -11,17 +11,15 @@ import { Spinner } from './components/ui/Spinner/Spinner';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { AppRoutes } from './routes/AppRoutes';
 
-// Loading Fallback Component — keep an h1 so axe page-has-heading-one
-// does not fire while lazy route chunks are still resolving.
 const LoadingSpinner = () => (
   <main
     className="flex h-screen w-screen flex-col items-center justify-center bg-slate-50 dark:bg-slate-950"
     aria-label="Loading Recruitzaa"
     tabIndex={-1}
   >
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center gap-4" role="status" aria-live="polite">
       <Spinner className="w-12 h-12 text-[#c14f16] border-4 border-[#c14f16] border-t-transparent rounded-full animate-spin" />
-      <h1 className="text-sm font-semibold text-slate-500">Loading Recruitzaa...</h1>
+      <p className="text-sm font-semibold text-slate-500">Loading Recruitzaa…</p>
     </div>
   </main>
 );

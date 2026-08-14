@@ -13,7 +13,9 @@ export const NotFoundPage = () => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const query = String(formData.get('q') ?? '').trim();
-    navigate(query ? `${ROUTES.PUBLIC.JOBS}?q=${encodeURIComponent(query)}` : ROUTES.PUBLIC.JOBS);
+    navigate(
+      query ? `${ROUTES.PUBLIC.JOBS}?keyword=${encodeURIComponent(query)}` : ROUTES.PUBLIC.JOBS
+    );
   };
 
   return (

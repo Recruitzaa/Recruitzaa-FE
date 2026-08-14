@@ -5,7 +5,7 @@ import type { ITSkillItem } from '../../../../store/slices/profileSlice';
 interface ITSkillsCardProps {
   itSkills: ITSkillItem[];
   editingITSkillIndex: number | null;
-  setEditingITSkillIndex: (index: number | null) => void;
+  cancelITSkillEditing: () => void;
   startEditingITSkill: (index: number) => void;
   itSkillForm: ITSkillItem;
   setITSkillForm: (form: ITSkillItem) => void;
@@ -17,7 +17,7 @@ interface ITSkillsCardProps {
 export const ITSkillsCard = ({
   itSkills,
   editingITSkillIndex,
-  setEditingITSkillIndex,
+  cancelITSkillEditing,
   startEditingITSkill,
   itSkillForm,
   setITSkillForm,
@@ -167,7 +167,7 @@ export const ITSkillsCard = ({
                           </button>
                           <button
                             type="button"
-                            onClick={() => setEditingITSkillIndex(null)}
+                            onClick={cancelITSkillEditing}
                             className="px-3 py-1.5 border rounded text-sm hover:bg-slate-100 font-semibold"
                           >
                             Cancel

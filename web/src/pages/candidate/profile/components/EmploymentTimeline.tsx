@@ -11,7 +11,7 @@ export interface JobHistoryItem {
 interface EmploymentTimelineProps {
   employmentHistory: JobHistoryItem[];
   editingHistoryIndex: number | null;
-  setEditingHistoryIndex: (index: number | null) => void;
+  cancelHistoryEditing: () => void;
   startEditingHistory: (index: number) => void;
   historyForm: JobHistoryItem;
   setHistoryForm: React.Dispatch<React.SetStateAction<JobHistoryItem>>;
@@ -25,7 +25,7 @@ interface EmploymentTimelineProps {
 export const EmploymentTimeline = ({
   employmentHistory,
   editingHistoryIndex,
-  setEditingHistoryIndex,
+  cancelHistoryEditing,
   startEditingHistory,
   historyForm,
   setHistoryForm,
@@ -149,7 +149,7 @@ export const EmploymentTimeline = ({
                     </button>
                     <button
                       type="button"
-                      onClick={() => setEditingHistoryIndex(null)}
+                      onClick={cancelHistoryEditing}
                       className="px-3 py-1.5 border rounded text-sm hover:bg-slate-100 font-semibold"
                     >
                       Cancel

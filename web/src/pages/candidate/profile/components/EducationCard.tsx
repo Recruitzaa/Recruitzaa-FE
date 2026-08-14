@@ -5,7 +5,7 @@ import type { EducationDetails } from '../../../../store/slices/profileSlice';
 interface EducationCardProps {
   education: EducationDetails[];
   editingEducationIndex: number | null;
-  setEditingEducationIndex: (index: number | null) => void;
+  cancelEducationEditing: () => void;
   startEditingEducationItem: (index: number) => void;
   educationForm: EducationDetails;
   setEducationForm: (form: EducationDetails) => void;
@@ -17,7 +17,7 @@ interface EducationCardProps {
 export const EducationCard = ({
   education,
   editingEducationIndex,
-  setEditingEducationIndex,
+  cancelEducationEditing,
   startEditingEducationItem,
   educationForm,
   setEducationForm,
@@ -228,7 +228,7 @@ export const EducationCard = ({
                       </button>
                       <button
                         type="button"
-                        onClick={() => setEditingEducationIndex(null)}
+                        onClick={cancelEducationEditing}
                         className="px-3 py-1.5 border rounded text-sm hover:bg-slate-100 font-semibold"
                       >
                         Cancel
