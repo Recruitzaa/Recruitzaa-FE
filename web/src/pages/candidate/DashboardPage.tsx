@@ -43,7 +43,7 @@ export const DashboardPage = () => {
         profile.professionalSummary.headline,
         profile.skills.length,
         profile.employmentHistory.length,
-        profile.education.degree,
+        profile.education.length,
         profile.projects.length,
       ]
     : [appUser?.email, false, false, false, false, false];
@@ -53,10 +53,18 @@ export const DashboardPage = () => {
 
   return (
     <div className={styles.dashboard}>
-      <p className={styles.demoNotice} role="status">
-        Demo workspace: application stages are illustrative browser data until the employer workflow
-        is connected.
-      </p>
+      <header className={styles.pageHeader}>
+        <h1 className={styles.pageTitle}>Overview</h1>
+        <p className={styles.pageSubtitle}>
+          Track applications, saved jobs, and profile readiness.
+        </p>
+      </header>
+      {import.meta.env.DEV && (
+        <p className={styles.demoNotice} role="status">
+          Demo workspace: application stages are illustrative browser data until the employer
+          workflow is connected.
+        </p>
+      )}
       {/* KPI Cards */}
       <div className={styles.kpiGrid}>
         <Card className={styles.kpiCard}>

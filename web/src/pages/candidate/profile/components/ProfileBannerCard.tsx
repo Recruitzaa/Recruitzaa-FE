@@ -1,7 +1,8 @@
-import React from 'react';
-import { MapPin, Briefcase, Phone, Mail, Edit2 } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { MapPin, Briefcase, Phone, Mail, Edit2, Camera } from 'lucide-react';
 import type { ProfileState } from '../../../../store/slices/profileSlice';
 import { PersonalDetailsEditForm } from './PersonalDetailsEditForm';
+import { PhotoUploadModal } from '../../../../components/ui/PhotoUploadModal';
 
 interface PersonalFormState {
   firstName: string;
@@ -25,6 +26,7 @@ interface ProfileBannerCardProps {
   setPersonalForm: React.Dispatch<React.SetStateAction<PersonalFormState>>;
   startEditingPersonal: () => void;
   savePersonalDetails: () => void;
+  handleAvatarUpload: (dataUrl: string) => void;
 }
 
 export const ProfileBannerCard = ({
@@ -35,21 +37,54 @@ export const ProfileBannerCard = ({
   setPersonalForm,
   startEditingPersonal,
   savePersonalDetails,
+  handleAvatarUpload,
 }: ProfileBannerCardProps) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPendingFile(file);
+      setIsPhotoModalOpen(true);
+    }
+    e.target.value = '';
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 space-y-6">
       <div className="flex flex-col md:flex-row items-center md:items-start gap-6 relative">
-        <img
-          src={profile.personalInfo.avatar}
-          alt={`${profile.personalInfo.firstName} ${profile.personalInfo.lastName}`}
-          width="96"
-          height="96"
-          className="w-24 h-24 rounded-full object-cover border-4 border-slate-100 shadow-inner shrink-0"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src =
-              'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256';
-          }}
-        />
+        <div className="relative w-24 h-24 shrink-0 group">
+          <img
+            src={profile.personalInfo.avatar}
+            alt={`${profile.personalInfo.firstName} ${profile.personalInfo.lastName}`}
+            width="96"
+            height="96"
+            className="w-24 h-24 rounded-full object-cover border-4 border-slate-100 shadow-inner"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src =
+                'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256';
+            }}
+          />
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/png,image/jpeg,image/webp,image/gif"
+            onChange={handleFileChange}
+            className="sr-only"
+            aria-hidden="true"
+            tabIndex={-1}
+          />
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            aria-label="Upload profile photo"
+            className="absolute inset-0 flex items-center justify-center rounded-full bg-black/0 group-hover:bg-black/40 text-transparent group-hover:text-white transition-colors focus-visible:bg-black/40 focus-visible:text-white outline-none"
+          >
+            <Camera size={22} />
+          </button>
+        </div>
 
         <div className="flex-1 text-center md:text-left space-y-3">
           <div>
@@ -132,6 +167,33 @@ export const ProfileBannerCard = ({
           savePersonalDetails={savePersonalDetails}
         />
       )}
+
+      <PhotoUploadModal
+        isOpen={isPhotoModalOpen}
+        onClose={() => {
+          setIsPhotoModalOpen(false);
+          setPendingFile(null);
+        }}
+        onSave={(dataUrl) => {
+          handleAvatarUpload(dataUrl);
+          setPendingFile(null);
+        }}
+        onRemove={() => {
+          handleAvatarUpload('');
+          setIsPhotoModalOpen(false);
+          setPendingFile(null);
+        }}
+        currentImage={profile.personalInfo.avatar}
+        initialFile={pendingFile}
+        shape="circle"
+        title="Update profile photo"
+        description="Drag to reposition and zoom to frame your photo, then save."
+        previewContexts={[
+          { label: 'Profile header', size: 72 },
+          { label: 'Application card', size: 40 },
+          { label: 'Navigation', size: 28 },
+        ]}
+      />
     </div>
   );
 };

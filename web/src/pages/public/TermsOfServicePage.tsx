@@ -1,13 +1,14 @@
 import { PageTransition } from '../../components/layout/PageTransition';
 import { SEO } from '../../components/seo/SEO';
 import { Link } from 'react-router-dom';
+import { BRAND } from '../../config/content';
 
 export const TermsOfServicePage = () => {
   return (
     <PageTransition>
       <SEO
-        title="Terms of Service | recruitZaa Enterprise"
-        description="Read the recruitZaa platform Terms of Service regulating candidate workspace applications and employer job postings."
+        title={`Terms of Service | ${BRAND.name}`}
+        description={`Read the ${BRAND.name} platform Terms of Service regulating candidate workspace applications and employer job postings.`}
       />
       <div className="min-h-screen bg-slate-50 dark:bg-slate-900 py-8 sm:py-12 px-4 sm:px-6">
         <div className="max-w-3xl mx-auto bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 p-5 sm:p-8 rounded-xl shadow-sm">

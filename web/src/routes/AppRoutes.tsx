@@ -4,6 +4,7 @@ import { PortalLayout } from '../components/layout/PortalLayout/PortalLayout';
 import { AdminLayout } from '../components/layout/AdminLayout/AdminLayoutV2';
 import { DashboardLayout } from '../components/layout/DashboardLayout';
 import { RoleGuard } from '../components/auth/RoleGuard';
+import { AuthRedirect } from './AuthRedirect';
 
 import * as Pages from './lazyPages';
 
@@ -21,7 +22,9 @@ export const AppRoutes = () => {
       </Route>
 
       {/* ── AUTH ── */}
-      <Route path="/auth" element={<Pages.AuthPage />} />
+      <Route path="/login" element={<Pages.AuthPage />} />
+      <Route path="/register" element={<Pages.AuthPage />} />
+      <Route path="/auth" element={<AuthRedirect />} />
 
       {/* ── ENTERPRISE LAUNCHPAD ── */}
       <Route

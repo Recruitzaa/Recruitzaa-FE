@@ -1,6 +1,7 @@
 import React from 'react';
 import { PageTransition } from '../../../components/layout/PageTransition';
 import { SEO } from '../../../components/seo/SEO';
+import { BRAND } from '../../../config/content';
 import { ShieldAlert, Server, Users, Activity } from 'lucide-react';
 
 export const SuperAdminDashboardPage: React.FC = () => {
@@ -8,7 +9,7 @@ export const SuperAdminDashboardPage: React.FC = () => {
     <>
       <PageTransition>
         <SEO
-          title="Super Admin Workspace | recruitZaa Core"
+          title={`Super Admin Workspace | ${BRAND.name} Core`}
           description="Manage site-wide systems, moderate content, and allocate user workspace roles."
         />
         <div className="max-w-7xl mx-auto px-4 py-8 space-y-8 w-full">

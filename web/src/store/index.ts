@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slices/auth.slice';
-import uiReducer from './slices/ui.slice';
+import uiReducer, { type Audience } from './slices/ui.slice';
 import kanbanReducer from './slices/kanbanSlice';
 import jobsReducer from './slices/jobsSlice';
 import profileReducer from './slices/profileSlice';
@@ -21,6 +21,12 @@ const loadKanbanState = () => {
 
 const persistedKanban = loadKanbanState();
 
+const AUDIENCE_STORAGE_KEY = 'recruitzaa-audience-v1';
+const loadAudience = (): Audience => {
+  const stored = localStorage.getItem(AUDIENCE_STORAGE_KEY);
+  return stored === 'job_seeker' || stored === 'employer' ? stored : null;
+};
+
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -32,7 +38,16 @@ export const store = configureStore({
     employerProfile: employerProfileReducer,
     [profileApi.reducerPath]: profileApi.reducer,
   },
-  preloadedState: persistedKanban ? { kanban: persistedKanban } : undefined,
+  preloadedState: {
+    ...(persistedKanban ? { kanban: persistedKanban } : {}),
+    ui: {
+      toasts: [],
+      activeModal: null,
+      isSidebarCollapsed: false,
+      isMobileDrawerOpen: false,
+      audience: loadAudience(),
+    },
+  },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(profileApi.middleware),
 });
 
@@ -57,8 +72,6 @@ const saveJobsState = (jobsState: RootState['jobs']) => {
   }
 };
 
-
-
 const saveEmployerProfileState = (state: RootState) => {
   try {
     localStorage.setItem('employer_profile_state', JSON.stringify(state.employerProfile.profile));
@@ -67,8 +80,17 @@ const saveEmployerProfileState = (state: RootState) => {
   }
 };
 
+const saveAudience = (audience: RootState['ui']['audience']) => {
+  if (audience) {
+    localStorage.setItem(AUDIENCE_STORAGE_KEY, audience);
+  } else {
+    localStorage.removeItem(AUDIENCE_STORAGE_KEY);
+  }
+};
+
 store.subscribe(() => {
   saveKanbanState(store.getState().kanban);
   saveJobsState(store.getState().jobs);
   saveEmployerProfileState(store.getState());
+  saveAudience(store.getState().ui.audience);
 });

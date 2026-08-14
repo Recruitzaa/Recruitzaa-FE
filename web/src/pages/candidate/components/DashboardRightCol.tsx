@@ -14,7 +14,7 @@ export const DashboardRightCol = () => {
     profile.professionalSummary.headline,
     profile.skills.length,
     profile.employmentHistory.length,
-    profile.education.degree,
+    profile.education.length,
     profile.projects.length,
   ];
   const completeness = Math.round((sections.filter(Boolean).length / sections.length) * 100);

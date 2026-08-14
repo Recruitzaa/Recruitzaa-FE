@@ -7,8 +7,10 @@ interface PageTransitionProps {
 }
 
 const pageVariants: Variants = {
+  // Avoid opacity: 0 — axe treats opacity-0 ancestors as hiding headings
+  // (page-has-heading-one false positive during enter animations).
   initial: {
-    opacity: 0,
+    opacity: 1,
     y: 8,
   },
   animate: {
@@ -20,7 +22,7 @@ const pageVariants: Variants = {
     },
   },
   exit: {
-    opacity: 0,
+    opacity: 1,
     y: -8,
     transition: {
       duration: 0.25,

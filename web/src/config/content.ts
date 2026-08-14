@@ -1,3 +1,10 @@
+export const BRAND = {
+  name: 'Recruitzaa',
+  legalName: 'Recruitzaa Technologies Pvt. Ltd.',
+  supportEmail: 'support@recruitzaa.com',
+  privacyEmail: 'privacy@recruitzaa.com',
+} as const;
+
 export const SITE_CONTENT = {
   contact: {
     phone: '+91 8431185984',
@@ -130,7 +137,7 @@ export const SITE_CONTENT = {
     hero: {
       title: 'A structured workspace for hiring teams',
       subtitle:
-        'Recruitzaa helps enterprise teams hire faster with structured sourcing, verified talent, and a review-first workflow that keeps quality high.',
+        'Recruitzaa helps enterprise teams hire with structured sourcing, verified talent, and a review-first workflow that keeps quality high.',
       cta: 'Start Hiring',
     },
     stats: [

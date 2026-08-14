@@ -7,6 +7,13 @@ export const ROUTES = {
   },
   AUTH: {
     LOGIN: '/login',
+    REGISTER: '/register',
+    REGISTER_CANDIDATE: '/register?intent=candidate',
+    REGISTER_EMPLOYER: '/register?intent=employer',
+    LEGACY: '/auth',
+    loginWithNext: (next: string) => `/login?next=${encodeURIComponent(next)}`,
+    loginWithIntent: (intent: 'candidate' | 'employer') => `/login?intent=${intent}`,
+    registerWithIntent: (intent: 'candidate' | 'employer') => `/register?intent=${intent}`,
   },
   CANDIDATE: {
     DASHBOARD: '/candidate/dashboard',

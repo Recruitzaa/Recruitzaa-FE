@@ -12,12 +12,14 @@ Global state slice to manage the candidate profile data structures for in-place 
   - `addSkill(string)`
   - `removeSkill(string)`
   - `updateEmploymentHistory(JobHistoryItem[])`
-  - `updateEducation(EducationDetails)`
+  - `updateEducation(EducationDetails[])` — list of qualifications (10th/12th/Graduation/PG etc.)
   - `updateProjects(ProjectItem[])`
   - `updateITSkills(ITSkillItem[])`
   - `updateCareerProfile(CareerProfile)`
   - `updateExtendedPersonal(ExtendedPersonalInfo)`
   - `updateAccomplishments(Accomplishments)`
+  - `updateReferences(ReferenceItem[])`
+  - `updateCertifications(CertificationItem[])` — each item can hold a credential link and an uploaded proof file (data URL)
 
 ## Mini-Payload Example
 

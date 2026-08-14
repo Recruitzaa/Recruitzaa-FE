@@ -6,11 +6,18 @@ export interface Toast {
   type: 'success' | 'error' | 'warning' | 'info';
 }
 
+export type Audience = 'job_seeker' | 'employer' | null;
+
 interface UIState {
   toasts: Toast[];
   activeModal: string | null;
   isSidebarCollapsed: boolean;
   isMobileDrawerOpen: boolean;
+  // Which side of the two-sided marketplace a guest has self-identified as
+  // via the UtilityBar toggle. `null` until they choose, so first-time
+  // visitors (including employers landing on the candidate homepage) still
+  // see both audiences represented in the nav and homepage.
+  audience: Audience;
 }
 
 const initialState: UIState = {
@@ -18,6 +25,7 @@ const initialState: UIState = {
   activeModal: null,
   isSidebarCollapsed: false,
   isMobileDrawerOpen: false,
+  audience: null,
 };
 
 const uiSlice = createSlice({
@@ -45,6 +53,9 @@ const uiSlice = createSlice({
     setMobileDrawer(state, action: PayloadAction<boolean>) {
       state.isMobileDrawerOpen = action.payload;
     },
+    setAudience(state, action: PayloadAction<Audience>) {
+      state.audience = action.payload;
+    },
   },
 });
 
@@ -55,6 +66,7 @@ export const {
   closeModal,
   toggleSidebar,
   setMobileDrawer,
+  setAudience,
 } = uiSlice.actions;
 
 export default uiSlice.reducer;

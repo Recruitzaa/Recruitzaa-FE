@@ -7,6 +7,22 @@
     <meta name="theme-color" content="#c14f16" />
     <meta name="description" content="Recruitzaa helps candidates discover roles and employers manage job listings." />
     <title>Recruitzaa — Find work with clarity</title>
+    <script>
+      // Apply the persisted theme before first paint so dark-mode token
+      // overrides are active immediately. Without this, the .dark class only
+      // appears once the lazy-loaded Navbar mounts (~seconds), leaving the
+      // page in a mismatched state (dark backgrounds, light text) that fails
+      // axe color-contrast audits and flashes incorrectly for users.
+      (function () {
+        try {
+          if (localStorage.getItem('recruitzaa-theme-v2') === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.documentElement.dataset.theme = 'dark';
+            document.documentElement.style.colorScheme = 'dark';
+          }
+        } catch (e) { /* localStorage unavailable */ }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -1,0 +1,97 @@
+.page {
+  background: var(--color-white);
+  padding: 3rem 1.5rem 4rem;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 40rem;
+  text-align: center;
+}
+
+.eyebrow {
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin: 0 0 0.75rem;
+  text-transform: uppercase;
+}
+
+.container h1 {
+  color: var(--color-dark);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  margin: 0 0 0.75rem;
+}
+
+.lead {
+  color: var(--color-slate);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0 auto 1.75rem;
+  max-width: 32rem;
+}
+
+.search {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0 auto 1.75rem;
+  max-width: 28rem;
+}
+
+.search input {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  color: var(--color-dark);
+  font: inherit;
+  min-height: 2.75rem;
+  padding: 0 0.85rem;
+}
+
+.search button {
+  background: var(--color-primary);
+  border: none;
+  border-radius: var(--radius);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.primaryLink,
+.secondaryLink {
+  align-items: center;
+  border-radius: var(--radius);
+  display: inline-flex;
+  font-size: 0.875rem;
+  font-weight: 600;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  text-decoration: none;
+}
+
+.primaryLink {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.secondaryLink {
+  border: 1px solid var(--color-border);
+  color: var(--color-dark);
+}
+
+@media (min-width: 640px) {
+  .search {
+    grid-template-columns: 1fr auto;
+  }
+}

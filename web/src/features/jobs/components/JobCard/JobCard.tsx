@@ -5,6 +5,8 @@ import { useAppSelector } from '../../../../store/hooks';
 import { Bookmark } from 'lucide-react';
 import { useJobPreferences } from '../../hooks/useJobPreferences';
 import { useToast } from '../../../../hooks/useToast';
+import { ROUTES } from '../../../../config/routes';
+import type { JobListNavigationState } from '../../jobListNavigation';
 import styles from './JobCard.module.css';
 
 interface JobCardProps {
@@ -21,6 +23,8 @@ interface JobCardProps {
   avatarColor: string;
   isPriority?: boolean;
   source?: string;
+  /** Full list URL (path + query) for context-preserving back navigation. */
+  listOrigin?: string;
 }
 
 export const JobCard = ({
@@ -37,6 +41,7 @@ export const JobCard = ({
   avatarColor,
   isPriority,
   source,
+  listOrigin,
 }: JobCardProps) => {
   const navigate = useNavigate();
   const toast = useToast();
@@ -46,6 +51,14 @@ export const JobCard = ({
   const isSaved = savedJobIds.includes(id);
   const isPortalView = currentPath.startsWith('/candidate');
   const detailsLink = isPortalView ? `/candidate/jobs/${id}` : `/jobs/${id}`;
+  const detailState: JobListNavigationState | undefined = listOrigin
+    ? { from: listOrigin }
+    : undefined;
+  const rememberScroll = () => {
+    if (listOrigin) {
+      sessionStorage.setItem(`scroll:${listOrigin}`, String(window.scrollY));
+    }
+  };
 
   return (
     <Card className={styles.jobCard} role="article">
@@ -54,7 +67,12 @@ export const JobCard = ({
           {avatarText}
         </div>
         <div className={styles.mainInfo}>
-          <Link to={detailsLink} className={styles.title}>
+          <Link
+            to={detailsLink}
+            state={detailState}
+            className={styles.title}
+            onClick={rememberScroll}
+          >
             {title}
           </Link>
           <div className={styles.companyInfo}>
@@ -80,7 +98,7 @@ export const JobCard = ({
           aria-pressed={isSaved}
           onClick={() => {
             if (!isAuthenticated) {
-              navigate(`/login?next=${encodeURIComponent(detailsLink)}`);
+              navigate(ROUTES.AUTH.loginWithNext(detailsLink));
               return;
             }
             toggleSavedJob(id);
@@ -115,11 +133,7 @@ export const JobCard = ({
         </div>
         <div className={styles.actions}>
           <Link
-            to={
-              isAuthenticated
-                ? '/candidate/ai-hub'
-                : `/login?next=${encodeURIComponent(detailsLink)}`
-            }
+            to={isAuthenticated ? '/candidate/ai-hub' : ROUTES.AUTH.loginWithNext(detailsLink)}
             aria-label={`Check ATS fit score for ${title} role at ${company}`}
             className={`${styles.actionBtn} ${styles.outlineAction}`}
           >
@@ -127,6 +141,8 @@ export const JobCard = ({
           </Link>
           <Link
             to={detailsLink}
+            state={detailState}
+            onClick={rememberScroll}
             aria-label={`View details for ${title} role at ${company}`}
             className={`${styles.actionBtn} ${styles.primaryAction}`}
           >

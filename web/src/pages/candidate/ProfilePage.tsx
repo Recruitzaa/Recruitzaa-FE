@@ -13,6 +13,8 @@ import { ProjectsCard } from './profile/components/ProjectsCard';
 import { CareerProfileCard } from './profile/components/CareerProfileCard';
 import { PersonalDetailsCard } from './profile/components/PersonalDetailsCard';
 import { AccomplishmentsCard } from './profile/components/AccomplishmentsCard';
+import { ReferencesCard } from './profile/components/ReferencesCard';
+import { CertificationsCard } from './profile/components/CertificationsCard';
 
 export const ProfilePage = () => {
   const form = useProfileForm();
@@ -69,6 +71,7 @@ export const ProfilePage = () => {
               setPersonalForm={form.setPersonalForm}
               startEditingPersonal={form.startEditingPersonal}
               savePersonalDetails={form.savePersonalDetails}
+              handleAvatarUpload={form.handleAvatarUpload}
             />
 
             {/* Resume File Upload Card */}
@@ -143,12 +146,14 @@ export const ProfilePage = () => {
             {/* ─── EDUCATION CARD ──────────────────────────────────────────────── */}
             <EducationCard
               education={form.profile.education}
-              isEditingEducation={form.isEditingEducation}
-              setIsEditingEducation={form.setIsEditingEducation}
+              editingEducationIndex={form.editingEducationIndex}
+              setEditingEducationIndex={form.setEditingEducationIndex}
+              startEditingEducationItem={form.startEditingEducationItem}
               educationForm={form.educationForm}
               setEducationForm={form.setEducationForm}
-              saveEducation={form.saveEducation}
-              startEditingEducation={form.startEditingEducation}
+              saveEducationItem={form.saveEducationItem}
+              deleteEducationItem={form.deleteEducationItem}
+              addNewEducationItem={form.addNewEducationItem}
             />
 
             {/* ─── CAREER PROFILE CARD ──────────────────────────────────────────── */}
@@ -182,6 +187,35 @@ export const ProfilePage = () => {
               accomplishmentsForm={form.accomplishmentsForm}
               setAccomplishmentsForm={form.setAccomplishmentsForm}
               saveAccomplishments={form.saveAccomplishments}
+            />
+
+            {/* ─── CERTIFICATIONS & LICENSES CARD ─────────────────────────────────── */}
+            <CertificationsCard
+              certifications={form.profile.certifications}
+              editingCertificationIndex={form.editingCertificationIndex}
+              setEditingCertificationIndex={form.setEditingCertificationIndex}
+              startEditingCertification={form.startEditingCertification}
+              certificationForm={form.certificationForm}
+              setCertificationForm={form.setCertificationForm}
+              saveCertificationItem={form.saveCertificationItem}
+              deleteCertificationItem={form.deleteCertificationItem}
+              addNewCertificationItem={form.addNewCertificationItem}
+              isUploadingCertificateFile={form.isUploadingCertificateFile}
+              handleCertificateFileUpload={form.handleCertificateFileUpload}
+              removeCertificateFile={form.removeCertificateFile}
+            />
+
+            {/* ─── BLOCK 11: PROFESSIONAL REFERENCES CARD ─────────────────────────── */}
+            <ReferencesCard
+              references={form.profile.references}
+              editingReferenceIndex={form.editingReferenceIndex}
+              setEditingReferenceIndex={form.setEditingReferenceIndex}
+              startEditingReference={form.startEditingReference}
+              referenceForm={form.referenceForm}
+              setReferenceForm={form.setReferenceForm}
+              saveReferenceItem={form.saveReferenceItem}
+              deleteReferenceItem={form.deleteReferenceItem}
+              addNewReferenceItem={form.addNewReferenceItem}
             />
           </div>
         </div>

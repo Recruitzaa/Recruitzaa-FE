@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Upload, Building2, Edit2 } from 'lucide-react';
 import type { CompanyProfile } from '../../../store/slices/employerProfileSlice';
+import { PhotoUploadModal } from '../../../components/ui/PhotoUploadModal';
 import styles from '../EmployerProfilePage.module.css';
 
 interface CompanyHeroCardProps {
@@ -13,6 +14,7 @@ interface CompanyHeroCardProps {
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   };
+  onLogoUpload: (dataUrl: string) => void;
   id: string;
 }
 
@@ -23,13 +25,64 @@ export const CompanyHeroCard = ({
   cancelEdit,
   saveEdit,
   field,
+  onLogoUpload,
   id,
 }: CompanyHeroCardProps) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
+
+  const openFilePicker = () => fileInputRef.current?.click();
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPendingFile(file);
+      setIsPhotoModalOpen(true);
+    }
+    e.target.value = '';
+  };
+
   return (
     <section id="company-hero" className={styles.heroCard} aria-labelledby="company-hero-title">
-      <div className={styles.logoZone} role="button" tabIndex={0} aria-label="Upload company logo">
-        <Upload size={20} />
-        <span>Upload Logo</span>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/png,image/jpeg,image/webp,image/gif"
+        onChange={handleFileChange}
+        className="sr-only"
+        aria-hidden="true"
+        tabIndex={-1}
+      />
+      <div
+        className={styles.logoZone}
+        role="button"
+        tabIndex={0}
+        aria-label={profile.logoUrl ? 'Change company logo' : 'Upload company logo'}
+        onClick={openFilePicker}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openFilePicker();
+          }
+        }}
+        style={
+          profile.logoUrl
+            ? {
+                backgroundImage: `url(${profile.logoUrl})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+              }
+            : undefined
+        }
+      >
+        {!profile.logoUrl && (
+          <>
+            <Upload size={20} />
+            <span>Upload Logo</span>
+          </>
+        )}
       </div>
       <div className={styles.heroInfo}>
         {editingSection !== 'hero' ? (
@@ -92,6 +145,33 @@ export const CompanyHeroCard = ({
           Edit Branding
         </button>
       )}
+
+      <PhotoUploadModal
+        isOpen={isPhotoModalOpen}
+        onClose={() => {
+          setIsPhotoModalOpen(false);
+          setPendingFile(null);
+        }}
+        onSave={(dataUrl) => {
+          onLogoUpload(dataUrl);
+          setPendingFile(null);
+        }}
+        onRemove={() => {
+          onLogoUpload('');
+          setIsPhotoModalOpen(false);
+          setPendingFile(null);
+        }}
+        currentImage={profile.logoUrl}
+        initialFile={pendingFile}
+        shape="rounded"
+        title="Update company logo"
+        description="Drag to reposition and zoom to frame your logo, then save."
+        previewContexts={[
+          { label: 'Company page', size: 72 },
+          { label: 'Job listing', size: 40 },
+          { label: 'Search results', size: 28 },
+        ]}
+      />
     </section>
   );
 };

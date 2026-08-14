@@ -35,6 +35,8 @@ export const MyJobsPage = () => {
     toast.info('Job listing deleted from this demo workspace.');
   };
 
+  const hasAnyJobs = jobsList.length > 0;
+
   // Filter listings based on search and status
   const filteredJobs = jobsList.filter((job) => {
     const matchesSearch =
@@ -48,7 +50,7 @@ export const MyJobsPage = () => {
     <div className={styles.page}>
       <div className={styles.header}>
         <div>
-          <h1 className={styles.title}>Active Listings</h1>
+          <h1 className={styles.title}>Job Listings</h1>
           <p className={styles.subtitle}>Manage your current and past job postings.</p>
         </div>
         <Link to="/employer/post-job" className="no-underline">
@@ -94,7 +96,17 @@ export const MyJobsPage = () => {
               {filteredJobs.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="text-center py-6 text-slate-500 text-sm">
-                    No active job listings found matching your search.
+                    {!hasAnyJobs ? (
+                      <>
+                        No listings yet.{' '}
+                        <Link to="/employer/post-job" className="font-semibold text-brand-primary">
+                          Post your first job
+                        </Link>
+                        .
+                      </>
+                    ) : (
+                      'No job listings found matching your search.'
+                    )}
                   </td>
                 </tr>
               ) : (

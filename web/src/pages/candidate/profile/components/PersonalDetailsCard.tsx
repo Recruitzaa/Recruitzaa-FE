@@ -5,10 +5,11 @@ interface PersonalFormType {
   gender: string;
   maritalStatus: string;
   dob: string;
-  category: string;
   address: string;
   languages: string[];
   languagesText: string;
+  nationality: string;
+  differentlyAbled: string;
 }
 
 interface PersonalDetailsCardProps {
@@ -73,9 +74,17 @@ export const PersonalDetailsCard = ({
           </div>
           <div>
             <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
-              Category
+              Nationality
             </div>
-            <div className="font-semibold text-slate-800 mt-1">{extendedPersonal.category}</div>
+            <div className="font-semibold text-slate-800 mt-1">{extendedPersonal.nationality}</div>
+          </div>
+          <div>
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
+              Differently Abled
+            </div>
+            <div className="font-semibold text-slate-800 mt-1">
+              {extendedPersonal.differentlyAbled}
+            </div>
           </div>
           <div className="sm:col-span-2">
             <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
@@ -145,15 +154,37 @@ export const PersonalDetailsCard = ({
               />
             </div>
             <div className="space-y-1">
-              <label className="text-sm font-bold text-slate-500 uppercase">Category</label>
+              <label className="text-sm font-bold text-slate-500 uppercase">Nationality</label>
               <input
                 type="text"
-                value={extendedPersonalForm.category}
+                value={extendedPersonalForm.nationality}
                 onChange={(e) =>
-                  setExtendedPersonalForm({ ...extendedPersonalForm, category: e.target.value })
+                  setExtendedPersonalForm({
+                    ...extendedPersonalForm,
+                    nationality: e.target.value,
+                  })
                 }
                 className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary"
               />
+            </div>
+            <div className="space-y-1">
+              <label className="text-sm font-bold text-slate-500 uppercase">
+                Differently Abled
+              </label>
+              <select
+                value={extendedPersonalForm.differentlyAbled}
+                onChange={(e) =>
+                  setExtendedPersonalForm({
+                    ...extendedPersonalForm,
+                    differentlyAbled: e.target.value,
+                  })
+                }
+                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+              >
+                <option>No</option>
+                <option>Yes</option>
+                <option>Prefer not to say</option>
+              </select>
             </div>
             <div className="space-y-1 sm:col-span-2">
               <label className="text-sm font-bold text-slate-500 uppercase">

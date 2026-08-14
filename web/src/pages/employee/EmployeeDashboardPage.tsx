@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { PageTransition } from '../../components/layout/PageTransition';
 import { SEO } from '../../components/seo/SEO';
+import { BRAND } from '../../config/content';
 import { ClipboardList, Calendar, FileText } from 'lucide-react';
 import ActiveAllocationCard from './components/ActiveAllocationCard';
 import TasksWidget from './components/TasksWidget';
@@ -21,7 +22,7 @@ export const EmployeeDashboardPage: React.FC = () => {
               <Calendar className="text-[#c14f16]" size={20} aria-hidden="true" /> Timesheets &
               Leaves Console
             </h1>
-            <p className="text-sm text-slate-505 dark:text-slate-400">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
               Submit your weekly hour deliverables, review authorization statuses, and track
               remaining leave balances.
             </p>
@@ -39,7 +40,7 @@ export const EmployeeDashboardPage: React.FC = () => {
               <FileText className="text-[#c14f16]" size={20} aria-hidden="true" /> Payroll, Tax &
               Reimbursements
             </h1>
-            <p className="text-sm text-slate-505 dark:text-slate-400">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
               View your monthly salary disbursements, download digital payslips, and check pending
               reimbursement pipeline status.
             </p>
@@ -57,7 +58,7 @@ export const EmployeeDashboardPage: React.FC = () => {
             <ClipboardList className="text-[#c14f16]" size={20} aria-hidden="true" /> Employee
             Control Room
           </h1>
-          <p className="text-sm text-slate-505 dark:text-slate-400">
+          <p className="text-sm text-slate-500 dark:text-slate-400">
             Monitor active corporate projects, review shift schedules, and manage your assigned
             tasks.
           </p>
@@ -79,7 +80,7 @@ export const EmployeeDashboardPage: React.FC = () => {
     <>
       <PageTransition>
         <SEO
-          title="Employee Control Room | recruitZaa Enterprise"
+          title={`Employee Control Room | ${BRAND.name} Enterprise`}
           description="View active allocations, timesheet progress, leave balances, and payslips."
         />
         <div className="max-w-7xl mx-auto px-4 py-8 w-full">{renderContent()}</div>

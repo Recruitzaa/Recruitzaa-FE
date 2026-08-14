@@ -13,6 +13,9 @@ interface CareerFormType {
   desiredLocationsText: string;
   expectedSalary: string;
   preferredShift: string;
+  workAuthorization: string;
+  willingToRelocate: string;
+  preferredWorkMode: string;
 }
 
 interface CareerProfileCardProps {
@@ -104,6 +107,30 @@ export const CareerProfileCard = ({
               Preferred Shift
             </div>
             <div className="font-semibold text-slate-800 mt-1">{careerProfile.preferredShift}</div>
+          </div>
+          <div>
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
+              Preferred Work Mode
+            </div>
+            <div className="font-semibold text-slate-800 mt-1">
+              {careerProfile.preferredWorkMode}
+            </div>
+          </div>
+          <div>
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
+              Willing to Relocate
+            </div>
+            <div className="font-semibold text-slate-800 mt-1">
+              {careerProfile.willingToRelocate}
+            </div>
+          </div>
+          <div>
+            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
+              Work Authorization
+            </div>
+            <div className="font-semibold text-slate-800 mt-1">
+              {careerProfile.workAuthorization}
+            </div>
           </div>
           <div className="sm:col-span-2">
             <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">

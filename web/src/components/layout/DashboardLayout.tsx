@@ -4,10 +4,11 @@ import { useAppSelector } from '../../store/hooks';
 import { logOut } from '../../services/auth.service';
 import { useTheme } from '../../hooks/useTheme';
 import { WorkspaceSwitcher } from './WorkspaceSwitcher';
-import logo from '../../assets/logo.png';
+import { BrandLogo } from '../brand/BrandLogo';
 import { Menu, X, LogOut, Sun, Moon } from 'lucide-react';
 import { getInitials, getRoleLabel, getNavItems } from './DashboardLayoutUtils';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
+import { ROUTES } from '../../config/routes';
 
 /**
  * DashboardLayout — A responsive, high-fidelity layout shell for authenticated candidates.
@@ -26,7 +27,7 @@ export const DashboardLayout = () => {
   const handleSignOut = async () => {
     try {
       await logOut();
-      navigate('/login');
+      navigate(ROUTES.AUTH.LOGIN);
     } catch (err) {
       console.error('Logout failed:', err);
     }
@@ -62,13 +63,7 @@ export const DashboardLayout = () => {
       >
         <div className="h-16 flex items-center justify-between px-6 border-b border-slate-200 dark:border-slate-800">
           <Link to="/" className="flex items-center" onClick={() => setIsMobileOpen(false)}>
-            <img
-              src={logo}
-              alt="recruitZaa"
-              width="163"
-              height="42"
-              className="h-[42px] w-auto dark:brightness-0 dark:invert"
-            />
+            <BrandLogo width={163} height={42} />
           </Link>
           <button
             type="button"

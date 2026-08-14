@@ -14,6 +14,7 @@ describe('UI Slice', () => {
     activeModal: null,
     isSidebarCollapsed: false,
     isMobileDrawerOpen: false,
+    audience: null,
   };
 
   beforeEach(() => {

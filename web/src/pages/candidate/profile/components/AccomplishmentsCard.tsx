@@ -27,7 +27,6 @@ export const AccomplishmentsCard = ({
   const publicationId = `${id}-publication`;
   const presentationId = `${id}-presentation`;
   const patentId = `${id}-patent`;
-  const certificationId = `${id}-certification`;
 
   return (
     <div
@@ -120,16 +119,6 @@ export const AccomplishmentsCard = ({
               <div className="font-bold text-slate-800 mt-0.5">{accomplishments.patent}</div>
             </div>
           </div>
-
-          <div className="flex items-start gap-3">
-            <Award size={16} className="text-slate-400 shrink-0 mt-0.5" aria-hidden="true" />
-            <div>
-              <div className="font-semibold text-slate-500 uppercase tracking-wider text-[9px]">
-                Certifications
-              </div>
-              <div className="font-bold text-slate-800 mt-0.5">{accomplishments.certification}</div>
-            </div>
-          </div>
         </div>
       ) : (
         <div className="space-y-4">
@@ -219,24 +208,12 @@ export const AccomplishmentsCard = ({
                 className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
               />
             </div>
-            <div className="space-y-1">
-              <label
-                htmlFor={certificationId}
-                className="text-sm font-bold text-slate-500 uppercase block"
-              >
-                Certifications
-              </label>
-              <input
-                id={certificationId}
-                type="text"
-                value={accomplishmentsForm.certification}
-                onChange={(e) =>
-                  setAccomplishmentsForm({ ...accomplishmentsForm, certification: e.target.value })
-                }
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
-              />
-            </div>
           </div>
+          <p className="text-sm text-slate-400">
+            Manage certifications with credential links and proof documents in the{' '}
+            <span className="font-semibold text-slate-500">Certifications &amp; Licenses</span>{' '}
+            section below.
+          </p>
 
           <div className="flex gap-2 justify-end">
             <button

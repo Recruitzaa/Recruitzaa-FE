@@ -9,6 +9,9 @@ interface CareerFormType {
   desiredLocationsText: string;
   expectedSalary: string;
   preferredShift: string;
+  workAuthorization: string;
+  willingToRelocate: string;
+  preferredWorkMode: string;
 }
 
 interface CareerProfileEditFormProps {
@@ -102,6 +105,44 @@ export const CareerProfileEditForm = ({
             onChange={(e) => setCareerForm({ ...careerForm, preferredShift: e.target.value })}
             className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
           />
+        </div>
+        <div className="space-y-1">
+          <label className="text-sm font-bold text-slate-500 uppercase">Preferred Work Mode</label>
+          <select
+            value={careerForm.preferredWorkMode}
+            onChange={(e) => setCareerForm({ ...careerForm, preferredWorkMode: e.target.value })}
+            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+          >
+            <option>On-site</option>
+            <option>Remote</option>
+            <option>Hybrid</option>
+            <option>Flexible</option>
+          </select>
+        </div>
+        <div className="space-y-1">
+          <label className="text-sm font-bold text-slate-500 uppercase">Willing to Relocate</label>
+          <select
+            value={careerForm.willingToRelocate}
+            onChange={(e) => setCareerForm({ ...careerForm, willingToRelocate: e.target.value })}
+            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+          >
+            <option>Yes</option>
+            <option>No</option>
+            <option>Open to select locations only</option>
+          </select>
+        </div>
+        <div className="space-y-1 sm:col-span-2">
+          <label className="text-sm font-bold text-slate-500 uppercase">Work Authorization</label>
+          <select
+            value={careerForm.workAuthorization}
+            onChange={(e) => setCareerForm({ ...careerForm, workAuthorization: e.target.value })}
+            className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+          >
+            <option>Indian Citizen – no visa/sponsorship required</option>
+            <option>Require employment visa/work permit sponsorship</option>
+            <option>Hold a valid work permit</option>
+            <option>Other</option>
+          </select>
         </div>
         <div className="space-y-1 sm:col-span-2">
           <label className="text-sm font-bold text-slate-500 uppercase">

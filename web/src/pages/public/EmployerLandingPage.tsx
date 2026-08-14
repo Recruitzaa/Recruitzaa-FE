@@ -2,16 +2,19 @@ import { Link } from 'react-router-dom';
 import { PageTransition } from '../../components/layout/PageTransition';
 import { SEO } from '../../components/seo/SEO';
 import { SITE_CONTENT } from '../../config/content';
+import { ROUTES } from '../../config/routes';
+import { useHashScroll } from '../../hooks/useHashScroll';
 import styles from './EmployerLandingPage.module.css';
 
 const content = SITE_CONTENT.employerLandingPage;
 
 export const EmployerLandingPage = () => {
+  useHashScroll(['services']);
   return (
     <PageTransition>
       <SEO
         title="Hire Top Talent | Recruitzaa Enterprise Staffing"
-        description="Recruitzaa helps enterprise teams hire faster with structured sourcing, verified talent, and a review-first workflow. Reduce time-to-fill by 40%."
+        description="Recruitzaa helps enterprise teams hire with structured sourcing, verified talent, and a review-first workflow."
       />
       <div className={styles.page}>
         <section className={styles.hero} aria-labelledby="employer-hero-title">
@@ -21,7 +24,7 @@ export const EmployerLandingPage = () => {
               <h1 id="employer-hero-title">{content.hero.title}</h1>
               <p>{content.hero.subtitle}</p>
               <Link
-                to="/register?intent=employer"
+                to={ROUTES.AUTH.REGISTER_EMPLOYER}
                 className={styles.cta}
                 aria-label="Start hiring talent"
               >
@@ -48,7 +51,11 @@ export const EmployerLandingPage = () => {
           </div>
         </section>
 
-        <section className={styles.section} aria-labelledby="employer-services-title">
+        <section
+          id="services"
+          className={`${styles.section} ${styles.servicesAnchor}`}
+          aria-labelledby="employer-services-title"
+        >
           <div className={styles.sectionHeader}>
             <p>Services</p>
             <h2 id="employer-services-title">Flexible engagement models for enterprise hiring</h2>

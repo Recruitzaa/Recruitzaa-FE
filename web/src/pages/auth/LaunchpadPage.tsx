@@ -79,7 +79,10 @@ export const LaunchpadPage: React.FC = () => {
           title="Select Workspace — Recruitzaa Enterprise"
           description="Choose your active profile workspace to get started on Recruitzaa."
         />
-        <main className="relative min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center px-4 py-8 lg:py-10">
+        <main
+          className="relative min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center px-4 py-8 lg:py-10"
+          tabIndex={-1}
+        >
           <button
             type="button"
             onClick={toggleTheme}

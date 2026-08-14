@@ -58,12 +58,32 @@ export const initialProfileState: ProfileState = {
       ],
     },
   ],
-  education: {
-    degree: 'B.Tech / B.E. Computer Science and Engineering',
-    university: 'Andhra University, Visakhapatnam',
-    duration: '2018-2022',
-    type: 'Full Time',
-  },
+  education: [
+    {
+      level: 'Graduation',
+      degree: 'B.Tech / B.E. Computer Science and Engineering',
+      university: 'Andhra University, Visakhapatnam',
+      duration: '2018-2022',
+      type: 'Full Time',
+      percentage: '78%',
+    },
+    {
+      level: '12th / Diploma',
+      degree: 'Higher Secondary (XII), Science (MPC)',
+      university: 'Sri Chaitanya Junior College, Visakhapatnam',
+      duration: '2016-2018',
+      type: 'Full Time',
+      percentage: '91%',
+    },
+    {
+      level: '10th',
+      degree: 'Secondary School (X)',
+      university: 'Vignan High School, Visakhapatnam',
+      duration: '2015-2016',
+      type: 'Full Time',
+      percentage: '94%',
+    },
+  ],
   projects: [
     {
       name: 'Field Studio — Telecom Engineering Platform',
@@ -88,14 +108,18 @@ export const initialProfileState: ProfileState = {
     desiredLocations: ['Bangalore', 'Hyderabad', 'Mumbai'],
     expectedSalary: '₹ 10,00,000',
     preferredShift: 'Day Shift',
+    workAuthorization: 'Indian Citizen – no visa/sponsorship required',
+    willingToRelocate: 'Yes',
+    preferredWorkMode: 'Hybrid',
   },
   extendedPersonal: {
     gender: 'Male',
     maritalStatus: 'Single / Unmarried',
     dob: '05 Mar 2000',
-    category: 'General / OBC',
     address: 'No 42, 10th Cross, Indiranagar, Bangalore, Karnataka - 560038',
     languages: ['English (Expert)', 'Hindi (Fluent)', 'Kannada (Native)'],
+    nationality: 'Indian',
+    differentlyAbled: 'No',
   },
   accomplishments: {
     onlineProfile: 'https://www.linkedin.com/in/arjun-kumar',
@@ -103,6 +127,26 @@ export const initialProfileState: ProfileState = {
     publication: 'AI-Driven Automated Test Script Generation - IEEE Paper 2024',
     presentation: 'https://slideshare.net/arjun-kumar/mean-stack-optimizations',
     patent: 'System and Method for Hardware-Backed Encrypted Auth Sessions - Patent Pending',
-    certification: 'AWS Certified Solutions Architect – Associate (2025)',
   },
+  references: [
+    {
+      name: 'Priya Sharma',
+      relationship: 'Reporting Manager',
+      company: 'Infosys Limited',
+      email: 'priya.sharma@infosys.com',
+      phone: '+91 98450 11223',
+    },
+  ],
+  certifications: [
+    {
+      name: 'AWS Certified Solutions Architect – Associate',
+      issuer: 'Amazon Web Services',
+      issueDate: '2025',
+      credentialId: 'AWS-SAA-9284712',
+      credentialUrl: 'https://www.credly.com/badges/aws-saa-arjun-kumar',
+      fileName: '',
+      fileSizeLabel: '',
+      fileDataUrl: '',
+    },
+  ],
 };

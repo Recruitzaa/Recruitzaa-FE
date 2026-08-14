@@ -4,6 +4,7 @@ import { updateExpertSettings } from '../../../store/slices/expertSlice';
 import { useToast } from '../../../hooks/useToast';
 import { PageTransition } from '../../../components/layout/PageTransition';
 import { SEO } from '../../../components/seo/SEO';
+import { BRAND } from '../../../config/content';
 import { Calendar, ShieldAlert, CheckSquare, Square } from 'lucide-react';
 
 export const CalendarSettingsPage: React.FC = () => {
@@ -35,7 +36,7 @@ export const CalendarSettingsPage: React.FC = () => {
     <>
       <PageTransition>
         <SEO
-          title="Calendar Settings | recruitZaa Hub"
+          title={`Calendar Settings | ${BRAND.name} Hub`}
           description="Manage your calendar synchronization connections and session intake capacity limits."
         />
         <div className="max-w-3xl mx-auto px-4 py-8 space-y-8 w-full">

@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import { PageTransition } from '../../components/layout/PageTransition';
 import styles from './AuthPage.module.css';
-import logo from '../../assets/logo.png';
+import { BrandLogo } from '../../components/brand/BrandLogo';
 import { useAppDispatch } from '../../store/hooks';
 import { setAuthLoading } from '../../store/slices/auth.slice';
 import { LoginForm } from './components/LoginForm';
@@ -21,6 +21,7 @@ import { RegisterForm } from './components/RegisterForm';
 import { SegmentedControl } from './components/SegmentedControl';
 import { trackEvent } from '../../services/analytics.service';
 import { useTheme } from '../../hooks/useTheme';
+import { ROUTES } from '../../config/routes';
 
 type Role = 'candidate' | 'employer';
 type Mode = 'login' | 'register';
@@ -47,9 +48,9 @@ export const AuthPage = () => {
   const intent = searchParams.get('intent');
   const [role, setRole] = useState<Role>(intent === 'employer' ? 'employer' : 'candidate');
   const routeMode: Mode | null =
-    location.pathname === '/login'
+    location.pathname === ROUTES.AUTH.LOGIN
       ? 'login'
-      : location.pathname === '/register'
+      : location.pathname === ROUTES.AUTH.REGISTER
         ? 'register'
         : null;
   const [legacyMode, setLegacyMode] = useState<Mode>(
@@ -64,7 +65,7 @@ export const AuthPage = () => {
   const switchMode = (nextMode: Mode) => {
     if (routeMode) {
       navigate({
-        pathname: nextMode === 'login' ? '/login' : '/register',
+        pathname: nextMode === 'login' ? ROUTES.AUTH.LOGIN : ROUTES.AUTH.REGISTER,
         search: searchParams.toString(),
       });
     } else {
@@ -88,7 +89,7 @@ export const AuthPage = () => {
           content="Access your candidate, employer, or administrator control panel on Recruitzaa."
         />
       </Helmet>
-      <main className={styles.page}>
+      <main className={styles.page} tabIndex={-1}>
         <button
           type="button"
           className={styles.themeToggle}
@@ -101,7 +102,7 @@ export const AuthPage = () => {
         {/* ── Left brand panel (desktop only) ── */}
         <section className={styles.brandPanel}>
           <Link to="/" className={styles.logoContainer} aria-label="Recruitzaa home">
-            <img src={logo} alt="Recruitzaa logo" width="140" height="36" />
+            <BrandLogo />
           </Link>
 
           <p className={styles.brandCopy}>
@@ -128,7 +129,7 @@ export const AuthPage = () => {
         {/* ── Right form panel ── */}
         <section className={styles.formPanel}>
           <Link to="/" className={styles.mobileLogo} aria-label="Recruitzaa home">
-            <img src={logo} alt="Recruitzaa logo" width="120" height="31" />
+            <BrandLogo width={120} height={31} />
           </Link>
 
           <div className={styles.card}>

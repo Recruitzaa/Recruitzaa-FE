@@ -5,11 +5,18 @@ import {
   updateEmploymentHistory,
   updateProjects,
   updateITSkills,
+  updateReferences,
+  updateEducation,
+  updateCertifications,
   type ProfileState,
   type ProjectItem,
   type ITSkillItem,
+  type ReferenceItem,
+  type EducationDetails,
+  type CertificationItem,
 } from '../../../../store/slices/profileSlice';
 import type { JobHistoryItem } from '../components/EmploymentTimeline';
+import { readDocumentAsDataUrl, DocumentUploadError } from '../../../../lib/documentUpload';
 
 export const useProfileListEdit = (profile: ProfileState) => {
   const dispatch = useAppDispatch();
@@ -18,6 +25,10 @@ export const useProfileListEdit = (profile: ProfileState) => {
   const [editingHistoryIndex, setEditingHistoryIndex] = useState<number | null>(null);
   const [editingProjectIndex, setEditingProjectIndex] = useState<number | null>(null);
   const [editingITSkillIndex, setEditingITSkillIndex] = useState<number | null>(null);
+  const [editingReferenceIndex, setEditingReferenceIndex] = useState<number | null>(null);
+  const [editingEducationIndex, setEditingEducationIndex] = useState<number | null>(null);
+  const [editingCertificationIndex, setEditingCertificationIndex] = useState<number | null>(null);
+  const [isUploadingCertificateFile, setIsUploadingCertificateFile] = useState(false);
 
   const [historyForm, setHistoryForm] = useState<JobHistoryItem>({
     designation: '',
@@ -39,6 +50,31 @@ export const useProfileListEdit = (profile: ProfileState) => {
     lastUsed: '',
     experience: '',
   });
+  const [referenceForm, setReferenceForm] = useState<ReferenceItem>({
+    name: '',
+    relationship: '',
+    company: '',
+    email: '',
+    phone: '',
+  });
+  const [educationForm, setEducationForm] = useState<EducationDetails>({
+    level: '',
+    degree: '',
+    university: '',
+    duration: '',
+    type: '',
+    percentage: '',
+  });
+  const [certificationForm, setCertificationForm] = useState<CertificationItem>({
+    name: '',
+    issuer: '',
+    issueDate: '',
+    credentialId: '',
+    credentialUrl: '',
+    fileName: '',
+    fileSizeLabel: '',
+    fileDataUrl: '',
+  });
 
   const startEditingHistory = (index: number) => {
     const item = profile.employmentHistory[index];
@@ -57,6 +93,24 @@ export const useProfileListEdit = (profile: ProfileState) => {
     const item = profile.itSkills[index];
     setITSkillForm({ ...item });
     setEditingITSkillIndex(index);
+  };
+
+  const startEditingReference = (index: number) => {
+    const item = profile.references[index];
+    setReferenceForm({ ...item });
+    setEditingReferenceIndex(index);
+  };
+
+  const startEditingEducationItem = (index: number) => {
+    const item = profile.education[index];
+    setEducationForm({ ...item });
+    setEditingEducationIndex(index);
+  };
+
+  const startEditingCertification = (index: number) => {
+    const item = profile.certifications[index];
+    setCertificationForm({ ...item });
+    setEditingCertificationIndex(index);
   };
 
   const addNewHistoryItem = () => {
@@ -91,6 +145,75 @@ export const useProfileListEdit = (profile: ProfileState) => {
     const updated = [...profile.itSkills, newItem];
     dispatch(updateITSkills(updated));
     startEditingITSkill(updated.length - 1);
+  };
+
+  const addNewReferenceItem = () => {
+    const newItem = {
+      name: 'Reference Name',
+      relationship: 'Reporting Manager',
+      company: 'Company Name',
+      email: 'name@company.com',
+      phone: '+91 00000 00000',
+    };
+    const updated = [...profile.references, newItem];
+    dispatch(updateReferences(updated));
+    startEditingReference(updated.length - 1);
+  };
+
+  const addNewEducationItem = () => {
+    const newItem: EducationDetails = {
+      level: 'Graduation',
+      degree: 'Degree Name',
+      university: 'University / Board Name',
+      duration: '2020-2024',
+      type: 'Full Time',
+      percentage: '',
+    };
+    const updated = [...profile.education, newItem];
+    dispatch(updateEducation(updated));
+    startEditingEducationItem(updated.length - 1);
+  };
+
+  const addNewCertificationItem = () => {
+    const newItem: CertificationItem = {
+      name: 'Certification Name',
+      issuer: 'Issuing Organization',
+      issueDate: '',
+      credentialId: '',
+      credentialUrl: '',
+      fileName: '',
+      fileSizeLabel: '',
+      fileDataUrl: '',
+    };
+    const updated = [...profile.certifications, newItem];
+    dispatch(updateCertifications(updated));
+    startEditingCertification(updated.length - 1);
+  };
+
+  // Reads the certificate proof file (PDF/image) and stages it onto the form
+  // being edited; caller still needs to press Save to persist it.
+  const handleCertificateFileUpload = async (file: File) => {
+    setIsUploadingCertificateFile(true);
+    try {
+      const doc = await readDocumentAsDataUrl(file);
+      setCertificationForm((prev) => ({
+        ...prev,
+        fileName: doc.fileName,
+        fileSizeLabel: doc.fileSizeLabel,
+        fileDataUrl: doc.fileDataUrl,
+      }));
+      toast.success('Certificate file attached. Remember to save.');
+    } catch (error) {
+      const message =
+        error instanceof DocumentUploadError ? error.message : 'Could not upload the file.';
+      toast.error(message);
+    } finally {
+      setIsUploadingCertificateFile(false);
+    }
+  };
+
+  const removeCertificateFile = () => {
+    setCertificationForm((prev) => ({ ...prev, fileName: '', fileSizeLabel: '', fileDataUrl: '' }));
   };
 
   const saveHistoryItem = (index: number) => {
@@ -144,6 +267,51 @@ export const useProfileListEdit = (profile: ProfileState) => {
     toast.info('IT Skill removed.');
   };
 
+  const saveReferenceItem = (index: number) => {
+    const updatedReferences = [...profile.references];
+    updatedReferences[index] = { ...referenceForm };
+    dispatch(updateReferences(updatedReferences));
+    setEditingReferenceIndex(null);
+    toast.success('Reference saved.');
+  };
+
+  const deleteReferenceItem = (index: number) => {
+    const updatedReferences = profile.references.filter((_, i) => i !== index);
+    dispatch(updateReferences(updatedReferences));
+    setEditingReferenceIndex(null);
+    toast.info('Reference removed.');
+  };
+
+  const saveEducationItem = (index: number) => {
+    const updatedEducation = [...profile.education];
+    updatedEducation[index] = { ...educationForm };
+    dispatch(updateEducation(updatedEducation));
+    setEditingEducationIndex(null);
+    toast.success('Education record saved.');
+  };
+
+  const deleteEducationItem = (index: number) => {
+    const updatedEducation = profile.education.filter((_, i) => i !== index);
+    dispatch(updateEducation(updatedEducation));
+    setEditingEducationIndex(null);
+    toast.info('Education record removed.');
+  };
+
+  const saveCertificationItem = (index: number) => {
+    const updatedCertifications = [...profile.certifications];
+    updatedCertifications[index] = { ...certificationForm };
+    dispatch(updateCertifications(updatedCertifications));
+    setEditingCertificationIndex(null);
+    toast.success('Certification saved.');
+  };
+
+  const deleteCertificationItem = (index: number) => {
+    const updatedCertifications = profile.certifications.filter((_, i) => i !== index);
+    dispatch(updateCertifications(updatedCertifications));
+    setEditingCertificationIndex(null);
+    toast.info('Certification removed.');
+  };
+
   return {
     editingHistoryIndex,
     setEditingHistoryIndex,
@@ -159,17 +327,44 @@ export const useProfileListEdit = (profile: ProfileState) => {
     setProjectForm,
     itSkillForm,
     setITSkillForm,
+    editingReferenceIndex,
+    setEditingReferenceIndex,
+    referenceForm,
+    setReferenceForm,
+    editingEducationIndex,
+    setEditingEducationIndex,
+    educationForm,
+    setEducationForm,
+    editingCertificationIndex,
+    setEditingCertificationIndex,
+    certificationForm,
+    setCertificationForm,
+    isUploadingCertificateFile,
     startEditingHistory,
     startEditingProject,
     startEditingITSkill,
+    startEditingReference,
+    startEditingEducationItem,
+    startEditingCertification,
     addNewHistoryItem,
     addNewProjectItem,
     addNewITSkillItem,
+    addNewReferenceItem,
+    addNewEducationItem,
+    addNewCertificationItem,
     saveHistoryItem,
     deleteHistoryItem,
     saveProjectItem,
     deleteProjectItem,
     saveITSkillItem,
     deleteITSkillItem,
+    saveReferenceItem,
+    deleteReferenceItem,
+    saveEducationItem,
+    deleteEducationItem,
+    saveCertificationItem,
+    deleteCertificationItem,
+    handleCertificateFileUpload,
+    removeCertificateFile,
   };
 };

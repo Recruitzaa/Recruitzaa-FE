@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setUser, clearUser } from '../../store/slices/auth.slice';
 import type { UserRole } from '../../types/auth.types';
+import { ROUTES } from '../../config/routes';
 import { getMe, registerUser } from '../../services/api.service';
 
 interface RoleGuardProps {
@@ -87,7 +88,10 @@ export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) 
 
   if (resolutionError) {
     return (
-      <main className="grid min-h-screen place-items-center bg-slate-50 p-6 dark:bg-slate-900">
+      <main
+        className="grid min-h-screen place-items-center bg-slate-50 p-6 dark:bg-slate-900"
+        tabIndex={-1}
+      >
         <div className="max-w-md rounded-xl border border-slate-200 bg-white p-6 text-center shadow-sm dark:border-slate-700 dark:bg-slate-800">
           <h1 className="text-lg font-bold text-slate-900 dark:text-white">
             Account verification failed
@@ -118,7 +122,7 @@ export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) 
   if (!user) {
     return (
       <Navigate
-        to={`/login?next=${encodeURIComponent(`${location.pathname}${location.search}`)}`}
+        to={`${ROUTES.AUTH.loginWithNext(`${location.pathname}${location.search}`)}`}
         replace
       />
     );

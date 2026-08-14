@@ -1,6 +1,6 @@
-import { useCallback, useId, useMemo, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useId, useMemo, useState, type FormEvent } from 'react';
 import { Bell, SlidersHorizontal } from 'lucide-react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { PageTransition } from '../../components/layout/PageTransition';
 import { SEO } from '../../components/seo/SEO';
 import { Drawer } from '../../components/ui/Drawer';
@@ -10,6 +10,7 @@ import { useJobPreferences } from '../../features/jobs/hooks/useJobPreferences';
 import { useToast } from '../../hooks/useToast';
 import { useAppSelector } from '../../store/hooks';
 import styles from './JobListingsPage.module.css';
+import { ROUTES } from '../../config/routes';
 import { trackEvent } from '../../services/analytics.service';
 
 type SortOption = 'newest' | 'match' | 'salary';
@@ -17,6 +18,7 @@ const PAGE_SIZE = 6;
 
 export const JobListingsPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const toast = useToast();
   const { jobsList } = useAppSelector((state) => state.jobs);
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
@@ -31,6 +33,15 @@ export const JobListingsPage = () => {
   const workplace = searchParams.get('workplace') ?? '';
   const sort = (searchParams.get('sort') as SortOption) || 'newest';
   const requestedPage = Math.max(1, Number(searchParams.get('page') ?? 1) || 1);
+  const listOrigin = `${location.pathname}${location.search}`;
+
+  useEffect(() => {
+    const savedScroll = sessionStorage.getItem(`scroll:${listOrigin}`);
+    if (savedScroll) {
+      window.scrollTo(0, Number(savedScroll));
+      sessionStorage.removeItem(`scroll:${listOrigin}`);
+    }
+  }, [listOrigin]);
 
   const filteredJobs = useMemo(() => {
     const keyword = searchParams.get('keyword')?.trim().toLowerCase() ?? '';
@@ -103,7 +114,7 @@ export const JobListingsPage = () => {
 
   const openAlert = () => {
     if (!isAuthenticated) {
-      navigate(`/login?next=${encodeURIComponent(`/jobs?${searchParams}`)}`);
+      navigate(ROUTES.AUTH.loginWithNext(`/jobs?${searchParams}`));
       return;
     }
     setAlertOpen(true);
@@ -171,13 +182,6 @@ export const JobListingsPage = () => {
         description="Search the roles currently available in the Recruitzaa job catalogue."
       />
       <div className={styles.page}>
-        <nav className={styles.breadcrumb} aria-label="Breadcrumb">
-          <div className={styles.container}>
-            <Link to="/">Home</Link>
-            <span aria-hidden="true">/</span>
-            <span aria-current="page">Job search</span>
-          </div>
-        </nav>
         <section className={styles.hero} aria-labelledby="job-search-title">
           <div className={styles.container}>
             <div className={styles.heroTop}>
@@ -185,7 +189,7 @@ export const JobListingsPage = () => {
                 <p>Current job catalogue</p>
                 <h1 id="job-search-title">Find a role that fits</h1>
               </div>
-              <Link to="/register?intent=candidate" className={styles.heroCta}>
+              <Link to={ROUTES.AUTH.REGISTER_CANDIDATE} className={styles.heroCta}>
                 Create a candidate profile
               </Link>
             </div>
@@ -254,7 +258,7 @@ export const JobListingsPage = () => {
                 Create search alert
               </button>
               {isAuthenticated && (
-                <Link className={styles.manageLink} to="/candidate/saved">
+                <Link className={styles.manageLink} to="/candidate/saved-jobs">
                   Manage saved jobs and searches
                 </Link>
               )}
@@ -282,16 +286,18 @@ export const JobListingsPage = () => {
                   </select>
                 </label>
               </div>
-              <p className={styles.dataNotice}>
-                Listings shown here are demo catalogue data until the production jobs API is
-                connected.
-              </p>
+              {import.meta.env.DEV && (
+                <p className={styles.dataNotice}>
+                  Listings shown here are demo catalogue data until the production jobs API is
+                  connected.
+                </p>
+              )}
               {filteredJobs.length > 0 ? (
                 <>
                   <ul className={styles.list}>
                     {visibleJobs.map((job) => (
                       <li key={job.id}>
-                        <JobCard {...job} />
+                        <JobCard {...job} listOrigin={listOrigin} />
                       </li>
                     ))}
                   </ul>

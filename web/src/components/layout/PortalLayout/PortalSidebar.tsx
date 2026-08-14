@@ -6,6 +6,7 @@ import { logOut } from '../../../services/auth.service';
 import { WorkspaceSwitcher } from '../WorkspaceSwitcher';
 import styles from './PortalSidebar.module.css';
 import { useFocusTrap } from '../../../hooks/useFocusTrap';
+import { ROUTES } from '../../../config/routes';
 
 interface PortalSidebarProps {
   isOpen: boolean;
@@ -26,7 +27,7 @@ export const PortalSidebar = ({ isOpen, onClose }: PortalSidebarProps) => {
   const handleSignOut = async () => {
     try {
       await logOut();
-      navigate('/login');
+      navigate(ROUTES.AUTH.LOGIN);
     } catch (err) {
       console.error('Logout failed:', err);
     }

@@ -45,7 +45,7 @@ export const WorkspaceSwitcher: React.FC = () => {
     <>
       <div className="px-4 py-3 border-t border-slate-100 dark:border-slate-850 space-y-2">
         <span className="text-sm font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">
-          Shift To...
+          Switch workspace
         </span>
         <div className="space-y-1">
           {otherRoles.map((role) => (

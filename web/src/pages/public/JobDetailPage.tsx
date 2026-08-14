@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Bookmark, Flag, Share2 } from 'lucide-react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Badge } from '../../components/ui/Badge';
+import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs';
 import { Button } from '../../components/ui/Button';
 import { PageTransition } from '../../components/layout/PageTransition';
 import { SEO } from '../../components/seo/SEO';
@@ -9,7 +10,12 @@ import { useAppSelector } from '../../store/hooks';
 import { useJobPreferences } from '../../features/jobs/hooks/useJobPreferences';
 import { useToast } from '../../hooks/useToast';
 import styles from './JobDetailPage.module.css';
+import { ROUTES } from '../../config/routes';
 import { trackEvent } from '../../services/analytics.service';
+import {
+  isJobListOrigin,
+  type JobListNavigationState,
+} from '../../features/jobs/jobListNavigation';
 
 export const JobDetailPage = () => {
   const { id } = useParams();
@@ -22,7 +28,14 @@ export const JobDetailPage = () => {
   const { savedJobIds, toggleSavedJob } = useJobPreferences();
   const [reportOpen, setReportOpen] = useState(false);
   const isPortalView = location.pathname.startsWith('/candidate');
-  const backLink = isPortalView ? '/candidate/jobs' : '/jobs';
+  const fallbackBackLink = isPortalView ? '/candidate/jobs' : '/jobs';
+  const listState = location.state as JobListNavigationState | null;
+  const canUseHistoryBack = isJobListOrigin(listState?.from, isPortalView);
+
+  const handleBack = () => {
+    if (canUseHistoryBack) navigate(-1);
+    else navigate(fallbackBackLink);
+  };
 
   useEffect(() => {
     if (job) trackEvent('job_detail_viewed', { jobId: job.id, authenticated: isAuthenticated });
@@ -39,7 +52,7 @@ export const JobDetailPage = () => {
           <p className={styles.eyebrow}>Listing unavailable</p>
           <h1>This job could not be found</h1>
           <p>It may have closed or the link may be incorrect.</p>
-          <Link to={backLink}>Browse available jobs</Link>
+          <Link to={fallbackBackLink}>Browse available jobs</Link>
         </section>
       </PageTransition>
     );
@@ -66,7 +79,7 @@ export const JobDetailPage = () => {
 
   const handleSave = () => {
     if (!isAuthenticated) {
-      navigate(`/login?next=${encodeURIComponent(nextPath)}`);
+      navigate(ROUTES.AUTH.loginWithNext(nextPath));
       return;
     }
     toggleSavedJob(job.id);
@@ -112,35 +125,47 @@ export const JobDetailPage = () => {
         schema={jobSchema}
       />
       <div className={styles.page}>
-        <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+        <div className={styles.backRow}>
           <div className={styles.container}>
-            <Link to={backLink}>← Back to job listings</Link>
+            {canUseHistoryBack ? (
+              <button type="button" className={styles.backLink} onClick={handleBack}>
+                ← Back to job listings
+              </button>
+            ) : (
+              <Link to={fallbackBackLink}>← Back to job listings</Link>
+            )}
           </div>
-        </nav>
+        </div>
+        <Breadcrumbs currentLabel={job.title} />
         <header className={styles.header}>
           <div className={styles.container}>
-            <p className={styles.eyebrow}>Demo catalogue listing</p>
+            <p className={styles.eyebrow}>
+              {import.meta.env.DEV ? 'Demo catalogue listing' : 'Job listing'}
+            </p>
             <h1>{job.title}</h1>
             <p>
               {job.company} · {displayLocation} · {job.type} · Posted {job.postedAt}
             </p>
             <div className={styles.headerActions}>
               {!isAuthenticated ? (
-                <Link
-                  className={styles.headerApply}
-                  to={`/login?next=${encodeURIComponent(nextPath)}`}
-                >
+                <Link className={styles.headerApply} to={ROUTES.AUTH.loginWithNext(nextPath)}>
                   Sign in to apply
                 </Link>
               ) : isCandidate ? (
-                <button
-                  type="button"
-                  className={styles.headerApply}
-                  disabled
-                  title="Applications require the production application service."
-                >
-                  Applications unavailable in demo
-                </button>
+                import.meta.env.DEV ? (
+                  <button
+                    type="button"
+                    className={styles.headerApply}
+                    disabled
+                    title="Applications require the production application service."
+                  >
+                    Applications unavailable in demo
+                  </button>
+                ) : (
+                  <button type="button" className={styles.headerApply} disabled>
+                    Apply
+                  </button>
+                )
               ) : (
                 <Link className={styles.headerApply} to="/launchpad">
                   Switch workspace to apply
@@ -291,10 +316,7 @@ export const JobDetailPage = () => {
                 </div>
                 <div className={styles.applyArea}>
                   {!isAuthenticated ? (
-                    <Link
-                      className={styles.applyLink}
-                      to={`/login?next=${encodeURIComponent(nextPath)}`}
-                    >
+                    <Link className={styles.applyLink} to={ROUTES.AUTH.loginWithNext(nextPath)}>
                       Sign in to continue
                     </Link>
                   ) : !isCandidate ? (
@@ -308,12 +330,14 @@ export const JobDetailPage = () => {
                         className="w-full py-3 px-4 text-sm font-bold"
                         disabled
                       >
-                        Applications unavailable in demo
+                        {import.meta.env.DEV ? 'Applications unavailable in demo' : 'Apply'}
                       </Button>
-                      <p className={styles.serviceNotice}>
-                        No application has been submitted. Connect the production application API to
-                        enable this action.
-                      </p>
+                      {import.meta.env.DEV && (
+                        <p className={styles.serviceNotice}>
+                          No application has been submitted. Connect the production application API
+                          to enable this action.
+                        </p>
+                      )}
                     </>
                   )}
                 </div>

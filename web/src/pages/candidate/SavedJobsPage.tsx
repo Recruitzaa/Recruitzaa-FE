@@ -12,7 +12,7 @@ export const SavedJobsPage = () => {
   return (
     <div className="mx-auto max-w-6xl space-y-8">
       <header>
-        <h1 className="text-2xl font-black text-slate-900 dark:text-white">
+        <h1 className="text-xl font-extrabold text-slate-900 dark:text-white">
           Saved jobs and searches
         </h1>
         <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
@@ -49,6 +49,12 @@ export const SavedJobsPage = () => {
             <p className="text-sm text-slate-600 dark:text-slate-300">
               You have not saved any jobs yet.
             </p>
+            <Link
+              to="/jobs"
+              className="mt-4 inline-flex min-h-11 items-center rounded-lg bg-brand-primary px-4 py-2 text-sm font-bold text-white"
+            >
+              Browse jobs
+            </Link>
           </div>
         )}
       </section>

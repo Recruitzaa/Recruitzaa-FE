@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import styles from './AdminSidebar.module.css';
 import { useFocusTrap } from '../../../hooks/useFocusTrap';
+import { ROUTES } from '../../../config/routes';
+import { BRAND } from '../../../config/content';
 
 const NAV = [
   {
@@ -57,7 +59,7 @@ export const AdminSidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
   const handleSignOut = async () => {
     try {
       await logOut();
-      navigate('/login');
+      navigate(ROUTES.AUTH.LOGIN);
     } catch (err) {
       console.error('Logout failed:', err);
     }
@@ -86,7 +88,7 @@ export const AdminSidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
               <ShieldCheck size={12} className="text-white" />
             </div>
             <span className={styles.logoText}>
-              recruitZaa{' '}
+              {BRAND.name}{' '}
               <span className="text-sm text-red-600 font-bold ml-1 uppercase tracking-wide">
                 Admin
               </span>

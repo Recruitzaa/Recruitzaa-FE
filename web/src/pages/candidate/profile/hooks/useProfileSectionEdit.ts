@@ -6,7 +6,6 @@ import {
   updatePersonalInfo,
   updateEmploymentDetails,
   updateProfessionalSummary,
-  updateEducation,
   updateCareerProfile,
   updateExtendedPersonal,
   updateAccomplishments,
@@ -20,7 +19,6 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
 
   const [isEditingPersonal, setIsEditingPersonal] = useState(false);
   const [isEditingSummary, setIsEditingSummary] = useState(false);
-  const [isEditingEducation, setIsEditingEducation] = useState(false);
   const [isEditingCareer, setIsEditingCareer] = useState(false);
   const [isEditingExtendedPersonal, setIsEditingExtendedPersonal] = useState(false);
   const [isEditingAccomplishments, setIsEditingAccomplishments] = useState(false);
@@ -30,7 +28,6 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
     ...profile.employmentDetails,
   });
   const [summaryForm, setSummaryForm] = useState({ ...profile.professionalSummary });
-  const [educationForm, setEducationForm] = useState({ ...profile.education });
   const [careerForm, setCareerForm] = useState({
     ...profile.careerProfile,
     desiredLocationsText: profile.careerProfile.desiredLocations.join(', '),
@@ -48,14 +45,17 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
     setIsEditingPersonal(true);
   };
 
+  // `dataUrl` arrives already cropped/resized by PhotoUploadModal; an empty
+  // string means the user chose to remove their current photo.
+  const handleAvatarUpload = (dataUrl: string) => {
+    dispatch(updatePersonalInfo({ avatar: dataUrl }));
+    setPersonalForm((prev) => ({ ...prev, avatar: dataUrl }));
+    toast.success(dataUrl ? 'Profile photo updated.' : 'Profile photo removed.');
+  };
+
   const startEditingSummary = () => {
     setSummaryForm({ ...profile.professionalSummary });
     setIsEditingSummary(true);
-  };
-
-  const startEditingEducation = () => {
-    setEducationForm({ ...profile.education });
-    setIsEditingEducation(true);
   };
 
   const startEditingCareer = () => {
@@ -118,12 +118,6 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
     toast.success('Resume headline & summary updated.');
   };
 
-  const saveEducation = () => {
-    dispatch(updateEducation({ ...educationForm }));
-    setIsEditingEducation(false);
-    toast.success('Education history updated.');
-  };
-
   const saveCareerProfile = () => {
     dispatch(
       updateCareerProfile({
@@ -163,8 +157,6 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
     setIsEditingPersonal,
     isEditingSummary,
     setIsEditingSummary,
-    isEditingEducation,
-    setIsEditingEducation,
     isEditingCareer,
     setIsEditingCareer,
     isEditingExtendedPersonal,
@@ -175,8 +167,6 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
     setPersonalForm,
     summaryForm,
     setSummaryForm,
-    educationForm,
-    setEducationForm,
     careerForm,
     setCareerForm,
     extendedPersonalForm,
@@ -184,14 +174,13 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
     accomplishmentsForm,
     setAccomplishmentsForm,
     startEditingPersonal,
+    handleAvatarUpload,
     startEditingSummary,
-    startEditingEducation,
     startEditingCareer,
     startEditingExtendedPersonal,
     startEditingAccomplishments,
     savePersonalDetails,
     saveSummary,
-    saveEducation,
     saveCareerProfile,
     saveExtendedPersonal,
     saveAccomplishments,

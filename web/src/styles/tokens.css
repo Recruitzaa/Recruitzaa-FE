@@ -11,6 +11,7 @@
   --color-ink: #111827;
   --color-slate: #4b5563;
   --color-slate-muted: #9ca3af;
+  --color-slate-functional: #6b7280;
   --color-border: #e5e7eb;
   --color-surface: #f8fafc;
   --color-white: #ffffff;
@@ -55,6 +56,8 @@
   --color-ink: #f1f5f9;
   --color-slate: #cbd5e1;
   --color-slate-muted: #94a3b8;
+  --color-slate-functional: #9ca3af;
+  --color-primary-accent: #fb923c;
   --color-border: #334155;
   --color-surface: #0f172a;
   --color-white: #172033;

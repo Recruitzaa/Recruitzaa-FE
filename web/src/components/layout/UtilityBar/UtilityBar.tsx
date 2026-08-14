@@ -1,12 +1,14 @@
 import { Link, useLocation } from 'react-router-dom';
 import styles from './UtilityBar.module.css';
 import { SITE_CONTENT } from '../../../config/content';
-import { useAppSelector } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { setAudience } from '../../../store/slices/ui.slice';
 
 export const UtilityBar = () => {
   const { contact } = SITE_CONTENT;
   const location = useLocation();
   const { isAuthenticated } = useAppSelector((s) => s.auth);
+  const dispatch = useAppDispatch();
 
   // The utility bar is a pre-login marketing element.
   // Hide it entirely for authenticated users to avoid role confusion.
@@ -25,6 +27,7 @@ export const UtilityBar = () => {
             to="/"
             className={`${styles.link} ${isJobSeekersActive ? styles.active : ''}`}
             aria-current={isJobSeekersActive ? 'page' : undefined}
+            onClick={() => dispatch(setAudience('job_seeker'))}
           >
             For Job Seekers
           </Link>
@@ -32,6 +35,7 @@ export const UtilityBar = () => {
             to="/employers"
             className={`${styles.link} ${isEmployersActive ? styles.active : ''}`}
             aria-current={isEmployersActive ? 'page' : undefined}
+            onClick={() => dispatch(setAudience('employer'))}
           >
             For Employers & Enterprise Clients
           </Link>

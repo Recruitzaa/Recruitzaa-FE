@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Shield, Key, Bell, Globe, Database, RefreshCw, CheckCircle2, Copy } from 'lucide-react';
 import { SEO } from '../../components/seo/SEO';
+import { BRAND } from '../../config/content';
 
 const MOCK_API_KEY = 'rz_prod_sk_9f2a3b7c4d1e8f6a0b5c2d9e4f7a1b3c';
 
@@ -10,7 +11,7 @@ const SETTINGS = [
     label: 'General',
     icon: Globe,
     fields: [
-      { label: 'Platform Name', value: 'recruitZaa', type: 'text' },
+      { label: 'Platform Name', value: BRAND.name, type: 'text' },
       { label: 'Support Email', value: 'support@recruitzaa.com', type: 'email' },
       { label: 'Default Language', value: 'en', type: 'text' },
     ],
@@ -48,7 +49,7 @@ export const AdminSettingsPage = () => {
   return (
     <>
       <SEO
-        title="Settings & API | recruitZaa Admin"
+        title={`Settings & API | ${BRAND.name} Admin`}
         description="Manage platform configuration, API keys, security settings and system preferences."
       />
 

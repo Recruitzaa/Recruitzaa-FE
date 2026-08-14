@@ -56,7 +56,7 @@ export const getNavItems = (activeRole: string) => {
   return [
     { label: 'Overview', path: '/candidate/dashboard', icon: LayoutDashboard },
     { label: 'Verified Job Search', path: '/jobs', icon: Briefcase },
-    { label: 'Saved Jobs & Searches', path: '/candidate/saved', icon: Bookmark },
+    { label: 'Saved Jobs & Searches', path: '/candidate/saved-jobs', icon: Bookmark },
     { label: 'Application Pipeline', path: '/candidate/pipeline', icon: Kanban },
     { label: 'AI Career Hub', path: '/candidate/ai-hub', icon: Sparkles },
     { label: 'Expert Mentors', path: '/candidate/expert-hub', icon: GraduationCap },

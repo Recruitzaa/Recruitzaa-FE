@@ -31,7 +31,7 @@ export const PostJobPage = () => {
       return;
     }
 
-    const companyName = 'recruitZaa Corporate Client';
+    const companyName = 'Recruitzaa Corporate Client';
     const avatarTxt = companyName
       .split(' ')
       .map((w) => w[0])

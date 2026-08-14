@@ -1,0 +1,328 @@
+.modal {
+  width: min(100%, 620px);
+}
+
+.hiddenInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hiddenSource {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── Dropzone (first-time selection) ─────────────────────────────── */
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2.5rem 1.5rem;
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  text-align: center;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+}
+
+.dropzone:hover,
+.dropzoneActive {
+  border-color: #c14f16;
+  background: var(--color-surface);
+}
+
+.dropIcon {
+  color: var(--color-slate-muted);
+}
+
+.dropLabel {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-dark);
+}
+
+.dropHint {
+  font-size: 0.75rem;
+  color: var(--color-slate);
+}
+
+/* ── Editor ───────────────────────────────────────────────────────── */
+.editorCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* The stage is the full pannable canvas — bigger than the actual crop
+   window so the dimmed, excluded parts of the photo stay visible, just
+   like LinkedIn / Twitter / Naukri's cropper. */
+.stage {
+  position: relative;
+  overflow: hidden;
+  background: #111;
+  border-radius: 10px;
+  flex-shrink: 0;
+  touch-action: none;
+  cursor: grab;
+}
+
+.stage:active {
+  cursor: grabbing;
+}
+
+.stageImg {
+  position: absolute;
+  max-width: none;
+  max-height: none;
+  user-select: none;
+  /* Pointer events land on .stage itself so dragging works no matter where
+     over the image the pointer is, without relying on event bubbling. */
+  pointer-events: none;
+}
+
+/* A transparent "window" the size of the crop shape. Its huge box-shadow
+   spread paints a dark overlay everywhere else inside the (overflow:hidden)
+   stage, leaving only the window itself showing the crisp, undimmed photo —
+   the classic LinkedIn/Twitter/Naukri spotlight cropper. */
+.cropMask {
+  position: absolute;
+  pointer-events: none;
+  box-shadow: 0 0 0 999px rgba(17, 17, 17, 0.55);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+}
+
+.cropMask.circle {
+  border-radius: 50%;
+}
+
+.cropMask.rounded {
+  border-radius: 14px;
+}
+
+.stageHint {
+  font-size: 0.75rem;
+  color: var(--color-slate);
+  text-align: center;
+  max-width: 320px;
+}
+
+.frame {
+  position: relative;
+  overflow: hidden;
+  background: #111;
+  flex-shrink: 0;
+  touch-action: none;
+  cursor: grab;
+}
+
+.frame:active {
+  cursor: grabbing;
+}
+
+.frame.circle {
+  border-radius: 50%;
+}
+
+.frame.rounded {
+  border-radius: 14px;
+}
+
+.frame.previewFrame {
+  cursor: default;
+}
+
+.cropImg {
+  position: absolute;
+  max-width: none;
+  max-height: none;
+  user-select: none;
+}
+
+.zoomRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 320px;
+}
+
+.zoomValue {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-slate);
+  min-width: 2.75rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.zoomBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  color: var(--color-ink);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.zoomBtn:hover {
+  background: var(--color-surface);
+}
+
+.zoomBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.zoomBtn:disabled:hover {
+  background: var(--color-card);
+}
+
+.zoomSlider {
+  flex: 1;
+  accent-color: #c14f16;
+}
+
+.controlsActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+}
+
+.linkBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #c14f16;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  align-self: flex-start;
+}
+
+.linkBtn:hover {
+  text-decoration: underline;
+}
+
+/* ── "How it will appear" previews ───────────────────────────────── */
+.previewSection {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.previewLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-slate-muted);
+  margin-bottom: 0.75rem;
+}
+
+.previewRow {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.previewItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.previewCaption {
+  font-size: 0.6875rem;
+  color: var(--color-slate);
+  text-align: center;
+}
+
+/* ── Footer ───────────────────────────────────────────────────────── */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.footerRight {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.removeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #dc2626;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 0;
+}
+
+.removeBtn:hover {
+  text-decoration: underline;
+}
+
+.cancelBtn {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  color: var(--color-slate);
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancelBtn:hover {
+  background: var(--color-surface);
+}
+
+.saveBtn {
+  padding: 0.5rem 1.125rem;
+  background: #c14f16;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.saveBtn:hover {
+  background: #a94210;
+}
+
+.saveBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

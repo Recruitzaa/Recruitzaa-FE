@@ -1,24 +1,45 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../../store/hooks';
 import styles from './Footer.module.css';
-import logo from '../../../assets/logo.png';
+import { BrandLogo } from '../../brand/BrandLogo';
+import { BRAND } from '../../../config/content';
+import { ROUTES } from '../../../config/routes';
 
 export const Footer = () => {
   const { appUser, isAuthenticated } = useAppSelector((s) => s.auth);
+  const audience = useAppSelector((s) => s.ui.audience);
+  const location = useLocation();
+  const isEmployerContext =
+    location.pathname.startsWith('/employers') ||
+    location.pathname.startsWith('/employer') ||
+    location.search.includes('intent=employer');
+  const isJobSeekerContext =
+    location.pathname.startsWith('/jobs') ||
+    location.pathname.startsWith('/candidate') ||
+    location.search.includes('intent=candidate');
+  // Mirror the Navbar's audience-aware behaviour so the footer doesn't keep
+  // cross-promoting the other audience once a guest has self-identified —
+  // but never hide the section matching the page they're actually on.
+  const showCandidateSection =
+    (!isAuthenticated || appUser?.role !== 'EMPLOYER') &&
+    (audience !== 'employer' || isJobSeekerContext);
+  const showEmployerSection =
+    (!isAuthenticated || appUser?.role !== 'CANDIDATE') &&
+    (audience !== 'job_seeker' || isEmployerContext);
 
   return (
     <footer className={styles.footer} role="contentinfo">
       <div className={styles.container}>
         <div className={styles.grid}>
           <div className={styles.brand}>
-            <img src={logo} alt="Recruitzaa logo" width="140" height="36" />
+            <BrandLogo />
             <p>
-              Recruitzaa brings job discovery and structured hiring workflows into role-based
+              {BRAND.name} brings job discovery and structured hiring workflows into role-based
               workspaces.
             </p>
           </div>
 
-          {(!isAuthenticated || appUser?.role !== 'EMPLOYER') && (
+          {showCandidateSection && (
             <div>
               <div className={styles.heading}>For Candidates</div>
               <ul className={styles.links}>
@@ -26,18 +47,20 @@ export const Footer = () => {
                   <Link to="/jobs">Browse Jobs</Link>
                 </li>
                 <li>
-                  <Link to={isAuthenticated ? '/candidate/ai-hub' : '/register?intent=candidate'}>
+                  <Link to={isAuthenticated ? '/candidate/ai-hub' : ROUTES.AUTH.REGISTER_CANDIDATE}>
                     Resume Tools
                   </Link>
                 </li>
                 <li>
-                  <Link to={isAuthenticated ? '/candidate/pipeline' : '/register?intent=candidate'}>
+                  <Link
+                    to={isAuthenticated ? '/candidate/pipeline' : ROUTES.AUTH.REGISTER_CANDIDATE}
+                  >
                     Application Tracker
                   </Link>
                 </li>
                 <li>
                   <Link
-                    to={isAuthenticated ? '/candidate/dashboard' : '/register?intent=candidate'}
+                    to={isAuthenticated ? '/candidate/dashboard' : ROUTES.AUTH.REGISTER_CANDIDATE}
                   >
                     Candidate Workspace
                   </Link>
@@ -46,12 +69,12 @@ export const Footer = () => {
             </div>
           )}
 
-          {(!isAuthenticated || appUser?.role !== 'CANDIDATE') && (
+          {showEmployerSection && (
             <div>
               <div className={styles.heading}>For Employers</div>
               <ul className={styles.links}>
                 <li>
-                  <Link to={isAuthenticated ? '/employer/post-job' : '/register?intent=employer'}>
+                  <Link to={isAuthenticated ? '/employer/post-job' : ROUTES.AUTH.REGISTER_EMPLOYER}>
                     Post a Job
                   </Link>
                 </li>
@@ -62,7 +85,9 @@ export const Footer = () => {
                   <Link to="/#services">Executive Search</Link>
                 </li>
                 <li>
-                  <Link to={isAuthenticated ? '/employer/dashboard' : '/register?intent=employer'}>
+                  <Link
+                    to={isAuthenticated ? '/employer/dashboard' : ROUTES.AUTH.REGISTER_EMPLOYER}
+                  >
                     Employer Portal
                   </Link>
                 </li>
@@ -90,7 +115,7 @@ export const Footer = () => {
         </div>
         <div className={styles.bottomBar}>
           <div>
-            © {new Date().getFullYear()} Recruitzaa Technologies Pvt. Ltd. All rights reserved.
+            © {new Date().getFullYear()} {BRAND.legalName} All rights reserved.
           </div>
           <div className={styles.contactBar}>
             <span>

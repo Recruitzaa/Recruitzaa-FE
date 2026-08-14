@@ -4,6 +4,7 @@ import { cancelSession, completeSession } from '../../../store/slices/expertSlic
 import { EarningsWidget } from './EarningsWidget';
 import { ServiceTiersCard } from './ServiceTiersCard';
 import { SEO } from '../../../components/seo/SEO';
+import { BRAND } from '../../../config/content';
 import { PageTransition } from '../../../components/layout/PageTransition';
 import { useToast } from '../../../hooks/useToast';
 import { Badge } from '../../../components/ui/Badge';
@@ -33,7 +34,7 @@ export const ExpertDashboardPage: React.FC = () => {
     <>
       <PageTransition>
         <SEO
-          title="Mentor Dashboard | recruitZaa Hub"
+          title={`Mentor Dashboard | ${BRAND.name} Hub`}
           description="Manage pending mentorship sessions, timezone sync schedules, and track monthly mentoring earnings."
         />
         <div className="max-w-7xl mx-auto px-4 py-8 space-y-8 w-full">
@@ -43,7 +44,7 @@ export const ExpertDashboardPage: React.FC = () => {
               <h1 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
                 <Compass className="text-[#c14f16]" size={20} /> Mentorship Control Room
               </h1>
-              <p className="text-sm text-slate-505 dark:text-slate-400 mt-1">
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
                 Track live bookings, completed sessions, and payouts.
               </p>
             </div>

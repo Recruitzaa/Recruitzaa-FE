@@ -1,5 +1,6 @@
 import { useEmployerProfileForm, SECTIONS } from './hooks/useEmployerProfileForm';
 import { SEO } from '../../components/seo/SEO';
+import { BRAND } from '../../config/content';
 import { CompanyHeroCard } from './components/CompanyHeroCard';
 import { CompanyOverviewCard } from './components/CompanyOverviewCard';
 import { CompanyAboutCard } from './components/CompanyAboutCard';
@@ -13,8 +14,8 @@ export const EmployerProfilePage = () => {
   return (
     <>
       <SEO
-        title="Company Profile | recruitZaa Employer"
-        description="Manage your company branding, culture, and hiring contact on recruitZaa."
+        title={`Company Profile | ${BRAND.name} Employer`}
+        description={`Manage your company branding, culture, and hiring contact on ${BRAND.name}.`}
       />
 
       <div className="max-w-7xl mx-auto px-4 py-8 w-full">
@@ -52,7 +53,7 @@ export const EmployerProfilePage = () => {
                 Company Profile
               </h1>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                Manage how your company appears to candidates across recruitZaa.
+                Manage how your company appears to candidates across {BRAND.name}.
               </p>
             </div>
 
@@ -64,6 +65,7 @@ export const EmployerProfilePage = () => {
               cancelEdit={form.cancelEdit}
               saveEdit={form.saveEdit}
               field={form.field}
+              onLogoUpload={form.handleLogoUpload}
               id={form.id}
             />
 
