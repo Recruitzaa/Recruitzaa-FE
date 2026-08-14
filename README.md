@@ -4,9 +4,22 @@ The frontend codebase for recruitZaa, featuring a React Native (TypeScript) mobi
 
 ## Version History
 
-**Current Version: `v0.4.0`**
+**Current Version: `v0.5.0`**
 
 ### Changelog
+
+**[v0.5.0] - 2026-08-15** _(Branch: `feature/UI-touch-ups`)_
+
+Brand refresh, an honest avatar system, and a CI reliability fix, layered on top of the v0.4.0 hardening pass.
+
+- **Real Avatars, No More Stock Photos**: Added a shared `UserAvatar` component that renders the signed-in user's real photo (e.g. from Google sign-in) when available and degrades to initials on a missing or failed-to-load `photoUrl` — replacing four duplicated `getInitials` implementations (`DashboardLayoutUtils`, `AdminSidebar`, `PortalSidebar`) and the candidate profile's stock Unsplash photo of an unrelated person. The profile's default avatar is now blank until the candidate uploads their own; a new persisted-state migration (`profileStateMigrate`, storage v3) clears the old stock-photo URL out of any already-persisted profile.
+- **Backend Contract Alignment**: Renamed `AppUser.photoURL` to `photoUrl` to match the backend field name, and widened it plus every other optional `AppUser`/`appUserSchema` field (`phone`, `location`, `bio`, `currentCompany`, `skills`, etc.) to accept `null` in addition to `undefined`, since the backend returns explicit `null` rather than omitting the field.
+- **Brand Refresh**: Replaced the logo assets (`logo.jpg`/`logo_cropped.png`/`logo-dark.svg` → `logo.png`/`logo-dark.png`) and the SVG favicon with a proper 32/192/512px PNG favicon set (plus an `apple-touch-icon`); `BrandLogo` gained a `forceVariant` prop for surfaces like the footer that don't follow the site-wide theme.
+- **Navigation Fixes**: The homepage now counts as job-seeker context in the `Navbar`, so a persisted "employer" audience preference no longer hides _Find Jobs_/_Career Tools_ when a visitor returns to `/`; `UtilityBar` keeps the persisted audience in sync with the current URL on back/forward navigation; candidate-workspace job links now route through `ROUTES.CANDIDATE.JOBS`/`JOB_DETAIL` (`/candidate/jobs/...`) instead of the public `/jobs` route, so the dashboard sidebar stays put.
+- **Dark Mode Contrast Sweep**: Added missing `dark:` variants across previously light-only surfaces (`Select`, `ProfileBannerCard`, `ProfileQuickLinks`) and removed redundant/incorrect overrides elsewhere, as a targeted visual-consistency pass rather than a functional change.
+- **Fixed a Build-Breaking Type Error**: The `photoUrl`-only nullability change above initially left `appUserSchema`'s Zod-inferred type (`.nullish()` on every field) incompatible with the narrower `AppUser` interface, failing `tsc -b`. Caught by `npm run verify` and fixed by widening `AppUser` to match.
+- **Fixed a Silent CI Gap**: `npm run verify` passed locally but both `Frontend CI` and `Frontend verification` GitHub Actions runs were failing on this branch. Root cause: the Firebase and API-base-URL secrets configured in the repo were only wired into the build step, not the test step, so `src/config/firebase.ts`'s `getAuth()` threw `auth/invalid-api-key` on import (crashing `AppRoutes.test.tsx`/`NotFoundPage.test.tsx`, which render real auth-aware routes) and RTK Query's `fetchBaseQuery` threw `ERR_INVALID_URL` on the relative `/api` default (failing `profileApi.test.ts`) — invisible locally because a `.env` file with real values masked it. Fixed by giving `vitest.config.ts` its own non-secret, deterministic env defaults, so tests never depend on secrets being present or correctly wired into a workflow.
+- **Testing**: Reproduced the CI failure locally by running the suite with `.env` removed, confirmed the fix closes the gap, then re-confirmed all 256 tests plus lint, the duplicate guard, and `tsc -b && vite build` pass with `.env` restored.
 
 **[v0.4.0] - 2026-08-15** _(Branch: `feature/UI-touch-ups`)_
 
