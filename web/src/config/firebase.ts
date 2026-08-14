@@ -1,15 +1,16 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, GithubAuthProvider, OAuthProvider } from 'firebase/auth';
 import { getAnalytics } from 'firebase/analytics';
+import { env } from './env';
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || '',
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || '',
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || '',
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || '',
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '',
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || '',
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || '',
+  apiKey: env.FIREBASE.API_KEY,
+  authDomain: env.FIREBASE.AUTH_DOMAIN,
+  projectId: env.FIREBASE.PROJECT_ID,
+  storageBucket: env.FIREBASE.STORAGE_BUCKET,
+  messagingSenderId: env.FIREBASE.MESSAGING_SENDER_ID,
+  appId: env.FIREBASE.APP_ID,
+  measurementId: env.FIREBASE.MEASUREMENT_ID,
 };
 
 // Prevent duplicate app initialization (Vite HMR safe)
@@ -20,7 +21,11 @@ export const googleProvider = new GoogleAuthProvider();
 export const githubProvider = new GithubAuthProvider();
 export const linkedinProvider = new OAuthProvider('oidc.linkedin');
 
-// Analytics is browser-only; guard for SSR/node environments
-export const analytics = typeof window !== 'undefined' ? getAnalytics(app) : null;
+// Analytics is browser-only and needs a real measurement ID; guard both so
+// SSR/node environments and unconfigured (test/local) builds don't throw.
+export const analytics =
+  typeof window !== 'undefined' && env.FIREBASE.isConfigured && env.FIREBASE.MEASUREMENT_ID
+    ? getAnalytics(app)
+    : null;
 
 export default app;

@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { safeLocalStorage } from '../../../lib/safeStorage';
+import { env } from '../../../config/env';
 
 export interface UserProfile {
   userId: string;
@@ -40,7 +41,7 @@ export interface UserProfile {
 export const profileApi = createApi({
   reducerPath: 'profileApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1',
+    baseUrl: env.API_BASE_URL,
     prepareHeaders: (headers) => {
       // Retrieve JWT tokens from localStorage or MMKV equivalent
       const token = safeLocalStorage.getItem('accessToken');
