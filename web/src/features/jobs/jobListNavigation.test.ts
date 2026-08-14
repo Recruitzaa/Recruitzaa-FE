@@ -13,6 +13,11 @@ describe('isJobListOrigin', () => {
     expect(isJobListOrigin('/candidate/jobs?sort=recent', true)).toBe(true);
   });
 
+  it('accepts the candidate saved-jobs page as a portal list origin', () => {
+    expect(isJobListOrigin('/candidate/saved-jobs', true)).toBe(true);
+    expect(isJobListOrigin('/candidate/saved-jobs?tab=searches', true)).toBe(true);
+  });
+
   it('rejects unrelated paths and cross-context origins', () => {
     expect(isJobListOrigin(undefined)).toBe(false);
     expect(isJobListOrigin('/jobs/123')).toBe(false);

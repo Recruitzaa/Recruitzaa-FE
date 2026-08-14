@@ -4,8 +4,14 @@ export interface JobListNavigationState {
   scrollY?: number;
 }
 
+/** Paths from which a "back to results" link/button is meaningful. */
+const JOB_LIST_BASES = {
+  public: ['/jobs'],
+  portal: ['/candidate/jobs', '/candidate/saved-jobs'],
+};
+
 export const isJobListOrigin = (from: string | undefined, portal = false) => {
   if (!from) return false;
-  const base = portal ? '/candidate/jobs' : '/jobs';
-  return from === base || from.startsWith(`${base}?`);
+  const bases = portal ? JOB_LIST_BASES.portal : JOB_LIST_BASES.public;
+  return bases.some((base) => from === base || from.startsWith(`${base}?`));
 };

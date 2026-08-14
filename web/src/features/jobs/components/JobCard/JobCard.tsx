@@ -8,6 +8,7 @@ import { useToast } from '../../../../hooks/useToast';
 import { ROUTES } from '../../../../config/routes';
 import type { JobListNavigationState } from '../../jobListNavigation';
 import { safeSessionStorage } from '../../../../lib/safeStorage';
+import { getReadableTextColor } from '../../../../lib/contrastColor';
 import styles from './JobCard.module.css';
 
 interface JobCardProps {
@@ -15,7 +16,7 @@ interface JobCardProps {
   title: string;
   company: string;
   location: string;
-  type: string;
+  workplace: string;
   salary: string;
   postedAt: string;
   matchScore: number;
@@ -33,7 +34,7 @@ export const JobCard = ({
   title,
   company,
   location,
-  type,
+  workplace,
   salary,
   postedAt,
   matchScore,
@@ -62,9 +63,12 @@ export const JobCard = ({
   };
 
   return (
-    <Card className={styles.jobCard} role="article">
+    <Card className={styles.jobCard} role="article" aria-label={`${title} at ${company}`}>
       <div className={styles.topRow}>
-        <div className={styles.avatar} style={{ backgroundColor: avatarColor }}>
+        <div
+          className={styles.avatar}
+          style={{ backgroundColor: avatarColor, color: getReadableTextColor(avatarColor) }}
+        >
           {avatarText}
         </div>
         <div className={styles.mainInfo}>
@@ -82,7 +86,7 @@ export const JobCard = ({
               &middot;
             </span>{' '}
             {location}
-            {location.toLowerCase().includes(type.toLowerCase()) ? '' : ` (${type})`}
+            {location.toLowerCase().includes(workplace.toLowerCase()) ? '' : ` (${workplace})`}
           </div>
         </div>
         {isAuthenticated ? (
@@ -135,7 +139,11 @@ export const JobCard = ({
         <div className={styles.actions}>
           <Link
             to={isAuthenticated ? '/candidate/ai-hub' : ROUTES.AUTH.loginWithNext(detailsLink)}
-            aria-label={`Check ATS fit score for ${title} role at ${company}`}
+            aria-label={
+              isAuthenticated
+                ? 'Open the AI hub to compare your profile with roles'
+                : `Sign in to see your profile match for ${title} at ${company}`
+            }
             className={`${styles.actionBtn} ${styles.outlineAction}`}
           >
             {isAuthenticated ? 'Check profile fit' : 'Sign in for match'}

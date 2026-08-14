@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Bookmark, Bell } from 'lucide-react';
 import { JobCard } from '../../features/jobs/components/JobCard/JobCard';
 import { useJobPreferences } from '../../features/jobs/hooks/useJobPreferences';
@@ -8,6 +8,8 @@ export const SavedJobsPage = () => {
   const jobs = useAppSelector((state) => state.jobs.jobsList);
   const { savedJobIds, savedSearches, removeSearch } = useJobPreferences();
   const savedJobs = jobs.filter((job) => savedJobIds.includes(job.id));
+  const location = useLocation();
+  const listOrigin = `${location.pathname}${location.search}`;
 
   return (
     <div className="mx-auto max-w-6xl space-y-8">
@@ -40,7 +42,7 @@ export const SavedJobsPage = () => {
           <ul className="list-none space-y-4 p-0">
             {savedJobs.map((job) => (
               <li key={job.id}>
-                <JobCard {...job} />
+                <JobCard {...job} listOrigin={listOrigin} />
               </li>
             ))}
           </ul>

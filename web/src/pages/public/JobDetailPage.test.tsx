@@ -8,6 +8,7 @@ import { describe, expect, it, vi } from 'vitest';
 import authReducer from '../../store/slices/auth.slice';
 import jobsReducer from '../../store/slices/jobsSlice';
 import profileReducer from '../../store/slices/profileSlice';
+import { JobPreferencesProvider } from '../../features/jobs/hooks/useJobPreferences';
 import { JobDetailPage } from './JobDetailPage';
 
 vi.mock('../../services/analytics.service', () => ({
@@ -22,12 +23,14 @@ const renderDetail = (initialEntry: string, initialIndex = 0) => {
   return render(
     <HelmetProvider>
       <Provider store={store}>
-        <MemoryRouter initialEntries={[initialEntry]} initialIndex={initialIndex}>
-          <Routes>
-            <Route path="/jobs" element={<div>Jobs list</div>} />
-            <Route path="/jobs/:id" element={<JobDetailPage />} />
-          </Routes>
-        </MemoryRouter>
+        <JobPreferencesProvider>
+          <MemoryRouter initialEntries={[initialEntry]} initialIndex={initialIndex}>
+            <Routes>
+              <Route path="/jobs" element={<div>Jobs list</div>} />
+              <Route path="/jobs/:id" element={<JobDetailPage />} />
+            </Routes>
+          </MemoryRouter>
+        </JobPreferencesProvider>
       </Provider>
     </HelmetProvider>
   );
@@ -64,15 +67,17 @@ describe('JobDetailPage back navigation', () => {
     render(
       <HelmetProvider>
         <Provider store={store}>
-          <MemoryRouter
-            initialEntries={[listUrl, { pathname: `/jobs/${jobId}`, state: { from: listUrl } }]}
-            initialIndex={1}
-          >
-            <Routes>
-              <Route path="/jobs" element={<div>Jobs list</div>} />
-              <Route path="/jobs/:id" element={<JobDetailPage />} />
-            </Routes>
-          </MemoryRouter>
+          <JobPreferencesProvider>
+            <MemoryRouter
+              initialEntries={[listUrl, { pathname: `/jobs/${jobId}`, state: { from: listUrl } }]}
+              initialIndex={1}
+            >
+              <Routes>
+                <Route path="/jobs" element={<div>Jobs list</div>} />
+                <Route path="/jobs/:id" element={<JobDetailPage />} />
+              </Routes>
+            </MemoryRouter>
+          </JobPreferencesProvider>
         </Provider>
       </HelmetProvider>
     );

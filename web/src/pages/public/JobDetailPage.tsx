@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Bookmark, Flag, Share2 } from 'lucide-react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Badge } from '../../components/ui/Badge';
@@ -27,6 +27,14 @@ export const JobDetailPage = () => {
   const profile = useAppSelector((state) => state.profile);
   const { savedJobIds, toggleSavedJob } = useJobPreferences();
   const [reportOpen, setReportOpen] = useState(false);
+  const reportTriggerRef = useRef<HTMLButtonElement>(null);
+  const reportPanelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (reportOpen) {
+      reportPanelRef.current?.focus();
+    }
+  }, [reportOpen]);
   const isPortalView = location.pathname.startsWith('/candidate');
   const fallbackBackLink = isPortalView ? '/candidate/jobs' : '/jobs';
   const listState = location.state as JobListNavigationState | null;
@@ -102,17 +110,32 @@ export const JobDetailPage = () => {
         toast.error('The job link could not be shared.');
     }
   };
+  const validThrough = new Date(
+    new Date(job.postedAtIso).getTime() + 30 * 24 * 60 * 60 * 1000
+  ).toISOString();
   const jobSchema = {
     '@context': 'https://schema.org/',
     '@type': 'JobPosting',
     title: job.title,
     description: `${job.title} at ${job.company}. Skills include ${job.tags.join(', ')}.`,
     identifier: { '@type': 'PropertyValue', name: job.company, value: applicationId },
-    employmentType: job.type.toUpperCase().replace('-', '_'),
+    datePosted: job.postedAtIso,
+    validThrough,
+    employmentType: job.employmentType,
     hiringOrganization: { '@type': 'Organization', name: job.company },
     jobLocation: {
       '@type': 'Place',
       address: { '@type': 'PostalAddress', addressLocality: displayLocation },
+    },
+    baseSalary: {
+      '@type': 'MonetaryAmount',
+      currency: 'INR',
+      value: {
+        '@type': 'QuantitativeValue',
+        minValue: job.salaryMin,
+        maxValue: job.salaryMax,
+        unitText: 'YEAR',
+      },
     },
   };
 
@@ -142,7 +165,7 @@ export const JobDetailPage = () => {
             <p className={styles.eyebrow}>Demo catalogue listing</p>
             <h1>{job.title}</h1>
             <p>
-              {job.company} · {displayLocation} · {job.type} · Posted {job.postedAt}
+              {job.company} · {displayLocation} · {job.workplace} · Posted {job.postedAt}
             </p>
             <div className={styles.headerActions}>
               {!isAuthenticated ? (
@@ -172,16 +195,30 @@ export const JobDetailPage = () => {
                 Share
               </button>
               <button
+                ref={reportTriggerRef}
                 type="button"
                 onClick={() => setReportOpen((open) => !open)}
                 aria-expanded={reportOpen}
+                aria-controls="report-panel"
               >
                 <Flag size={18} aria-hidden="true" />
                 Report
               </button>
             </div>
             {reportOpen && (
-              <div className={styles.reportPanel} role="status">
+              <div
+                id="report-panel"
+                ref={reportPanelRef}
+                className={styles.reportPanel}
+                tabIndex={-1}
+                onKeyDown={(event) => {
+                  if (event.key === 'Escape') {
+                    event.preventDefault();
+                    setReportOpen(false);
+                    reportTriggerRef.current?.focus();
+                  }
+                }}
+              >
                 <strong>Report a listing concern</strong>
                 <p>
                   The production moderation endpoint is not connected. Email{' '}
@@ -265,7 +302,7 @@ export const JobDetailPage = () => {
                       </div>
                       <div>
                         <dt>Work mode</dt>
-                        <dd>{job.type}</dd>
+                        <dd>{job.workplace}</dd>
                       </div>
                     </dl>
                     <p className={styles.matchDisclosure}>
@@ -295,7 +332,7 @@ export const JobDetailPage = () => {
                 </div>
                 <div className={styles.fact}>
                   <strong>Workplace</strong>
-                  <span>{job.type}</span>
+                  <span>{job.workplace}</span>
                 </div>
                 <div className={styles.fact}>
                   <strong>Location</strong>

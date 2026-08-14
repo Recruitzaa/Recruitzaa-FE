@@ -7,6 +7,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import authReducer from '../../../../store/slices/auth.slice';
 import type { AppUser } from '../../../../types/auth.types';
+import { JobPreferencesProvider } from '../../hooks/useJobPreferences';
 import { JobCard } from './JobCard';
 
 vi.mock('../../../../hooks/useToast', () => ({
@@ -38,22 +39,24 @@ const renderCard = (authenticated = false) => {
   return render(
     <HelmetProvider>
       <Provider store={store}>
-        <MemoryRouter>
-          <JobCard
-            id="job-1"
-            title="Staff Engineer"
-            company="Acme"
-            location="Remote"
-            type="Remote"
-            salary="₹20 LPA"
-            postedAt="Today"
-            matchScore={90}
-            tags={['React']}
-            avatarText="AC"
-            avatarColor="#000"
-            listOrigin="/jobs"
-          />
-        </MemoryRouter>
+        <JobPreferencesProvider>
+          <MemoryRouter>
+            <JobCard
+              id="job-1"
+              title="Staff Engineer"
+              company="Acme"
+              location="Remote"
+              workplace="Remote"
+              salary="₹20 LPA"
+              postedAt="Today"
+              matchScore={90}
+              tags={['React']}
+              avatarText="AC"
+              avatarColor="#000"
+              listOrigin="/jobs"
+            />
+          </MemoryRouter>
+        </JobPreferencesProvider>
       </Provider>
     </HelmetProvider>
   );

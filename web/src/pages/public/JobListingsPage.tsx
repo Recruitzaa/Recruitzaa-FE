@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useMemo, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState, type FormEvent } from 'react';
 import { Bell, SlidersHorizontal } from 'lucide-react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { PageTransition } from '../../components/layout/PageTransition';
@@ -28,6 +28,7 @@ export const JobListingsPage = () => {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [frequency, setFrequency] = useState<'daily' | 'weekly'>('weekly');
+  const resultsRef = useRef<HTMLElement>(null);
   const keywordId = useId();
   const locationId = useId();
   const experienceId = useId();
@@ -54,17 +55,16 @@ export const JobListingsPage = () => {
       const searchable = `${job.title} ${job.company} ${job.tags.join(' ')}`.toLowerCase();
       const matchesExperience =
         !experience ||
-        job.tags.some((tag) => {
-          const years = Number(tag.match(/\d+/)?.[0] ?? 0);
-          if (experience === '3-6') return years >= 3 && years <= 6;
-          if (experience === '6-10') return years >= 6 && years <= 10;
-          return years >= 10;
-        });
+        (experience === '3-6'
+          ? job.experienceMax >= 3 && job.experienceMin <= 6
+          : experience === '6-10'
+            ? job.experienceMax >= 6 && job.experienceMin <= 10
+            : job.experienceMax >= 10);
       return (
         job.status === 'Active' &&
         (!keyword || searchable.includes(keyword)) &&
-        (!location || `${job.location} ${job.type}`.toLowerCase().includes(location)) &&
-        (!workplace || job.type.toLowerCase() === workplace.toLowerCase()) &&
+        (!location || `${job.location} ${job.workplace}`.toLowerCase().includes(location)) &&
+        (!workplace || job.workplace.toLowerCase() === workplace.toLowerCase()) &&
         (!priorityOnly || job.isPriority) &&
         (!highMatchOnly || job.matchScore >= 90) &&
         matchesExperience
@@ -72,11 +72,8 @@ export const JobListingsPage = () => {
     });
     return [...results].sort((a, b) => {
       if (sort === 'match') return b.matchScore - a.matchScore;
-      if (sort === 'salary') {
-        const salary = (value: string) => Number(value.match(/₹(\d+)/)?.[1] ?? 0);
-        return salary(b.salary) - salary(a.salary);
-      }
-      return a.id.localeCompare(b.id, undefined, { numeric: true });
+      if (sort === 'salary') return b.salaryMax - a.salaryMax;
+      return new Date(b.postedAtIso).getTime() - new Date(a.postedAtIso).getTime();
     });
   }, [jobsList, searchParams, sort, workplace]);
 
@@ -111,6 +108,9 @@ export const JobListingsPage = () => {
       hasLocation: Boolean(next.get('location')),
       hasExperience: Boolean(next.get('experience')),
     });
+    // Move focus to the results so keyboard/screen-reader users land on the
+    // outcome of their search instead of staying at the top of the form.
+    resultsRef.current?.focus();
   };
 
   const openAlert = () => {
@@ -265,13 +265,14 @@ export const JobListingsPage = () => {
               )}
             </aside>
             <section
+              ref={resultsRef}
               className={styles.feed}
               id="job-results"
               tabIndex={-1}
               aria-label="Job results"
             >
-              <div className={styles.feedHeader} aria-live="polite">
-                <div>
+              <div className={styles.feedHeader}>
+                <div aria-live="polite">
                   <strong>{filteredJobs.length}</strong>{' '}
                   {filteredJobs.length === 1 ? 'opportunity' : 'opportunities'} found
                 </div>
@@ -359,6 +360,7 @@ export const JobListingsPage = () => {
           <label>
             <input
               type="radio"
+              name="alert-frequency"
               checked={frequency === 'daily'}
               onChange={() => setFrequency('daily')}
             />
@@ -367,6 +369,7 @@ export const JobListingsPage = () => {
           <label>
             <input
               type="radio"
+              name="alert-frequency"
               checked={frequency === 'weekly'}
               onChange={() => setFrequency('weekly')}
             />

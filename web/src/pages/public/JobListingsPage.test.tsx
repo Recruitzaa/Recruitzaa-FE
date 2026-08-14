@@ -8,6 +8,7 @@ import { describe, expect, it, vi } from 'vitest';
 import authReducer from '../../store/slices/auth.slice';
 import jobsReducer from '../../store/slices/jobsSlice';
 import profileReducer from '../../store/slices/profileSlice';
+import { JobPreferencesProvider } from '../../features/jobs/hooks/useJobPreferences';
 import { JobListingsPage } from './JobListingsPage';
 
 vi.mock('../../hooks/useAuth', () => ({
@@ -22,9 +23,11 @@ const renderJobListings = (initialEntry = '/jobs') => {
   return render(
     <HelmetProvider>
       <Provider store={store}>
-        <MemoryRouter initialEntries={[initialEntry]}>
-          <JobListingsPage />
-        </MemoryRouter>
+        <JobPreferencesProvider>
+          <MemoryRouter initialEntries={[initialEntry]}>
+            <JobListingsPage />
+          </MemoryRouter>
+        </JobPreferencesProvider>
       </Provider>
     </HelmetProvider>
   );
