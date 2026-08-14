@@ -21,7 +21,7 @@ const adminFirebaseUser = {
   uid: 'firebase-1',
   email: 'admin@example.com',
   displayName: 'Admin',
-  photoURL: null,
+  photoUrl: null,
   getIdToken,
 };
 
