@@ -4,9 +4,23 @@ The frontend codebase for recruitZaa, featuring a React Native (TypeScript) mobi
 
 ## Version History
 
-**Current Version: `v0.3.0`**
+**Current Version: `v0.4.0`**
 
 ### Changelog
+
+**[v0.4.0] - 2026-08-15** _(Branch: `feature/UI-touch-ups`)_
+
+Production-hardening pass across storage, networking, state, authentication, jobs, candidate profile, and accessibility.
+
+- **Branch Regression Fixes**: Restored the honest "Applications unavailable" disabled state and its explanatory notice in production (previously gated behind `import.meta.env.DEV`), fixed the job search 404 to use the actual keyword instead of a stray `?q=` parameter, preserved registration intent through `AuthRedirect`, and stopped a placeholder-row leak in the candidate dashboard.
+- **Guarded Storage**: Added `safeStorage` wrappers and versioned, schema-validated persistence helpers; every `localStorage`/`sessionStorage` call site now fails safely instead of throwing (notably in Safari Private Browsing).
+- **Hardened Network Layer**: Axios now has request timeouts, typed retry logic, and a guarded token-refresh flow; `env.ts` is the single validated source of environment config; `api.service` responses are checked against Zod schemas; React Query has explicit retry/`onError` behavior.
+- **Resilient Store**: The Redux store subscriber now dirty-checks before writing, every persisted slice is versioned and schema-validated on load, and `preloadedState.ui` is derived from the slice instead of duplicated.
+- **Rebuilt Auth Guard**: `RoleGuard` is a cancellable, UID-keyed resolver with explicit 401/403/429 handling; `LoginForm` no longer swallows sync failures and moved to React Hook Form + Zod; nested guards were collapsed and `next` redirect targets are validated before use.
+- **Structured Jobs Data Model**: Jobs now carry real `salary`, `postedAt`, `experience`, and `employmentType` fields instead of display strings; sort, filter, and `Schema.org` structured data were rewritten against the typed fields; `isJobListOrigin` recognizes the saved-jobs flow; `useJobPreferences` moved from a per-card hook to a single app-level provider.
+- **Candidate Profile Overhaul**: Profile list items (employment, education, projects, skills, references, certifications) now use stable IDs instead of array indices; every profile input is validated with Zod and surfaces inline field errors; the profile slice persists with versioned schema validation; "One-Click AI Autofill" now requires explicit confirmation before overwriting a profile and is honest that it loads sample data rather than claiming to have parsed a resume; demo fixtures moved out of application code into `src/data/demo/`; user-supplied URLs (`credentialUrl`, portfolio links) are sanitized against XSS.
+- **Accessibility Hardening**: Added `useId()`-based label/`htmlFor` associations across candidate, employer, and admin forms; rebuilt the toast system with unique `nanoid` ids, de-duplication, a capped stack, persistent `aria-live` regions, and non-auto-dismissing errors; raised every sub-12px text style to a 12px minimum; fixed job-avatar color contrast with a WCAG luminance check; made smooth-scrolling respect `prefers-reduced-motion`; and added focus management to `ErrorBoundary`, the job search results region, and modal/report panels.
+- **Testing**: Added and updated unit tests covering the network layer, store persistence, auth guard, jobs data model, profile validation, and the new accessibility utilities; `npm run verify` (duplicate guard, lint, tests, build) passes clean.
 
 **[v0.3.0] - 2026-07-30** _(Branch: `fix/integration-fixes`)_
 
