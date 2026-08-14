@@ -66,13 +66,14 @@ function parseApiResponse<T>(schema: z.ZodType<T>, data: unknown, context: strin
 export const registerUser = async (
   firebaseToken: string,
   requestedRole: 'CANDIDATE' | 'EMPLOYER',
-  displayName?: string
+  displayName?: string,
+  signal?: AbortSignal
 ): Promise<AppUser> => {
-  const { data } = await api.post('/auth/register', {
-    firebaseToken,
-    requestedRole,
-    displayName,
-  });
+  const { data } = await api.post(
+    '/auth/register',
+    { firebaseToken, requestedRole, displayName },
+    { signal }
+  );
   return parseApiResponse(authResponseSchema, data, 'POST /auth/register').user;
 };
 
@@ -91,8 +92,8 @@ export const verifyUser = async (firebaseToken: string): Promise<AppUser> => {
  * Get the current authenticated user's profile.
  * Called by RoleGuard on page load to restore the session.
  */
-export const getMe = async (): Promise<AppUser> => {
-  const { data } = await api.get('/auth/me');
+export const getMe = async (signal?: AbortSignal): Promise<AppUser> => {
+  const { data } = await api.get('/auth/me', { signal });
   return parseApiResponse(appUserSchema, data, 'GET /auth/me');
 };
 

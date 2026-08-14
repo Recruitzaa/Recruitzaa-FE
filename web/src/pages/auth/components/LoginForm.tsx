@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useForm, type SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { Mail } from 'lucide-react';
 import styles from '../AuthPage.module.css';
 import {
@@ -14,6 +17,8 @@ import { SocialAuthButtons } from './SocialAuthButtons';
 import { useAppDispatch } from '../../../store/hooks';
 import { setUser } from '../../../store/slices/auth.slice';
 import { safeLocalStorage } from '../../../lib/safeStorage';
+import { useToast } from '../../../hooks/useToast';
+import { isDismissedPopupError, mapFirebaseAuthError } from '../../../lib/firebaseAuthErrors';
 
 interface LoginFormProps {
   role: 'candidate' | 'employer';
@@ -23,22 +28,43 @@ interface LoginFormProps {
 
 const REMEMBER_EMAIL_KEY = 'recruitzaa_remembered_email';
 
+const loginSchema = z.object({
+  email: z.string().trim().min(1, 'Email is required.').email('Enter a valid email address.'),
+  password: z.string().min(1, 'Password is required.'),
+  rememberMe: z.boolean(),
+});
+
+type LoginFormValues = z.infer<typeof loginSchema>;
+
 export const LoginForm: React.FC<LoginFormProps> = ({ role, onSuccess, onSwitchToRegister }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  // Each auth operation gets its own loading flag so, e.g., requesting a
+  // password reset doesn't also spin/disable the unrelated social buttons.
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [socialLoading, setSocialLoading] = useState(false);
+  const [forgotLoading, setForgotLoading] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
   const dispatch = useAppDispatch();
+  const toast = useToast();
 
-  useEffect(() => {
-    const rememberedEmail = safeLocalStorage.getItem(REMEMBER_EMAIL_KEY);
-    if (rememberedEmail) {
-      setEmail(rememberedEmail);
-      setRememberMe(true);
-    }
-  }, []);
+  const rememberedEmail = safeLocalStorage.getItem(REMEMBER_EMAIL_KEY);
+
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    watch,
+    formState: { errors },
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: rememberedEmail ?? '',
+      password: '',
+      rememberMe: Boolean(rememberedEmail),
+    },
+  });
+
+  const emailValue = watch('email');
 
   /**
    * After Firebase sign-in succeeds, verify with the Backend.
@@ -68,7 +94,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role, onSuccess, onSwitchT
       dispatch(setUser(appUser));
     } catch (err) {
       console.error('Backend sync failed:', err);
-      // Still allow login even if backend is unreachable — Firebase auth is valid
+      // Firebase auth is still valid, so let the user proceed — but don't
+      // pretend everything worked. RoleGuard will retry resolving the
+      // account on the destination route and surface its own error there
+      // if the backend is still unreachable.
+      toast.warning(
+        "Signed in, but we couldn't sync your Recruitzaa account yet. Some features may be limited until this resolves."
+      );
     }
   };
 
@@ -85,7 +117,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role, onSuccess, onSwitchT
     name: string
   ) => {
     setError(null);
-    setLoading(true);
+    setSocialLoading(true);
     try {
       const user = await providerFn();
       if (user?.uid) {
@@ -93,25 +125,24 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role, onSuccess, onSwitchT
         onSuccess(user.uid);
       }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : `${name} sign-in failed.`;
-      if (!msg.includes('popup-closed-by-user') && !msg.includes('cancelled-popup-request')) {
+      const msg = mapFirebaseAuthError(err, `${name} sign-in failed.`);
+      if (!isDismissedPopupError(msg)) {
         setError(msg);
       }
     } finally {
-      setLoading(false);
+      setSocialLoading(false);
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit: SubmitHandler<LoginFormValues> = async ({ email, password, rememberMe }) => {
     setError(null);
     setStatus(null);
-    setLoading(true);
+    setSubmitLoading(true);
     try {
-      const user = await signInWithEmail(email.trim(), password);
+      const user = await signInWithEmail(email, password);
       if (user?.uid) {
         if (rememberMe) {
-          safeLocalStorage.setItem(REMEMBER_EMAIL_KEY, email.trim());
+          safeLocalStorage.setItem(REMEMBER_EMAIL_KEY, email);
         } else {
           safeLocalStorage.removeItem(REMEMBER_EMAIL_KEY);
         }
@@ -119,43 +150,30 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role, onSuccess, onSwitchT
         onSuccess(user.uid);
       }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Authentication failed.';
-      if (
-        msg.includes('user-not-found') ||
-        msg.includes('wrong-password') ||
-        msg.includes('invalid-credential')
-      ) {
-        setError('Incorrect email or password.');
-      } else if (msg.includes('invalid-email')) {
-        setError('Please enter a valid email address.');
-      } else {
-        setError(msg);
-      }
+      setError(mapFirebaseAuthError(err, 'Authentication failed.'));
     } finally {
-      setLoading(false);
+      setSubmitLoading(false);
     }
   };
 
   const handleForgotPassword = async () => {
     setError(null);
     setStatus(null);
-    if (!email.trim()) {
+    const email = getValues('email').trim();
+    if (!email) {
       setError('Enter your email address first, then request a reset link.');
       return;
     }
-    setLoading(true);
+    setForgotLoading(true);
     try {
-      await requestPasswordReset(email.trim());
+      await requestPasswordReset(email);
       setStatus('If an account exists for this address, we sent password reset instructions.');
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : '';
       setError(
-        message.includes('invalid-email')
-          ? 'Enter a valid email address.'
-          : 'Password reset could not be requested. Try again later.'
+        mapFirebaseAuthError(err, 'Password reset could not be requested. Try again later.')
       );
     } finally {
-      setLoading(false);
+      setForgotLoading(false);
     }
   };
 
@@ -173,7 +191,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role, onSuccess, onSwitchT
       </div>
 
       <SocialAuthButtons
-        loading={loading}
+        loading={socialLoading}
         onGoogle={() => handleSocialSignIn(signInWithGoogle, 'Google')}
         onGithub={() => handleSocialSignIn(signInWithGithub, 'GitHub')}
         onLinkedIn={() => handleSocialSignIn(signInWithLinkedIn, 'LinkedIn')}
@@ -183,38 +201,32 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role, onSuccess, onSwitchT
         <span>or</span>
       </div>
 
-      <form onSubmit={handleSubmit} noValidate className={styles.authForm}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className={styles.authForm}>
         <div className={styles.fieldStack}>
           <FloatingInput
             id="login-email"
             label={isEmployer ? 'Work Email' : 'Email Address'}
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
             autoComplete="email"
             leftIcon={<Mail size={18} aria-hidden="true" />}
-            state={email.trim() ? 'success' : 'default'}
+            error={errors.email?.message}
+            state={!errors.email && emailValue?.trim() ? 'success' : 'default'}
+            {...register('email')}
           />
 
           <FloatingInput
             id="login-password"
             label="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
             autoComplete="current-password"
             showPasswordToggle
+            error={errors.password?.message}
+            {...register('password')}
           />
         </div>
 
         <div className={styles.loginUtilities}>
           <label className={styles.rememberMe}>
-            <input
-              type="checkbox"
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
-            />
+            <input type="checkbox" {...register('rememberMe')} />
             <span>Remember me</span>
           </label>
 
@@ -222,9 +234,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role, onSuccess, onSwitchT
             type="button"
             className={styles.forgotButton}
             onClick={handleForgotPassword}
-            disabled={loading}
+            disabled={forgotLoading}
           >
-            Forgot password?
+            {forgotLoading ? 'Sending…' : 'Forgot password?'}
           </button>
         </div>
 
@@ -239,8 +251,8 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role, onSuccess, onSwitchT
           </p>
         )}
 
-        <button type="submit" className={styles.primary} disabled={loading}>
-          {loading ? 'Please wait…' : 'Sign In'}
+        <button type="submit" className={styles.primary} disabled={submitLoading}>
+          {submitLoading ? 'Please wait…' : 'Sign In'}
         </button>
       </form>
 

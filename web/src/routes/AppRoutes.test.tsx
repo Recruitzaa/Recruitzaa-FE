@@ -9,6 +9,7 @@ import { describe, expect, it, vi } from 'vitest';
 import authReducer from '../store/slices/auth.slice';
 import uiReducer from '../store/slices/ui.slice';
 import jobsReducer from '../store/slices/jobsSlice';
+import { JobPreferencesProvider } from '../features/jobs/hooks/useJobPreferences';
 import { AppRoutes } from './AppRoutes';
 
 vi.mock('../hooks/useAuth', () => ({
@@ -27,11 +28,13 @@ const renderRoutes = (initialEntry: string) => {
   return render(
     <HelmetProvider>
       <Provider store={store}>
-        <MemoryRouter initialEntries={[initialEntry]}>
-          <Suspense fallback={<div>Loading…</div>}>
-            <AppRoutes />
-          </Suspense>
-        </MemoryRouter>
+        <JobPreferencesProvider>
+          <MemoryRouter initialEntries={[initialEntry]}>
+            <Suspense fallback={<div>Loading…</div>}>
+              <AppRoutes />
+            </Suspense>
+          </MemoryRouter>
+        </JobPreferencesProvider>
       </Provider>
     </HelmetProvider>
   );
