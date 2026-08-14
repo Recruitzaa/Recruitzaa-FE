@@ -20,9 +20,6 @@
 
 .brand img {
   height: 36px;
-  background: #fff;
-  padding: 0.25rem 0.6rem;
-  border-radius: var(--radius-sm);
   margin-bottom: 1rem;
 }
 
