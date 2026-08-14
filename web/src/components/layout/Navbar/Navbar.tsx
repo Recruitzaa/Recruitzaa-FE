@@ -72,7 +72,11 @@ export const Navbar = () => {
     location.pathname.startsWith('/employers') ||
     location.pathname.startsWith('/employer') ||
     location.search.includes('intent=employer');
+  // The homepage '/' is the canonical job-seeker landing — treat it the same
+  // as /jobs and /candidate so a persisted 'employer' audience preference
+  // never hides Find Jobs / Career Tools when a visitor navigates back to '/'.
   const isJobSeekerContext =
+    location.pathname === '/' ||
     location.pathname.startsWith('/jobs') ||
     location.pathname.startsWith('/candidate') ||
     location.search.includes('intent=candidate');

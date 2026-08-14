@@ -4,6 +4,7 @@ import { Card } from '../../../components/ui/Card';
 import { Badge } from '../../../components/ui/Badge';
 import styles from '../DashboardPage.module.css';
 import { type RecommendedJob, type ActiveApplication } from '../../../data/mockDashboard';
+import { ROUTES } from '../../../config/routes';
 
 interface DashboardLeftColProps {
   jobs: RecommendedJob[];
@@ -17,7 +18,7 @@ export const DashboardLeftCol = ({ jobs, activeApps }: DashboardLeftColProps) =>
       <Card className={styles.panelCard}>
         <div className={styles.panelHead}>
           <h2 className={styles.panelTitle}>Jobs aligned with your profile</h2>
-          <Link to="/jobs" className={styles.panelLink}>
+          <Link to={ROUTES.CANDIDATE.JOBS} className={styles.panelLink}>
             Explore Jobs &rarr;
           </Link>
         </div>
@@ -58,7 +59,7 @@ export const DashboardLeftCol = ({ jobs, activeApps }: DashboardLeftColProps) =>
                         </span>
                       </td>
                       <td>
-                        <Link to={`/jobs/${job.id}`} className="no-underline">
+                        <Link to={ROUTES.CANDIDATE.JOB_DETAIL(job.id)} className="no-underline">
                           <Button size="sm" variant="outline">
                             Review
                           </Button>

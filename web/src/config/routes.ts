@@ -39,6 +39,11 @@ export const ROUTES = {
     PIPELINE: '/candidate/pipeline',
     AI_HUB: '/candidate/ai-hub',
     PROFILE: '/candidate/profile',
+    // Same JobListingsPage/JobDetailPage as PUBLIC.JOBS, but routed inside
+    // DashboardLayout so the sidebar stays put — use this for any link that
+    // originates from within the candidate workspace.
+    JOBS: '/candidate/jobs',
+    JOB_DETAIL: (id: string) => `/candidate/jobs/${id}`,
   },
   EMPLOYER: {
     DASHBOARD: '/employer/dashboard',
