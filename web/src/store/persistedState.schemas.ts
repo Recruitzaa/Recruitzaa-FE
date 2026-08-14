@@ -122,7 +122,30 @@ export const PROFILE_STORAGE_KEY = 'recruitzaa_profile';
 // being index-based. Payloads written under v1 fail validation and fall
 // back to the (now blank) default profile rather than crashing on a
 // missing `id`.
-export const PROFILE_STORAGE_VERSION = 2;
+// v3: personalInfo.avatar no longer defaults to a stock photo of an
+// unrelated person — it's blank until the candidate uploads their own,
+// falling back to their sign-in provider's photo (e.g. Google) in the UI.
+// v1/v2 payloads that still carry that old stock-photo URL get it cleared
+// on migrate; every other field passes through untouched.
+export const PROFILE_STORAGE_VERSION = 3;
+
+const LEGACY_STOCK_AVATAR_URL =
+  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256';
+
+export const profileStateMigrate = (data: unknown) => {
+  if (
+    data &&
+    typeof data === 'object' &&
+    'personalInfo' in data &&
+    data.personalInfo &&
+    typeof data.personalInfo === 'object' &&
+    'avatar' in data.personalInfo &&
+    data.personalInfo.avatar === LEGACY_STOCK_AVATAR_URL
+  ) {
+    return { ...data, personalInfo: { ...data.personalInfo, avatar: '' } };
+  }
+  return data;
+};
 
 const jobHistoryItemSchema = z.object({
   id: z.string(),

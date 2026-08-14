@@ -18,6 +18,7 @@ import styles from './AdminSidebar.module.css';
 import { useFocusTrap } from '../../../hooks/useFocusTrap';
 import { ROUTES } from '../../../config/routes';
 import { BRAND } from '../../../config/content';
+import { UserAvatar } from '../../ui/UserAvatar/UserAvatar';
 
 const NAV = [
   {
@@ -40,14 +41,6 @@ const NAV = [
     items: [{ label: 'Settings & API', path: '/admin/settings', icon: Settings }],
   },
 ];
-
-const getInitials = (name: string) =>
-  name
-    .split(' ')
-    .map((n) => n[0])
-    .slice(0, 2)
-    .join('')
-    .toUpperCase();
 
 export const AdminSidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const sidebarRef = useRef<HTMLElement>(null);
@@ -150,7 +143,11 @@ export const AdminSidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
         {/* User Footer */}
         <div className={styles.user}>
           <div className={`${styles.avatar} bg-red-600`}>
-            {appUser ? getInitials(appUser.displayName) : 'SA'}
+            <UserAvatar
+              photoUrl={appUser?.photoUrl}
+              name={appUser?.displayName}
+              fallbackText="SA"
+            />
           </div>
           <div className={styles.userInfo}>
             <div className={styles.userName}>{appUser?.displayName ?? 'Super Admin'}</div>

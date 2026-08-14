@@ -65,6 +65,7 @@ export const ProfilePage = () => {
             {/* ─── BANNER CARD ─────────────────────────────────────────────────── */}
             <ProfileBannerCard
               profile={form.profile}
+              appUser={form.appUser}
               isEditingPersonal={form.isEditingPersonal}
               setIsEditingPersonal={form.setIsEditingPersonal}
               personalForm={form.personalForm}

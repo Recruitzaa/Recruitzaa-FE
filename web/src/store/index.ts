@@ -22,6 +22,7 @@ import {
   identityMigrate,
   kanbanStateSchema,
   profileStateSchema,
+  profileStateMigrate,
 } from './persistedState.schemas';
 
 // ─── LocalStorage Persistence ─────────────────────────────────────
@@ -48,7 +49,7 @@ const loadProfileState = () =>
     key: PROFILE_STORAGE_KEY,
     version: PROFILE_STORAGE_VERSION,
     schema: profileStateSchema,
-    migrate: identityMigrate,
+    migrate: profileStateMigrate,
   });
 
 const persistedProfile = loadProfileState();

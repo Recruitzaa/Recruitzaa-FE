@@ -7,6 +7,7 @@ import { WorkspaceSwitcher } from '../WorkspaceSwitcher';
 import styles from './PortalSidebar.module.css';
 import { useFocusTrap } from '../../../hooks/useFocusTrap';
 import { ROUTES } from '../../../config/routes';
+import { UserAvatar } from '../../ui/UserAvatar/UserAvatar';
 
 interface PortalSidebarProps {
   isOpen: boolean;
@@ -31,15 +32,6 @@ export const PortalSidebar = ({ isOpen, onClose }: PortalSidebarProps) => {
     } catch (err) {
       console.error('Logout failed:', err);
     }
-  };
-
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map((n) => n[0])
-      .slice(0, 2)
-      .join('')
-      .toUpperCase();
   };
 
   return (
@@ -220,7 +212,7 @@ export const PortalSidebar = ({ isOpen, onClose }: PortalSidebarProps) => {
           <div
             className={`${styles.avatar} ${isEmployer ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-800 dark:bg-slate-850 dark:text-slate-100'}`}
           >
-            {appUser ? getInitials(appUser.displayName) : 'U'}
+            <UserAvatar photoUrl={appUser?.photoUrl} name={appUser?.displayName} />
           </div>
           <div className={styles.userInfo}>
             <div className={styles.userName}>{appUser ? appUser.displayName : 'Loading...'}</div>

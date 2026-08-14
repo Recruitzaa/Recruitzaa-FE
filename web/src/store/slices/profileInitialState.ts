@@ -11,10 +11,10 @@ export const initialProfileState: ProfileState = {
     email: '',
     phone: '',
     location: '',
-    // Generic placeholder, not a real person's photo — matches the
-    // fallback ProfileBannerCard already swaps to on image load errors.
-    avatar:
-      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256',
+    // Empty until the candidate uploads their own photo. ProfileBannerCard
+    // falls back to the signed-in provider's photo (e.g. Google), then to an
+    // initials placeholder — never a stock photo of an unrelated person.
+    avatar: '',
   },
   employmentDetails: {
     currentCompany: '',
