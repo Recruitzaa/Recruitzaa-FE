@@ -22,7 +22,7 @@ import { safeLocalStorage } from '../../lib/safeStorage';
 import { SegmentedControl } from './components/SegmentedControl';
 import { trackEvent } from '../../services/analytics.service';
 import { useTheme } from '../../hooks/useTheme';
-import { ROUTES } from '../../config/routes';
+import { ROUTES, isSafeInternalPath } from '../../config/routes';
 
 type Role = 'candidate' | 'employer';
 type Mode = 'login' | 'register';
@@ -78,7 +78,7 @@ export const AuthPage = () => {
     safeLocalStorage.setItem('selected_role', role);
     dispatch(setAuthLoading(true)); // Force RoleGuard to wait for Firebase listener
     const next = searchParams.get('next');
-    navigate(next?.startsWith('/') && !next.startsWith('//') ? next : '/launchpad');
+    navigate(isSafeInternalPath(next) ? next : '/launchpad');
   };
 
   return (
@@ -87,7 +87,7 @@ export const AuthPage = () => {
         <title>Sign In & Get Started — Recruitzaa Workspace</title>
         <meta
           name="description"
-          content="Access your candidate, employer, or administrator control panel on Recruitzaa."
+          content="Sign in or create a Recruitzaa account as a job seeker or employer."
         />
       </Helmet>
       <main className={styles.page} tabIndex={-1}>

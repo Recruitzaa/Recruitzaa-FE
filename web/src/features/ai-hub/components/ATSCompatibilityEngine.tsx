@@ -54,6 +54,7 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
               className="flex-1 w-full border-0 bg-transparent outline-none text-sm text-slate-900 dark:text-slate-100 resize-none min-h-[80px]"
               value={jdText}
               onChange={(e) => setJdText(e.target.value)}
+              aria-label="Target job description"
               placeholder="Paste the job description here..."
             />
           </div>

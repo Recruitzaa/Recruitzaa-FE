@@ -32,7 +32,7 @@ export const CalendarSyncCard: React.FC = () => {
           <h3 className="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
             <Calendar size={16} className="text-[#c14f16]" /> Calendar Sync & Availability
           </h3>
-          <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1">
+          <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
             Connect your calendar to automatically block booked slot schedules.
           </p>
         </div>

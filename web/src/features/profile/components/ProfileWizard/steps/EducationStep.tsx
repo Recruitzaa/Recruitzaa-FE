@@ -103,7 +103,7 @@ export const EducationStep: React.FC<EducationStepProps> = ({ data, onChange }) 
               <div className="text-sm font-bold text-slate-900 dark:text-white">
                 {edu.institution}
               </div>
-              <div className="text-[11px] text-slate-500 dark:text-slate-400">
+              <div className="text-xs text-slate-500 dark:text-slate-400">
                 {edu.degree} in {edu.fieldOfStudy} ({edu.startDate} - {edu.endDate || 'Present'})
               </div>
             </div>

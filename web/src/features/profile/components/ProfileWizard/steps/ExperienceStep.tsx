@@ -102,7 +102,7 @@ export const ExperienceStep: React.FC<ExperienceStepProps> = ({ data, onChange }
               <div className="text-sm font-bold text-slate-900 dark:text-white">
                 {exp.position} at {exp.company}
               </div>
-              <div className="text-[11px] text-slate-500 dark:text-slate-400">
+              <div className="text-xs text-slate-500 dark:text-slate-400">
                 {exp.startDate} - {exp.endDate || 'Present'}
               </div>
             </div>

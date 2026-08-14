@@ -19,15 +19,15 @@ export const CandidatesPage = () => {
       <Card className={styles.card}>
         <form className={styles.toolbar} onSubmit={(e) => e.preventDefault()}>
           <div className={styles.searchBox}>
-            <Input placeholder="Search by name or email..." />
+            <Input placeholder="Search by name or email..." aria-label="Search candidates" />
           </div>
           <div className={styles.filters}>
-            <select className={styles.select}>
+            <select className={styles.select} aria-label="Filter by job">
               <option>All Jobs</option>
               <option>Senior React Native Developer</option>
               <option>Backend Engineer (Node.js)</option>
             </select>
-            <select className={styles.select}>
+            <select className={styles.select} aria-label="Filter by stage">
               <option>All Stages</option>
               <option>New</option>
               <option>Screening</option>

@@ -84,7 +84,7 @@ export const TasksWidget: React.FC = () => {
               >
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                   <div>
-                    <span className="text-[9px] font-extrabold text-[#c14f16] tracking-wider uppercase block">
+                    <span className="text-xs font-extrabold text-[#c14f16] tracking-wider uppercase block">
                       {task.project}
                     </span>
                     <span className="text-sm font-bold text-slate-800 dark:text-slate-200 mt-0.5 block">
@@ -94,7 +94,7 @@ export const TasksWidget: React.FC = () => {
 
                   <div className="flex items-center gap-2 shrink-0">
                     <span
-                      className={`text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-wider ${
+                      className={`text-xs font-black px-2 py-0.5 rounded uppercase tracking-wider ${
                         task.priority === 'High'
                           ? 'bg-red-50 text-red-600 dark:bg-red-950/20 dark:text-red-400'
                           : 'bg-slate-50 text-slate-500 dark:bg-slate-800 dark:text-slate-400'

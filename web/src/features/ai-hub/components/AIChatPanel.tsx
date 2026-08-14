@@ -79,6 +79,7 @@ export const AIChatPanel: React.FC<AIChatPanelProps> = ({
           onChange={(e) => setChatInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && onSendChat()}
           placeholder="Ask the guidance demo a question..."
+          aria-label="Ask the guidance demo a question"
           className="flex-1 border border-slate-200 dark:border-slate-700 dark:bg-slate-950 rounded p-2 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-indigo-600"
           disabled={isChatLoading}
         />

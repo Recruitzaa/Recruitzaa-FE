@@ -59,7 +59,7 @@ export const ResumeUploadStep: React.FC<ResumeUploadStepProps> = ({
         )}
       </div>
 
-      <div className="p-3 bg-amber-50/60 dark:bg-amber-950/20 border border-amber-200/50 dark:border-amber-900/30 rounded text-[11px] text-amber-800 dark:text-amber-300 leading-normal">
+      <div className="p-3 bg-amber-50/60 dark:bg-amber-950/20 border border-amber-200/50 dark:border-amber-900/30 rounded text-xs text-amber-800 dark:text-amber-300 leading-normal">
         <span className="font-bold">💡 Note:</span> Uploading a detailed resume helps our AI match
         algorithms compute highly accurate job suitability scores.
       </div>

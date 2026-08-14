@@ -30,7 +30,7 @@ export const ActiveAllocationCard: React.FC = () => {
               <Monitor size={15} />
             </div>
             <div>
-              <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
                 Project Name
               </span>
               <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
@@ -47,7 +47,7 @@ export const ActiveAllocationCard: React.FC = () => {
               <Briefcase size={15} />
             </div>
             <div>
-              <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
                 Role
               </span>
               <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
@@ -64,7 +64,7 @@ export const ActiveAllocationCard: React.FC = () => {
               <User size={15} />
             </div>
             <div>
-              <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
                 Reporting Manager
               </span>
               <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
@@ -81,7 +81,7 @@ export const ActiveAllocationCard: React.FC = () => {
               <Clock size={15} />
             </div>
             <div>
-              <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
                 Current Shift
               </span>
               <span className="text-sm font-bold text-slate-800 dark:text-slate-200">

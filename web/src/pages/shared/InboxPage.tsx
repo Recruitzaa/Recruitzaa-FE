@@ -97,7 +97,7 @@ export const InboxPage: React.FC = () => {
                             <span className="w-1.5 h-1.5 bg-[#c14f16] rounded-full shrink-0" />
                           )}
                         </span>
-                        <span className="text-[9px] text-slate-400 dark:text-slate-500 block mt-0.5">
+                        <span className="text-xs text-slate-400 dark:text-slate-500 block mt-0.5">
                           {thread.role}
                         </span>
                         <span className="text-sm text-slate-500 line-clamp-1 mt-1 block">
@@ -118,9 +118,7 @@ export const InboxPage: React.FC = () => {
                 <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                   {activeThread.name}
                 </span>
-                <span className="text-[9px] text-[#c14f16] font-bold block">
-                  {activeThread.role}
-                </span>
+                <span className="text-xs text-[#c14f16] font-bold block">{activeThread.role}</span>
               </div>
 
               {/* Message Log */}
@@ -138,7 +136,7 @@ export const InboxPage: React.FC = () => {
                       >
                         <p className="text-sm leading-relaxed">{msg.text}</p>
                         <span
-                          className={`text-[8px] block text-right ${isMe ? 'text-white/80' : 'text-slate-400 dark:text-slate-500'}`}
+                          className={`text-xs block text-right ${isMe ? 'text-white/80' : 'text-slate-400 dark:text-slate-500'}`}
                         >
                           {msg.time}
                         </span>
@@ -159,6 +157,7 @@ export const InboxPage: React.FC = () => {
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   placeholder={`Type a message to ${activeThread.name}...`}
+                  aria-label={`Message to ${activeThread.name}`}
                   className="flex-1 border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
                 />
                 <button

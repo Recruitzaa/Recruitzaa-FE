@@ -40,7 +40,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({ title, stage, applic
             <KanbanCard key={app.id} application={app} />
           ))}
           {applications.length === 0 && (
-            <div className="text-center py-8 text-[11px] text-slate-400 italic">
+            <div className="text-center py-8 text-xs text-slate-400 italic">
               No applications in this stage
             </div>
           )}

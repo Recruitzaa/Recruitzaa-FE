@@ -9,6 +9,7 @@ import { SITE_CONTENT } from '../../config/content';
 import { LandingPageSections } from './components/LandingPageSections';
 import { useAppSelector } from '../../store/hooks';
 import { ROUTES } from '../../config/routes';
+import { scrollToElementId } from '../../lib/scrollToElement';
 
 const content = SITE_CONTENT.landingPage;
 
@@ -168,11 +169,9 @@ export const LandingPage = () => {
     const handleHashScroll = () => {
       const hash = window.location.hash;
       if (hash.includes('#about')) {
-        const el = document.getElementById('about');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        scrollToElementId('about');
       } else if (hash.includes('#services')) {
-        const el = document.getElementById('services');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        scrollToElementId('services');
       }
     };
 

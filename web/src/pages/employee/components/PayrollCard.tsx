@@ -66,7 +66,7 @@ export const PayrollCard: React.FC = () => {
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="inline-flex items-center gap-1 text-[9px] font-extrabold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950/20 px-2 py-0.5 rounded">
+                <span className="inline-flex items-center gap-1 text-xs font-extrabold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950/20 px-2 py-0.5 rounded">
                   <CheckCircle size={8} aria-hidden="true" /> Completed
                 </span>
                 <button

@@ -64,7 +64,7 @@ export const ExpertDashboardPage: React.FC = () => {
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-sm border-collapse">
                     <thead>
-                      <tr className="border-b border-slate-100 dark:border-slate-850 text-slate-450 uppercase text-[9px] font-bold tracking-wider">
+                      <tr className="border-b border-slate-100 dark:border-slate-850 text-slate-450 uppercase text-xs font-bold tracking-wider">
                         <th className="pb-3 font-semibold">Job Seeker</th>
                         <th className="pb-3 font-semibold">Service Type</th>
                         <th className="pb-3 font-semibold">Scheduled Date</th>
@@ -95,9 +95,7 @@ export const ExpertDashboardPage: React.FC = () => {
                             </td>
                             <td className="py-4 font-semibold text-slate-700 dark:text-slate-350">
                               <div>{booking.serviceTierName}</div>
-                              <div className="text-[9px] text-[#c14f16] mt-0.5">
-                                ₹{booking.price}
-                              </div>
+                              <div className="text-xs text-[#c14f16] mt-0.5">₹{booking.price}</div>
                             </td>
                             <td className="py-4">
                               <div className="text-slate-800 dark:text-slate-200 font-medium">

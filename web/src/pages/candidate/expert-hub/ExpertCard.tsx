@@ -28,7 +28,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({ expert, onBookClick }) =
                   'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=256';
               }}
             />
-            <span className="inline-flex items-center gap-1 text-[9px] font-black text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-0.5 rounded-full uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1 text-xs font-black text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-0.5 rounded-full uppercase tracking-wider">
               <Award size={10} className="text-[#c14f16]" aria-hidden="true" /> Top Mentor
             </span>
           </div>
@@ -48,14 +48,14 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({ expert, onBookClick }) =
 
           {/* Trust Badges */}
           <div className="flex flex-wrap gap-1.5 mt-4">
-            <span className="inline-flex items-center gap-1 text-[9px] font-extrabold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950/20 px-2 py-0.5 rounded">
+            <span className="inline-flex items-center gap-1 text-xs font-extrabold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950/20 px-2 py-0.5 rounded">
               {expert.reviewsCount} Sessions Conducted
             </span>
-            <span className="inline-flex items-center gap-1 text-[9px] font-extrabold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/20 px-2 py-0.5 rounded">
+            <span className="inline-flex items-center gap-1 text-xs font-extrabold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/20 px-2 py-0.5 rounded">
               <Star size={9} className="fill-amber-500 stroke-amber-500" aria-hidden="true" />{' '}
               {expert.rating.toFixed(1)} Rating
             </span>
-            <span className="inline-flex items-center gap-1 text-[9px] font-extrabold text-[#c14f16] bg-[#fef3ee] dark:bg-[#c14f16]/10 px-2 py-0.5 rounded">
+            <span className="inline-flex items-center gap-1 text-xs font-extrabold text-[#c14f16] bg-[#fef3ee] dark:bg-[#c14f16]/10 px-2 py-0.5 rounded">
               <Building2 size={9} aria-hidden="true" /> {expert.targetCompany}
             </span>
           </div>
@@ -65,7 +65,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({ expert, onBookClick }) =
           {/* Price & Booking Footer */}
           <div className="flex items-center justify-between gap-4">
             <div>
-              <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
                 Starting from
               </span>
               <span className="text-sm font-black text-slate-900 dark:text-white">

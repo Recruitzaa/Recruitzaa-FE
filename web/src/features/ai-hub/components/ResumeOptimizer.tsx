@@ -76,7 +76,7 @@ export const ResumeOptimizer: React.FC = () => {
                 <p className="text-sm text-slate-900 dark:text-slate-100 font-medium mt-1">
                   "{bullet.optimized}"
                 </p>
-                <div className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-2 flex items-center gap-1">
+                <div className="text-xs text-emerald-600 dark:text-emerald-400 mt-2 flex items-center gap-1">
                   <span className="font-bold">✓ Impact:</span> {bullet.benefit}
                 </div>
               </div>

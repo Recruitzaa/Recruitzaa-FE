@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { updateCompanyProfile } from '../../../store/slices/employerProfileSlice';
 import type { CompanyProfile } from '../../../store/slices/employerProfileSlice';
 import { useToast } from '../../../hooks/useToast';
+import { scrollToElement } from '../../../lib/scrollToElement';
 
 export const SECTIONS = [
   { id: 'company-hero', label: 'Company Branding' },
@@ -28,7 +29,7 @@ export const useEmployerProfileForm = () => {
     setActiveSection(sectionId);
     const el = document.getElementById(sectionId);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+      scrollToElement(el);
       el.setAttribute('tabindex', '-1');
       el.focus({ preventScroll: true });
     }

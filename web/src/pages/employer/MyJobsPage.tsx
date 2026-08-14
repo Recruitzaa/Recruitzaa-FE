@@ -63,6 +63,7 @@ export const MyJobsPage = () => {
           <div className={styles.searchBox}>
             <Input
               placeholder="Search job titles..."
+              aria-label="Search job titles"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -70,6 +71,7 @@ export const MyJobsPage = () => {
           <div className={styles.filters}>
             <select
               className={styles.select}
+              aria-label="Filter by status"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >

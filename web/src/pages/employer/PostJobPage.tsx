@@ -1,25 +1,34 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/Select';
 import { useAppDispatch } from '../../store/hooks';
-import { addNewJob } from '../../store/slices/jobsSlice';
+import { addNewJob, type EmploymentType } from '../../store/slices/jobsSlice';
 import { useToast } from '../../hooks/useToast';
 import styles from './PostJobPage.module.css';
+
+const EMPLOYMENT_TYPE_OPTIONS: Array<{ label: string; value: EmploymentType }> = [
+  { label: 'Full-time', value: 'FULL_TIME' },
+  { label: 'Part-time', value: 'PART_TIME' },
+  { label: 'Contract', value: 'CONTRACT' },
+];
 
 export const PostJobPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const toast = useToast();
+  const descriptionId = useId();
 
   const [title, setTitle] = useState('');
-  const [employmentType, setEmploymentType] = useState('Full-time');
+  const [employmentTypeLabel, setEmploymentTypeLabel] = useState('Full-time');
   const [location, setLocation] = useState('');
   const [workMode, setWorkMode] = useState('Remote');
   const [salaryMin, setSalaryMin] = useState('');
   const [salaryMax, setSalaryMax] = useState('');
+  const [experienceMin, setExperienceMin] = useState('');
+  const [experienceMax, setExperienceMax] = useState('');
   const [description, setDescription] = useState('');
   const [requirements, setRequirements] = useState('');
 
@@ -39,17 +48,34 @@ export const PostJobPage = () => {
       .substring(0, 3)
       .toUpperCase();
 
+    const employmentType =
+      EMPLOYMENT_TYPE_OPTIONS.find((option) => option.label === employmentTypeLabel)?.value ??
+      'FULL_TIME';
+    // Salary/experience inputs are LPA (lakhs per annum) and years respectively;
+    // stored in absolute rupees / years so sorting and filtering are numeric.
+    const salaryMinLakhs = Number(salaryMin.trim()) || 0;
+    const salaryMaxLakhs = Number(salaryMax.trim()) || 0;
+    const experienceMinYears = Number(experienceMin.trim()) || 0;
+    const experienceMaxYears = Number(experienceMax.trim()) || experienceMinYears;
+    const nowIso = new Date().toISOString();
+
     const newJobPayload = {
       id: String(Date.now()),
       title: title.trim(),
       company: companyName,
       location: location.trim(),
-      type: workMode,
-      salary: `₹${salaryMin.trim()} - ₹${salaryMax.trim()} LPA`,
+      workplace: workMode,
+      employmentType,
+      salary: `₹${salaryMin.trim()},00,000 - ₹${salaryMax.trim()},00,000 LPA`,
+      salaryMin: salaryMinLakhs * 100000,
+      salaryMax: salaryMaxLakhs * 100000,
       postedAt: 'Just now',
+      postedAtIso: nowIso,
+      experienceMin: experienceMinYears,
+      experienceMax: experienceMaxYears,
       matchScore: 0,
       tags: [
-        employmentType,
+        employmentTypeLabel,
         ...requirements
           .split(',')
           .map((s) => s.trim())
@@ -100,9 +126,9 @@ export const PostJobPage = () => {
                 />
                 <Select
                   label="Employment Type"
-                  options={['Full-time', 'Part-time', 'Contract']}
-                  value={employmentType}
-                  onChange={(val) => setEmploymentType(val)}
+                  options={EMPLOYMENT_TYPE_OPTIONS.map((option) => option.label)}
+                  value={employmentTypeLabel}
+                  onChange={(val) => setEmploymentTypeLabel(val)}
                 />
                 <Input
                   label="Location"
@@ -131,14 +157,29 @@ export const PostJobPage = () => {
                   onChange={(e) => setSalaryMax(e.target.value)}
                   required
                 />
+                <Input
+                  label="Experience (Min Years)"
+                  placeholder="e.g. 5"
+                  value={experienceMin}
+                  onChange={(e) => setExperienceMin(e.target.value)}
+                />
+                <Input
+                  label="Experience (Max Years)"
+                  placeholder="e.g. 10"
+                  value={experienceMax}
+                  onChange={(e) => setExperienceMax(e.target.value)}
+                />
               </div>
             </Card>
 
             <Card className={styles.sectionCard}>
               <h2 className={styles.sectionTitle}>Job Description</h2>
               <div className={styles.inputGroup}>
-                <label className={styles.label}>About the Role</label>
+                <label htmlFor={descriptionId} className={styles.label}>
+                  About the Role
+                </label>
                 <textarea
+                  id={descriptionId}
                   className={styles.textarea}
                   rows={6}
                   placeholder="Describe the responsibilities and expectations..."
@@ -147,8 +188,8 @@ export const PostJobPage = () => {
                 />
               </div>
               <div className={`${styles.inputGroup} mt-5`}>
-                <label className={styles.label}>Requirements (comma separated skills)</label>
                 <Input
+                  label="Requirements (comma separated skills)"
                   placeholder="e.g. React Native, TypeScript, Redux"
                   value={requirements}
                   onChange={(e) => setRequirements(e.target.value)}

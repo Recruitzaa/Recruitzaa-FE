@@ -35,7 +35,7 @@ export const TimesheetWidget: React.FC = () => {
           <div className="border border-slate-100 dark:border-slate-850 rounded-xl p-4 bg-slate-50/50 dark:bg-slate-900/20 space-y-3 flex flex-col justify-between">
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-[9px] font-bold text-slate-450 uppercase tracking-wider block">
+                <span className="text-xs font-bold text-slate-450 uppercase tracking-wider block">
                   Current Week Hours
                 </span>
                 <span className="text-xl font-black text-slate-900 dark:text-white">
@@ -43,7 +43,7 @@ export const TimesheetWidget: React.FC = () => {
                 </span>
               </div>
               <span
-                className={`text-[9px] font-extrabold px-2 py-0.5 rounded uppercase tracking-wider ${
+                className={`text-xs font-extrabold px-2 py-0.5 rounded uppercase tracking-wider ${
                   submitted
                     ? 'bg-green-50 text-green-600 dark:bg-green-950/20 dark:text-green-400'
                     : 'bg-amber-50 text-amber-600 dark:bg-amber-950/20 dark:text-amber-400'
@@ -78,7 +78,7 @@ export const TimesheetWidget: React.FC = () => {
           {/* Leave/PTO tracking statistics */}
           <div className="border border-slate-100 dark:border-slate-850 rounded-xl p-4 bg-slate-50/50 dark:bg-slate-900/20 flex flex-col justify-between gap-3">
             <div>
-              <span className="text-[9px] font-bold text-slate-450 uppercase tracking-wider block">
+              <span className="text-xs font-bold text-slate-450 uppercase tracking-wider block">
                 PTO Balance
               </span>
               <span className="text-xl font-black text-slate-900 dark:text-white mt-1 block">
@@ -89,11 +89,11 @@ export const TimesheetWidget: React.FC = () => {
             <div className="grid grid-cols-2 gap-2 text-center text-sm text-slate-500">
               <div className="bg-white dark:bg-slate-900/50 p-2 rounded border border-slate-100 dark:border-slate-800">
                 <span className="font-bold text-slate-700 dark:text-slate-350 block">4.0 Days</span>
-                <span className="text-[9px] text-slate-400">Approved Leave</span>
+                <span className="text-xs text-slate-400">Approved Leave</span>
               </div>
               <div className="bg-white dark:bg-slate-900/50 p-2 rounded border border-slate-100 dark:border-slate-800">
                 <span className="font-bold text-slate-700 dark:text-slate-350 block">1.5 Days</span>
-                <span className="text-[9px] text-slate-400">Sick Logged</span>
+                <span className="text-xs text-slate-400">Sick Logged</span>
               </div>
             </div>
           </div>

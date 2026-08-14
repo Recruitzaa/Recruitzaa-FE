@@ -31,13 +31,13 @@ export const SkillsCard = ({
             <Badge
               key={skill}
               variant="primary"
-              className="inline-flex items-center gap-1 text-[11px] font-semibold py-1 px-2.5 bg-orange-50 text-brand-primary border border-orange-200 rounded-full"
+              className="inline-flex items-center gap-1 text-xs font-semibold py-1 px-2.5 bg-orange-50 text-brand-primary border border-orange-200 rounded-full"
             >
               {skill}
               <button
                 type="button"
                 onClick={() => onRemoveSkill(skill)}
-                className="text-[9px] hover:text-brand-primary-hover font-black ml-1"
+                className="text-xs hover:text-brand-primary-hover font-black ml-1"
                 aria-label={`Remove ${skill}`}
               >
                 ✕
@@ -51,6 +51,8 @@ export const SkillsCard = ({
         <input
           type="text"
           placeholder="Add skill tag..."
+          aria-label="New skill"
+          maxLength={60}
           value={newSkill}
           onChange={(e) => setNewSkill(e.target.value)}
           className="flex-1 border border-slate-200 rounded-lg px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary"

@@ -94,10 +94,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
         <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto flex-1">
           {/* Service Tier selection */}
           <div className="space-y-2">
-            <label className="text-sm font-bold text-slate-400 uppercase tracking-wider block">
+            <label
+              htmlFor="booking-session-type"
+              className="text-sm font-bold text-slate-400 uppercase tracking-wider block"
+            >
               Select Session Type
             </label>
             <select
+              id="booking-session-type"
               value={selectedTier.id}
               onChange={(e) =>
                 setSelectedTier(
@@ -133,10 +137,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-bold text-slate-400 uppercase tracking-wider block">
+              <label
+                htmlFor="booking-time-slot"
+                className="text-sm font-bold text-slate-400 uppercase tracking-wider block"
+              >
                 Time Slot
               </label>
               <select
+                id="booking-time-slot"
                 value={selectedTime}
                 onChange={(e) => setSelectedTime(e.target.value)}
                 required
@@ -154,10 +162,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
 
           {/* Timezone */}
           <div className="space-y-2">
-            <label className="text-sm font-bold text-slate-400 uppercase tracking-wider block flex items-center gap-1">
+            <label
+              htmlFor="booking-timezone"
+              className="text-sm font-bold text-slate-400 uppercase tracking-wider block flex items-center gap-1"
+            >
               <Globe size={11} /> Timezone
             </label>
             <select
+              id="booking-timezone"
               value={timezone}
               onChange={(e) => setTimezone(e.target.value)}
               className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"

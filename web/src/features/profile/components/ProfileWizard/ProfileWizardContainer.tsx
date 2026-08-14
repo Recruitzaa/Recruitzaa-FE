@@ -76,7 +76,7 @@ export const ProfileWizardContainer: React.FC = () => {
           {stepsLabel.map((lbl, idx) => (
             <span
               key={lbl}
-              className={`text-[9px] font-bold uppercase ${
+              className={`text-xs font-bold uppercase ${
                 step === idx + 1
                   ? 'text-indigo-600 dark:text-indigo-400'
                   : 'text-slate-400 dark:text-slate-600'

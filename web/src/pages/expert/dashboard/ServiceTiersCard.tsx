@@ -24,7 +24,7 @@ export const ServiceTiersCard: React.FC = () => {
             <ShieldCheck size={16} className="text-[#c14f16]" aria-hidden="true" /> Mentorship
             Active Offerings
           </h3>
-          <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1">
+          <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
             Toggle which service tiers you are currently offering to job seekers.
           </p>
         </div>

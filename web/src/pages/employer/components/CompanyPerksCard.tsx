@@ -72,6 +72,7 @@ export const CompanyPerksCard = ({
           <div className={styles.perkInputRow}>
             <input
               id={`${id}-new-perk`}
+              aria-label="Add a perk"
               type="text"
               value={newPerk}
               onChange={(e) => setNewPerk(e.target.value)}

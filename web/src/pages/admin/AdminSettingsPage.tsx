@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { Shield, Key, Bell, Globe, Database, RefreshCw, CheckCircle2, Copy } from 'lucide-react';
 import { SEO } from '../../components/seo/SEO';
 import { BRAND } from '../../config/content';
@@ -37,6 +37,7 @@ const SETTINGS = [
 ];
 
 export const AdminSettingsPage = () => {
+  const idPrefix = useId();
   const [copied, setCopied] = useState(false);
   const [masked, setMasked] = useState(true);
 
@@ -193,18 +194,25 @@ export const AdminSettingsPage = () => {
                 </h2>
               </div>
               <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {section.fields.map((field) => (
-                  <div key={field.label} className="space-y-1">
-                    <label className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                      {field.label}
-                    </label>
-                    <input
-                      type={field.type}
-                      defaultValue={field.value}
-                      className="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-[#c14f16] transition-colors"
-                    />
-                  </div>
-                ))}
+                {section.fields.map((field) => {
+                  const fieldId = `${idPrefix}-${section.id}-${field.label}`;
+                  return (
+                    <div key={field.label} className="space-y-1">
+                      <label
+                        htmlFor={fieldId}
+                        className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider"
+                      >
+                        {field.label}
+                      </label>
+                      <input
+                        id={fieldId}
+                        type={field.type}
+                        defaultValue={field.value}
+                        className="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-[#c14f16] transition-colors"
+                      />
+                    </div>
+                  );
+                })}
               </div>
               <div className="px-6 pb-5">
                 <button

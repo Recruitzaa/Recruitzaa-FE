@@ -128,7 +128,7 @@ export const LaunchpadPage: React.FC = () => {
                         <h2 className="text-sm font-extrabold text-slate-900 dark:text-white leading-snug">
                           {meta.title}
                         </h2>
-                        <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed line-clamp-3">
+                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed line-clamp-3">
                           {meta.desc}
                         </p>
                       </div>

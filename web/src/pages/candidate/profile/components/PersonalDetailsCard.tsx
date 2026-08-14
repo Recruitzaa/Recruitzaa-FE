@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { Edit2 } from 'lucide-react';
 import type { ExtendedPersonalInfo } from '../../../../store/slices/profileSlice';
 
@@ -19,6 +20,7 @@ interface PersonalDetailsCardProps {
   startEditingExtendedPersonal: () => void;
   extendedPersonalForm: PersonalFormType;
   setExtendedPersonalForm: (form: PersonalFormType) => void;
+  extendedPersonalErrors: Record<string, string>;
   saveExtendedPersonal: () => void;
 }
 
@@ -29,8 +31,12 @@ export const PersonalDetailsCard = ({
   startEditingExtendedPersonal,
   extendedPersonalForm,
   setExtendedPersonalForm,
+  extendedPersonalErrors,
   saveExtendedPersonal,
 }: PersonalDetailsCardProps) => {
+  const idPrefix = useId();
+  const fieldId = (name: keyof PersonalFormType) => `${idPrefix}-${name}`;
+
   return (
     <div
       id="personal-details"
@@ -100,7 +106,7 @@ export const PersonalDetailsCard = ({
               {extendedPersonal.languages.map((lang) => (
                 <span
                   key={lang}
-                  className="px-2.5 py-0.5 bg-slate-100 text-slate-700 rounded text-[11px] border"
+                  className="px-2.5 py-0.5 bg-slate-100 text-slate-700 rounded text-xs border"
                 >
                   {lang}
                 </span>
@@ -112,8 +118,14 @@ export const PersonalDetailsCard = ({
         <div className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1">
-              <label className="text-sm font-bold text-slate-500 uppercase">Gender</label>
+              <label
+                htmlFor={fieldId('gender')}
+                className="text-sm font-bold text-slate-500 uppercase"
+              >
+                Gender
+              </label>
               <select
+                id={fieldId('gender')}
                 value={extendedPersonalForm.gender}
                 onChange={(e) =>
                   setExtendedPersonalForm({ ...extendedPersonalForm, gender: e.target.value })
@@ -126,8 +138,14 @@ export const PersonalDetailsCard = ({
               </select>
             </div>
             <div className="space-y-1">
-              <label className="text-sm font-bold text-slate-500 uppercase">Marital Status</label>
+              <label
+                htmlFor={fieldId('maritalStatus')}
+                className="text-sm font-bold text-slate-500 uppercase"
+              >
+                Marital Status
+              </label>
               <select
+                id={fieldId('maritalStatus')}
                 value={extendedPersonalForm.maritalStatus}
                 onChange={(e) =>
                   setExtendedPersonalForm({
@@ -143,8 +161,14 @@ export const PersonalDetailsCard = ({
               </select>
             </div>
             <div className="space-y-1">
-              <label className="text-sm font-bold text-slate-500 uppercase">Date of Birth</label>
+              <label
+                htmlFor={fieldId('dob')}
+                className="text-sm font-bold text-slate-500 uppercase"
+              >
+                Date of Birth
+              </label>
               <input
+                id={fieldId('dob')}
                 type="text"
                 value={extendedPersonalForm.dob}
                 onChange={(e) =>
@@ -154,8 +178,14 @@ export const PersonalDetailsCard = ({
               />
             </div>
             <div className="space-y-1">
-              <label className="text-sm font-bold text-slate-500 uppercase">Nationality</label>
+              <label
+                htmlFor={fieldId('nationality')}
+                className="text-sm font-bold text-slate-500 uppercase"
+              >
+                Nationality
+              </label>
               <input
+                id={fieldId('nationality')}
                 type="text"
                 value={extendedPersonalForm.nationality}
                 onChange={(e) =>
@@ -168,10 +198,14 @@ export const PersonalDetailsCard = ({
               />
             </div>
             <div className="space-y-1">
-              <label className="text-sm font-bold text-slate-500 uppercase">
+              <label
+                htmlFor={fieldId('differentlyAbled')}
+                className="text-sm font-bold text-slate-500 uppercase"
+              >
                 Differently Abled
               </label>
               <select
+                id={fieldId('differentlyAbled')}
                 value={extendedPersonalForm.differentlyAbled}
                 onChange={(e) =>
                   setExtendedPersonalForm({
@@ -187,10 +221,14 @@ export const PersonalDetailsCard = ({
               </select>
             </div>
             <div className="space-y-1 sm:col-span-2">
-              <label className="text-sm font-bold text-slate-500 uppercase">
+              <label
+                htmlFor={fieldId('languagesText')}
+                className="text-sm font-bold text-slate-500 uppercase"
+              >
                 Languages (comma separated)
               </label>
               <input
+                id={fieldId('languagesText')}
                 type="text"
                 value={extendedPersonalForm.languagesText}
                 onChange={(e) =>
@@ -200,20 +238,32 @@ export const PersonalDetailsCard = ({
                   })
                 }
                 className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary"
+                aria-invalid={Boolean(extendedPersonalErrors.languagesText)}
               />
+              {extendedPersonalErrors.languagesText && (
+                <p className="text-xs text-red-600">{extendedPersonalErrors.languagesText}</p>
+              )}
             </div>
             <div className="space-y-1 sm:col-span-2">
-              <label className="text-sm font-bold text-slate-500 uppercase">
+              <label
+                htmlFor={fieldId('address')}
+                className="text-sm font-bold text-slate-500 uppercase"
+              >
                 Permanent Address
               </label>
               <textarea
+                id={fieldId('address')}
                 value={extendedPersonalForm.address}
                 onChange={(e) =>
                   setExtendedPersonalForm({ ...extendedPersonalForm, address: e.target.value })
                 }
                 rows={2}
                 className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary resize-none"
+                aria-invalid={Boolean(extendedPersonalErrors.address)}
               />
+              {extendedPersonalErrors.address && (
+                <p className="text-xs text-red-600">{extendedPersonalErrors.address}</p>
+              )}
             </div>
           </div>
 

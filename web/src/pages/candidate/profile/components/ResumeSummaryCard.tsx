@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useId } from 'react';
 import { Edit2 } from 'lucide-react';
 import type { ProfileState } from '../../../../store/slices/profileSlice';
 
@@ -16,6 +16,7 @@ interface ResumeSummaryCardProps {
       detailedSummary: string;
     }>
   >;
+  summaryErrors: Record<string, string>;
   startEditingSummary: () => void;
   saveSummary: () => void;
 }
@@ -26,9 +27,12 @@ export const ResumeSummaryCard = ({
   setIsEditingSummary,
   summaryForm,
   setSummaryForm,
+  summaryErrors,
   startEditingSummary,
   saveSummary,
 }: ResumeSummaryCardProps) => {
+  const idPrefix = useId();
+
   return (
     <div
       id="resume-headline"
@@ -58,18 +62,34 @@ export const ResumeSummaryCard = ({
       ) : (
         <div className="space-y-4">
           <div className="space-y-1">
-            <label className="text-sm font-bold text-slate-500 uppercase">Resume Headline</label>
+            <label
+              htmlFor={`${idPrefix}-headline`}
+              className="text-sm font-bold text-slate-500 uppercase"
+            >
+              Resume Headline
+            </label>
             <input
+              id={`${idPrefix}-headline`}
               type="text"
               value={summaryForm.headline}
               onChange={(e) => setSummaryForm({ ...summaryForm, headline: e.target.value })}
               className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:border-brand-primary bg-white text-slate-800"
+              aria-invalid={Boolean(summaryErrors.headline)}
             />
+            {summaryErrors.headline && (
+              <p className="text-xs text-red-600">{summaryErrors.headline}</p>
+            )}
           </div>
 
           <div className="space-y-1">
-            <label className="text-sm font-bold text-slate-500 uppercase">Detailed Summary</label>
+            <label
+              htmlFor={`${idPrefix}-detailedSummary`}
+              className="text-sm font-bold text-slate-500 uppercase"
+            >
+              Detailed Summary
+            </label>
             <textarea
+              id={`${idPrefix}-detailedSummary`}
               value={summaryForm.detailedSummary}
               onChange={(e) => setSummaryForm({ ...summaryForm, detailedSummary: e.target.value })}
               rows={5}
