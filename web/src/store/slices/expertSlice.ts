@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { MOCK_EXPERTS, type ExpertProfile } from '../../data/mockExperts';
+import { safeLocalStorage } from '../../lib/safeStorage';
 
 export interface BookedSession {
   id: string;
@@ -30,7 +31,7 @@ interface ExpertState {
 
 const loadState = <T>(key: string, fallback: T): T => {
   try {
-    const serialized = localStorage.getItem(key);
+    const serialized = safeLocalStorage.getItem(key);
     if (serialized === null) return fallback;
     return JSON.parse(serialized);
   } catch {
@@ -40,7 +41,8 @@ const loadState = <T>(key: string, fallback: T): T => {
 
 const saveState = <T>(key: string, value: T) => {
   try {
-    localStorage.setItem(key, JSON.stringify(value));
+    const ok = safeLocalStorage.setItem(key, JSON.stringify(value));
+    if (!ok) throw new Error('storage write failed');
   } catch (err) {
     console.error(`Failed to save key ${key}:`, err);
   }

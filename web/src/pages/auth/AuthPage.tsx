@@ -18,6 +18,7 @@ import { useAppDispatch } from '../../store/hooks';
 import { setAuthLoading } from '../../store/slices/auth.slice';
 import { LoginForm } from './components/LoginForm';
 import { RegisterForm } from './components/RegisterForm';
+import { safeLocalStorage } from '../../lib/safeStorage';
 import { SegmentedControl } from './components/SegmentedControl';
 import { trackEvent } from '../../services/analytics.service';
 import { useTheme } from '../../hooks/useTheme';
@@ -74,7 +75,7 @@ export const AuthPage = () => {
   };
 
   const handleSuccess = (_uid: string) => {
-    localStorage.setItem('selected_role', role);
+    safeLocalStorage.setItem('selected_role', role);
     dispatch(setAuthLoading(true)); // Force RoleGuard to wait for Firebase listener
     const next = searchParams.get('next');
     navigate(next?.startsWith('/') && !next.startsWith('//') ? next : '/launchpad');

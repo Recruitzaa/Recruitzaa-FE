@@ -1,4 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { safeLocalStorage } from '../../lib/safeStorage';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -79,7 +80,7 @@ const defaultProfile: CompanyProfile = {
 // ─── Hydrate from localStorage ────────────────────────────────────────────────
 const loadPersistedProfile = (): CompanyProfile => {
   try {
-    const raw = localStorage.getItem('employer_profile_state');
+    const raw = safeLocalStorage.getItem('employer_profile_state');
     if (raw) {
       const parsed = JSON.parse(raw) as Partial<CompanyProfile>;
       return { ...defaultProfile, ...parsed };

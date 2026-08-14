@@ -21,6 +21,7 @@ export interface Job {
 }
 
 import { MOCK_JOBS } from '../../data/mockJobs';
+import { safeLocalStorage } from '../../lib/safeStorage';
 
 interface JobsState {
   jobsList: Job[];
@@ -28,7 +29,7 @@ interface JobsState {
 
 const loadJobsState = (): Job[] | null => {
   try {
-    const serialized = localStorage.getItem('recruitzaa_jobs');
+    const serialized = safeLocalStorage.getItem('recruitzaa_jobs');
     if (serialized === null) return null;
     return JSON.parse(serialized);
   } catch {

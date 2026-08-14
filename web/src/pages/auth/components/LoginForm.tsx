@@ -13,6 +13,7 @@ import { FloatingInput } from './FloatingInput';
 import { SocialAuthButtons } from './SocialAuthButtons';
 import { useAppDispatch } from '../../../store/hooks';
 import { setUser } from '../../../store/slices/auth.slice';
+import { safeLocalStorage } from '../../../lib/safeStorage';
 
 interface LoginFormProps {
   role: 'candidate' | 'employer';
@@ -32,7 +33,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role, onSuccess, onSwitchT
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const rememberedEmail = localStorage.getItem(REMEMBER_EMAIL_KEY);
+    const rememberedEmail = safeLocalStorage.getItem(REMEMBER_EMAIL_KEY);
     if (rememberedEmail) {
       setEmail(rememberedEmail);
       setRememberMe(true);
@@ -43,7 +44,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role, onSuccess, onSwitchT
    * After Firebase sign-in succeeds, verify with the Backend.
    * If the user doesn't exist on the Backend yet (404), auto-register them.
    */
-  const syncWithBackend = async (firebaseUser: { uid?: string; getIdToken?: (force?: boolean) => Promise<string>; displayName?: string | null }) => {
+  const syncWithBackend = async (firebaseUser: {
+    uid?: string;
+    getIdToken?: (force?: boolean) => Promise<string>;
+    displayName?: string | null;
+  }) => {
     if (!firebaseUser?.uid || !firebaseUser?.getIdToken) return;
 
     try {
@@ -68,7 +73,15 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role, onSuccess, onSwitchT
   };
 
   const handleSocialSignIn = async (
-    providerFn: () => Promise<{ uid?: string; getIdToken?: (force?: boolean) => Promise<string>; displayName?: string | null } | null | undefined>,
+    providerFn: () => Promise<
+      | {
+          uid?: string;
+          getIdToken?: (force?: boolean) => Promise<string>;
+          displayName?: string | null;
+        }
+      | null
+      | undefined
+    >,
     name: string
   ) => {
     setError(null);
@@ -98,9 +111,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role, onSuccess, onSwitchT
       const user = await signInWithEmail(email.trim(), password);
       if (user?.uid) {
         if (rememberMe) {
-          localStorage.setItem(REMEMBER_EMAIL_KEY, email.trim());
+          safeLocalStorage.setItem(REMEMBER_EMAIL_KEY, email.trim());
         } else {
-          localStorage.removeItem(REMEMBER_EMAIL_KEY);
+          safeLocalStorage.removeItem(REMEMBER_EMAIL_KEY);
         }
         await syncWithBackend(user as any);
         onSuccess(user.uid);

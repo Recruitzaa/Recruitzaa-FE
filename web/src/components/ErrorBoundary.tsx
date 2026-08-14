@@ -1,5 +1,6 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { Button } from './ui/Button/Button';
+import { safeSessionStorage } from '../lib/safeStorage';
 
 interface Props {
   children?: ReactNode;
@@ -31,18 +32,18 @@ export class ErrorBoundary extends Component<Props, State> {
 
     if (isPreloadError) {
       const reloadKey = 'recruitzaa_boundary_preload';
-      const lastReload = sessionStorage.getItem(reloadKey);
+      const lastReload = safeSessionStorage.getItem(reloadKey);
       const now = Date.now();
 
       if (!lastReload || now - parseInt(lastReload, 10) > 10000) {
-        sessionStorage.setItem(reloadKey, now.toString());
+        safeSessionStorage.setItem(reloadKey, now.toString());
         window.location.reload();
       }
     }
   }
 
   public handleReset = () => {
-    sessionStorage.clear();
+    safeSessionStorage.clear();
     this.setState({ hasError: false, error: null });
     window.location.reload();
   };

@@ -17,6 +17,7 @@ import { SocialAuthButtons } from './SocialAuthButtons';
 import { isPasswordValid } from './passwordUtils';
 import { useAppDispatch } from '../../../store/hooks';
 import { setUser } from '../../../store/slices/auth.slice';
+import { safeLocalStorage } from '../../../lib/safeStorage';
 
 interface RegisterFormProps {
   role: 'candidate' | 'employer';
@@ -53,7 +54,7 @@ const persistRegistrationProfile = (
   role: 'candidate' | 'employer',
   payload: Record<string, string | undefined>
 ) => {
-  localStorage.setItem(
+  safeLocalStorage.setItem(
     'registration_profile',
     JSON.stringify({
       role,

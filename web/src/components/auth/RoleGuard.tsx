@@ -6,6 +6,7 @@ import { setUser, clearUser } from '../../store/slices/auth.slice';
 import type { UserRole } from '../../types/auth.types';
 import { ROUTES } from '../../config/routes';
 import { getMe, registerUser } from '../../services/api.service';
+import { safeLocalStorage } from '../../lib/safeStorage';
 
 interface RoleGuardProps {
   allowedRoles: UserRole[];
@@ -51,7 +52,7 @@ export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) 
           if (err?.response?.status === 404) {
             try {
               const token = await user.getIdToken(true);
-              const savedRole = localStorage.getItem('selected_role');
+              const savedRole = safeLocalStorage.getItem('selected_role');
               const requestedRole = savedRole === 'employer' ? 'EMPLOYER' : 'CANDIDATE';
               const registeredUser = await registerUser(
                 token,

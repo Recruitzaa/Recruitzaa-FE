@@ -12,6 +12,7 @@ import { useAppSelector } from '../../store/hooks';
 import styles from './JobListingsPage.module.css';
 import { ROUTES } from '../../config/routes';
 import { trackEvent } from '../../services/analytics.service';
+import { safeSessionStorage } from '../../lib/safeStorage';
 
 type SortOption = 'newest' | 'match' | 'salary';
 const PAGE_SIZE = 6;
@@ -36,10 +37,10 @@ export const JobListingsPage = () => {
   const listOrigin = `${location.pathname}${location.search}`;
 
   useEffect(() => {
-    const savedScroll = sessionStorage.getItem(`scroll:${listOrigin}`);
+    const savedScroll = safeSessionStorage.getItem(`scroll:${listOrigin}`);
     if (savedScroll) {
       window.scrollTo(0, Number(savedScroll));
-      sessionStorage.removeItem(`scroll:${listOrigin}`);
+      safeSessionStorage.removeItem(`scroll:${listOrigin}`);
     }
   }, [listOrigin]);
 

@@ -7,6 +7,7 @@ import { useJobPreferences } from '../../hooks/useJobPreferences';
 import { useToast } from '../../../../hooks/useToast';
 import { ROUTES } from '../../../../config/routes';
 import type { JobListNavigationState } from '../../jobListNavigation';
+import { safeSessionStorage } from '../../../../lib/safeStorage';
 import styles from './JobCard.module.css';
 
 interface JobCardProps {
@@ -56,7 +57,7 @@ export const JobCard = ({
     : undefined;
   const rememberScroll = () => {
     if (listOrigin) {
-      sessionStorage.setItem(`scroll:${listOrigin}`, String(window.scrollY));
+      safeSessionStorage.setItem(`scroll:${listOrigin}`, String(window.scrollY));
     }
   };
 

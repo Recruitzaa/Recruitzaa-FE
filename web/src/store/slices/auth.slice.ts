@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { AppUser, UserRole } from '../../types/auth.types';
+import { safeLocalStorage } from '../../lib/safeStorage';
 
 interface AuthState {
   appUser: AppUser | null;
@@ -23,10 +24,7 @@ const authSlice = createSlice({
       const user = action.payload;
 
       // Restore last active role on refresh
-      const savedActiveRole =
-        typeof localStorage !== 'undefined'
-          ? (localStorage.getItem(`active_role_${user.id}`) as UserRole | null)
-          : null;
+      const savedActiveRole = safeLocalStorage.getItem(`active_role_${user.id}`) as UserRole | null;
       const requestedActiveRole = savedActiveRole || user.activeRole || user.role || 'CANDIDATE';
       const activeRole = user.availableRoles?.includes(requestedActiveRole)
         ? requestedActiveRole
@@ -38,19 +36,17 @@ const authSlice = createSlice({
         activeRole,
         role: activeRole, // sync legacy role field
       };
-      if (typeof localStorage !== 'undefined') {
-        localStorage.setItem('recruitzaa_active_role', activeRole);
-      }
+      safeLocalStorage.setItem('recruitzaa_active_role', activeRole);
       state.isAuthenticated = true;
       state.isLoading = false;
       state.error = null;
     },
     clearUser(state) {
       if (state.appUser) {
-        localStorage.removeItem(`active_role_${state.appUser.id}`);
+        safeLocalStorage.removeItem(`active_role_${state.appUser.id}`);
       }
       state.appUser = null;
-      localStorage.removeItem('recruitzaa_active_role');
+      safeLocalStorage.removeItem('recruitzaa_active_role');
       state.isAuthenticated = false;
       state.isLoading = false;
       state.error = null;
@@ -64,8 +60,8 @@ const authSlice = createSlice({
       if (state.appUser) {
         state.appUser.activeRole = action.payload;
         state.appUser.role = action.payload; // sync legacy role field
-        localStorage.setItem(`active_role_${state.appUser.id}`, action.payload);
-        localStorage.setItem('recruitzaa_active_role', action.payload);
+        safeLocalStorage.setItem(`active_role_${state.appUser.id}`, action.payload);
+        safeLocalStorage.setItem('recruitzaa_active_role', action.payload);
       }
     },
     setAuthLoading(state, action: PayloadAction<boolean>) {

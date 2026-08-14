@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { auth } from '../config/firebase';
+import { safeLocalStorage } from './safeStorage';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL ?? '/api',
@@ -13,7 +14,7 @@ api.interceptors.request.use(async (config) => {
     const token = await user.getIdToken();
     config.headers.Authorization = `Bearer ${token}`;
   }
-  const activeRole = localStorage.getItem('recruitzaa_active_role');
+  const activeRole = safeLocalStorage.getItem('recruitzaa_active_role');
   if (activeRole) {
     config.headers['X-Active-Role'] = activeRole;
   }

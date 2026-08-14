@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { safeLocalStorage } from '../../../lib/safeStorage';
 
 const SAVED_JOBS_KEY = 'recruitzaa_saved_job_ids';
 const SAVED_SEARCHES_KEY = 'recruitzaa_saved_searches';
@@ -14,16 +15,17 @@ export interface SavedSearch {
 
 const read = <T>(key: string, fallback: T): T => {
   try {
-    const value = localStorage.getItem(key);
+    const value = safeLocalStorage.getItem(key);
     return value ? (JSON.parse(value) as T) : fallback;
   } catch {
     return fallback;
   }
 };
 
-const write = <T>(key: string, value: T) => {
-  localStorage.setItem(key, JSON.stringify(value));
-  window.dispatchEvent(new CustomEvent(PREFERENCES_EVENT));
+const write = <T>(key: string, value: T): boolean => {
+  const ok = safeLocalStorage.setItem(key, JSON.stringify(value));
+  if (ok) window.dispatchEvent(new CustomEvent(PREFERENCES_EVENT));
+  return ok;
 };
 
 export const useJobPreferences = () => {

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { safeLocalStorage } from '../lib/safeStorage';
 
 export type Theme = 'light' | 'dark';
 const THEME_STORAGE_KEY = 'recruitzaa-theme-v2';
@@ -11,7 +12,7 @@ const THEME_STORAGE_KEY = 'recruitzaa-theme-v2';
  */
 export const useTheme = () => {
   const [theme, setTheme] = useState<Theme>(() => {
-    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    const savedTheme = safeLocalStorage.getItem(THEME_STORAGE_KEY);
     return savedTheme === 'dark' ? 'dark' : 'light';
   });
 
@@ -20,7 +21,7 @@ export const useTheme = () => {
     root.classList.toggle('dark', theme === 'dark');
     root.dataset.theme = theme;
     root.style.colorScheme = theme;
-    localStorage.setItem(THEME_STORAGE_KEY, theme);
+    safeLocalStorage.setItem(THEME_STORAGE_KEY, theme);
   }, [theme]);
 
   const toggleTheme = () => {

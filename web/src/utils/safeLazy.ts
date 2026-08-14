@@ -1,4 +1,5 @@
 import React from 'react';
+import { safeSessionStorage } from '../lib/safeStorage';
 
 /**
  * Resilient wrapper for React.lazy dynamic imports.
@@ -22,10 +23,10 @@ export function safeLazy<T extends React.ComponentType<any>>(
         console.warn('Vite asset/CSS preload failure detected:', message);
 
         const reloadKey = 'recruitzaa_lazy_reload_' + window.location.pathname;
-        const hasReloaded = sessionStorage.getItem(reloadKey);
+        const hasReloaded = safeSessionStorage.getItem(reloadKey);
 
         if (!hasReloaded) {
-          sessionStorage.setItem(reloadKey, 'true');
+          safeSessionStorage.setItem(reloadKey, 'true');
           window.location.reload();
           return new Promise<{ default: T }>(() => {});
         }

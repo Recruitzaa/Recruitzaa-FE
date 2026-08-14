@@ -1,3 +1,5 @@
+import { safeLocalStorage } from '../lib/safeStorage';
+
 type AnalyticsValue = string | number | boolean;
 
 export type AnalyticsEvent =
@@ -12,7 +14,7 @@ export const trackEvent = (
   window.dispatchEvent(new CustomEvent('recruitzaa:analytics', { detail: { name, properties } }));
 
   const analyticsWindow = window as Window & { gtag?: (...args: unknown[]) => void };
-  if (window.localStorage.getItem('recruitzaa:analytics-consent') === 'granted') {
+  if (safeLocalStorage.getItem('recruitzaa:analytics-consent') === 'granted') {
     analyticsWindow.gtag?.('event', name, properties);
   }
 };
