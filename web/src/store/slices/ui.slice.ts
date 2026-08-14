@@ -20,7 +20,7 @@ interface UIState {
   audience: Audience;
 }
 
-const initialState: UIState = {
+export const initialState: UIState = {
   toasts: [],
   activeModal: null,
   isSidebarCollapsed: false,

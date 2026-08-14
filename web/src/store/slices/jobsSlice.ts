@@ -21,21 +21,25 @@ export interface Job {
 }
 
 import { MOCK_JOBS } from '../../data/mockJobs';
-import { safeLocalStorage } from '../../lib/safeStorage';
+import { loadPersisted } from '../../lib/persist';
+import {
+  JOBS_STORAGE_KEY,
+  JOBS_STORAGE_VERSION,
+  identityMigrate,
+  jobsListSchema,
+} from '../persistedState.schemas';
 
 interface JobsState {
   jobsList: Job[];
 }
 
-const loadJobsState = (): Job[] | null => {
-  try {
-    const serialized = safeLocalStorage.getItem('recruitzaa_jobs');
-    if (serialized === null) return null;
-    return JSON.parse(serialized);
-  } catch {
-    return null;
-  }
-};
+const loadJobsState = (): Job[] | null =>
+  loadPersisted({
+    key: JOBS_STORAGE_KEY,
+    version: JOBS_STORAGE_VERSION,
+    schema: jobsListSchema,
+    migrate: identityMigrate,
+  });
 
 const initialJobs: Job[] = loadJobsState() || MOCK_JOBS;
 

@@ -4,6 +4,7 @@ import { store } from './index';
 import { addNewJob } from './slices/jobsSlice';
 import { updateApplicationStage } from './slices/kanbanSlice';
 import { updateCompanyProfile } from './slices/employerProfileSlice';
+import { addToast } from './slices/ui.slice';
 
 const mockJob = {
   id: 'job-1',
@@ -45,6 +46,39 @@ describe('store persistence', () => {
     vi.resetModules();
     const { store: hydratedStore } = await import('./index');
     expect(hydratedStore.getState().kanban.applications.length).toBeGreaterThan(0);
+  });
+
+  it('ignores persisted kanban state that fails schema validation', async () => {
+    localStorage.setItem(
+      'kanban_state',
+      JSON.stringify({ applications: [{ id: 'corrupt-1', stage: 'NOT_A_REAL_STAGE' }] })
+    );
+    vi.resetModules();
+    const { store: hydratedStore } = await import('./index');
+    // Falls back to the default mock applications rather than the corrupt shape.
+    expect(hydratedStore.getState().kanban.applications.length).toBeGreaterThan(0);
+    expect(hydratedStore.getState().kanban.applications[0].id).not.toBe('corrupt-1');
+  });
+
+  it('round-trips a versioned envelope for the audience preference', async () => {
+    localStorage.setItem(
+      'recruitzaa-audience-v1',
+      JSON.stringify({ version: 1, data: 'employer' })
+    );
+    vi.resetModules();
+    const { store: hydratedStore } = await import('./index');
+    expect(hydratedStore.getState().ui.audience).toBe('employer');
+  });
+
+  it('does not re-serialize persisted slices for unrelated actions', () => {
+    store.dispatch(addNewJob(mockJob));
+    const setItemSpy = vi.spyOn(localStorage, 'setItem');
+
+    store.dispatch(addToast({ type: 'info', message: 'unrelated' }));
+
+    expect(setItemSpy).not.toHaveBeenCalledWith('recruitzaa_jobs', expect.anything());
+    expect(setItemSpy).not.toHaveBeenCalledWith('kanban_state', expect.anything());
+    expect(setItemSpy).not.toHaveBeenCalledWith('employer_profile_state', expect.anything());
   });
 
   it('persists kanban, jobs, and employer profile changes via subscribe', () => {
