@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { nanoid } from 'nanoid';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState, AppDispatch } from '../../../../store';
 import { setFullProfile } from '../../../../store/slices/profileSlice';
@@ -60,18 +61,17 @@ export const useProfileForm = () => {
                 : dbProfile.skillsFlat || [],
             employmentHistory: dbProfile.experience || [],
             education:
-              dbProfile.education &&
-              Array.isArray(dbProfile.education) &&
-              dbProfile.education.length > 0
-                ? {
-                    degree: dbProfile.education[0].degree || '',
-                    university: dbProfile.education[0].institution || '',
-                    duration: dbProfile.education[0].graduationYear
-                      ? String(dbProfile.education[0].graduationYear)
-                      : '',
-                    type: 'Full Time',
-                  }
-                : dbProfile.education || { degree: '', university: '', duration: '', type: '' },
+              dbProfile.education && Array.isArray(dbProfile.education)
+                ? dbProfile.education.map((edu: any) => ({
+                    id: edu.id || nanoid(),
+                    level: edu.level || '',
+                    degree: edu.degree || '',
+                    university: edu.institution || '',
+                    duration: edu.graduationYear ? String(edu.graduationYear) : '',
+                    type: edu.type || 'Full Time',
+                    percentage: edu.percentage || '',
+                  }))
+                : [],
             projects: dbProfile.projects || [],
             itSkills: dbProfile.itSkills || [],
             careerProfile: dbProfile.careerProfile || {
