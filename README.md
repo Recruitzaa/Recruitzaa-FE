@@ -4,9 +4,19 @@ The frontend codebase for recruitZaa, featuring a React Native (TypeScript) mobi
 
 ## Version History
 
-**Current Version: `v0.6.3`**
+**Current Version: `v0.6.4`**
 
 ### Changelog
+
+**[v0.6.4] - 2026-08-15** _(Branch: `feature/ai-hub-and-latex-resume`)_
+
+Merges `main` into the LaTeX resume feature branch and adapts it to main's current data model, plus a real bug found and fixed during verification.
+
+- **LaTeX Resume Maker Merged Onto Main's Data Model**: The feature branch (`ccece17`) predated a series of `main` changes that moved `education` from a single object to `EducationDetails[]` and split `certifications` out of `accomplishments.certification` into its own list. Merging `origin/main` in surfaced ~30 type errors across the LaTeX feature. Fixed all 5 resume templates (`jakesResume.ts`, `awesomeCV.ts`, `deedyCV.ts`, `minimalistCV.ts`, `modernCV.ts`) and `LatexResumeMaker.tsx`'s preview panel to `.map()`/`.join()` over the education array instead of assuming one entry, and to read `certifications` as its own list. Also fixed 6 real merge conflicts by favoring `main`'s implementation on technical merit each time — `main`'s `useProfileListEdit`/`useProfileSkillAndResume`/`useProfileSectionEdit` fixed a missing-`id`-on-new-items bug, removed a false "AI parsed resume successfully" claim in favor of an honest "sample data" toast, and fixed a timeout-cleanup memory leak that the feature branch's versions lacked.
+- **Education Silently Dropped on Profile Reload From DB**: `useProfileForm`'s DB-load path collapsed a candidate's saved `education` array down to a single object built from index 0 only, discarding every entry past the first — a leftover from before the array-based model landed on `main`. Since `education.length > 0` on that shape evaluates to `undefined` (not an array), every array-based consumer, including the LaTeX Resume Maker just fixed above, silently rendered "no education" for any candidate whose education came from the backend rather than being added in-session. Fixed to map every entry into `EducationDetails[]`. Found during live end-to-end verification of the LaTeX fix (adding two education entries through the Profile UI and generating a resume across all 5 templates), not by type-checking — the whole DB-load path is typed `any`, so this had no compile-time signal.
+- **Local Dev API Routing Fix**: `web/.env`'s `VITE_API_BASE_URL` pointed directly at `http://localhost:8000`, a port nothing listens on — bypassing the Vite dev proxy that correctly routes `/api/auth`, `/api/admin`, `/api/companies` to `auth_service` (8001) and `/api/jobs`, `/api/profile`, etc. to `core_api_service` (8002). Changed to `/api` so local dev logs in and loads data instead of failing every request with `ERR_CONNECTION_REFUSED`. Local-only change (`.env` is gitignored).
+- **Testing**: `tsc --noEmit`, all 256 tests, and `tsc -b && vite build` pass clean; the LaTeX fix was verified live across all 5 templates with real multi-entry education data, confirming each renders every entry (Awesome CV's education section doesn't render in the live paper-preview pane for this template style, a pre-existing renderer limitation — confirmed correct via the generated `.tex` source showing two separate `\cventry` blocks).
+- **Known Follow-Up (Not Yet Fixed)**: `core_api_service`'s `GET /api/profile` throws a 500 — a pydantic `ValidationError` because MongoDB's `_id` (`ObjectId`) isn't cast to `str` before validating against the `CandidateProfile` model. The frontend degrades gracefully (falls back to Firebase `appUser` data), so nothing broke, but it means the DB-load path fixed above couldn't be exercised against a real successful response in this session — only confirmed via type-check, tests, and that it didn't disturb already-loaded state.
 
 **[v0.6.3] - 2026-08-15** _(Branch: `feature/UI-touch-ups`)_
 

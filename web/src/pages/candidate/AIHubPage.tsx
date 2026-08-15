@@ -2,18 +2,20 @@ import { useState } from 'react';
 import { ATSCompatibilityEngine } from '../../features/ai-hub/components/ATSCompatibilityEngine';
 import { ResumeOptimizer } from '../../features/ai-hub/components/ResumeOptimizer';
 import { AIChatPanel } from '../../features/ai-hub/components/AIChatPanel';
+import { LatexResumeMaker } from '../../features/ai-hub/components/LatexResumeMaker';
 import { scoreResume } from '../../services/ai.service';
 import { useAIChat } from '../../hooks/useAIChat';
 import type { ATSScore } from '../../types/ai.types';
+import { FileCode, Sparkles } from 'lucide-react';
 import { useAppSelector } from '../../store/hooks';
 import { SEO } from '../../components/seo/SEO';
 
 /**
- * AIHubPage — Main Candidate AI Tools Hub
- * Features ATS parser comparison, Bullet optimizer, and Career assistant chat.
+ * AIHubPage — Main Candidate AI & Career Tools Hub
+ * Features LaTeX Resume Maker, ATS parser comparison, Bullet optimizer, and Career assistant chat.
  */
 export const AIHubPage = () => {
-  const [activeTab, setActiveTab] = useState<'ats' | 'optimizer' | 'chat'>('ats');
+  const [activeTab, setActiveTab] = useState<'latex' | 'ats' | 'optimizer' | 'chat'>('latex');
   const [resumeText, setResumeText] = useState('');
   const [jdText, setJdText] = useState('');
 
@@ -70,6 +72,23 @@ export const AIHubPage = () => {
           <button
             type="button"
             role="tab"
+            aria-selected={activeTab === 'latex'}
+            className={`py-3 text-sm font-semibold border-b-2 transition-all flex items-center gap-2 ${
+              activeTab === 'latex'
+                ? 'border-brand-primary text-brand-primary dark:text-brand-primary'
+                : 'border-transparent text-slate-500 hover:text-slate-700'
+            }`}
+            onClick={() => setActiveTab('latex')}
+          >
+            <FileCode size={16} />
+            LaTeX Resume Maker
+            <span className="px-1.5 py-0.5 rounded text-[10px] bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-200 font-bold">
+              ATS-Ready
+            </span>
+          </button>
+          <button
+            type="button"
+            role="tab"
             aria-selected={activeTab === 'ats'}
             className={`py-3 text-sm font-semibold border-b-2 transition-all ${
               activeTab === 'ats'
@@ -97,14 +116,15 @@ export const AIHubPage = () => {
             type="button"
             role="tab"
             aria-selected={activeTab === 'chat'}
-            className={`py-3 text-sm font-semibold border-b-2 transition-all ${
+            className={`py-3 text-sm font-semibold border-b-2 transition-all flex items-center gap-1.5 ${
               activeTab === 'chat'
                 ? 'border-brand-primary text-brand-primary dark:text-brand-primary'
                 : 'border-transparent text-slate-500 hover:text-slate-700'
             }`}
             onClick={() => setActiveTab('chat')}
           >
-            Career Coach
+            <Sparkles size={15} />
+            AI Career Advisor
           </button>
         </div>
       </div>
@@ -115,6 +135,7 @@ export const AIHubPage = () => {
           These tools offer suggestions to help you improve your resume. They are not official
           hiring assessments.
         </div>
+        {activeTab === 'latex' && <LatexResumeMaker />}
         {activeTab === 'ats' && (
           <ATSCompatibilityEngine
             resumeText={resumeText}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAppDispatch } from '../../../../store/hooks';
 import { useToast } from '../../../../hooks/useToast';
 import { updateUserProfile } from '../../../../store/slices/auth.slice';
@@ -51,6 +51,28 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
     languagesText: profile.extendedPersonal.languages.join(', '),
   });
   const [accomplishmentsForm, setAccomplishmentsForm] = useState({ ...profile.accomplishments });
+
+  // Forms are seeded once from `profile` via useState above, but the
+  // candidate's real profile loads asynchronously from the backend after
+  // mount (see useProfileForm). Without this resync, opening an edit form
+  // before that load resolves shows stale/empty defaults instead of the
+  // data that just arrived.
+  useEffect(() => {
+    setPersonalForm({
+      ...profile.personalInfo,
+      ...profile.employmentDetails,
+    });
+    setSummaryForm({ ...profile.professionalSummary });
+    setCareerForm({
+      ...profile.careerProfile,
+      desiredLocationsText: profile.careerProfile.desiredLocations.join(', '),
+    });
+    setExtendedPersonalForm({
+      ...profile.extendedPersonal,
+      languagesText: profile.extendedPersonal.languages.join(', '),
+    });
+    setAccomplishmentsForm({ ...profile.accomplishments });
+  }, [profile]);
 
   const skillResume = useProfileSkillAndResume(profile.skills, appUser);
 
