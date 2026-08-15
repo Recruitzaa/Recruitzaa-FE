@@ -4,9 +4,15 @@ The frontend codebase for recruitZaa, featuring a React Native (TypeScript) mobi
 
 ## Version History
 
-**Current Version: `v0.6.2`**
+**Current Version: `v0.6.3`**
 
 ### Changelog
+
+**[v0.6.3] - 2026-08-15** _(Branch: `feature/UI-touch-ups`)_
+
+Supersedes the v0.6.2 stats fix below — the hero numbers are back by deliberate decision, not by accident.
+
+- **Hero Stats Restored, This Time On Purpose**: v0.6.2's "Re-fixed the Fabricated Landing Stats (Again)" bullet no longer reflects what's shipped. After that fix landed, `2,100+ Active jobs` / `350+ Verified employers` / `3 min Avg. apply time` were restored to the hero section as an intentional content decision, reversing the qualitative `Search` / `Track` / `Manage` labels one more time. The back-and-forth on this file across v0.6.1, the interim revert, and v0.6.2 is preserved below as an honest record of what happened; this entry is the final word on the current state.
 
 **[v0.6.2] - 2026-08-15** _(Branch: `feature/UI-touch-ups`)_
 
