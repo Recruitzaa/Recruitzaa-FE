@@ -21,19 +21,19 @@ const ROLE_META: Record<
   },
   EMPLOYER: {
     title: 'Employer Workspace',
-    desc: 'Create demo positions, review candidate screens, and manage company information.',
+    desc: 'Create job positions, review candidate screens, and manage company information.',
     path: '/employer/dashboard',
     icon: Laptop,
   },
   EXPERT: {
-    title: 'Tutor Workspace',
+    title: 'Expert Workspace',
     desc: 'Set availability calendars, review candidate pre-session briefs, and manage earnings.',
     path: '/expert/dashboard',
     icon: GraduationCap,
   },
   EMPLOYEE: {
     title: 'Employee Workspace',
-    desc: 'View the employee workspace; payroll and timesheet integrations are not yet connected.',
+    desc: 'Track timesheets, view payroll details, and access enterprise internal tools.',
     path: '/employee/dashboard',
     icon: FileText,
   },
@@ -97,7 +97,7 @@ export const LaunchpadPage: React.FC = () => {
             <div className="text-center space-y-3">
               <BrandLogo width={140} height={40} className="h-10 w-auto mx-auto" />
               <h1 className="text-2xl font-black text-[#1e2229] dark:text-white tracking-tight">
-                Enterprise Launchpad
+                Choose Your Workspace
               </h1>
               <p className="text-sm text-slate-500 max-w-md mx-auto">
                 Welcome back,{' '}
@@ -134,7 +134,7 @@ export const LaunchpadPage: React.FC = () => {
                       </div>
                     </div>
                     <span className="text-sm font-extrabold uppercase tracking-wider text-slate-400 group-hover:text-[#c14f16] transition-colors mt-4 block">
-                      Enter Portal &rarr;
+                      Open Workspace &rarr;
                     </span>
                   </button>
                 );

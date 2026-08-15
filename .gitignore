@@ -60,6 +60,8 @@ implementation_plan*
 recruitzaa_proposal.md
 
 graphify-out/
+.agents/rules/graphify.md
+.agents/workflows/graphify.md
 
 # Test coverage reports
 coverage/

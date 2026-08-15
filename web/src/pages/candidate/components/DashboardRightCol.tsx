@@ -50,11 +50,12 @@ export const DashboardRightCol = () => {
         </Link>
       </Card>
 
-      {/* Skill Demand Index */}
       <Card className={styles.panelCard}>
         <div className={styles.panelHead}>
           <h2 className={styles.panelTitle}>Skills in current listings</h2>
-          <span className={styles.subText}>{jobs.length} demo jobs</span>
+          <span className={styles.subText}>
+            {jobs.length} {import.meta.env.DEV ? 'demo jobs' : 'active jobs'}
+          </span>
         </div>
 
         {demand.map(([skill, count]) => (
@@ -74,7 +75,9 @@ export const DashboardRightCol = () => {
           </div>
         ))}
         <p className={styles.panelDesc}>
-          Counts are calculated only from the jobs visible in this demo—not from labour-market data.
+          {import.meta.env.DEV
+            ? 'Counts are calculated only from the jobs visible in this demo—not from labour-market data.'
+            : 'Counts are calculated from current active job listings.'}
         </p>
       </Card>
     </div>

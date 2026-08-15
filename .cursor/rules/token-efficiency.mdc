@@ -1,0 +1,9 @@
+---
+description: Token-efficient agent behavior
+alwaysApply: true
+---
+
+- Prefer `graphify query` over Task/explore subagents or broad Grep sweeps
+- Grep with `head_limit` first; Read narrow line ranges, not entire files
+- Do not read `graphify-out/graph.json` — use graphify CLI
+- Run `graphify update .` after editing source files

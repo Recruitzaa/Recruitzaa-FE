@@ -58,7 +58,7 @@ export const InboxPage: React.FC = () => {
     <>
       <PageTransition>
         <SEO
-          title="Central Messaging Hub | recruitZaa"
+          title="Central Messaging Hub | Recruitzaa"
           description="Send direct chat updates to recruitment managers and expert coaches."
         />
         <div className="max-w-7xl mx-auto px-4 py-8 space-y-6 w-full">
@@ -67,7 +67,8 @@ export const InboxPage: React.FC = () => {
               <MessageSquare className="text-[#c14f16]" size={20} /> Messaging Hub
             </h1>
             <p className="text-sm text-slate-500 mt-1">
-              Direct chat communications with hiring teams, candidate applicants, and FAANG mentors.
+              Direct chat communications with hiring teams, candidate applicants, and career
+              mentors.
             </p>
           </div>
 

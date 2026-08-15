@@ -15,12 +15,17 @@ import { PersonalDetailsCard } from './profile/components/PersonalDetailsCard';
 import { AccomplishmentsCard } from './profile/components/AccomplishmentsCard';
 import { ReferencesCard } from './profile/components/ReferencesCard';
 import { CertificationsCard } from './profile/components/CertificationsCard';
+import { SEO } from '../../components/seo/SEO';
 
 export const ProfilePage = () => {
   const form = useProfileForm();
 
   return (
     <div className={styles.page}>
+      <SEO
+        title="My Profile | Recruitzaa"
+        description="Update details, professional summary, and key technical skills."
+      />
       <div className={styles.container}>
         {/* Header Title Block */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
@@ -29,7 +34,7 @@ export const ProfilePage = () => {
               My Professional Profile
             </h1>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Verify credentials, configure employment metrics, and sync resume structures.
+              Update your skills, work history, and preferences to get better matched roles.
             </p>
           </div>
 

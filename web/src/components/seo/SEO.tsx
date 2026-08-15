@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'react-router-dom';
 
 interface SEOProps {
   title: string;
@@ -12,21 +13,24 @@ interface SEOProps {
 export const SEO = ({
   title,
   description,
-  url = 'https://recruitzaa.com',
+  url,
   image = 'https://recruitzaa.com/og-image.jpg',
   type = 'website',
   schema,
 }: SEOProps) => {
+  const { pathname } = useLocation();
+  const canonicalUrl = url || `https://recruitzaa.com${pathname === '/' ? '' : pathname}`;
+
   return (
     <Helmet>
       {/* Standard Metadata */}
       <title>{title}</title>
       <meta name="description" content={description} />
-      <link rel="canonical" href={url} />
+      <link rel="canonical" href={canonicalUrl} />
 
       {/* OpenGraph / Facebook / LinkedIn */}
       <meta property="og:type" content={type} />
-      <meta property="og:url" content={url} />
+      <meta property="og:url" content={canonicalUrl} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
@@ -39,11 +43,7 @@ export const SEO = ({
       <meta name="twitter:image" content={image} />
 
       {/* Structured Data (JSON-LD) */}
-      {schema && (
-        <script type="application/ld+json">
-          {JSON.stringify(schema)}
-        </script>
-      )}
+      {schema && <script type="application/ld+json">{JSON.stringify(schema)}</script>}
     </Helmet>
   );
 };

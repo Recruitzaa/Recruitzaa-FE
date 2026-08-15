@@ -7,7 +7,7 @@ export const UnauthorizedPage = () => (
   <RecoveryShell>
     <SEO
       title="Access restricted | Recruitzaa"
-      description="This Recruitzaa workspace is not assigned to your account. Choose an assigned workspace to continue."
+      description="This Recruitzaa workspace is not assigned to your account. Choose an available workspace to continue."
     />
     <div className={styles.page}>
       <div className={styles.container}>

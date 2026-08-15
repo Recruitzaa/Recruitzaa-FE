@@ -21,7 +21,7 @@ export const CalendarSettingsPage: React.FC = () => {
     let label = '';
     if (key === 'googleCalendarConnected') label = 'Google Calendar Sync';
     else if (key === 'outlookCalendarConnected') label = 'Outlook Calendar Sync';
-    else label = 'Require Pre-Session Brief setting';
+    else label = 'Pre-Session Brief requirement';
 
     toast.success(`${label} ${nextState ? 'enabled' : 'disabled'}.`);
   };
@@ -45,7 +45,7 @@ export const CalendarSettingsPage: React.FC = () => {
               <Calendar className="text-[#c14f16]" size={20} /> Calendar & Availability Settings
             </h1>
             <p className="text-sm text-slate-500 mt-1">
-              Configure how mentees book calendar time and what details they must provide.
+              Configure how candidates book calendar time and what details they must provide.
             </p>
           </div>
 

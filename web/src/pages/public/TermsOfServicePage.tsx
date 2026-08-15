@@ -27,7 +27,7 @@ export const TermsOfServicePage = () => {
 
           <div className="prose dark:prose-invert text-sm text-slate-600 space-y-5 leading-relaxed">
             <p>
-              Welcome to recruitZaa. By creating a job seeker or employer account on our workspace
+              Welcome to Recruitzaa. By creating a job seeker or employer account on our workspace
               platform, you agree to comply with and be bound by the following Terms of Service.
             </p>
 
@@ -36,17 +36,17 @@ export const TermsOfServicePage = () => {
             </h2>
             <p>
               You agree to provide accurate, up-to-date information, including notice period
-              timelines and salary details. Impersonation of other candidates, submitting corrupted
-              resume files, or inputting fraudulent job openings is strictly prohibited and subject
-              to account suspension.
+              timelines and salary details. Impersonation of other candidates, submitting fraudulent
+              resumes, or inputting incorrect job openings is strictly prohibited and subject to
+              account suspension.
             </p>
 
             <h2 className="text-sm font-bold text-slate-900 dark:text-white pt-2">
               2. Intellectual Property
             </h2>
             <p>
-              All assets, logos, styles, and automated matchmaking matching systems are the sole
-              property of recruitZaa Technologies Pvt. Ltd. You may not scrape, clone, or reverse
+              All assets, logos, styles, and automated candidate-matching systems are the sole
+              property of Recruitzaa Technologies Pvt. Ltd. You may not scrape, clone, or reverse
               engineer any elements of our workspace.
             </p>
 
@@ -54,8 +54,8 @@ export const TermsOfServicePage = () => {
               3. Limitation of Liability
             </h2>
             <p>
-              recruitZaa provides resume analysis and job matching suggestions based on client-side
-              AI simulations. We do not guarantee job interviews or hiring success. All employer
+              Recruitzaa provides resume analysis and job matching suggestions based on client-side
+              AI-assisted tools. We do not guarantee job interviews or hiring success. All employer
               hiring commitments are handled outside of the platform.
             </p>
 
@@ -63,7 +63,7 @@ export const TermsOfServicePage = () => {
               4. Service Adjustments
             </h2>
             <p>
-              We reserve the right to modify, adjust, or suspend candidate portal tools, Kanban
+              We reserve the right to modify, adjust, or suspend candidate portal tools, listing
               boards, or resume services at any time without notice.
             </p>
           </div>

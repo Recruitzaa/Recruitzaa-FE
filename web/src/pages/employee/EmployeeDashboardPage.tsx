@@ -23,8 +23,7 @@ export const EmployeeDashboardPage: React.FC = () => {
               Leaves Console
             </h1>
             <p className="text-sm text-slate-500 dark:text-slate-400">
-              Submit your weekly hour deliverables, review authorization statuses, and track
-              remaining leave balances.
+              Submit weekly hours, request leave, and track your remaining balance.
             </p>
           </div>
           <TimesheetWidget />
@@ -41,8 +40,7 @@ export const EmployeeDashboardPage: React.FC = () => {
               Reimbursements
             </h1>
             <p className="text-sm text-slate-500 dark:text-slate-400">
-              View your monthly salary disbursements, download digital payslips, and check pending
-              reimbursement pipeline status.
+              View payslips, track salary disbursements, and check reimbursement requests.
             </p>
           </div>
           <PayrollCard />

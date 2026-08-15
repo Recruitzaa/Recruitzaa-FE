@@ -4,6 +4,7 @@ import { JobCard } from '../../features/jobs/components/JobCard/JobCard';
 import { useJobPreferences } from '../../features/jobs/hooks/useJobPreferences';
 import { useAppSelector } from '../../store/hooks';
 import { ROUTES } from '../../config/routes';
+import { SEO } from '../../components/seo/SEO';
 
 export const SavedJobsPage = () => {
   const jobs = useAppSelector((state) => state.jobs.jobsList);
@@ -14,13 +15,18 @@ export const SavedJobsPage = () => {
 
   return (
     <div className="mx-auto max-w-6xl space-y-8">
+      <SEO
+        title="Saved Jobs & Alerts | Recruitzaa"
+        description="Manage your saved job listings and automated search notifications."
+      />
       <header>
         <h1 className="text-xl font-extrabold text-slate-900 dark:text-white">
           Saved jobs and searches
         </h1>
         <p className="mt-2 text-sm text-slate-600">
-          These demo preferences are stored only in this browser. Cross-device sync and
-          notifications require the production service.
+          {import.meta.env.DEV
+            ? 'These demo preferences are stored only in this browser. Cross-device sync and notifications require the production service.'
+            : 'Your saved jobs and search preferences, all in one place.'}
         </p>
       </header>
       <section aria-labelledby="saved-jobs-title">
@@ -77,7 +83,8 @@ export const SavedJobsPage = () => {
                 <div>
                   <strong className="text-sm text-slate-900 dark:text-white">{search.label}</strong>
                   <p className="mt-1 text-sm text-slate-500">
-                    {search.frequency} preference · delivery not connected
+                    {search.frequency} preference ·{' '}
+                    {import.meta.env.DEV ? 'delivery not connected' : 'Email alerts coming soon'}
                   </p>
                 </div>
                 <div className="flex gap-2">
@@ -100,7 +107,11 @@ export const SavedJobsPage = () => {
           </ul>
         ) : (
           <div className="rounded-xl border border-dashed border-slate-300 dark:border-slate-700 bg-white dark:bg-[#131924] p-8 text-center">
-            <p className="text-sm text-slate-600">No saved search preferences.</p>
+            <p className="text-sm text-slate-600">
+              {import.meta.env.DEV
+                ? 'No saved search preferences.'
+                : 'Save a search to quickly rerun it from the job catalogue.'}
+            </p>
           </div>
         )}
       </section>

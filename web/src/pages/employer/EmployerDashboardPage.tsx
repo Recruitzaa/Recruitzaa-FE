@@ -5,6 +5,7 @@ import { Badge } from '../../components/ui/Badge';
 import { useAppSelector } from '../../store/hooks';
 import styles from './EmployerDashboardPage.module.css';
 import { EmployerDashboardSideCol } from './components/EmployerDashboardSideCol';
+import { SEO } from '../../components/seo/SEO';
 
 export const EmployerDashboardPage = () => {
   const jobs = useAppSelector((state) => state.jobs.jobsList);
@@ -14,22 +15,30 @@ export const EmployerDashboardPage = () => {
 
   return (
     <div className={styles.dashboard}>
-      <p className={styles.demoNotice} role="status">
-        Demo workspace: listings are stored in this browser. Applications, candidate search,
-        billing, and interview data are not connected yet.
-      </p>
+      <SEO
+        title="Employer Workspace | Recruitzaa"
+        description="Review active listings, draft vacancies, and candidate pipeline tracking."
+      />
+      {import.meta.env.DEV && (
+        <p className={styles.demoNotice} role="status">
+          Demo workspace: listings are stored in this browser. Applications, candidate search,
+          billing, and interview data are not connected yet.
+        </p>
+      )}
 
       <div className={styles.kpiGrid}>
         <Card className={styles.kpiCard}>
           <div className={styles.kpiHead}>
             <span className={styles.kpiTitle}>Active Listings</span>
-            <span className={`${styles.kpiTag} ${styles.tagPrimary}`}>Browser data</span>
+            {import.meta.env.DEV && (
+              <span className={`${styles.kpiTag} ${styles.tagPrimary}`}>Browser data</span>
+            )}
           </div>
           <div className={styles.kpiValue}>{activeJobs.length}</div>
         </Card>
         <Card className={styles.kpiCard}>
           <div className={styles.kpiHead}>
-            <span className={styles.kpiTitle}>Drafts to Finish</span>
+            <span className={styles.kpiTitle}>Draft Listings</span>
             <span className={`${styles.kpiTag} ${styles.tagWarning}`}>Actionable</span>
           </div>
           <div className={styles.kpiValue}>{draftJobs.length}</div>
@@ -37,21 +46,33 @@ export const EmployerDashboardPage = () => {
         <Card className={styles.kpiCard}>
           <div className={styles.kpiHead}>
             <span className={styles.kpiTitle}>Closed Listings</span>
-            <span className={`${styles.kpiTag} ${styles.tagPrimary}`}>Browser data</span>
+            {import.meta.env.DEV && (
+              <span className={`${styles.kpiTag} ${styles.tagPrimary}`}>Browser data</span>
+            )}
           </div>
           <div className={styles.kpiValue}>{closedJobs.length}</div>
         </Card>
         <Card className={styles.kpiCard}>
           <div className={styles.kpiHead}>
             <span className={styles.kpiTitle}>Applications</span>
-            <span className={`${styles.kpiTag} ${styles.tagWarning}`}>Not connected</span>
+            {import.meta.env.DEV && (
+              <span className={`${styles.kpiTag} ${styles.tagWarning}`}>Not connected</span>
+            )}
           </div>
           <div
             className={styles.kpiValue}
-            aria-label="Application count unavailable until the service is connected"
-            title="Application data will appear after the production application service is connected."
+            aria-label={
+              import.meta.env.DEV
+                ? 'Application count unavailable until the service is connected'
+                : 'Applications'
+            }
+            title={
+              import.meta.env.DEV
+                ? 'Application data will appear after the production application service is connected.'
+                : 'Application data will appear once candidate integration is live.'
+            }
           >
-            N/A
+            {import.meta.env.DEV ? 'N/A' : '—'}
           </div>
         </Card>
       </div>
@@ -97,7 +118,7 @@ export const EmployerDashboardPage = () => {
                         </Badge>
                       </td>
                       <td>
-                        <span className={styles.subText}>Not connected</span>
+                        <span className={styles.subText}>—</span>
                       </td>
                       <td>
                         <span className={styles.subText}>{job.postedAt}</span>
@@ -128,10 +149,13 @@ export const EmployerDashboardPage = () => {
               <h2 className={styles.panelTitle}>Candidate pipeline</h2>
             </div>
             <div className={styles.emptyPanel}>
-              <h3>Candidate data is not connected</h3>
+              <h3>
+                {import.meta.env.DEV ? 'Candidate data is not connected' : 'No active applications'}
+              </h3>
               <p>
-                Recruitzaa will show applicants here after a production application API, consent
-                controls, and employer ownership checks are implemented.
+                {import.meta.env.DEV
+                  ? 'Recruitzaa will show applicants here after a production application API, consent controls, and employer ownership checks are implemented.'
+                  : 'Candidate applications will appear here once they apply to your listings.'}
               </p>
             </div>
           </Card>

@@ -143,7 +143,7 @@ export const JobDetailPage = () => {
     <PageTransition>
       <SEO
         title={`${job.title} | ${job.company} | Recruitzaa`}
-        description={`View ${job.title} at ${job.company} in ${displayLocation}.`}
+        description={`Apply for the ${job.title} position at ${job.company} in ${displayLocation}. Salary range: ${job.salary}. Learn about core responsibilities and application requirements.`}
         type="job"
         schema={jobSchema}
       />
@@ -162,7 +162,7 @@ export const JobDetailPage = () => {
         <Breadcrumbs currentLabel={job.title} />
         <header className={styles.header}>
           <div className={styles.container}>
-            <p className={styles.eyebrow}>Demo catalogue listing</p>
+            {import.meta.env.DEV && <p className={styles.eyebrow}>Demo catalogue listing</p>}
             <h1>{job.title}</h1>
             <p>
               {job.company} · {displayLocation} · {job.workplace} · Posted {job.postedAt}
@@ -177,9 +177,13 @@ export const JobDetailPage = () => {
                   type="button"
                   className={styles.headerApply}
                   disabled
-                  title="Applications are unavailable until the production application service is connected."
+                  title={
+                    import.meta.env.DEV
+                      ? 'Applications are unavailable until the production application service is connected.'
+                      : 'This feature is currently offline.'
+                  }
                 >
-                  Applications unavailable
+                  Apply (Coming Soon)
                 </button>
               ) : (
                 <Link className={styles.headerApply} to="/launchpad">
@@ -220,15 +224,27 @@ export const JobDetailPage = () => {
                 }}
               >
                 <strong>Report a listing concern</strong>
-                <p>
-                  The production moderation endpoint is not connected. Email{' '}
-                  <a
-                    href={`mailto:support@recruitzaa.com?subject=${encodeURIComponent(`Job listing concern: ${job.title} (${job.id})`)}`}
-                  >
-                    support@recruitzaa.com
-                  </a>{' '}
-                  with the listing ID and concern.
-                </p>
+                {import.meta.env.DEV ? (
+                  <p>
+                    The production moderation endpoint is not connected. Email{' '}
+                    <a
+                      href={`mailto:support@recruitzaa.com?subject=${encodeURIComponent(`Job listing concern: ${job.title} (${job.id})`)}`}
+                    >
+                      support@recruitzaa.com
+                    </a>{' '}
+                    with the listing ID and concern.
+                  </p>
+                ) : (
+                  <p>
+                    Please contact support at{' '}
+                    <a
+                      href={`mailto:support@recruitzaa.com?subject=${encodeURIComponent(`Job listing concern: ${job.title} (${job.id})`)}`}
+                    >
+                      support@recruitzaa.com
+                    </a>{' '}
+                    with the job listing details.
+                  </p>
+                )}
               </div>
             )}
           </div>
@@ -253,28 +269,28 @@ export const JobDetailPage = () => {
                 <ul>
                   {(job.requirements?.length
                     ? job.requirements
-                    : [
-                        'A current candidate profile',
-                        'A resume or work history',
-                        'Employer-specific screening answers when the production service is connected',
-                      ]
+                    : ['A current candidate profile', 'A resume or work history']
                   ).map((requirement) => (
                     <li key={requirement}>{requirement}</li>
                   ))}
                 </ul>
-                <h2>Listing source</h2>
-                <p>
-                  <strong>{job.source ?? 'Source unavailable'}</strong>
-                  <br />
-                  {job.verifiedAt ?? 'Verification timestamp unavailable'}. This role is
-                  illustrative and is not represented as a direct employer posting.
-                </p>
-                <h2>Before you apply</h2>
-                <p>
-                  Employer-authored responsibilities, qualifications, benefits, and closing dates
-                  must come from the production jobs service. They are intentionally not invented in
-                  this demo listing.
-                </p>
+                {import.meta.env.DEV && (
+                  <>
+                    <h2>Listing source</h2>
+                    <p>
+                      <strong>{job.source ?? 'Source unavailable'}</strong>
+                      <br />
+                      {job.verifiedAt ?? 'Verification timestamp unavailable'}. This role is
+                      representative and is not direct employer-posted data.
+                    </p>
+                    <h2>Before you apply</h2>
+                    <p>
+                      Employer-authored responsibilities, qualifications, benefits, and closing
+                      dates must come from the production jobs service. They are intentionally not
+                      invented in this demo listing.
+                    </p>
+                  </>
+                )}
               </section>
             </div>
 
@@ -306,8 +322,8 @@ export const JobDetailPage = () => {
                       </div>
                     </dl>
                     <p className={styles.matchDisclosure}>
-                      This deterministic comparison assists discovery only. It does not assess
-                      candidate quality or make hiring decisions. Update stale data in{' '}
+                      This comparison is based on keyword overlap only and does not assess your full
+                      candidacy. Update stale data in{' '}
                       <Link to="/candidate/profile">your profile</Link>.
                     </p>
                   </div>
@@ -358,15 +374,21 @@ export const JobDetailPage = () => {
                         variant="primary"
                         className="w-full py-3 px-4 text-sm font-bold"
                         disabled
-                        title="Applications are unavailable until the production application service is connected."
+                        title={
+                          import.meta.env.DEV
+                            ? 'Applications are unavailable until the production application service is connected.'
+                            : 'Online applications are temporarily offline.'
+                        }
                         aria-describedby="apply-unavailable-note"
                       >
-                        Applications unavailable
+                        Apply (Coming Soon)
                       </Button>
-                      <p id="apply-unavailable-note" className={styles.serviceNotice}>
-                        No application has been submitted. Connect the production application API to
-                        enable this action.
-                      </p>
+                      {import.meta.env.DEV && (
+                        <p id="apply-unavailable-note" className={styles.serviceNotice}>
+                          No application has been submitted. Connect the production application API
+                          to enable this action.
+                        </p>
+                      )}
                     </>
                   )}
                 </div>

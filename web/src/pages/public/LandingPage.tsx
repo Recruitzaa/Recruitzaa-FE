@@ -73,7 +73,7 @@ export const LandingPage = () => {
       : activeRole === 'EXPERT'
         ? {
             title: 'Manage your availability',
-            description: 'Review calendar connections and session availability.',
+            description: 'Review calendar sync connections and session timings.',
             action: 'Open calendar',
             to: '/expert/calendar-settings',
           }
@@ -184,7 +184,7 @@ export const LandingPage = () => {
     <PageTransition>
       <SEO
         title="Recruitzaa — Job Search and Hiring Workspaces"
-        description="Explore jobs or manage a structured hiring workflow in Recruitzaa."
+        description="Explore jobs, manage candidate application status, and streamline team hiring with the Recruitzaa unified workspace."
         schema={[organizationSchema, websiteSchema, faqSchema]}
       />
       <div className={styles.page}>

@@ -179,8 +179,8 @@ export const JobListingsPage = () => {
   return (
     <PageTransition>
       <SEO
-        title="Search Jobs | Recruitzaa"
-        description="Search the roles currently available in the Recruitzaa job catalogue."
+        title="Browse Software & Engineering Jobs | Recruitzaa"
+        description="Search active engineering, product, and tech roles in the Recruitzaa job catalogue. Filter by location, remote work options, salary, and experience levels."
       />
       <div className={styles.page}>
         <section className={styles.hero} aria-labelledby="job-search-title">
@@ -283,15 +283,17 @@ export const JobListingsPage = () => {
                     onChange={(event) => updateParam('sort', event.target.value)}
                   >
                     <option value="newest">Newest</option>
-                    <option value="match">Profile match</option>
+                    <option value="match">Best match</option>
                     <option value="salary">Salary</option>
                   </select>
                 </label>
               </div>
-              <p className={styles.dataNotice}>
-                Listings shown here are demo catalogue data until the production jobs API is
-                connected.
-              </p>
+              {import.meta.env.DEV && (
+                <p className={styles.dataNotice}>
+                  Listings shown here are demo catalogue data until the production jobs API is
+                  connected.
+                </p>
+              )}
               {filteredJobs.length > 0 ? (
                 <>
                   <ul className={styles.list}>
@@ -353,10 +355,14 @@ export const JobListingsPage = () => {
         isOpen={alertOpen}
         onClose={closeAlert}
         title="Save this search"
-        description="The criteria will be stored in this browser. Production email delivery is not connected."
+        description={
+          import.meta.env.DEV
+            ? 'The criteria will be stored in this browser. Production email delivery is not connected.'
+            : 'Save this search to easily run it again from your workspace.'
+        }
       >
         <fieldset className={styles.frequency}>
-          <legend>Reminder preference</legend>
+          <legend>Alert frequency</legend>
           <label>
             <input
               type="radio"
@@ -377,7 +383,7 @@ export const JobListingsPage = () => {
           </label>
         </fieldset>
         <button type="button" className={styles.saveAlertButton} onClick={handleSaveAlert}>
-          Save search preference
+          Save Search
         </button>
       </Modal>
     </PageTransition>

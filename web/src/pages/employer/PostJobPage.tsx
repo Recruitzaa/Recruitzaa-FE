@@ -4,10 +4,11 @@ import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/Select';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { addNewJob, type EmploymentType } from '../../store/slices/jobsSlice';
 import { useToast } from '../../hooks/useToast';
 import styles from './PostJobPage.module.css';
+import { SEO } from '../../components/seo/SEO';
 
 const EMPLOYMENT_TYPE_OPTIONS: Array<{ label: string; value: EmploymentType }> = [
   { label: 'Full-time', value: 'FULL_TIME' },
@@ -32,6 +33,10 @@ export const PostJobPage = () => {
   const [description, setDescription] = useState('');
   const [requirements, setRequirements] = useState('');
 
+  const companyName =
+    useAppSelector((state) => state.employerProfile.profile.companyName) ||
+    'Complete your Employer Profile to set Company Name';
+
   const handlePublish = (e: React.FormEvent, status: 'Active' | 'Draft' = 'Active') => {
     e.preventDefault();
 
@@ -40,7 +45,6 @@ export const PostJobPage = () => {
       return;
     }
 
-    const companyName = 'Recruitzaa Corporate Client';
     const avatarTxt = companyName
       .split(' ')
       .map((w) => w[0])
@@ -103,12 +107,17 @@ export const PostJobPage = () => {
 
   return (
     <div className={styles.page}>
+      <SEO
+        title="Create a Job Listing | Recruitzaa"
+        description="Post a new position vacancy to start matching with candidate profiles."
+      />
       <form onSubmit={(e) => handlePublish(e, 'Active')} className={styles.container}>
         <div className={styles.header}>
           <h1 className={styles.title}>Create a Job Listing</h1>
           <p className={styles.subtitle}>
-            Demo workspace: listings are stored in this browser until the production jobs API is
-            connected.
+            {import.meta.env.DEV
+              ? 'Demo workspace: listings are stored in this browser until the production jobs API is connected.'
+              : 'Post your role and start receiving matched candidate profiles.'}
           </p>
         </div>
 
@@ -143,32 +152,48 @@ export const PostJobPage = () => {
                   value={workMode}
                   onChange={(val) => setWorkMode(val)}
                 />
-                <Input
-                  label="Salary Range (Min LPA)"
-                  placeholder="e.g. 18"
-                  value={salaryMin}
-                  onChange={(e) => setSalaryMin(e.target.value)}
-                  required
-                />
-                <Input
-                  label="Salary Range (Max LPA)"
-                  placeholder="e.g. 26"
-                  value={salaryMax}
-                  onChange={(e) => setSalaryMax(e.target.value)}
-                  required
-                />
-                <Input
-                  label="Experience (Min Years)"
-                  placeholder="e.g. 5"
-                  value={experienceMin}
-                  onChange={(e) => setExperienceMin(e.target.value)}
-                />
-                <Input
-                  label="Experience (Max Years)"
-                  placeholder="e.g. 10"
-                  value={experienceMax}
-                  onChange={(e) => setExperienceMax(e.target.value)}
-                />
+                <div className="space-y-1">
+                  <Input
+                    label="Minimum Salary"
+                    placeholder="e.g. 18"
+                    value={salaryMin}
+                    onChange={(e) => setSalaryMin(e.target.value)}
+                    required
+                  />
+                  <p className="text-[11px] text-slate-400 dark:text-slate-500">
+                    Value in Lakhs Per Annum (LPA)
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <Input
+                    label="Maximum Salary"
+                    placeholder="e.g. 26"
+                    value={salaryMax}
+                    onChange={(e) => setSalaryMax(e.target.value)}
+                    required
+                  />
+                  <p className="text-[11px] text-slate-400 dark:text-slate-500">
+                    Value in Lakhs Per Annum (LPA)
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <Input
+                    label="Minimum Experience"
+                    placeholder="e.g. 5"
+                    value={experienceMin}
+                    onChange={(e) => setExperienceMin(e.target.value)}
+                  />
+                  <p className="text-[11px] text-slate-400 dark:text-slate-500">Value in years</p>
+                </div>
+                <div className="space-y-1">
+                  <Input
+                    label="Maximum Experience"
+                    placeholder="e.g. 10"
+                    value={experienceMax}
+                    onChange={(e) => setExperienceMax(e.target.value)}
+                  />
+                  <p className="text-[11px] text-slate-400 dark:text-slate-500">Value in years</p>
+                </div>
               </div>
             </Card>
 
@@ -189,8 +214,8 @@ export const PostJobPage = () => {
               </div>
               <div className={`${styles.inputGroup} mt-5`}>
                 <Input
-                  label="Requirements (comma separated skills)"
-                  placeholder="e.g. React Native, TypeScript, Redux"
+                  label="Requirements"
+                  placeholder="e.g. React Native, TypeScript, Redux (comma separated skills)"
                   value={requirements}
                   onChange={(e) => setRequirements(e.target.value)}
                 />
@@ -216,9 +241,7 @@ export const PostJobPage = () => {
               <ul className={styles.guidelineList}>
                 <li>Be specific about the role responsibilities.</li>
                 <li>Clearly define the expected salary range to attract better candidates.</li>
-                <li>
-                  Add comma-separated skills so candidates can understand and filter the role.
-                </li>
+                <li>List key skills so candidates can self-assess fit before applying.</li>
               </ul>
             </Card>
           </div>

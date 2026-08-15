@@ -27,9 +27,9 @@ export const PrivacyPolicyPage = () => {
 
           <div className="prose dark:prose-invert text-sm text-slate-600 space-y-5 leading-relaxed">
             <p>
-              At recruitZaa, we take your privacy and the security of your professional data
-              seriously. This Privacy Policy details how we handle candidate profile data, resume
-              documents, and parsed job details.
+              At Recruitzaa Technologies Pvt. Ltd. (Recruitzaa), we take your privacy and the
+              security of your professional data seriously. This Privacy Policy details how we
+              handle candidate profile data, resume documents, and parsed job details.
             </p>
 
             <h2 className="text-sm font-bold text-slate-900 dark:text-white pt-2">
@@ -41,7 +41,10 @@ export const PrivacyPolicyPage = () => {
             <ul className="list-disc pl-5 space-y-1">
               <li>Personal identifiers (Name, Email address, Phone number).</li>
               <li>Resume and CV documents uploaded for ATS scoring.</li>
-              <li>Employment preferences, notice periods, and target CTC expectations.</li>
+              <li>
+                Employment preferences, notice periods, and target Cost to Company (CTC)
+                expectations.
+              </li>
             </ul>
 
             <h2 className="text-sm font-bold text-slate-900 dark:text-white pt-2">
@@ -58,8 +61,8 @@ export const PrivacyPolicyPage = () => {
               3. Data Retention & Deletion
             </h2>
             <p>
-              Your credentials are held securely within our Firebase Auth database. Local workspace
-              states synced to your local storage can be cleared at any time by resetting your
+              Your credentials are held securely within our authentication database. Saved items and
+              searches stored locally in your browser can be cleared at any time by resetting your
               browser session or logging out.
             </p>
 

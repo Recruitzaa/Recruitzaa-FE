@@ -13,7 +13,7 @@ export const EmployerLandingPage = () => {
   return (
     <PageTransition>
       <SEO
-        title="Hire Top Talent | Recruitzaa Enterprise Staffing"
+        title="Hire Top Talent | Recruitzaa for Employers"
         description="Recruitzaa helps enterprise teams hire with structured sourcing, verified talent, and a review-first workflow."
       />
       <div className={styles.page}>
@@ -76,7 +76,9 @@ export const EmployerLandingPage = () => {
         <section className={styles.sectionAlt} aria-labelledby="employer-steps-title">
           <div className={styles.sectionHeader}>
             <p>How It Works</p>
-            <h2 id="employer-steps-title">Three simple steps</h2>
+            <h2 id="employer-steps-title">
+              {content.stepsHeading ?? 'Three steps to start hiring'}
+            </h2>
           </div>
           <div className={styles.steps}>
             {content.steps.map((step) => (

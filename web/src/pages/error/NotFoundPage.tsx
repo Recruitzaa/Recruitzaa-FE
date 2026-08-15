@@ -29,7 +29,7 @@ export const NotFoundPage = () => {
           <p className={styles.eyebrow}>404</p>
           <h1>We couldn&apos;t find that page</h1>
           <p className={styles.lead}>
-            The address may be incorrect or the page may have moved. Try a job search or jump to a
+            The link may be incorrect or the page may have moved. Try a job search or jump to a
             popular destination below.
           </p>
 

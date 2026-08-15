@@ -3,7 +3,7 @@ import { Shield, Key, Bell, Globe, Database, RefreshCw, CheckCircle2, Copy } fro
 import { SEO } from '../../components/seo/SEO';
 import { BRAND } from '../../config/content';
 
-const MOCK_API_KEY = 'rz_prod_sk_9f2a3b7c4d1e8f6a0b5c2d9e4f7a1b3c';
+const MOCK_API_KEY = 'rz_demo_sk_9f2a3b7c4d1e8f6a0b5c2d9e4f7a1b3c';
 
 const SETTINGS = [
   {
@@ -22,7 +22,7 @@ const SETTINGS = [
     icon: Bell,
     fields: [
       { label: 'Admin Alert Email', value: 'admin@recruitzaa.com', type: 'email' },
-      { label: 'System Alert Slack Webhook', value: 'https://hooks.slack.com/...', type: 'text' },
+      { label: 'System Alert Slack Webhook', value: 'Not configured', type: 'text' },
     ],
   },
   {
@@ -72,7 +72,7 @@ export const AdminSettingsPage = () => {
             <div>
               <h2 className="text-sm font-bold text-slate-900 dark:text-white">API Credentials</h2>
               <p className="text-sm text-slate-500">
-                Your production API key for server-to-server integration.
+                Your API credential for local development integrations.
               </p>
             </div>
           </div>
@@ -111,7 +111,7 @@ export const AdminSettingsPage = () => {
                 Regenerate Key
               </button>
               <p className="text-sm text-slate-400">
-                ⚠ Regenerating will immediately invalidate the old key.
+                Regenerating this key will disconnect all active API clients immediately.
               </p>
             </div>
           </div>

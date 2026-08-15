@@ -11,13 +11,11 @@ import {
   Users,
   Settings,
   LogOut,
-  ShieldCheck,
   X,
 } from 'lucide-react';
 import styles from './AdminSidebar.module.css';
 import { useFocusTrap } from '../../../hooks/useFocusTrap';
 import { ROUTES } from '../../../config/routes';
-import { BRAND } from '../../../config/content';
 import { UserAvatar } from '../../ui/UserAvatar/UserAvatar';
 import { BrandLogo } from '../../brand/BrandLogo';
 

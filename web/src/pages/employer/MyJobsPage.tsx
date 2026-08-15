@@ -9,6 +9,7 @@ import { useToast } from '../../hooks/useToast';
 import { useState } from 'react';
 import styles from './MyJobsPage.module.css';
 import { ConfirmDialog } from '../../components/ui/ConfirmDialog/ConfirmDialog';
+import { SEO } from '../../components/seo/SEO';
 
 export const MyJobsPage = () => {
   const dispatch = useAppDispatch();
@@ -32,7 +33,9 @@ export const MyJobsPage = () => {
     if (!pendingDeleteId) return;
     dispatch(deleteJob(pendingDeleteId));
     setPendingDeleteId(null);
-    toast.info('Job listing deleted from this demo workspace.');
+    toast.info(
+      import.meta.env.DEV ? 'Job listing deleted from this demo workspace.' : 'Job listing deleted.'
+    );
   };
 
   const hasAnyJobs = jobsList.length > 0;
@@ -48,6 +51,10 @@ export const MyJobsPage = () => {
 
   return (
     <div className={styles.page}>
+      <SEO
+        title="Job Listings | Recruitzaa"
+        description="Manage your current and past job postings."
+      />
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>Job Listings</h1>
@@ -138,7 +145,7 @@ export const MyJobsPage = () => {
                       </Badge>
                     </td>
                     <td>
-                      <span className={styles.highlightText}>Not connected</span>
+                      <span className={styles.highlightText}>—</span>
                     </td>
                     <td>
                       <span className={styles.subText}>{job.postedAt}</span>
@@ -150,7 +157,7 @@ export const MyJobsPage = () => {
                           variant="outline"
                           onClick={() => handleStatusChange(job.id, job.status)}
                         >
-                          {job.status === 'Active' ? 'Close' : 'Activate'}
+                          {job.status === 'Active' ? 'Close Listing' : 'Activate Listing'}
                         </Button>
                         <Button size="sm" variant="ghost" onClick={() => handleDelete(job.id)}>
                           Delete
@@ -167,7 +174,11 @@ export const MyJobsPage = () => {
       <ConfirmDialog
         isOpen={pendingDeleteId !== null}
         title="Delete this listing?"
-        message="This removes the listing from this browser's demo workspace. This action cannot be undone."
+        message={
+          import.meta.env.DEV
+            ? "This removes the listing from this browser's demo workspace. This action cannot be undone."
+            : 'This will permanently delete the job listing. This action cannot be undone.'
+        }
         confirmLabel="Delete listing"
         variant="danger"
         onConfirm={confirmDelete}

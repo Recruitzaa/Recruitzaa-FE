@@ -35,7 +35,7 @@ const ROLE_OPTIONS = [
 const TRUST_POINTS = [
   { icon: Target, text: 'Profile-based job discovery' },
   { icon: Sparkles, text: 'ATS resume scoring' },
-  { icon: MessageSquareQuote, text: 'Mock interview coach' },
+  { icon: MessageSquareQuote, text: 'AI Career Coach' },
   { icon: ClipboardList, text: 'Structured application tracker' },
 ];
 
@@ -107,7 +107,8 @@ export const AuthPage = () => {
           </Link>
 
           <p className={styles.brandCopy}>
-            One workspace for exploring roles, managing candidates, and tracking recruitment work.
+            One workspace for exploring roles, managing candidates, and tracking your hiring
+            pipeline.
           </p>
 
           <ul className={styles.trustPoints}>
@@ -159,15 +160,15 @@ export const AuthPage = () => {
                   aria-pressed={mode === 'register'}
                   onClick={() => switchMode('register')}
                 >
-                  Create Account
+                  Create an Account
                 </button>
               </div>
             )}
 
             {role === 'employer' && (
               <p className={styles.verificationNotice}>
-                Employer publishing access requires business-email and company verification after
-                registration.
+                Employer publishing access requires a business email address and company
+                verification after registration.
               </p>
             )}
 

@@ -78,7 +78,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
             id="booking-modal-title"
             className="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2"
           >
-            <Calendar className="text-[#c14f16]" size={16} /> Book Mentorship Session
+            <Calendar className="text-[#c14f16]" size={16} /> Book Expert Session
           </h2>
           <button
             type="button"
@@ -196,7 +196,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
               rows={3}
               value={brief}
               onChange={(e) => setBrief(e.target.value)}
-              placeholder="What questions or goals do you want to cover during this mentorship session?"
+              placeholder="What questions or goals do you want to cover during this session?"
               className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] resize-none"
             />
           </div>

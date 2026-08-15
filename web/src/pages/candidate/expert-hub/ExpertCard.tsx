@@ -29,7 +29,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({ expert, onBookClick }) =
               }}
             />
             <span className="inline-flex items-center gap-1 text-xs font-black text-slate-500 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-0.5 rounded-full uppercase tracking-wider">
-              <Award size={10} className="text-[#c14f16]" aria-hidden="true" /> Top Mentor
+              <Award size={10} className="text-[#c14f16]" aria-hidden="true" /> Verified Expert
             </span>
           </div>
 
@@ -73,7 +73,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({ expert, onBookClick }) =
             <button
               type="button"
               onClick={onBookClick}
-              aria-label={`Book mentorship session with ${expert.name}`}
+              aria-label={`Book session with ${expert.name}`}
               className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#c14f16] hover:bg-[#a94210] text-white rounded-lg text-sm font-bold transition-colors min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2"
             >
               <Calendar size={13} aria-hidden="true" /> Book Session

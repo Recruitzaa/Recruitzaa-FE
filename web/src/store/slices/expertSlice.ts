@@ -14,6 +14,7 @@ export interface BookedSession {
   preSessionBrief: string;
   status: 'Pending' | 'Completed' | 'Cancelled';
   bookedAtISO: string;
+  candidateName?: string;
 }
 
 export interface ExpertSettings {
@@ -63,6 +64,7 @@ const initialState: ExpertState = {
       preSessionBrief: 'Need feedback on my Android architect resume projects.',
       status: 'Pending',
       bookedAtISO: '2026-07-16T12:00:00.000Z',
+      candidateName: 'Arjun Kumar',
     },
   ]),
   settings: loadState<ExpertSettings>('recruitzaa_expert_settings', {

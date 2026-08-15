@@ -1,10 +1,17 @@
+import { FeatureUnavailablePage } from '../shared/FeatureUnavailablePage';
+import { SEO } from '../../components/seo/SEO';
+
 export const AnalyticsPage = () => {
   return (
-    <div className="p-4 sm:p-8 space-y-2">
-      <h1 className="text-xl font-extrabold text-slate-900 dark:text-white">Analytics</h1>
-      <p className="text-sm text-slate-500 dark:text-slate-400">
-        Hiring analytics and performance metrics coming soon.
-      </p>
+    <div className="space-y-2">
+      <SEO
+        title="Recruitment Analytics | Recruitzaa"
+        description="Detailed hiring metrics, conversion funnels, and application flow analytics are currently being prepared."
+      />
+      <FeatureUnavailablePage
+        title="Analytics Workspace"
+        description="Detailed hiring metrics, conversion funnels, and application flow analytics are currently being prepared."
+      />
     </div>
   );
 };
