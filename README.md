@@ -4,9 +4,23 @@ The frontend codebase for recruitZaa, featuring a React Native (TypeScript) mobi
 
 ## Version History
 
-**Current Version: `v0.5.0`**
+**Current Version: `v0.6.0`**
 
 ### Changelog
+
+**[v0.6.0] - 2026-08-15** _(Branch: `feature/UI-touch-ups`)_
+
+Copy/CRO/SEO pass, navigation decluttering, dark-mode favicon, and a test-suite fix, on top of the v0.5.0 avatar and branding refresh.
+
+- **Dynamic Canonical URLs & SEO Metadata**: `SEO` now derives the canonical URL and OpenGraph URL from the current route via `useLocation()` instead of a hardcoded default, and every workspace page (candidate, employer, expert, employee, admin) got a unique, route-specific title and description instead of sharing generic ones or none at all.
+- **Copy, Branding & Terminology Pass**: Standardized brand casing to "Recruitzaa" across public and private routes, normalized persona terminology to "Expert"/"Candidate", moved units out of form input labels into helper text, and rewrote landing-page marketing copy (hero metrics, FAQ answers, service descriptions).
+- **Honest Candidate Pipeline Placeholder**: `CandidatesPage` no longer renders a hardcoded fake candidate table (mock names, match scores, application dates) — it now shows the same `FeatureUnavailablePage` state used elsewhere, disclosing that candidate reviews are pending application-service and profile-consent integrations.
+- **Decluttered Workspace Navigation**: Removed the `Home / Workspace / <Page>` breadcrumb trail from `PortalTopbar` (candidate + employer) and `AdminTopbar`, keeping just the greeting/page title and action buttons.
+- **Dark-Mode-Aware Favicon**: `useTheme` now rewrites the favicon's dark pixels to white on a canvas when dark mode is active (and restores the original in light mode), so the tab icon stays visible against a dark browser chrome.
+- **Brand Logo Fix**: A same-day dual-`<img>` refactor of `BrandLogo` (for role-badge styling) had shrunk the footer logo from 36px to ~20px tall because of how the two stacked images sized inside an inline-flex span; reverted to a single `<img>` with explicit dimensions. Also fixed footer link contrast (~2.5:1, caught by the app's own axe-core audit) by moving footer links off the shared `--color-slate-muted` token onto `--color-slate`.
+- **Editor/AI Assistant Context Docs**: Added `CLAUDE.md`, `.github/copilot-instructions.md`, `.codeium/config.json`, `.cursor/rules/project-context.mdc`, and a `graphify-out/wiki/INDEX.md` navigation guide, so any editor's AI assistant has the same project context (stack, routes, Redux, API patterns) without re-deriving it from scratch each session.
+- **Fixed a Test Regression**: `SEO`'s new `useLocation()` call requires a Router in scope. `AdminPages.test.tsx` rendered `UsersPage`/`CompaniesPage`/`EmployersPage` (all now using `SEO`) without one, so all 4 of its tests crashed with "useLocation() may be used only in the context of a `<Router>`". Fixed by wrapping the test's `renderPage` helper in a `MemoryRouter` — no other test file hit this, since everything else already rendered inside a router.
+- **Testing**: All 256 tests, lint, the duplicate guard, and `tsc -b && vite build` pass clean; confirmed both `Frontend CI` and `Frontend verification` GitHub Actions checks go green on push.
 
 **[v0.5.0] - 2026-08-15** _(Branch: `feature/UI-touch-ups`)_
 
