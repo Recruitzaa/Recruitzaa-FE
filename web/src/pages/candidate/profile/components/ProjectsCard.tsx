@@ -53,7 +53,10 @@ export const ProjectsCard = ({
           const descriptionId = `${idPrefix}-proj-description-${proj.id}`;
 
           return (
-            <div key={proj.id} className="relative border-l-2 border-orange-200 pl-4 space-y-2">
+            <div
+              key={proj.id}
+              className="relative border-l-2 border-brand-primary/40 pl-4 space-y-2"
+            >
               <div className="flex justify-between items-start">
                 <div>
                   <h4 className="text-sm font-bold text-slate-800 dark:text-slate-100">
@@ -83,7 +86,7 @@ export const ProjectsCard = ({
                   {proj.description}
                 </p>
               ) : (
-                <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded border border-slate-200 dark:border-slate-700 space-y-3 mt-2">
+                <div className="bg-slate-50 dark:bg-brand-card p-4 rounded border border-slate-200 dark:border-slate-700 space-y-3 mt-2">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div className="space-y-1">
                       <label

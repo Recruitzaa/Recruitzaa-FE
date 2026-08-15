@@ -62,7 +62,7 @@ export const ProfileBannerCard = ({
     <div className="bg-white dark:bg-slate-850 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-6 space-y-6">
       <div className="flex flex-col md:flex-row items-center md:items-start gap-6 relative">
         <div className="relative w-24 h-24 shrink-0 group">
-          <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-slate-100 dark:border-slate-700 shadow-inner bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-2xl font-bold text-slate-500 dark:text-slate-300">
+          <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-slate-100 dark:border-slate-700 shadow-inner bg-slate-100 dark:bg-brand-card flex items-center justify-center text-2xl font-bold text-slate-500 dark:text-slate-300">
             <UserAvatar
               photoUrl={profile.personalInfo.avatar || appUser?.photoUrl}
               name={
@@ -115,11 +115,11 @@ export const ProfileBannerCard = ({
           </div>
 
           <div className="flex flex-wrap justify-center md:justify-start gap-2 pt-2">
-            <span className="inline-flex items-center gap-1 px-3 py-1 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-full border text-sm">
+            <span className="inline-flex items-center gap-1 px-3 py-1 bg-slate-50 dark:bg-brand-card text-slate-700 dark:text-slate-300 rounded-full border text-sm">
               <Phone size={12} className="text-slate-400 dark:text-slate-500" />
               {profile.personalInfo.phone}
             </span>
-            <span className="inline-flex items-center gap-1 px-3 py-1 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-full border text-sm">
+            <span className="inline-flex items-center gap-1 px-3 py-1 bg-slate-50 dark:bg-brand-card text-slate-700 dark:text-slate-300 rounded-full border text-sm">
               <Mail size={12} className="text-slate-400 dark:text-slate-500" />
               {profile.personalInfo.email}
             </span>

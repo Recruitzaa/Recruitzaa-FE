@@ -103,7 +103,7 @@ export const AuthPage = () => {
         {/* ── Left brand panel (desktop only) ── */}
         <section className={styles.brandPanel}>
           <Link to="/" className={styles.logoContainer} aria-label="Recruitzaa home">
-            <BrandLogo />
+            <BrandLogo size={50} />
           </Link>
 
           <p className={styles.brandCopy}>
@@ -131,7 +131,7 @@ export const AuthPage = () => {
         {/* ── Right form panel ── */}
         <section className={styles.formPanel}>
           <Link to="/" className={styles.mobileLogo} aria-label="Recruitzaa home">
-            <BrandLogo width={120} height={31} />
+            <BrandLogo size={34} />
           </Link>
 
           <div className={styles.card}>

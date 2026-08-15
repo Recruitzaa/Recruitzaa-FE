@@ -75,7 +75,7 @@ export const AdminSidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
       >
         <div className={styles.brand}>
           <Link to="/admin/dashboard" className="flex items-center gap-2">
-            <BrandLogo width={120} height={31} />
+            <BrandLogo size={31} tagline={false} />
             <span className="text-[10px] bg-red-600 text-white font-bold px-1.5 py-0.5 rounded uppercase tracking-wider mt-[0.5em]">
               Admin
             </span>

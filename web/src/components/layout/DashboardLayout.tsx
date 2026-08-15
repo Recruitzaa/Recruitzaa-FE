@@ -41,7 +41,7 @@ export const DashboardLayout = () => {
       : (navItems[0]?.path ?? '/launchpad');
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex">
+    <div className="min-h-screen bg-slate-50 dark:bg-brand-surface flex">
       {/* ── Mobile Sidebar Overlay ── */}
       {isMobileOpen && (
         <button
@@ -58,13 +58,13 @@ export const DashboardLayout = () => {
         aria-label="Workspace navigation"
         aria-modal={isMobileOpen || undefined}
         tabIndex={-1}
-        className={`fixed top-0 bottom-0 left-0 w-[260px] bg-white dark:bg-[#131924] border-r border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 flex flex-col z-50 transition-transform duration-300 md:translate-x-0 ${
+        className={`fixed top-0 bottom-0 left-0 w-[260px] bg-white dark:bg-brand-card border-r border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 flex flex-col z-50 transition-transform duration-300 md:translate-x-0 ${
           isMobileOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="h-16 flex items-center justify-between px-6 border-b border-slate-200 dark:border-slate-800">
           <Link to="/" className="flex items-center gap-2" onClick={() => setIsMobileOpen(false)}>
-            <BrandLogo width={130} height={34} />
+            <BrandLogo size={34} tagline={false} />
             {appUser?.activeRole === 'EMPLOYEE' && (
               <span className="text-[10px] bg-amber-600 text-white font-bold px-1.5 py-0.5 rounded uppercase tracking-wider shrink-0 mt-[0.5em]">
                 Employee

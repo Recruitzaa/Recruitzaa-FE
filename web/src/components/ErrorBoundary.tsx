@@ -82,10 +82,10 @@ export class ErrorBoundary extends Component<Props, State> {
       return (
         <main
           role="alert"
-          className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center p-6 text-center"
+          className="min-h-screen bg-slate-50 dark:bg-brand-surface flex items-center justify-center p-6 text-center"
         >
-          <div className="max-w-md w-full bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl shadow-lg p-8 space-y-6">
-            <div className="w-16 h-16 bg-red-50 dark:bg-red-950/20 text-[#c14f16] rounded-full flex items-center justify-center mx-auto">
+          <div className="max-w-md w-full bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl shadow-lg p-8 space-y-6">
+            <div className="w-16 h-16 bg-red-50 dark:bg-red-950/20 text-brand-primary rounded-full flex items-center justify-center mx-auto">
               <span className="text-2xl font-bold">!</span>
             </div>
             <div className="space-y-2">

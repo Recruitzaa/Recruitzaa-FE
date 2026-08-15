@@ -23,7 +23,7 @@ export const ApplicationFilterBar: React.FC<ApplicationFilterBarProps> = ({
   ];
 
   return (
-    <div className="flex flex-col sm:flex-row gap-3 bg-white dark:bg-slate-800 p-4 border border-slate-200 rounded-lg shadow-sm mb-6">
+    <div className="flex flex-col sm:flex-row gap-3 bg-white dark:bg-brand-card p-4 border border-slate-200 rounded-lg shadow-sm mb-6">
       {/* Search Input */}
       <div className="flex-1">
         <input

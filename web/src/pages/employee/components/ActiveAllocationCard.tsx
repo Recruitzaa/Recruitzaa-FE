@@ -5,7 +5,7 @@ export const ActiveAllocationCard: React.FC = () => {
   return (
     <>
       <section
-        className="bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-4"
+        className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-4"
         aria-labelledby="allocation-title"
       >
         <div>
@@ -13,7 +13,7 @@ export const ActiveAllocationCard: React.FC = () => {
             id="allocation-title"
             className="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2"
           >
-            <Briefcase size={16} className="text-[#c14f16]" aria-hidden="true" /> Active Project
+            <Briefcase size={16} className="text-brand-primary" aria-hidden="true" /> Active Project
             Allocation
           </h2>
           <p className="text-sm text-slate-400 mt-0.5">

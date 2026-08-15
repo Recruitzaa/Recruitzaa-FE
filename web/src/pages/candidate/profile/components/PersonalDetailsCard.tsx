@@ -114,7 +114,7 @@ export const PersonalDetailsCard = ({
               {extendedPersonal.languages.map((lang) => (
                 <span
                   key={lang}
-                  className="px-2.5 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded text-xs border border-slate-200 dark:border-slate-700"
+                  className="px-2.5 py-0.5 bg-slate-100 dark:bg-brand-card text-slate-700 dark:text-slate-300 rounded text-xs border border-slate-200 dark:border-slate-700"
                 >
                   {lang}
                 </span>

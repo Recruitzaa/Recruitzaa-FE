@@ -25,9 +25,9 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({ application }) => {
       style={style}
       {...attributes}
       {...listeners}
-      className="bg-white dark:bg-slate-800 p-4 border border-slate-200 rounded-lg shadow-sm hover:shadow transition-shadow select-none"
+      className="bg-white dark:bg-brand-card p-4 border border-slate-200 rounded-lg shadow-sm hover:shadow transition-shadow select-none"
     >
-      <div className="text-sm font-bold text-[#c14f16] uppercase tracking-wide">
+      <div className="text-sm font-bold text-brand-primary uppercase tracking-wide">
         {application.companyName}
       </div>
       <h4 className="text-sm font-bold text-slate-900 dark:text-white mt-1 mb-2">

@@ -129,7 +129,7 @@ export const CompanyHeroCard = ({
               <button
                 type="button"
                 onClick={saveEdit}
-                className={`${styles.heroEditBtn} bg-[#c14f16]/40 border-[#c14f16] text-white`}
+                className={`${styles.heroEditBtn} bg-brand-primary/40 border-brand-primary text-white`}
               >
                 Save
               </button>

@@ -20,7 +20,7 @@ export const AIChatPanel: React.FC<AIChatPanelProps> = ({
   onSendChat,
 }) => {
   return (
-    <Card className="p-6 bg-white dark:bg-slate-800 border border-slate-200 h-[480px] flex flex-col">
+    <Card className="p-6 bg-white dark:bg-brand-card border border-slate-200 h-[480px] flex flex-col">
       <div className="mb-3">
         <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
           Career guidance demo
@@ -51,7 +51,7 @@ export const AIChatPanel: React.FC<AIChatPanelProps> = ({
               className={`p-3 rounded-lg border ${
                 msg.role === 'user'
                   ? 'bg-indigo-600 border-indigo-600 text-white'
-                  : 'bg-white dark:bg-slate-800 border-slate-200 text-slate-900 dark:text-slate-100'
+                  : 'bg-white dark:bg-brand-card border-slate-200 text-slate-900 dark:text-slate-100'
               }`}
             >
               {msg.content}
@@ -64,7 +64,7 @@ export const AIChatPanel: React.FC<AIChatPanelProps> = ({
             <div className="w-7 h-7 rounded-full bg-slate-800 flex items-center justify-center text-sm font-bold text-white flex-shrink-0">
               AI
             </div>
-            <div className="p-3 rounded-lg border bg-white dark:bg-slate-800 border-slate-200 text-slate-900 dark:text-slate-100 flex items-center gap-2">
+            <div className="p-3 rounded-lg border bg-white dark:bg-brand-card border-slate-200 text-slate-900 dark:text-slate-100 flex items-center gap-2">
               <Spinner size="sm" /> Thinking...
             </div>
           </div>

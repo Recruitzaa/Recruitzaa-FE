@@ -42,14 +42,14 @@ export const CalendarSettingsPage: React.FC = () => {
         <div className="max-w-3xl mx-auto px-4 py-8 space-y-8 w-full">
           <div>
             <h1 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-              <Calendar className="text-[#c14f16]" size={20} /> Calendar & Availability Settings
+              <Calendar className="text-brand-primary" size={20} /> Calendar & Availability Settings
             </h1>
             <p className="text-sm text-slate-500 mt-1">
               Configure how candidates book calendar time and what details they must provide.
             </p>
           </div>
 
-          <div className="bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-6">
+          <div className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-6">
             {/* Calendar Connection Toggles */}
             <div className="space-y-4">
               <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider">
@@ -69,9 +69,9 @@ export const CalendarSettingsPage: React.FC = () => {
                   type="button"
                   onClick={() => handleToggleSetting('googleCalendarConnected')}
                   aria-label="Toggle Google Calendar sync connection"
-                  className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2 ${
+                  className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-primary focus-visible:outline-offset-2 ${
                     settings.googleCalendarConnected
-                      ? 'bg-[#c14f16]'
+                      ? 'bg-brand-primary'
                       : 'bg-slate-300 dark:bg-slate-700'
                   }`}
                 >
@@ -96,9 +96,9 @@ export const CalendarSettingsPage: React.FC = () => {
                   type="button"
                   onClick={() => handleToggleSetting('outlookCalendarConnected')}
                   aria-label="Toggle Outlook Calendar sync connection"
-                  className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2 ${
+                  className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-primary focus-visible:outline-offset-2 ${
                     settings.outlookCalendarConnected
-                      ? 'bg-[#c14f16]'
+                      ? 'bg-brand-primary'
                       : 'bg-slate-300 dark:bg-slate-700'
                   }`}
                 >
@@ -131,10 +131,10 @@ export const CalendarSettingsPage: React.FC = () => {
                   type="button"
                   onClick={() => handleToggleSetting('requirePreSessionBrief')}
                   aria-label="Toggle Require Pre-Session Brief"
-                  className="p-1 text-slate-500 hover:text-[#c14f16] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2 rounded min-h-[44px]"
+                  className="p-1 text-slate-500 hover:text-brand-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-primary focus-visible:outline-offset-2 rounded min-h-[44px]"
                 >
                   {settings.requirePreSessionBrief ? (
-                    <CheckSquare size={20} className="text-[#c14f16]" />
+                    <CheckSquare size={20} className="text-brand-primary" />
                   ) : (
                     <Square size={20} />
                   )}
@@ -144,7 +144,7 @@ export const CalendarSettingsPage: React.FC = () => {
               {/* Capacity Limit */}
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-start gap-2">
-                  <ShieldAlert size={14} className="text-[#c14f16] shrink-0 mt-0.5" />
+                  <ShieldAlert size={14} className="text-brand-primary shrink-0 mt-0.5" />
                   <div>
                     <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                       Max Sessions / Week
@@ -158,7 +158,7 @@ export const CalendarSettingsPage: React.FC = () => {
                   value={settings.maxSessionsPerWeek}
                   onChange={handleCapacityChange}
                   aria-label="Set maximum mentorship sessions per week"
-                  className="border border-slate-200 dark:border-slate-850 rounded-lg px-2.5 py-1.5 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px] min-w-[80px]"
+                  className="border border-slate-200 dark:border-slate-850 rounded-lg px-2.5 py-1.5 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-brand-primary min-h-[44px] min-w-[80px]"
                 >
                   {[3, 5, 8, 10, 15].map((count) => (
                     <option key={count} value={count}>

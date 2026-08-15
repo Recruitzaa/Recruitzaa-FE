@@ -12,7 +12,7 @@ export const ApplicationTable: React.FC<ApplicationTableProps> = ({
   onViewDetails,
 }) => {
   return (
-    <div className="bg-white dark:bg-slate-800 border border-slate-200 rounded-lg shadow-sm overflow-hidden w-full select-none">
+    <div className="bg-white dark:bg-brand-card border border-slate-200 rounded-lg shadow-sm overflow-hidden w-full select-none">
       <div className="overflow-x-auto">
         <table className="min-w-full table-auto">
           <thead>
@@ -45,7 +45,7 @@ export const ApplicationTable: React.FC<ApplicationTableProps> = ({
               <tr>
                 <td
                   colSpan={6}
-                  className="py-12 text-center text-sm text-slate-400 italic bg-white dark:bg-slate-800"
+                  className="py-12 text-center text-sm text-slate-400 italic bg-white dark:bg-brand-card"
                 >
                   No matching applications found
                 </td>

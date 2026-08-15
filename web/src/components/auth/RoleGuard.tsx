@@ -203,14 +203,14 @@ export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) 
         className="grid min-h-screen place-items-center bg-slate-50 p-6 dark:bg-slate-900"
         tabIndex={-1}
       >
-        <div className="max-w-md rounded-xl border border-slate-200 bg-white p-6 text-center shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <div className="max-w-md rounded-xl border border-slate-200 bg-white p-6 text-center shadow-sm dark:border-slate-700 dark:bg-brand-card">
           <h1 className="text-lg font-bold text-slate-900 dark:text-white">
             Account verification failed
           </h1>
           <p className="mt-2 text-sm text-slate-600">{resolutionError}</p>
           <button
             type="button"
-            className="mt-5 rounded-lg bg-[#c14f16] px-4 py-2 font-semibold text-white"
+            className="mt-5 rounded-lg bg-brand-primary px-4 py-2 font-semibold text-white"
             onClick={() => setRetryNonce((value) => value + 1)}
           >
             Try again
@@ -237,7 +237,7 @@ export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) 
               <p>This is taking longer than expected.</p>
               <button
                 type="button"
-                className="mt-2 font-semibold text-[#c14f16] underline"
+                className="mt-2 font-semibold text-brand-primary underline"
                 onClick={() => setRetryNonce((value) => value + 1)}
               >
                 Try again

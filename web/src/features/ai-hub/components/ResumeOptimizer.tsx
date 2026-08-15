@@ -42,7 +42,7 @@ export const ResumeOptimizer: React.FC = () => {
   };
 
   return (
-    <Card className="p-6 bg-white dark:bg-slate-800 border border-slate-200">
+    <Card className="p-6 bg-white dark:bg-brand-card border border-slate-200">
       <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-1">Resume Optimizer</h2>
       <p className="text-sm text-slate-500 mb-5">
         Examples only. Replace bracketed prompts with facts you can verify; never copy invented

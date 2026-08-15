@@ -11,7 +11,7 @@ export const PrivacyPolicyPage = () => {
         description={`Review how ${BRAND.name} collects, uses, and safeguards candidate credentials and parsed resume data.`}
       />
       <div className="min-h-screen bg-slate-50 dark:bg-slate-900 py-8 sm:py-12 px-4 sm:px-6">
-        <div className="max-w-3xl mx-auto bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 p-5 sm:p-8 rounded-xl shadow-sm">
+        <div className="max-w-3xl mx-auto bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 p-5 sm:p-8 rounded-xl shadow-sm">
           <div className="mb-6">
             <Link
               to="/"

@@ -25,7 +25,7 @@ export const PayrollCard: React.FC = () => {
   return (
     <>
       <section
-        className="bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-4"
+        className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-4"
         aria-labelledby="payroll-title"
       >
         <div>
@@ -33,8 +33,8 @@ export const PayrollCard: React.FC = () => {
             id="payroll-title"
             className="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2"
           >
-            <FileText size={16} className="text-[#c14f16]" aria-hidden="true" /> Payroll Ledger &
-            Payslips
+            <FileText size={16} className="text-brand-primary" aria-hidden="true" /> Payroll Ledger
+            & Payslips
           </h2>
           <p className="text-sm text-slate-400 mt-0.5">
             View monthly salary payouts and download digital tax compliance receipts.
@@ -46,7 +46,7 @@ export const PayrollCard: React.FC = () => {
           {payslips.map((slip) => (
             <div
               key={slip.month}
-              className="flex items-center justify-between gap-4 p-3 border border-slate-100 dark:border-slate-850 rounded-lg hover:border-[#c14f16] dark:hover:border-[#c14f16] transition-all bg-slate-50/20 dark:bg-slate-900/10"
+              className="flex items-center justify-between gap-4 p-3 border border-slate-100 dark:border-slate-850 rounded-lg hover:border-brand-primary dark:hover:border-brand-primary transition-all bg-slate-50/20 dark:bg-slate-900/10"
             >
               <div className="flex items-center gap-2.5">
                 <div
@@ -73,7 +73,7 @@ export const PayrollCard: React.FC = () => {
                   type="button"
                   onClick={() => handleDownload(slip.pdfName)}
                   aria-label={`Download payslip pdf for ${slip.month}`}
-                  className="p-2 bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 text-slate-550 dark:text-slate-400 hover:text-[#c14f16] dark:hover:text-[#c14f16] rounded-lg transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16]"
+                  className="p-2 bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 text-slate-550 dark:text-slate-400 hover:text-brand-primary dark:hover:text-brand-primary rounded-lg transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-primary"
                 >
                   <Download size={14} aria-hidden="true" />
                 </button>

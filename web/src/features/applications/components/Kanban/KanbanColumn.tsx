@@ -25,7 +25,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({ title, stage, applic
         <span className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
           {title}
         </span>
-        <span className="text-sm font-bold px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-350">
+        <span className="text-sm font-bold px-2 py-0.5 rounded-full bg-slate-200 dark:bg-brand-card text-slate-700 dark:text-slate-350">
           {applications.length}
         </span>
       </div>

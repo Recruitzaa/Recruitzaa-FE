@@ -18,10 +18,10 @@ export const ServiceTiersCard: React.FC = () => {
 
   return (
     <>
-      <div className="bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-6">
         <div>
           <h3 className="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-            <ShieldCheck size={16} className="text-[#c14f16]" aria-hidden="true" /> Mentorship
+            <ShieldCheck size={16} className="text-brand-primary" aria-hidden="true" /> Mentorship
             Active Offerings
           </h3>
           <p className="text-xs text-slate-400 mt-1">
@@ -43,8 +43,8 @@ export const ServiceTiersCard: React.FC = () => {
               type="button"
               onClick={() => handleToggle('mentorship', '1:1 Live Mentorship')}
               aria-label="Toggle 1:1 Live Mentorship offering"
-              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2 ${
-                offerings.mentorship ? 'bg-[#c14f16]' : 'bg-slate-250 dark:bg-slate-850'
+              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-primary focus-visible:outline-offset-2 ${
+                offerings.mentorship ? 'bg-brand-primary' : 'bg-slate-250 dark:bg-slate-850'
               }`}
             >
               <span
@@ -68,8 +68,8 @@ export const ServiceTiersCard: React.FC = () => {
               type="button"
               onClick={() => handleToggle('mockInterviews', 'Mock Interviews')}
               aria-label="Toggle Mock Interviews offering"
-              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2 ${
-                offerings.mockInterviews ? 'bg-[#c14f16]' : 'bg-slate-250 dark:bg-slate-850'
+              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-primary focus-visible:outline-offset-2 ${
+                offerings.mockInterviews ? 'bg-brand-primary' : 'bg-slate-250 dark:bg-slate-850'
               }`}
             >
               <span
@@ -93,8 +93,8 @@ export const ServiceTiersCard: React.FC = () => {
               type="button"
               onClick={() => handleToggle('resumeReview', 'Async Resume Review')}
               aria-label="Toggle Async Resume Review offering"
-              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2 ${
-                offerings.resumeReview ? 'bg-[#c14f16]' : 'bg-slate-250 dark:bg-slate-850'
+              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-primary focus-visible:outline-offset-2 ${
+                offerings.resumeReview ? 'bg-brand-primary' : 'bg-slate-250 dark:bg-slate-850'
               }`}
             >
               <span

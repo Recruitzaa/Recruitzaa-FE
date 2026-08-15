@@ -64,10 +64,10 @@ export const AdminSettingsPage = () => {
         </div>
 
         {/* API Keys Card */}
-        <section className="bg-white dark:bg-[#131924] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+        <section className="bg-white dark:bg-brand-card rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
           <div className="flex items-center gap-3 px-6 py-4 border-b border-slate-100 dark:border-slate-800">
-            <div className="p-1.5 bg-[#fef3ee] dark:bg-[#c14f16]/20 rounded-lg">
-              <Key size={15} className="text-[#c14f16]" />
+            <div className="p-1.5 bg-brand-primary-light dark:bg-brand-primary/20 rounded-lg">
+              <Key size={15} className="text-brand-primary" />
             </div>
             <div>
               <h2 className="text-sm font-bold text-slate-900 dark:text-white">API Credentials</h2>
@@ -94,7 +94,7 @@ export const AdminSettingsPage = () => {
                   <button
                     type="button"
                     onClick={handleCopy}
-                    className="flex items-center gap-1 text-sm font-bold text-[#c14f16] border border-[#c14f16]/30 rounded px-2 py-1 hover:bg-[#fef3ee] dark:hover:bg-[#c14f16]/10 transition-colors"
+                    className="flex items-center gap-1 text-sm font-bold text-brand-primary border border-brand-primary/30 rounded px-2 py-1 hover:bg-brand-primary-light dark:hover:bg-brand-primary/10 transition-colors"
                   >
                     {copied ? <CheckCircle2 size={11} /> : <Copy size={11} />}
                     {copied ? 'Copied!' : 'Copy'}
@@ -118,10 +118,10 @@ export const AdminSettingsPage = () => {
         </section>
 
         {/* Security Card */}
-        <section className="bg-white dark:bg-[#131924] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+        <section className="bg-white dark:bg-brand-card rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
           <div className="flex items-center gap-3 px-6 py-4 border-b border-slate-100 dark:border-slate-800">
-            <div className="p-1.5 bg-[#fef3ee] dark:bg-[#c14f16]/20 rounded-lg">
-              <Shield size={15} className="text-[#c14f16]" />
+            <div className="p-1.5 bg-brand-primary-light dark:bg-brand-primary/20 rounded-lg">
+              <Shield size={15} className="text-brand-primary" />
             </div>
             <div>
               <h2 className="text-sm font-bold text-slate-900 dark:text-white">Security</h2>
@@ -164,7 +164,7 @@ export const AdminSettingsPage = () => {
                   <p className="text-sm text-slate-500 mt-0.5">{setting.desc}</p>
                 </div>
                 <div
-                  className={`relative w-9 h-5 rounded-full transition-colors cursor-pointer shrink-0 ${setting.enabled ? 'bg-[#c14f16]' : 'bg-slate-300 dark:bg-slate-700'}`}
+                  className={`relative w-9 h-5 rounded-full transition-colors cursor-pointer shrink-0 ${setting.enabled ? 'bg-brand-primary' : 'bg-slate-300 dark:bg-slate-700'}`}
                 >
                   <div
                     className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-all ${setting.enabled ? 'left-4' : 'left-0.5'}`}
@@ -181,11 +181,11 @@ export const AdminSettingsPage = () => {
           return (
             <section
               key={section.id}
-              className="bg-white dark:bg-[#131924] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden"
+              className="bg-white dark:bg-brand-card rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden"
             >
               <div className="flex items-center gap-3 px-6 py-4 border-b border-slate-100 dark:border-slate-800">
-                <div className="p-1.5 bg-[#fef3ee] dark:bg-[#c14f16]/20 rounded-lg">
-                  <Icon size={15} className="text-[#c14f16]" />
+                <div className="p-1.5 bg-brand-primary-light dark:bg-brand-primary/20 rounded-lg">
+                  <Icon size={15} className="text-brand-primary" />
                 </div>
                 <h2 className="text-sm font-bold text-slate-900 dark:text-white">
                   {section.label}
@@ -206,7 +206,7 @@ export const AdminSettingsPage = () => {
                         id={fieldId}
                         type={field.type}
                         defaultValue={field.value}
-                        className="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-[#c14f16] transition-colors"
+                        className="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-brand-primary transition-colors"
                       />
                     </div>
                   );
@@ -215,7 +215,7 @@ export const AdminSettingsPage = () => {
               <div className="px-6 pb-5">
                 <button
                   type="button"
-                  className="text-sm font-bold text-white bg-[#c14f16] hover:bg-[#a94210] px-4 py-2 rounded-lg transition-colors"
+                  className="text-sm font-bold text-white bg-brand-primary hover:bg-brand-primary-hover px-4 py-2 rounded-lg transition-colors"
                 >
                   Save {section.label}
                 </button>

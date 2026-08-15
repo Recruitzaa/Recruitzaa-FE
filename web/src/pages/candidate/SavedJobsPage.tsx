@@ -54,7 +54,7 @@ export const SavedJobsPage = () => {
             ))}
           </ul>
         ) : (
-          <div className="rounded-xl border border-dashed border-slate-300 dark:border-slate-700 bg-white dark:bg-[#131924] p-8 text-center">
+          <div className="rounded-xl border border-dashed border-slate-300 dark:border-slate-700 bg-white dark:bg-brand-card p-8 text-center">
             <p className="text-sm text-slate-600">You have not saved any jobs yet.</p>
             <Link
               to={ROUTES.CANDIDATE.JOBS}
@@ -78,7 +78,7 @@ export const SavedJobsPage = () => {
             {savedSearches.map((search) => (
               <li
                 key={search.id}
-                className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-[#131924] sm:flex-row sm:items-center sm:justify-between"
+                className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-brand-card sm:flex-row sm:items-center sm:justify-between"
               >
                 <div>
                   <strong className="text-sm text-slate-900 dark:text-white">{search.label}</strong>
@@ -106,7 +106,7 @@ export const SavedJobsPage = () => {
             ))}
           </ul>
         ) : (
-          <div className="rounded-xl border border-dashed border-slate-300 dark:border-slate-700 bg-white dark:bg-[#131924] p-8 text-center">
+          <div className="rounded-xl border border-dashed border-slate-300 dark:border-slate-700 bg-white dark:bg-brand-card p-8 text-center">
             <p className="text-sm text-slate-600">
               {import.meta.env.DEV
                 ? 'No saved search preferences.'

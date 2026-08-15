@@ -26,7 +26,7 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
 }) => {
   return (
     <div className="space-y-6">
-      <Card className="p-6 bg-white dark:bg-slate-800 border border-slate-200">
+      <Card className="p-6 bg-white dark:bg-brand-card border border-slate-200">
         <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
           Resume keyword comparison
         </h2>
@@ -76,7 +76,7 @@ export const ATSCompatibilityEngine: React.FC<ATSCompatibilityEngineProps> = ({
       </Card>
 
       {scoreData && (
-        <Card className="p-6 bg-white dark:bg-slate-800 border border-slate-200">
+        <Card className="p-6 bg-white dark:bg-brand-card border border-slate-200">
           <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
             Keyword comparison summary
           </h2>

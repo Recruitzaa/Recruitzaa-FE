@@ -43,7 +43,7 @@ export const ExpertDashboardPage: React.FC = () => {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
               <h1 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-                <Compass className="text-[#c14f16]" size={20} /> Expert Workspace
+                <Compass className="text-brand-primary" size={20} /> Expert Workspace
               </h1>
               <p className="text-sm text-slate-500 mt-1">
                 Track live bookings, completed sessions, and payouts.
@@ -57,9 +57,9 @@ export const ExpertDashboardPage: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             {/* Bookings Queue */}
             <div className="lg:col-span-2 space-y-6">
-              <div className="bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm">
+              <div className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm">
                 <h3 className="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2 mb-4">
-                  <Calendar size={16} className="text-[#c14f16]" /> Mentorship Bookings Queue
+                  <Calendar size={16} className="text-brand-primary" /> Mentorship Bookings Queue
                 </h3>
 
                 <div className="overflow-x-auto">
@@ -102,7 +102,9 @@ export const ExpertDashboardPage: React.FC = () => {
                             </td>
                             <td className="py-4 font-semibold text-slate-700 dark:text-slate-350">
                               <div>{booking.serviceTierName}</div>
-                              <div className="text-xs text-[#c14f16] mt-0.5">₹{booking.price}</div>
+                              <div className="text-xs text-brand-primary mt-0.5">
+                                ₹{booking.price}
+                              </div>
                             </td>
                             <td className="py-4">
                               <div className="text-slate-800 dark:text-slate-200 font-medium">

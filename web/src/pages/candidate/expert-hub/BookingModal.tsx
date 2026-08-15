@@ -70,7 +70,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
         role="dialog"
         aria-modal="true"
         aria-labelledby="booking-modal-title"
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl w-full max-w-lg z-[60] overflow-hidden focus:outline-none max-h-[90vh] flex flex-col"
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl w-full max-w-lg z-[60] overflow-hidden focus:outline-none max-h-[90vh] flex flex-col"
       >
         {/* Header */}
         <div className="flex justify-between items-center px-6 py-4 border-b border-slate-100 dark:border-slate-800 shrink-0">
@@ -78,13 +78,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
             id="booking-modal-title"
             className="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2"
           >
-            <Calendar className="text-[#c14f16]" size={16} /> Book Expert Session
+            <Calendar className="text-brand-primary" size={16} /> Book Expert Session
           </h2>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close booking modal"
-            className="p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-850 dark:hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-[#c14f16]"
+            className="p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-850 dark:hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-brand-primary"
           >
             <X size={16} />
           </button>
@@ -108,7 +108,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
                   expert.serviceTiers.find((t) => t.id === e.target.value) || expert.serviceTiers[0]
                 )
               }
-              className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
+              className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-brand-primary min-h-[44px]"
             >
               {expert.serviceTiers.map((tier) => (
                 <option key={tier.id} value={tier.id}>
@@ -133,7 +133,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
                 required
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
+                className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-brand-primary min-h-[44px]"
               />
             </div>
             <div className="space-y-2">
@@ -148,7 +148,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
                 value={selectedTime}
                 onChange={(e) => setSelectedTime(e.target.value)}
                 required
-                className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
+                className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-brand-primary min-h-[44px]"
               >
                 <option value="">Select slot</option>
                 {TIME_SLOTS.map((slot) => (
@@ -172,7 +172,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
               id="booking-timezone"
               value={timezone}
               onChange={(e) => setTimezone(e.target.value)}
-              className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
+              className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-brand-primary min-h-[44px]"
             >
               {TIMEZONES.map((tz) => (
                 <option key={tz} value={tz}>
@@ -188,7 +188,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
               htmlFor="booking-brief"
               className="text-sm font-bold text-slate-400 uppercase tracking-wider block"
             >
-              Pre-Session Brief <span className="text-[#c14f16]">*</span>
+              Pre-Session Brief <span className="text-brand-primary">*</span>
             </label>
             <textarea
               id="booking-brief"
@@ -197,7 +197,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
               value={brief}
               onChange={(e) => setBrief(e.target.value)}
               placeholder="What questions or goals do you want to cover during this session?"
-              className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] resize-none"
+              className="w-full border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-brand-primary resize-none"
             />
           </div>
 
@@ -206,13 +206,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, exp
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-450 hover:bg-slate-50 rounded-lg text-sm font-semibold transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-[#c14f16]"
+              className="px-4 py-2 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-450 hover:bg-slate-50 rounded-lg text-sm font-semibold transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-brand-primary"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2 bg-[#c14f16] hover:bg-[#a94210] text-white rounded-lg text-sm font-bold transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-[#c14f16]"
+              className="px-5 py-2 bg-brand-primary hover:bg-brand-primary-hover text-white rounded-lg text-sm font-bold transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-brand-primary"
             >
               Confirm Booking
             </button>

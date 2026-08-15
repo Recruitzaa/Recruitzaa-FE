@@ -61,7 +61,7 @@ export const AIHubPage = () => {
       </div>
 
       {/* Tab Navigation */}
-      <div className="bg-white dark:bg-slate-800 border-b border-slate-200 px-6 py-1">
+      <div className="bg-white dark:bg-brand-card border-b border-slate-200 px-6 py-1">
         <div
           className="max-w-6xl mx-auto flex gap-6 overflow-x-auto"
           role="tablist"

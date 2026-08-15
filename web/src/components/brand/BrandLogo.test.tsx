@@ -9,13 +9,15 @@ vi.mock('../../hooks/useTheme', () => ({
 }));
 
 describe('BrandLogo', () => {
-  it('renders the light logo by default', () => {
+  it('renders the wordmark and tagline by default', () => {
     render(
       <HelmetProvider>
         <BrandLogo />
       </HelmetProvider>
     );
 
-    expect(screen.getByAltText('Recruitzaa')).toBeInTheDocument();
+    expect(screen.getByText('Recruit')).toBeInTheDocument();
+    expect(screen.getByText('zaa')).toBeInTheDocument();
+    expect(screen.getByText('Your Next Great Hire Starts Here')).toBeInTheDocument();
   });
 });

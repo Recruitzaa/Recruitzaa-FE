@@ -29,7 +29,7 @@ export const ResumeUploadCard = ({
         <h3 className="text-sm font-bold text-brand-charcoal">Resume</h3>
       </div>
 
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-6 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-lg border border-dashed border-slate-300">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-6 bg-slate-50 dark:bg-brand-card/50 p-4 rounded-lg border border-dashed border-slate-300">
         <div className="flex items-center gap-4 text-left w-full sm:w-auto">
           <div className="p-3 bg-white dark:bg-slate-850 text-brand-primary rounded-lg border shadow-sm">
             <FileText size={24} />
@@ -63,7 +63,7 @@ export const ResumeUploadCard = ({
       </div>
 
       {isParsing && (
-        <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+        <div className="w-full bg-slate-100 dark:bg-brand-card rounded-full h-1.5 overflow-hidden">
           <div
             className="bg-brand-primary h-1.5 rounded-full animate-pulse"
             style={{ width: '75%' }}

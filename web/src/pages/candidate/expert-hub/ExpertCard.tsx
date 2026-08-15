@@ -13,7 +13,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({ expert, onBookClick }) =
   return (
     <>
       <article
-        className="bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between"
+        className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between"
         aria-labelledby={`expert-name-${expert.id}`}
       >
         <div>
@@ -29,7 +29,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({ expert, onBookClick }) =
               }}
             />
             <span className="inline-flex items-center gap-1 text-xs font-black text-slate-500 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-0.5 rounded-full uppercase tracking-wider">
-              <Award size={10} className="text-[#c14f16]" aria-hidden="true" /> Verified Expert
+              <Award size={10} className="text-brand-primary" aria-hidden="true" /> Verified Expert
             </span>
           </div>
 
@@ -53,7 +53,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({ expert, onBookClick }) =
               <Star size={9} className="fill-amber-500 stroke-amber-500" aria-hidden="true" />{' '}
               {expert.rating.toFixed(1)} Rating
             </span>
-            <span className="inline-flex items-center gap-1 text-xs font-extrabold text-[#c14f16] bg-[#fef3ee] dark:bg-[#c14f16]/10 px-2 py-0.5 rounded">
+            <span className="inline-flex items-center gap-1 text-xs font-extrabold text-brand-primary bg-brand-primary-light dark:bg-brand-primary/10 px-2 py-0.5 rounded">
               <Building2 size={9} aria-hidden="true" /> {expert.targetCompany}
             </span>
           </div>
@@ -74,7 +74,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({ expert, onBookClick }) =
               type="button"
               onClick={onBookClick}
               aria-label={`Book session with ${expert.name}`}
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#c14f16] hover:bg-[#a94210] text-white rounded-lg text-sm font-bold transition-colors min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2"
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-brand-primary hover:bg-brand-primary-hover text-white rounded-lg text-sm font-bold transition-colors min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-primary focus-visible:outline-offset-2"
             >
               <Calendar size={13} aria-hidden="true" /> Book Session
             </button>

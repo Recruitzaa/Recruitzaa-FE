@@ -43,7 +43,7 @@ export const FeatureUnavailablePage = ({
         className="min-h-[55vh] grid place-content-center px-4 text-center"
         aria-labelledby="feature-title"
       >
-        <div className="max-w-lg rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#131924] p-8 shadow-sm">
+        <div className="max-w-lg rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-brand-card p-8 shadow-sm">
           <Construction className="mx-auto mb-4 text-brand-primary" size={32} aria-hidden="true" />
           <p className="text-xs font-bold uppercase tracking-widest text-brand-primary">
             Not yet available

@@ -53,7 +53,7 @@ export const PortalSidebar = ({ isOpen, onClose }: PortalSidebarProps) => {
       >
         <div className={styles.brand}>
           <Link to={isEmployer ? '/employers' : '/'} className="flex items-center gap-2">
-            <BrandLogo width={130} height={34} />
+            <BrandLogo size={34} />
           </Link>
           <button
             type="button"
@@ -103,7 +103,7 @@ export const PortalSidebar = ({ isOpen, onClose }: PortalSidebarProps) => {
                   className={`${styles.link} ${isActive('/employer/candidates') ? styles.active : ''}`}
                 >
                   <span>Candidate Pipeline</span>
-                  <span className={`${styles.badge} bg-[#c14f16] text-white`}>14</span>
+                  <span className={`${styles.badge} bg-brand-primary text-white`}>14</span>
                 </Link>
               </li>
               <li>
@@ -159,7 +159,7 @@ export const PortalSidebar = ({ isOpen, onClose }: PortalSidebarProps) => {
                   className={`${styles.link} ${isActive('/candidate/pipeline') ? styles.active : ''}`}
                 >
                   <span>Application Pipeline</span>
-                  <span className={`${styles.badge} bg-[#c14f16] text-white`}>7</span>
+                  <span className={`${styles.badge} bg-brand-primary text-white`}>7</span>
                 </Link>
               </li>
 

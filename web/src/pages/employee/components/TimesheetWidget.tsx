@@ -15,7 +15,7 @@ export const TimesheetWidget: React.FC = () => {
   return (
     <>
       <section
-        className="bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-4"
+        className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-4"
         aria-labelledby="timesheet-title"
       >
         <div>
@@ -23,7 +23,8 @@ export const TimesheetWidget: React.FC = () => {
             id="timesheet-title"
             className="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2"
           >
-            <Calendar size={16} className="text-[#c14f16]" aria-hidden="true" /> Timesheets & Leaves
+            <Calendar size={16} className="text-brand-primary" aria-hidden="true" /> Timesheets &
+            Leaves
           </h2>
           <p className="text-sm text-slate-400 mt-0.5">
             Log weekly deliverables, review submission statuses, and check leave logs.
@@ -57,10 +58,10 @@ export const TimesheetWidget: React.FC = () => {
               type="button"
               disabled={submitted}
               onClick={handleSubmitTimesheet}
-              className={`w-full inline-flex items-center justify-center gap-1.5 px-4 py-2 text-sm font-bold rounded-lg transition-colors min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2 ${
+              className={`w-full inline-flex items-center justify-center gap-1.5 px-4 py-2 text-sm font-bold rounded-lg transition-colors min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-primary focus-visible:outline-offset-2 ${
                 submitted
                   ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                  : 'bg-[#c14f16] hover:bg-[#a94210] text-white shadow-sm'
+                  : 'bg-brand-primary hover:bg-brand-primary-hover text-white shadow-sm'
               }`}
             >
               {submitted ? (

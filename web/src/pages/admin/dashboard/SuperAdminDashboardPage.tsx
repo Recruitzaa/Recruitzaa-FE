@@ -16,7 +16,7 @@ export const SuperAdminDashboardPage: React.FC = () => {
           {/* Header */}
           <div className="space-y-1">
             <h1 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-              <ShieldAlert className="text-[#c14f16]" size={20} /> Super Admin Command Center
+              <ShieldAlert className="text-brand-primary" size={20} /> Super Admin Command Center
             </h1>
             <p className="text-sm text-slate-500">
               Monitor server telemetry logs, approve pending enterprise roles, and moderation flags.
@@ -25,7 +25,7 @@ export const SuperAdminDashboardPage: React.FC = () => {
 
           {/* Telemetry Metrics Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm flex items-center gap-4">
+            <div className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm flex items-center gap-4">
               <div
                 className="p-3.5 bg-red-50 dark:bg-red-950/20 text-red-600 rounded-xl"
                 aria-hidden="true"
@@ -42,8 +42,11 @@ export const SuperAdminDashboardPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm flex items-center gap-4">
-              <div className="p-3.5 bg-[#c14f16]/10 text-[#c14f16] rounded-xl" aria-hidden="true">
+            <div className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm flex items-center gap-4">
+              <div
+                className="p-3.5 bg-brand-primary/10 text-brand-primary rounded-xl"
+                aria-hidden="true"
+              >
                 <Users size={20} />
               </div>
               <div>
@@ -56,7 +59,7 @@ export const SuperAdminDashboardPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm flex items-center gap-4">
+            <div className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm flex items-center gap-4">
               <div
                 className="p-3.5 bg-green-50 dark:bg-green-950/20 text-green-600 rounded-xl"
                 aria-hidden="true"
@@ -75,7 +78,7 @@ export const SuperAdminDashboardPage: React.FC = () => {
           </div>
 
           {/* Telemetry panel */}
-          <div className="bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm">
+          <div className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm">
             <h2 className="text-sm font-extrabold text-slate-900 dark:text-white mb-4">
               Moderation Queue
             </h2>

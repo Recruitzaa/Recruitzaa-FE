@@ -62,7 +62,10 @@ export const ReferencesCard = ({
             const phoneId = `${idPrefix}-ref-phone-${ref.id}`;
 
             return (
-              <div key={ref.id} className="relative border-l-2 border-orange-200 pl-4 space-y-2">
+              <div
+                key={ref.id}
+                className="relative border-l-2 border-brand-primary/40 pl-4 space-y-2"
+              >
                 <div className="flex justify-between items-start">
                   <div className="flex items-start gap-2.5">
                     <User
@@ -99,7 +102,7 @@ export const ReferencesCard = ({
                     {ref.email} <span aria-hidden="true">&bull;</span> {ref.phone}
                   </p>
                 ) : (
-                  <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded border border-slate-200 dark:border-slate-700 space-y-3 mt-2">
+                  <div className="bg-slate-50 dark:bg-brand-card p-4 rounded border border-slate-200 dark:border-slate-700 space-y-3 mt-2">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div className="space-y-1">
                         <label

@@ -19,7 +19,7 @@ export const EmployeeDashboardPage: React.FC = () => {
         <div className="space-y-6">
           <div className="space-y-1">
             <h1 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-              <Calendar className="text-[#c14f16]" size={20} aria-hidden="true" /> Timesheets &
+              <Calendar className="text-brand-primary" size={20} aria-hidden="true" /> Timesheets &
               Leaves Console
             </h1>
             <p className="text-sm text-slate-500 dark:text-slate-400">
@@ -36,8 +36,8 @@ export const EmployeeDashboardPage: React.FC = () => {
         <div className="space-y-6">
           <div className="space-y-1">
             <h1 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-              <FileText className="text-[#c14f16]" size={20} aria-hidden="true" /> Payroll, Tax &
-              Reimbursements
+              <FileText className="text-brand-primary" size={20} aria-hidden="true" /> Payroll, Tax
+              & Reimbursements
             </h1>
             <p className="text-sm text-slate-500 dark:text-slate-400">
               View payslips, track salary disbursements, and check reimbursement requests.
@@ -53,7 +53,7 @@ export const EmployeeDashboardPage: React.FC = () => {
       <div className="space-y-8">
         <div className="space-y-1">
           <h1 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-            <ClipboardList className="text-[#c14f16]" size={20} aria-hidden="true" /> Employee
+            <ClipboardList className="text-brand-primary" size={20} aria-hidden="true" /> Employee
             Control Room
           </h1>
           <p className="text-sm text-slate-500 dark:text-slate-400">

@@ -34,7 +34,7 @@ export const PersonalDetailsEditForm = ({
   const fieldId = (name: keyof PersonalFormState) => `${idPrefix}-${name}`;
 
   return (
-    <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg border border-slate-200 dark:border-slate-700 space-y-4 text-left">
+    <div className="bg-slate-50 dark:bg-brand-card p-4 rounded-lg border border-slate-200 dark:border-slate-700 space-y-4 text-left">
       <div className="flex justify-between items-center pb-2 border-b">
         <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300">
           Edit Personal Details

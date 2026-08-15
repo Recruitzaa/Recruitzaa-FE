@@ -156,7 +156,7 @@ export const CareerProfileCard = ({
               {careerProfile.desiredLocations.map((loc) => (
                 <span
                   key={loc}
-                  className="px-2.5 py-0.5 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded text-xs border"
+                  className="px-2.5 py-0.5 bg-slate-50 dark:bg-brand-card text-slate-700 dark:text-slate-300 rounded text-xs border"
                 >
                   {loc}
                 </span>

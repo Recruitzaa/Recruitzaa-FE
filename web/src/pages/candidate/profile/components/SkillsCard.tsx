@@ -31,7 +31,7 @@ export const SkillsCard = ({
             <Badge
               key={skill}
               variant="primary"
-              className="inline-flex items-center gap-1 text-xs font-semibold py-1 px-2.5 bg-orange-50 text-brand-primary border border-orange-200 rounded-full"
+              className="inline-flex items-center gap-1 text-xs font-semibold py-1 px-2.5 bg-brand-primary-light text-brand-primary border border-brand-primary/30 rounded-full"
             >
               {skill}
               <button

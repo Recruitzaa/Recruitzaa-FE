@@ -59,7 +59,7 @@ export const ProfileWizardContainer: React.FC = () => {
   const stepsLabel = ['Basic Info', 'Education', 'Experience', 'Skills', 'Preferences', 'Resume'];
 
   return (
-    <Card className="max-w-xl mx-auto p-6 bg-white dark:bg-slate-800 border border-slate-200 shadow-lg rounded-xl">
+    <Card className="max-w-xl mx-auto p-6 bg-white dark:bg-brand-card border border-slate-200 shadow-lg rounded-xl">
       {/* Progress Tracker */}
       <div className="mb-6 text-slate-900 dark:text-slate-100">
         <div className="flex justify-between items-center text-sm font-bold text-slate-400 uppercase mb-2">
