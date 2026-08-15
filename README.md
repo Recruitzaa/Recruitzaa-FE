@@ -4,9 +4,21 @@ The frontend codebase for recruitZaa, featuring a React Native (TypeScript) mobi
 
 ## Version History
 
-**Current Version: `v0.6.0`**
+**Current Version: `v0.6.1`**
 
 ### Changelog
+
+**[v0.6.1] - 2026-08-15** _(Branch: `feature/UI-touch-ups`)_
+
+Removes fabricated claims introduced by the v0.6.0 copy pass, caught during review before this went further out.
+
+- **No Invented Stats or Unbuilt-Feature Claims**: The v0.6.0 CRO copy pass replaced several honest, hedged disclaimers with more confident marketing claims that didn't hold up against the actual codebase — a real risk for a pre-launch product. Reverted five spots in `content.ts`:
+  - Landing-page hero stats (`2,100+ Active jobs`, `350+ Verified employers`, `3 min Avg. apply time`) were invented numbers with no data source, shown as bold "proof" callouts. Reverted to qualitative labels (`Search` / `Track` / `Manage`) — this section should never hardcode a jobs/employers/users count until there's a real one to report.
+  - "Every listing shows its verified employer source" — there's no employer-verification field anywhere in `job.types.ts`. Softened to "identifies its employer... with employer verification rolling out over time."
+  - "Profile comparisons show which job attributes contributed to your score" — no attribute-breakdown UI exists; matching is keyword-overlap based per the FAQ's own next sentence. Softened to "designed to show," not a shipped feature.
+  - Payroll Management's description claimed "disbursement tracking and compliance reporting," but `PayrollCard` is entirely hardcoded mock payslips with a "Download" button that just fires a toast — no real payroll or compliance system exists. Reverted to the original "planned workspace... availability depends on production integrations and jurisdictional review" framing. This was the highest-risk line, since payroll/compliance claims carry real regulatory weight.
+  - The pricing FAQ stated free-for-candidates and "subscription options available on request" as settled fact. Softened to what's actually true today (no charge to search or apply) without committing to a finalized employer pricing process.
+- **Testing**: All 256 tests, lint, the duplicate guard, and `tsc -b && vite build` pass clean.
 
 **[v0.6.0] - 2026-08-15** _(Branch: `feature/UI-touch-ups`)_
 
