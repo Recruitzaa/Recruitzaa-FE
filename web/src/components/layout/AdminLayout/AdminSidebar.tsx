@@ -11,11 +11,13 @@ import {
   Users,
   Settings,
   LogOut,
-  ShieldCheck,
   X,
 } from 'lucide-react';
 import styles from './AdminSidebar.module.css';
 import { useFocusTrap } from '../../../hooks/useFocusTrap';
+import { ROUTES } from '../../../config/routes';
+import { UserAvatar } from '../../ui/UserAvatar/UserAvatar';
+import { BrandLogo } from '../../brand/BrandLogo';
 
 const NAV = [
   {
@@ -39,14 +41,6 @@ const NAV = [
   },
 ];
 
-const getInitials = (name: string) =>
-  name
-    .split(' ')
-    .map((n) => n[0])
-    .slice(0, 2)
-    .join('')
-    .toUpperCase();
-
 export const AdminSidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const sidebarRef = useRef<HTMLElement>(null);
   const closeSidebar = useCallback(onClose, [onClose]);
@@ -57,7 +51,7 @@ export const AdminSidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
   const handleSignOut = async () => {
     try {
       await logOut();
-      navigate('/login');
+      navigate(ROUTES.AUTH.LOGIN);
     } catch (err) {
       console.error('Logout failed:', err);
     }
@@ -79,17 +73,11 @@ export const AdminSidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
         aria-label="Admin navigation"
         tabIndex={-1}
       >
-        {/* Brand */}
         <div className={styles.brand}>
-          <Link to="/admin/dashboard" className="flex items-center gap-2.5">
-            <div className="w-6 h-6 rounded-md bg-red-600 flex items-center justify-center shrink-0">
-              <ShieldCheck size={12} className="text-white" />
-            </div>
-            <span className={styles.logoText}>
-              recruitZaa{' '}
-              <span className="text-sm text-red-600 font-bold ml-1 uppercase tracking-wide">
-                Admin
-              </span>
+          <Link to="/admin/dashboard" className="flex items-center gap-2">
+            <BrandLogo size={31} tagline={false} />
+            <span className="text-[10px] bg-red-600 text-white font-bold px-1.5 py-0.5 rounded uppercase tracking-wider mt-[0.5em]">
+              Admin
             </span>
           </Link>
           <button
@@ -148,7 +136,11 @@ export const AdminSidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
         {/* User Footer */}
         <div className={styles.user}>
           <div className={`${styles.avatar} bg-red-600`}>
-            {appUser ? getInitials(appUser.displayName) : 'SA'}
+            <UserAvatar
+              photoUrl={appUser?.photoUrl}
+              name={appUser?.displayName}
+              fallbackText="SA"
+            />
           </div>
           <div className={styles.userInfo}>
             <div className={styles.userName}>{appUser?.displayName ?? 'Super Admin'}</div>

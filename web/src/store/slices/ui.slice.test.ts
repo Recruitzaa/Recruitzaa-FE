@@ -6,14 +6,16 @@ import uiReducer, {
   closeModal,
   toggleSidebar,
   setMobileDrawer,
+  type UIState,
 } from './ui.slice';
 
 describe('UI Slice', () => {
-  const initialState = {
+  const initialState: UIState = {
     toasts: [],
     activeModal: null,
     isSidebarCollapsed: false,
     isMobileDrawerOpen: false,
+    audience: null,
   };
 
   beforeEach(() => {
@@ -36,7 +38,34 @@ describe('UI Slice', () => {
     expect(actual.toasts).toHaveLength(1);
     expect(actual.toasts[0].message).toBe('Success!');
     expect(actual.toasts[0].type).toBe('success');
-    expect(actual.toasts[0].id).toBe(Date.now().toString());
+    expect(actual.toasts[0].id).toEqual(expect.any(String));
+    expect(actual.toasts[0].id).not.toBe('');
+  });
+
+  it('gives two toasts dispatched at the same instant distinct ids', () => {
+    const first = uiReducer(initialState, addToast({ message: 'One', type: 'info' }));
+    const second = uiReducer(first, addToast({ message: 'Two', type: 'info' }));
+
+    expect(second.toasts).toHaveLength(2);
+    expect(second.toasts[0].id).not.toBe(second.toasts[1].id);
+  });
+
+  it('drops an exact duplicate (same message + type) instead of stacking it', () => {
+    const first = uiReducer(initialState, addToast({ message: 'Saved.', type: 'success' }));
+    const second = uiReducer(first, addToast({ message: 'Saved.', type: 'success' }));
+
+    expect(second.toasts).toHaveLength(1);
+  });
+
+  it('caps the toast stack so a failure loop cannot fill the viewport', () => {
+    let state = initialState;
+    for (let i = 0; i < 6; i += 1) {
+      state = uiReducer(state, addToast({ message: `Message ${i}`, type: 'info' }));
+    }
+
+    expect(state.toasts).toHaveLength(4);
+    // Oldest entries are shifted out first, so the most recent survive.
+    expect(state.toasts[state.toasts.length - 1].message).toBe('Message 5');
   });
 
   it('should handle removeToast', () => {

@@ -5,6 +5,7 @@ import reducer, {
   setFullProfile,
   updateAccomplishments,
   updateCareerProfile,
+  updateCertifications,
   updateEducation,
   updateEmploymentDetails,
   updateEmploymentHistory,
@@ -13,6 +14,7 @@ import reducer, {
   updatePersonalInfo,
   updateProfessionalSummary,
   updateProjects,
+  updateReferences,
 } from './profileSlice';
 
 describe('profileSlice Reducer', () => {
@@ -33,7 +35,7 @@ describe('profileSlice Reducer', () => {
       professionalSummary: { headline: '', detailedSummary: '' },
       skills: ['React'],
       employmentHistory: [],
-      education: { degree: '', university: '', duration: '', type: '' },
+      education: [],
       projects: [],
       itSkills: [],
       careerProfile: {
@@ -46,14 +48,18 @@ describe('profileSlice Reducer', () => {
         desiredLocations: [],
         expectedSalary: '',
         preferredShift: '',
+        workAuthorization: '',
+        willingToRelocate: '',
+        preferredWorkMode: '',
       },
       extendedPersonal: {
         gender: '',
         maritalStatus: '',
         dob: '',
-        category: '',
         address: '',
         languages: [],
+        nationality: '',
+        differentlyAbled: '',
       },
       accomplishments: {
         onlineProfile: '',
@@ -61,8 +67,9 @@ describe('profileSlice Reducer', () => {
         publication: '',
         presentation: '',
         patent: '',
-        certification: '',
       },
+      references: [],
+      certifications: [],
     };
 
     // Add a new skill
@@ -87,7 +94,7 @@ describe('profileSlice Reducer', () => {
       professionalSummary: { headline: '', detailedSummary: '' },
       skills: ['React', 'TypeScript'],
       employmentHistory: [],
-      education: { degree: '', university: '', duration: '', type: '' },
+      education: [],
       projects: [],
       itSkills: [],
       careerProfile: {
@@ -100,14 +107,18 @@ describe('profileSlice Reducer', () => {
         desiredLocations: [],
         expectedSalary: '',
         preferredShift: '',
+        workAuthorization: '',
+        willingToRelocate: '',
+        preferredWorkMode: '',
       },
       extendedPersonal: {
         gender: '',
         maritalStatus: '',
         dob: '',
-        category: '',
         address: '',
         languages: [],
+        nationality: '',
+        differentlyAbled: '',
       },
       accomplishments: {
         onlineProfile: '',
@@ -115,8 +126,9 @@ describe('profileSlice Reducer', () => {
         publication: '',
         presentation: '',
         patent: '',
-        certification: '',
       },
+      references: [],
+      certifications: [],
     };
 
     const state = reducer(previousState, removeSkill('React'));
@@ -143,7 +155,7 @@ describe('profileSlice Reducer', () => {
       professionalSummary: { headline: '', detailedSummary: '' },
       skills: [],
       employmentHistory: [],
-      education: { degree: '', university: '', duration: '', type: '' },
+      education: [],
       projects: [],
       itSkills: [],
       careerProfile: {
@@ -156,14 +168,18 @@ describe('profileSlice Reducer', () => {
         desiredLocations: [],
         expectedSalary: '',
         preferredShift: '',
+        workAuthorization: '',
+        willingToRelocate: '',
+        preferredWorkMode: '',
       },
       extendedPersonal: {
         gender: '',
         maritalStatus: '',
         dob: '',
-        category: '',
         address: '',
         languages: [],
+        nationality: '',
+        differentlyAbled: '',
       },
       accomplishments: {
         onlineProfile: '',
@@ -171,8 +187,9 @@ describe('profileSlice Reducer', () => {
         publication: '',
         presentation: '',
         patent: '',
-        certification: '',
       },
+      references: [],
+      certifications: [],
     };
 
     const state = reducer(
@@ -197,7 +214,7 @@ describe('profileSlice Reducer', () => {
       professionalSummary: { headline: '', detailedSummary: '' },
       skills: [],
       employmentHistory: [],
-      education: { degree: '', university: '', duration: '', type: '' },
+      education: [],
       projects: [],
       itSkills: [],
       careerProfile: {
@@ -210,14 +227,18 @@ describe('profileSlice Reducer', () => {
         desiredLocations: [],
         expectedSalary: '',
         preferredShift: '',
+        workAuthorization: '',
+        willingToRelocate: '',
+        preferredWorkMode: '',
       },
       extendedPersonal: {
         gender: '',
         maritalStatus: '',
         dob: '',
-        category: '',
         address: '',
         languages: [],
+        nationality: '',
+        differentlyAbled: '',
       },
       accomplishments: {
         onlineProfile: '',
@@ -225,8 +246,9 @@ describe('profileSlice Reducer', () => {
         publication: '',
         presentation: '',
         patent: '',
-        certification: '',
       },
+      references: [],
+      certifications: [],
     };
 
     const state = reducer(
@@ -251,7 +273,7 @@ describe('profileSlice Reducer', () => {
       professionalSummary: { headline: 'Old Headline', detailedSummary: 'Old Summary' },
       skills: [],
       employmentHistory: [],
-      education: { degree: '', university: '', duration: '', type: '' },
+      education: [],
       projects: [],
       itSkills: [],
       careerProfile: {
@@ -264,14 +286,18 @@ describe('profileSlice Reducer', () => {
         desiredLocations: [],
         expectedSalary: '',
         preferredShift: '',
+        workAuthorization: '',
+        willingToRelocate: '',
+        preferredWorkMode: '',
       },
       extendedPersonal: {
         gender: '',
         maritalStatus: '',
         dob: '',
-        category: '',
         address: '',
         languages: [],
+        nationality: '',
+        differentlyAbled: '',
       },
       accomplishments: {
         onlineProfile: '',
@@ -279,8 +305,9 @@ describe('profileSlice Reducer', () => {
         publication: '',
         presentation: '',
         patent: '',
-        certification: '',
       },
+      references: [],
+      certifications: [],
     };
 
     const state = reducer(previousState, updateProfessionalSummary({ headline: 'New Headline' }));
@@ -301,7 +328,7 @@ describe('profileSlice Reducer', () => {
       professionalSummary: { headline: '', detailedSummary: '' },
       skills: [],
       employmentHistory: [],
-      education: { degree: '', university: '', duration: '', type: '' },
+      education: [],
       projects: [],
       itSkills: [],
       careerProfile: {
@@ -314,14 +341,18 @@ describe('profileSlice Reducer', () => {
         desiredLocations: [],
         expectedSalary: '',
         preferredShift: '',
+        workAuthorization: '',
+        willingToRelocate: '',
+        preferredWorkMode: '',
       },
       extendedPersonal: {
         gender: '',
         maritalStatus: '',
         dob: '',
-        category: '',
         address: '',
         languages: [],
+        nationality: '',
+        differentlyAbled: '',
       },
       accomplishments: {
         onlineProfile: '',
@@ -329,12 +360,14 @@ describe('profileSlice Reducer', () => {
         publication: '',
         presentation: '',
         patent: '',
-        certification: '',
       },
+      references: [],
+      certifications: [],
     };
 
     const newHistory = [
       {
+        id: 'test-history-1',
         designation: 'Lead Engineer',
         company: 'Google',
         duration: '2 Years',
@@ -357,17 +390,23 @@ describe('profileSlice Reducer', () => {
 
     state = reducer(
       state,
-      updateEducation({
-        degree: 'B.Tech',
-        university: 'IIT',
-        duration: '2018-2022',
-        type: 'Full-time',
-      })
+      updateEducation([
+        {
+          id: 'test-edu-1',
+          level: 'Graduation',
+          degree: 'B.Tech',
+          university: 'IIT',
+          duration: '2018-2022',
+          type: 'Full-time',
+          percentage: '85%',
+        },
+      ])
     );
     state = reducer(
       state,
       updateProjects([
         {
+          id: 'test-project-1',
           name: 'Platform',
           client: 'Acme',
           duration: '6 months',
@@ -377,7 +416,15 @@ describe('profileSlice Reducer', () => {
     );
     state = reducer(
       state,
-      updateITSkills([{ skill: 'TypeScript', version: '5', lastUsed: '2026', experience: '3 yrs' }])
+      updateITSkills([
+        {
+          id: 'test-itskill-1',
+          skill: 'TypeScript',
+          version: '5',
+          lastUsed: '2026',
+          experience: '3 yrs',
+        },
+      ])
     );
     state = reducer(
       state,
@@ -398,15 +445,46 @@ describe('profileSlice Reducer', () => {
       state,
       updateAccomplishments({
         ...state.accomplishments,
-        certification: 'AWS',
+        patent: 'Patent Pending',
       })
     );
+    state = reducer(
+      state,
+      updateReferences([
+        {
+          id: 'test-reference-1',
+          name: 'Priya Sharma',
+          relationship: 'Reporting Manager',
+          company: 'Infosys',
+          email: 'priya.sharma@infosys.com',
+          phone: '+91 98450 11223',
+        },
+      ])
+    );
+    state = reducer(
+      state,
+      updateCertifications([
+        {
+          id: 'test-certification-1',
+          name: 'AWS Certified Solutions Architect',
+          issuer: 'Amazon Web Services',
+          issueDate: '2025',
+          credentialId: 'AWS-123',
+          credentialUrl: 'https://credly.com/aws-123',
+          fileName: 'certificate.pdf',
+          fileSizeLabel: '120 KB',
+          fileDataUrl: 'data:application/pdf;base64,AAAA',
+        },
+      ])
+    );
 
-    expect(state.education.degree).toBe('B.Tech');
+    expect(state.education[0]?.degree).toBe('B.Tech');
     expect(state.projects[0]?.name).toBe('Platform');
     expect(state.itSkills[0]?.skill).toBe('TypeScript');
     expect(state.careerProfile.industry).toBe('Technology');
     expect(state.extendedPersonal.gender).toBe('Prefer not to say');
-    expect(state.accomplishments.certification).toBe('AWS');
+    expect(state.accomplishments.patent).toBe('Patent Pending');
+    expect(state.references[0]?.name).toBe('Priya Sharma');
+    expect(state.certifications[0]?.name).toBe('AWS Certified Solutions Architect');
   });
 });

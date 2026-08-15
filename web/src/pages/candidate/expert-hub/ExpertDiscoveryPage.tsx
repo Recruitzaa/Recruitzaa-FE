@@ -15,22 +15,22 @@ export const ExpertDiscoveryPage: React.FC = () => {
     <>
       <PageTransition>
         <SEO
-          title="Mentors & Expert Hub | recruitZaa"
-          description="Book mock interviews, system design dry-runs, and portfolio evaluations from top FAANG/Big Tech engineering mentors."
+          title="Expert Hub | Recruitzaa"
+          description="Book mock interviews, system design dry-runs, and portfolio evaluations from top career and engineering experts."
         />
         <div className="max-w-7xl mx-auto px-4 py-8 space-y-8 w-full">
           {/* Header Banner */}
-          <div className="bg-orange-50/50 dark:bg-orange-950/10 border border-orange-200/40 dark:border-orange-900/30 rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="bg-brand-primary-light/60 border border-brand-primary/20 rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-1">
-              <span className="inline-flex items-center gap-1 text-sm font-extrabold uppercase tracking-wider text-[#c14f16]">
-                <Sparkles size={10} /> Live 1-on-1 Mentorship
+              <span className="inline-flex items-center gap-1 text-sm font-extrabold uppercase tracking-wider text-brand-primary">
+                <Sparkles size={10} /> Live 1-on-1 Sessions
               </span>
               <h1 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-                <GraduationCap className="text-[#c14f16]" size={20} /> Mentor & Tutor Discovery
+                <GraduationCap className="text-brand-primary" size={20} /> Expert Discovery
               </h1>
               <p className="text-sm text-slate-500 dark:text-slate-400 max-w-2xl">
                 Prepare for technical recruitment loops by booking Mock Interviews, Resume Reviews,
-                and Design Critiques from verified Big-Tech mentors.
+                and Design Critiques from verified industry experts.
               </p>
             </div>
           </div>

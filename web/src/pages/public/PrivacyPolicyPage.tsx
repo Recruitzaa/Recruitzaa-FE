@@ -1,16 +1,17 @@
 import { PageTransition } from '../../components/layout/PageTransition';
 import { SEO } from '../../components/seo/SEO';
 import { Link } from 'react-router-dom';
+import { BRAND } from '../../config/content';
 
 export const PrivacyPolicyPage = () => {
   return (
     <PageTransition>
       <SEO
-        title="Privacy Policy | recruitZaa AI Recruitment"
-        description="Review how recruitZaa collects, uses, and safeguards your candidate credentials and parsed resume data."
+        title={`Privacy Policy | ${BRAND.name}`}
+        description={`Review how ${BRAND.name} collects, uses, and safeguards candidate credentials and parsed resume data.`}
       />
       <div className="min-h-screen bg-slate-50 dark:bg-slate-900 py-8 sm:py-12 px-4 sm:px-6">
-        <div className="max-w-3xl mx-auto bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 p-5 sm:p-8 rounded-xl shadow-sm">
+        <div className="max-w-3xl mx-auto bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 p-5 sm:p-8 rounded-xl shadow-sm">
           <div className="mb-6">
             <Link
               to="/"
@@ -21,16 +22,14 @@ export const PrivacyPolicyPage = () => {
             <h1 className="text-2xl font-black text-slate-900 dark:text-white mt-3">
               Privacy Policy
             </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Last Updated: July 14, 2026
-            </p>
+            <p className="text-sm text-slate-500 mt-1">Last Updated: July 14, 2026</p>
           </div>
 
-          <div className="prose dark:prose-invert text-sm text-slate-600 dark:text-slate-300 space-y-5 leading-relaxed">
+          <div className="prose dark:prose-invert text-sm text-slate-600 space-y-5 leading-relaxed">
             <p>
-              At recruitZaa, we take your privacy and the security of your professional data
-              seriously. This Privacy Policy details how we handle candidate profile data, resume
-              documents, and parsed job details.
+              At Recruitzaa Technologies Pvt. Ltd. (Recruitzaa), we take your privacy and the
+              security of your professional data seriously. This Privacy Policy details how we
+              handle candidate profile data, resume documents, and parsed job details.
             </p>
 
             <h2 className="text-sm font-bold text-slate-900 dark:text-white pt-2">
@@ -42,7 +41,10 @@ export const PrivacyPolicyPage = () => {
             <ul className="list-disc pl-5 space-y-1">
               <li>Personal identifiers (Name, Email address, Phone number).</li>
               <li>Resume and CV documents uploaded for ATS scoring.</li>
-              <li>Employment preferences, notice periods, and target CTC expectations.</li>
+              <li>
+                Employment preferences, notice periods, and target Cost to Company (CTC)
+                expectations.
+              </li>
             </ul>
 
             <h2 className="text-sm font-bold text-slate-900 dark:text-white pt-2">
@@ -59,8 +61,8 @@ export const PrivacyPolicyPage = () => {
               3. Data Retention & Deletion
             </h2>
             <p>
-              Your credentials are held securely within our Firebase Auth database. Local workspace
-              states synced to your local storage can be cleared at any time by resetting your
+              Your credentials are held securely within our authentication database. Saved items and
+              searches stored locally in your browser can be cleared at any time by resetting your
               browser session or logging out.
             </p>
 

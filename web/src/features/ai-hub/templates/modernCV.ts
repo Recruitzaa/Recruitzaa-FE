@@ -25,31 +25,41 @@ export const generateModernCV = (profile: ProfileState): string => {
 
   const skillsList = skills && skills.length > 0 ? skills.map(escapeLatex).join(', ') : '';
 
-  const experienceItems = employmentHistory && employmentHistory.length > 0
-    ? employmentHistory
-        .map((job: JobHistoryItem) => {
-          const bullets = job.keyResponsibilities && job.keyResponsibilities.length > 0
-            ? job.keyResponsibilities
-                .map((resp: string) => `  \\item ${escapeLatex(resp)}`)
-                .join('\n')
-            : '';
+  const experienceItems =
+    employmentHistory && employmentHistory.length > 0
+      ? employmentHistory
+          .map((job: JobHistoryItem) => {
+            const bullets =
+              job.keyResponsibilities && job.keyResponsibilities.length > 0
+                ? job.keyResponsibilities
+                    .map((resp: string) => `  \\item ${escapeLatex(resp)}`)
+                    .join('\n')
+                : '';
 
-          return `\\cventry{${escapeLatex(job.duration || '')}}{${escapeLatex(job.designation || '')}}{${escapeLatex(job.company || '')}}{${location}}{}{
+            return `\\cventry{${escapeLatex(job.duration || '')}}{${escapeLatex(job.designation || '')}}{${escapeLatex(job.company || '')}}{${location}}{}{
 ${bullets ? `\\begin{itemize}\n${bullets}\n\\end{itemize}` : ''}
 }`;
-        })
-        .join('\n\n')
-    : '';
+          })
+          .join('\n\n')
+      : '';
 
-  const projectsItems = projects && projects.length > 0
-    ? projects
-        .map((p: ProjectItem) => {
-          return `\\cventry{${escapeLatex(p.duration || '')}}{${escapeLatex(p.name)}}{${escapeLatex(p.client || '')}}{}{}{${escapeLatex(p.description || '')}}`;
-        })
-        .join('\n')
-    : '';
+  const projectsItems =
+    projects && projects.length > 0
+      ? projects
+          .map((p: ProjectItem) => {
+            return `\\cventry{${escapeLatex(p.duration || '')}}{${escapeLatex(p.name)}}{${escapeLatex(p.client || '')}}{}{}{${escapeLatex(p.description || '')}}`;
+          })
+          .join('\n')
+      : '';
 
-  const hasEdu = Boolean(education?.degree || education?.university);
+  const educationItems =
+    education && education.length > 0
+      ? education
+          .map((edu) => {
+            return `\\cventry{${escapeLatex(edu.duration || '')}}{${escapeLatex(edu.degree || '')}}{${escapeLatex(edu.university || '')}}{${location}}{}{}`;
+          })
+          .join('\n')
+      : '';
 
   return `%-------------------------
 % ModernCV LaTeX Template
@@ -95,9 +105,9 @@ ${experienceItems}`
 }
 
 ${
-  hasEdu
+  educationItems
     ? `\\section{Education}
-\\cventry{${escapeLatex(education?.duration || '')}}{${escapeLatex(education?.degree || '')}}{${escapeLatex(education?.university || '')}}{${location}}{}{}`
+${educationItems}`
     : ''
 }
 

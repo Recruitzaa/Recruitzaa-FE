@@ -9,6 +9,7 @@ import { useToast } from '../../hooks/useToast';
 import { useState } from 'react';
 import styles from './MyJobsPage.module.css';
 import { ConfirmDialog } from '../../components/ui/ConfirmDialog/ConfirmDialog';
+import { SEO } from '../../components/seo/SEO';
 
 export const MyJobsPage = () => {
   const dispatch = useAppDispatch();
@@ -32,8 +33,12 @@ export const MyJobsPage = () => {
     if (!pendingDeleteId) return;
     dispatch(deleteJob(pendingDeleteId));
     setPendingDeleteId(null);
-    toast.info('Job listing deleted from this demo workspace.');
+    toast.info(
+      import.meta.env.DEV ? 'Job listing deleted from this demo workspace.' : 'Job listing deleted.'
+    );
   };
+
+  const hasAnyJobs = jobsList.length > 0;
 
   // Filter listings based on search and status
   const filteredJobs = jobsList.filter((job) => {
@@ -46,9 +51,13 @@ export const MyJobsPage = () => {
 
   return (
     <div className={styles.page}>
+      <SEO
+        title="Job Listings | Recruitzaa"
+        description="Manage your current and past job postings."
+      />
       <div className={styles.header}>
         <div>
-          <h1 className={styles.title}>Active Listings</h1>
+          <h1 className={styles.title}>Job Listings</h1>
           <p className={styles.subtitle}>Manage your current and past job postings.</p>
         </div>
         <Link to="/employer/post-job" className="no-underline">
@@ -61,6 +70,7 @@ export const MyJobsPage = () => {
           <div className={styles.searchBox}>
             <Input
               placeholder="Search job titles..."
+              aria-label="Search job titles"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -68,6 +78,7 @@ export const MyJobsPage = () => {
           <div className={styles.filters}>
             <select
               className={styles.select}
+              aria-label="Filter by status"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
@@ -94,7 +105,17 @@ export const MyJobsPage = () => {
               {filteredJobs.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="text-center py-6 text-slate-500 text-sm">
-                    No active job listings found matching your search.
+                    {!hasAnyJobs ? (
+                      <>
+                        No listings yet.{' '}
+                        <Link to="/employer/post-job" className="font-semibold text-brand-primary">
+                          Post your first job
+                        </Link>
+                        .
+                      </>
+                    ) : (
+                      'No job listings found matching your search.'
+                    )}
                   </td>
                 </tr>
               ) : (
@@ -124,7 +145,7 @@ export const MyJobsPage = () => {
                       </Badge>
                     </td>
                     <td>
-                      <span className={styles.highlightText}>Not connected</span>
+                      <span className={styles.highlightText}>—</span>
                     </td>
                     <td>
                       <span className={styles.subText}>{job.postedAt}</span>
@@ -136,7 +157,7 @@ export const MyJobsPage = () => {
                           variant="outline"
                           onClick={() => handleStatusChange(job.id, job.status)}
                         >
-                          {job.status === 'Active' ? 'Close' : 'Activate'}
+                          {job.status === 'Active' ? 'Close Listing' : 'Activate Listing'}
                         </Button>
                         <Button size="sm" variant="ghost" onClick={() => handleDelete(job.id)}>
                           Delete
@@ -153,7 +174,11 @@ export const MyJobsPage = () => {
       <ConfirmDialog
         isOpen={pendingDeleteId !== null}
         title="Delete this listing?"
-        message="This removes the listing from this browser's demo workspace. This action cannot be undone."
+        message={
+          import.meta.env.DEV
+            ? "This removes the listing from this browser's demo workspace. This action cannot be undone."
+            : 'This will permanently delete the job listing. This action cannot be undone.'
+        }
         confirmLabel="Delete listing"
         variant="danger"
         onConfirm={confirmDelete}

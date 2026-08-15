@@ -21,6 +21,7 @@ import {
 } from '../../services/admin-users.service';
 import type { UserRole } from '../../types/auth.types';
 import styles from './UsersPage.module.css';
+import { SEO } from '../../components/seo/SEO';
 
 const ROLES: UserRole[] = ['CANDIDATE', 'EMPLOYER', 'EXPERT', 'EMPLOYEE', 'SUPER_ADMIN'];
 const PAGE_SIZE = 20;
@@ -371,6 +372,10 @@ export const UsersPage = () => {
 
   return (
     <div className={styles.page}>
+      <SEO
+        title="User Management | Recruitzaa Admin"
+        description="Assign administrative permissions and review active user credentials."
+      />
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>User management</h1>

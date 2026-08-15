@@ -6,14 +6,20 @@ import {
   updatePersonalInfo,
   updateEmploymentDetails,
   updateProfessionalSummary,
-  updateEducation,
   updateCareerProfile,
   updateExtendedPersonal,
   updateAccomplishments,
   type ProfileState,
 } from '../../../../store/slices/profileSlice';
-import { updateCandidateProfile } from '../../../../services/profile.service';
 import { useProfileSkillAndResume } from './useProfileSkillAndResume';
+import {
+  personalDetailsFormSchema,
+  summaryFormSchema,
+  careerFormSchema,
+  extendedPersonalFormSchema,
+  accomplishmentsFormSchema,
+  getFieldErrors,
+} from '../utils/profileValidation';
 
 export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
   const dispatch = useAppDispatch();
@@ -21,17 +27,21 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
 
   const [isEditingPersonal, setIsEditingPersonal] = useState(false);
   const [isEditingSummary, setIsEditingSummary] = useState(false);
-  const [isEditingEducation, setIsEditingEducation] = useState(false);
   const [isEditingCareer, setIsEditingCareer] = useState(false);
   const [isEditingExtendedPersonal, setIsEditingExtendedPersonal] = useState(false);
   const [isEditingAccomplishments, setIsEditingAccomplishments] = useState(false);
+
+  const [personalErrors, setPersonalErrors] = useState<Record<string, string>>({});
+  const [summaryErrors, setSummaryErrors] = useState<Record<string, string>>({});
+  const [careerErrors, setCareerErrors] = useState<Record<string, string>>({});
+  const [extendedPersonalErrors, setExtendedPersonalErrors] = useState<Record<string, string>>({});
+  const [accomplishmentsErrors, setAccomplishmentsErrors] = useState<Record<string, string>>({});
 
   const [personalForm, setPersonalForm] = useState({
     ...profile.personalInfo,
     ...profile.employmentDetails,
   });
   const [summaryForm, setSummaryForm] = useState({ ...profile.professionalSummary });
-  const [educationForm, setEducationForm] = useState({ ...profile.education });
   const [careerForm, setCareerForm] = useState({
     ...profile.careerProfile,
     desiredLocationsText: profile.careerProfile.desiredLocations.join(', '),
@@ -42,14 +52,17 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
   });
   const [accomplishmentsForm, setAccomplishmentsForm] = useState({ ...profile.accomplishments });
 
-  // Keep forms synced when profile loads from DB
+  // Forms are seeded once from `profile` via useState above, but the
+  // candidate's real profile loads asynchronously from the backend after
+  // mount (see useProfileForm). Without this resync, opening an edit form
+  // before that load resolves shows stale/empty defaults instead of the
+  // data that just arrived.
   useEffect(() => {
     setPersonalForm({
       ...profile.personalInfo,
       ...profile.employmentDetails,
     });
     setSummaryForm({ ...profile.professionalSummary });
-    setEducationForm({ ...profile.education });
     setCareerForm({
       ...profile.careerProfile,
       desiredLocationsText: profile.careerProfile.desiredLocations.join(', '),
@@ -61,21 +74,26 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
     setAccomplishmentsForm({ ...profile.accomplishments });
   }, [profile]);
 
-  const skillResume = useProfileSkillAndResume(appUser);
+  const skillResume = useProfileSkillAndResume(profile.skills, appUser);
 
   const startEditingPersonal = () => {
     setPersonalForm({ ...profile.personalInfo, ...profile.employmentDetails });
+    setPersonalErrors({});
     setIsEditingPersonal(true);
+  };
+
+  // `dataUrl` arrives already cropped/resized by PhotoUploadModal; an empty
+  // string means the user chose to remove their current photo.
+  const handleAvatarUpload = (dataUrl: string) => {
+    dispatch(updatePersonalInfo({ avatar: dataUrl }));
+    setPersonalForm((prev) => ({ ...prev, avatar: dataUrl }));
+    toast.success(dataUrl ? 'Profile photo updated.' : 'Profile photo removed.');
   };
 
   const startEditingSummary = () => {
     setSummaryForm({ ...profile.professionalSummary });
+    setSummaryErrors({});
     setIsEditingSummary(true);
-  };
-
-  const startEditingEducation = () => {
-    setEducationForm({ ...profile.education });
-    setIsEditingEducation(true);
   };
 
   const startEditingCareer = () => {
@@ -83,6 +101,7 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
       ...profile.careerProfile,
       desiredLocationsText: profile.careerProfile.desiredLocations.join(', '),
     });
+    setCareerErrors({});
     setIsEditingCareer(true);
   };
 
@@ -91,33 +110,42 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
       ...profile.extendedPersonal,
       languagesText: profile.extendedPersonal.languages.join(', '),
     });
+    setExtendedPersonalErrors({});
     setIsEditingExtendedPersonal(true);
   };
 
   const startEditingAccomplishments = () => {
     setAccomplishmentsForm({ ...profile.accomplishments });
+    setAccomplishmentsErrors({});
     setIsEditingAccomplishments(true);
   };
 
-  const savePersonalDetails = async () => {
-    const pInfo = {
-      firstName: personalForm.firstName,
-      lastName: personalForm.lastName,
-      phone: personalForm.phone,
-      location: personalForm.location,
-    };
-    const empDetails = {
-      currentCompany: personalForm.currentCompany,
-      currentDesignation: personalForm.currentDesignation,
-      totalExperience: personalForm.totalExperience,
-      currentCTC: personalForm.currentCTC,
-      noticePeriod: personalForm.noticePeriod,
-    };
-
-    dispatch(updatePersonalInfo(pInfo));
-    dispatch(updateEmploymentDetails(empDetails));
+  const savePersonalDetails = () => {
+    const errors = getFieldErrors(personalDetailsFormSchema, personalForm);
+    if (Object.keys(errors).length > 0) {
+      setPersonalErrors(errors);
+      toast.error('Fix the highlighted fields before saving.');
+      return;
+    }
+    dispatch(
+      updatePersonalInfo({
+        firstName: personalForm.firstName,
+        lastName: personalForm.lastName,
+        phone: personalForm.phone,
+        location: personalForm.location,
+      })
+    );
+    dispatch(
+      updateEmploymentDetails({
+        currentCompany: personalForm.currentCompany,
+        currentDesignation: personalForm.currentDesignation,
+        totalExperience: personalForm.totalExperience,
+        currentCTC: personalForm.currentCTC,
+        noticePeriod: personalForm.noticePeriod,
+      })
+    );
     setIsEditingPersonal(false);
-
+    setPersonalErrors({});
     dispatch(
       updateUserProfile({
         phone: personalForm.phone,
@@ -128,126 +156,76 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
         noticePeriod: personalForm.noticePeriod,
       })
     );
-
-    try {
-      await updateCandidateProfile({
-        personalInfo: pInfo,
-        employmentStatus: {
-          isEmployed: Boolean(personalForm.currentCompany),
-          currentCompany: personalForm.currentCompany,
-          currentRole: personalForm.currentDesignation,
-          currentSalary: personalForm.currentCTC,
-          noticePeriod: personalForm.noticePeriod,
-        },
-        preferredLocations: personalForm.location ? [personalForm.location] : [],
-      } as any);
-      toast.success('Personal and employment details saved to database.');
-    } catch {
-      toast.info('Personal details updated locally.');
-    }
+    toast.success('Personal and employment details updated.');
   };
 
-  const saveSummary = async () => {
+  const saveSummary = () => {
+    const errors = getFieldErrors(summaryFormSchema, summaryForm);
+    if (Object.keys(errors).length > 0) {
+      setSummaryErrors(errors);
+      toast.error('Fix the highlighted fields before saving.');
+      return;
+    }
     dispatch(updateProfessionalSummary({ ...summaryForm }));
     setIsEditingSummary(false);
+    setSummaryErrors({});
     dispatch(updateUserProfile({ summary: summaryForm.detailedSummary }));
-
-    try {
-      await updateCandidateProfile({
-        headline: summaryForm.headline,
-        summary: summaryForm.detailedSummary,
-        bio: summaryForm.detailedSummary,
-      } as any);
-      toast.success('Resume headline & summary saved to database.');
-    } catch {
-      toast.info('Summary updated locally.');
-    }
+    toast.success('Resume headline & summary updated.');
   };
 
-  const saveEducation = async () => {
-    dispatch(updateEducation({ ...educationForm }));
-    setIsEditingEducation(false);
-
-    try {
-      await updateCandidateProfile({
-        education: educationForm.university || educationForm.degree
-          ? [
-              {
-                institution: educationForm.university,
-                degree: educationForm.degree,
-                fieldOfStudy: educationForm.type,
-                graduationYear: educationForm.duration ? parseInt(educationForm.duration, 10) || undefined : undefined,
-              },
-            ]
-          : [],
-      } as any);
-      toast.success('Education history saved to database.');
-    } catch {
-      toast.info('Education history updated locally.');
+  const saveCareerProfile = () => {
+    const errors = getFieldErrors(careerFormSchema, careerForm);
+    if (Object.keys(errors).length > 0) {
+      setCareerErrors(errors);
+      toast.error('Fix the highlighted fields before saving.');
+      return;
     }
-  };
-
-  const saveCareerProfile = async () => {
-    const locations = careerForm.desiredLocationsText
-      .split(',')
-      .map((l) => l.trim())
-      .filter((l) => l.length > 0);
-
-    const updated = {
-      ...careerForm,
-      desiredLocations: locations,
-    };
-    dispatch(updateCareerProfile(updated));
+    dispatch(
+      updateCareerProfile({
+        ...careerForm,
+        desiredLocations: careerForm.desiredLocationsText
+          .split(',')
+          .map((l) => l.trim())
+          .filter((l) => l.length > 0),
+      })
+    );
     setIsEditingCareer(false);
-
-    try {
-      await updateCandidateProfile({
-        careerProfile: updated,
-        preferredLocations: locations,
-        preferredJobTypes: careerForm.desiredJobType ? [careerForm.desiredJobType] : [],
-      } as any);
-      toast.success('Career profile saved to database.');
-    } catch {
-      toast.info('Career profile updated locally.');
-    }
+    setCareerErrors({});
+    toast.success('Career profile updated.');
   };
 
-  const saveExtendedPersonal = async () => {
-    const languages = extendedPersonalForm.languagesText
-      .split(',')
-      .map((l) => l.trim())
-      .filter((l) => l.length > 0);
-
-    const updated = {
-      ...extendedPersonalForm,
-      languages,
-    };
-    dispatch(updateExtendedPersonal(updated));
+  const saveExtendedPersonal = () => {
+    const errors = getFieldErrors(extendedPersonalFormSchema, extendedPersonalForm);
+    if (Object.keys(errors).length > 0) {
+      setExtendedPersonalErrors(errors);
+      toast.error('Fix the highlighted fields before saving.');
+      return;
+    }
+    dispatch(
+      updateExtendedPersonal({
+        ...extendedPersonalForm,
+        languages: extendedPersonalForm.languagesText
+          .split(',')
+          .map((l) => l.trim())
+          .filter((l) => l.length > 0),
+      })
+    );
     setIsEditingExtendedPersonal(false);
-
-    try {
-      await updateCandidateProfile({
-        extendedPersonal: updated,
-        languages,
-      } as any);
-      toast.success('Personal details saved to database.');
-    } catch {
-      toast.info('Personal details updated locally.');
-    }
+    setExtendedPersonalErrors({});
+    toast.success('Personal details updated.');
   };
 
-  const saveAccomplishments = async () => {
+  const saveAccomplishments = () => {
+    const errors = getFieldErrors(accomplishmentsFormSchema, accomplishmentsForm);
+    if (Object.keys(errors).length > 0) {
+      setAccomplishmentsErrors(errors);
+      toast.error('Fix the highlighted fields before saving.');
+      return;
+    }
     dispatch(updateAccomplishments({ ...accomplishmentsForm }));
     setIsEditingAccomplishments(false);
-
-    try {
-      await updateCandidateProfile({
-        accomplishments: accomplishmentsForm,
-      } as any);
-      toast.success('Accomplishments saved to database.');
-    } catch {
-      toast.info('Accomplishments updated locally.');
-    }
+    setAccomplishmentsErrors({});
+    toast.success('Accomplishments updated.');
   };
 
   return {
@@ -255,8 +233,6 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
     setIsEditingPersonal,
     isEditingSummary,
     setIsEditingSummary,
-    isEditingEducation,
-    setIsEditingEducation,
     isEditingCareer,
     setIsEditingCareer,
     isEditingExtendedPersonal,
@@ -265,25 +241,27 @@ export const useProfileSectionEdit = (profile: ProfileState, appUser: any) => {
     setIsEditingAccomplishments,
     personalForm,
     setPersonalForm,
+    personalErrors,
     summaryForm,
     setSummaryForm,
-    educationForm,
-    setEducationForm,
+    summaryErrors,
     careerForm,
     setCareerForm,
+    careerErrors,
     extendedPersonalForm,
     setExtendedPersonalForm,
+    extendedPersonalErrors,
     accomplishmentsForm,
     setAccomplishmentsForm,
+    accomplishmentsErrors,
     startEditingPersonal,
+    handleAvatarUpload,
     startEditingSummary,
-    startEditingEducation,
     startEditingCareer,
     startEditingExtendedPersonal,
     startEditingAccomplishments,
     savePersonalDetails,
     saveSummary,
-    saveEducation,
     saveCareerProfile,
     saveExtendedPersonal,
     saveAccomplishments,

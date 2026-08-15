@@ -54,7 +54,7 @@ export const TasksWidget: React.FC = () => {
   return (
     <>
       <section
-        className="bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-4"
+        className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-4"
         aria-labelledby="tasks-title"
       >
         <div>
@@ -62,10 +62,10 @@ export const TasksWidget: React.FC = () => {
             id="tasks-title"
             className="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2"
           >
-            <ClipboardList size={16} className="text-[#c14f16]" aria-hidden="true" /> Assigned Tasks
-            & Deadline Tracker
+            <ClipboardList size={16} className="text-brand-primary" aria-hidden="true" /> Assigned
+            Tasks & Deadline Tracker
           </h2>
-          <p className="text-sm text-slate-400 dark:text-slate-500 mt-0.5">
+          <p className="text-sm text-slate-400 mt-0.5">
             Monitor sprint deliverables, trace task completion milestones, and check remaining
             deadline windows.
           </p>
@@ -84,7 +84,7 @@ export const TasksWidget: React.FC = () => {
               >
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                   <div>
-                    <span className="text-[9px] font-extrabold text-[#c14f16] tracking-wider uppercase block">
+                    <span className="text-xs font-extrabold text-brand-primary tracking-wider uppercase block">
                       {task.project}
                     </span>
                     <span className="text-sm font-bold text-slate-800 dark:text-slate-200 mt-0.5 block">
@@ -94,10 +94,10 @@ export const TasksWidget: React.FC = () => {
 
                   <div className="flex items-center gap-2 shrink-0">
                     <span
-                      className={`text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-wider ${
+                      className={`text-xs font-black px-2 py-0.5 rounded uppercase tracking-wider ${
                         task.priority === 'High'
                           ? 'bg-red-50 text-red-600 dark:bg-red-950/20 dark:text-red-400'
-                          : 'bg-slate-50 text-slate-500 dark:bg-slate-800 dark:text-slate-400'
+                          : 'bg-slate-50 text-slate-500 dark:bg-brand-card dark:text-slate-400'
                       }`}
                     >
                       {task.priority} Priority
@@ -108,7 +108,7 @@ export const TasksWidget: React.FC = () => {
                         handleUpdateStatus(task.id, e.target.value as Task['status'])
                       }
                       aria-label={`Update status for ${task.title}`}
-                      className="border border-slate-200 dark:border-slate-800 rounded px-2 py-1 text-sm bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-350 focus-visible:outline-2 focus-visible:outline-[#c14f16]"
+                      className="border border-slate-200 dark:border-slate-800 rounded px-2 py-1 text-sm bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-350 focus-visible:outline-2 focus-visible:outline-brand-primary"
                     >
                       <option value="Not Started">Not Started</option>
                       <option value="In Progress">In Progress</option>

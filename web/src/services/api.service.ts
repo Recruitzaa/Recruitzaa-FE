@@ -4,18 +4,57 @@
  * Uses the pre-configured axios instance from lib/axios.ts which
  * automatically attaches the Firebase ID token to every request.
  */
+import { z } from 'zod';
 import api from '../lib/axios';
 import type { AppUser } from '../types/auth.types';
 
 // ─── Response shapes (match BE camelCase output) ─────────────────
 
-interface AuthResponse {
-  user: AppUser;
-  message: string;
-}
+const userRoleSchema = z.enum(['CANDIDATE', 'EMPLOYER', 'EXPERT', 'EMPLOYEE', 'SUPER_ADMIN']);
 
-interface LogoutResponse {
-  message: string;
+// Kept in sync with types/auth.types.ts#AppUser by hand — this is the
+// boundary that actually needs to know if the backend's response drifted.
+const appUserSchema: z.ZodType<AppUser> = z.object({
+  id: z.string(),
+  email: z.string(),
+  firebaseUid: z.string().optional(),
+  role: userRoleSchema,
+  availableRoles: z.array(userRoleSchema),
+  activeRole: userRoleSchema.optional(),
+  displayName: z.string(),
+  photoUrl: z.string().nullish(),
+  phone: z.string().nullish(),
+  location: z.string().nullish(),
+  bio: z.string().nullish(),
+  isCurrentlyEmployed: z.boolean().nullish(),
+  currentCompany: z.string().nullish(),
+  currentRole: z.string().nullish(),
+  currentSalary: z.string().nullish(),
+  noticePeriod: z.string().nullish(),
+  summary: z.string().nullish(),
+  skills: z.array(z.string()).nullish(),
+  resumeFileName: z.string().nullish(),
+  resumeFileSize: z.string().nullish(),
+  isActive: z.boolean().nullish(),
+});
+
+const authResponseSchema = z.object({
+  user: appUserSchema,
+  message: z.string(),
+});
+
+const logoutResponseSchema = z.object({
+  message: z.string(),
+});
+
+/** Validates a response against its schema, throwing a readable error (not a raw ZodError) on mismatch. */
+function parseApiResponse<T>(schema: z.ZodType<T>, data: unknown, context: string): T {
+  const result = schema.safeParse(data);
+  if (!result.success) {
+    console.error(`Unexpected response shape from ${context}:`, result.error.flatten());
+    throw new Error(`The server returned an unexpected response from ${context}.`);
+  }
+  return result.data;
 }
 
 // ─── Auth API calls ──────────────────────────────────────────────
@@ -27,14 +66,15 @@ interface LogoutResponse {
 export const registerUser = async (
   firebaseToken: string,
   requestedRole: 'CANDIDATE' | 'EMPLOYER',
-  displayName?: string
+  displayName?: string,
+  signal?: AbortSignal
 ): Promise<AppUser> => {
-  const { data } = await api.post<AuthResponse>('/auth/register', {
-    firebaseToken,
-    requestedRole,
-    displayName,
-  });
-  return data.user;
+  const { data } = await api.post(
+    '/auth/register',
+    { firebaseToken, requestedRole, displayName },
+    { signal }
+  );
+  return parseApiResponse(authResponseSchema, data, 'POST /auth/register').user;
 };
 
 /**
@@ -42,35 +82,33 @@ export const registerUser = async (
  * Called after Firebase sign-in to fetch the user's profile and roles.
  */
 export const verifyUser = async (firebaseToken: string): Promise<AppUser> => {
-  const { data } = await api.post<AuthResponse>('/auth/verify', {
+  const { data } = await api.post('/auth/verify', {
     firebaseToken,
   });
-  return data.user;
+  return parseApiResponse(authResponseSchema, data, 'POST /auth/verify').user;
 };
 
 /**
  * Get the current authenticated user's profile.
  * Called by RoleGuard on page load to restore the session.
  */
-export const getMe = async (): Promise<AppUser> => {
-  const { data } = await api.get<AppUser>('/auth/me');
-  return data;
+export const getMe = async (signal?: AbortSignal): Promise<AppUser> => {
+  const { data } = await api.get('/auth/me', { signal });
+  return parseApiResponse(appUserSchema, data, 'GET /auth/me');
 };
 
 /**
  * Update the current user's profile.
  */
-export const updateProfile = async (
-  profileData: Partial<AppUser>
-): Promise<AppUser> => {
-  const { data } = await api.put<AppUser>('/auth/me', profileData);
-  return data;
+export const updateProfile = async (profileData: Partial<AppUser>): Promise<AppUser> => {
+  const { data } = await api.put('/auth/me', profileData);
+  return parseApiResponse(appUserSchema, data, 'PUT /auth/me');
 };
 
 /**
  * Logout — invalidate the Redis token cache on the Backend.
  */
-export const logoutUser = async (): Promise<LogoutResponse> => {
-  const { data } = await api.post<LogoutResponse>('/auth/logout');
-  return data;
+export const logoutUser = async (): Promise<{ message: string }> => {
+  const { data } = await api.post('/auth/logout');
+  return parseApiResponse(logoutResponseSchema, data, 'POST /auth/logout');
 };

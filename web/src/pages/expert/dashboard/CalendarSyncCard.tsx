@@ -27,12 +27,12 @@ export const CalendarSyncCard: React.FC = () => {
 
   return (
     <>
-      <div className="bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-6">
         <div>
           <h3 className="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-            <Calendar size={16} className="text-[#c14f16]" /> Calendar Sync & Availability
+            <Calendar size={16} className="text-brand-primary" /> Calendar Sync & Availability
           </h3>
-          <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1">
+          <p className="text-xs text-slate-400 mt-1">
             Connect your calendar to automatically block booked slot schedules.
           </p>
         </div>
@@ -44,7 +44,7 @@ export const CalendarSyncCard: React.FC = () => {
               <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                 Sync Google Calendar
               </span>
-              <span className="text-sm text-slate-400 dark:text-slate-500">
+              <span className="text-sm text-slate-400">
                 Auto-block slots matching GCal appointments.
               </span>
             </div>
@@ -52,8 +52,10 @@ export const CalendarSyncCard: React.FC = () => {
               type="button"
               onClick={() => handleToggleCalendar('googleCalendarConnected')}
               aria-label="Toggle Google Calendar sync connection"
-              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2 ${
-                settings.googleCalendarConnected ? 'bg-[#c14f16]' : 'bg-slate-300 dark:bg-slate-700'
+              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-primary focus-visible:outline-offset-2 ${
+                settings.googleCalendarConnected
+                  ? 'bg-brand-primary'
+                  : 'bg-slate-300 dark:bg-slate-700'
               }`}
             >
               <span
@@ -69,7 +71,7 @@ export const CalendarSyncCard: React.FC = () => {
               <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                 Sync Outlook Calendar
               </span>
-              <span className="text-sm text-slate-400 dark:text-slate-500">
+              <span className="text-sm text-slate-400">
                 Sync slots matching Microsoft Exchange bookings.
               </span>
             </div>
@@ -77,9 +79,9 @@ export const CalendarSyncCard: React.FC = () => {
               type="button"
               onClick={() => handleToggleCalendar('outlookCalendarConnected')}
               aria-label="Toggle Outlook Calendar sync connection"
-              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2 ${
+              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-primary focus-visible:outline-offset-2 ${
                 settings.outlookCalendarConnected
-                  ? 'bg-[#c14f16]'
+                  ? 'bg-brand-primary'
                   : 'bg-slate-300 dark:bg-slate-700'
               }`}
             >
@@ -95,12 +97,12 @@ export const CalendarSyncCard: React.FC = () => {
         {/* Capacity limit dropdown */}
         <div className="pt-4 border-t border-slate-100 dark:border-slate-850 flex items-center justify-between gap-4">
           <div className="flex items-start gap-2">
-            <ShieldAlert size={14} className="text-[#c14f16] shrink-0 mt-0.5" />
+            <ShieldAlert size={14} className="text-brand-primary shrink-0 mt-0.5" />
             <div>
               <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                 Max Sessions / Week
               </span>
-              <span className="text-sm text-slate-400 dark:text-slate-500">
+              <span className="text-sm text-slate-400">
                 Throttle intake capacity to prevent burn-out.
               </span>
             </div>
@@ -109,7 +111,7 @@ export const CalendarSyncCard: React.FC = () => {
             value={settings.maxSessionsPerWeek}
             onChange={handleCapacityChange}
             aria-label="Set maximum mentorship sessions per week"
-            className="border border-slate-200 dark:border-slate-850 rounded-lg px-2.5 py-1.5 text-sm bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px] min-w-[80px]"
+            className="border border-slate-200 dark:border-slate-850 rounded-lg px-2.5 py-1.5 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-brand-primary min-h-[44px] min-w-[80px]"
           >
             {[3, 5, 8, 10, 15].map((count) => (
               <option key={count} value={count}>

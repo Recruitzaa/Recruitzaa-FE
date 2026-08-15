@@ -6,14 +6,8 @@ import type {
 import { escapeLatex } from './latexUtils';
 
 export const generateDeedyCV = (profile: ProfileState): string => {
-  const {
-    personalInfo,
-    professionalSummary,
-    skills,
-    employmentHistory,
-    education,
-    projects,
-  } = profile;
+  const { personalInfo, professionalSummary, skills, employmentHistory, education, projects } =
+    profile;
 
   const firstName = escapeLatex(personalInfo.firstName || 'First');
   const lastName = escapeLatex(personalInfo.lastName || 'Last');
@@ -22,44 +16,57 @@ export const generateDeedyCV = (profile: ProfileState): string => {
   const location = escapeLatex(personalInfo.location || '');
   const headline = escapeLatex(professionalSummary?.headline || '');
 
-  const skillsList = skills && skills.length > 0
-    ? skills.map((s: string) => `\\textbullet{} ${escapeLatex(s)}`).join(' \\\\ \n')
-    : '';
+  const skillsList =
+    skills && skills.length > 0
+      ? skills.map((s: string) => `\\textbullet{} ${escapeLatex(s)}`).join(' \\\\ \n')
+      : '';
 
-  const experienceItems = employmentHistory && employmentHistory.length > 0
-    ? employmentHistory
-        .map((job: JobHistoryItem) => {
-          const bullets = job.keyResponsibilities && job.keyResponsibilities.length > 0
-            ? job.keyResponsibilities
-                .map((resp: string) => `\\item ${escapeLatex(resp)}`)
-                .join('\n')
-            : '';
+  const experienceItems =
+    employmentHistory && employmentHistory.length > 0
+      ? employmentHistory
+          .map((job: JobHistoryItem) => {
+            const bullets =
+              job.keyResponsibilities && job.keyResponsibilities.length > 0
+                ? job.keyResponsibilities
+                    .map((resp: string) => `\\item ${escapeLatex(resp)}`)
+                    .join('\n')
+                : '';
 
-          return `\\runsubsection{${escapeLatex(job.company || '')}}
+            return `\\runsubsection{${escapeLatex(job.company || '')}}
 \\descript{| ${escapeLatex(job.designation || '')}}
 \\location{${escapeLatex(job.duration || '')} | ${location}}
 \\vspace{\\topsep}
 ${bullets ? `\\begin{tightemize}\n${bullets}\n\\end{tightemize}` : ''}
 \\sectionsep`;
-        })
-        .join('\n\n')
-    : '';
+          })
+          .join('\n\n')
+      : '';
 
-  const projectsItems = projects && projects.length > 0
-    ? projects
-        .map((p: ProjectItem) => {
-          return `\\runsubsection{${escapeLatex(p.name)}}
+  const projectsItems =
+    projects && projects.length > 0
+      ? projects
+          .map((p: ProjectItem) => {
+            return `\\runsubsection{${escapeLatex(p.name)}}
 \\descript{| ${escapeLatex(p.client || '')}}
 \\location{${escapeLatex(p.duration || '')}}
 \\begin{tightemize}
 \\item ${escapeLatex(p.description || '')}
 \\end{tightemize}
 \\sectionsep`;
-        })
-        .join('\n\n')
-    : '';
+          })
+          .join('\n\n')
+      : '';
 
-  const hasEdu = Boolean(education?.degree || education?.university);
+  const educationItems =
+    education && education.length > 0
+      ? education
+          .map((edu) => {
+            return `\\subsection{${escapeLatex(edu.university || '')}}
+\\descript{${escapeLatex(edu.degree || '')}}
+\\location{${escapeLatex(edu.duration || '')}}`;
+          })
+          .join('\n')
+      : '';
 
   return `%-------------------------
 % Deedy - Two Column Resume
@@ -82,11 +89,9 @@ ${headline}
 \\begin{minipage}[t]{0.33\\textwidth} 
 
 ${
-  hasEdu
-    ? `\\section{Education} 
-\\subsection{${escapeLatex(education?.university || '')}}
-\\descript{${escapeLatex(education?.degree || '')}}
-\\location{${escapeLatex(education?.duration || '')}}
+  educationItems
+    ? `\\section{Education}
+${educationItems}
 \\sectionsep`
     : ''
 }

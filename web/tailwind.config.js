@@ -22,8 +22,12 @@ export default {
         },
         'brand-primary': 'var(--color-primary)',
         'brand-primary-hover': 'var(--color-primary-hover)',
+        'brand-primary-contrast': 'var(--color-primary-contrast)',
         'brand-primary-light': 'var(--color-primary-light)',
         'brand-charcoal': 'var(--color-dark)',
+        'brand-card': 'var(--color-card)',
+        'brand-surface': 'var(--color-surface)',
+        'brand-border': 'var(--color-border)',
       },
       borderRadius: {
         brand: 'var(--radius)',

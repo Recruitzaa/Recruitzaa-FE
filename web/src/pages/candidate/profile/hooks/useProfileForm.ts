@@ -5,6 +5,7 @@ import { setFullProfile } from '../../../../store/slices/profileSlice';
 import { getCandidateProfile } from '../../../../services/profile.service';
 import { useProfileSectionEdit } from './useProfileSectionEdit';
 import { useProfileListEdit } from './useProfileListEdit';
+import { scrollToElementId } from '../../../../lib/scrollToElement';
 
 /**
  * useProfileForm — Orchestrates sub-hooks for managing candidate profile forms.
@@ -26,11 +27,13 @@ export const useProfileForm = () => {
           const merged: any = {
             personalInfo: dbProfile.personalInfo || {
               firstName: appUser?.displayName ? appUser.displayName.split(' ')[0] : '',
-              lastName: appUser?.displayName ? appUser.displayName.split(' ').slice(1).join(' ') : '',
+              lastName: appUser?.displayName
+                ? appUser.displayName.split(' ').slice(1).join(' ')
+                : '',
               email: appUser?.email || '',
               phone: appUser?.phone || '',
               location: appUser?.location || '',
-              avatar: appUser?.photoURL || '',
+              avatar: appUser?.photoUrl || '',
             },
             employmentDetails: dbProfile.employmentStatus
               ? {
@@ -51,18 +54,24 @@ export const useProfileForm = () => {
               headline: dbProfile.headline || '',
               detailedSummary: dbProfile.summary || dbProfile.bio || '',
             },
-            skills: (dbProfile.skills && dbProfile.skills.length > 0)
-              ? dbProfile.skills.map((s: any) => (typeof s === 'string' ? s : s.name))
-              : (dbProfile.skillsFlat || []),
+            skills:
+              dbProfile.skills && dbProfile.skills.length > 0
+                ? dbProfile.skills.map((s: any) => (typeof s === 'string' ? s : s.name))
+                : dbProfile.skillsFlat || [],
             employmentHistory: dbProfile.experience || [],
-            education: (dbProfile.education && Array.isArray(dbProfile.education) && dbProfile.education.length > 0)
-              ? {
-                  degree: dbProfile.education[0].degree || '',
-                  university: dbProfile.education[0].institution || '',
-                  duration: dbProfile.education[0].graduationYear ? String(dbProfile.education[0].graduationYear) : '',
-                  type: 'Full Time',
-                }
-              : (dbProfile.education || { degree: '', university: '', duration: '', type: '' }),
+            education:
+              dbProfile.education &&
+              Array.isArray(dbProfile.education) &&
+              dbProfile.education.length > 0
+                ? {
+                    degree: dbProfile.education[0].degree || '',
+                    university: dbProfile.education[0].institution || '',
+                    duration: dbProfile.education[0].graduationYear
+                      ? String(dbProfile.education[0].graduationYear)
+                      : '',
+                    type: 'Full Time',
+                  }
+                : dbProfile.education || { degree: '', university: '', duration: '', type: '' },
             projects: dbProfile.projects || [],
             itSkills: dbProfile.itSkills || [],
             careerProfile: dbProfile.careerProfile || {
@@ -73,7 +82,9 @@ export const useProfileForm = () => {
               desiredJobType: '',
               desiredEmploymentType: '',
               desiredLocations: dbProfile.preferredLocations || [],
-              expectedSalary: dbProfile.salaryExpectation?.min ? String(dbProfile.salaryExpectation.min) : '',
+              expectedSalary: dbProfile.salaryExpectation?.min
+                ? String(dbProfile.salaryExpectation.min)
+                : '',
               preferredShift: '',
             },
             extendedPersonal: dbProfile.extendedPersonal || {
@@ -103,8 +114,12 @@ export const useProfileForm = () => {
               ...profile,
               personalInfo: {
                 ...profile.personalInfo,
-                firstName: appUser.displayName ? appUser.displayName.split(' ')[0] : profile.personalInfo.firstName,
-                lastName: appUser.displayName ? appUser.displayName.split(' ').slice(1).join(' ') : profile.personalInfo.lastName,
+                firstName: appUser.displayName
+                  ? appUser.displayName.split(' ')[0]
+                  : profile.personalInfo.firstName,
+                lastName: appUser.displayName
+                  ? appUser.displayName.split(' ').slice(1).join(' ')
+                  : profile.personalInfo.lastName,
                 email: appUser.email || profile.personalInfo.email,
                 phone: appUser.phone || profile.personalInfo.phone,
                 location: appUser.location || profile.personalInfo.location,
@@ -125,10 +140,7 @@ export const useProfileForm = () => {
   const listEdit = useProfileListEdit(profile);
 
   const scrollToSection = (sectionId: string) => {
-    const el = document.getElementById(sectionId);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToElementId(sectionId);
   };
 
   return {

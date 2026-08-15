@@ -1,6 +1,7 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Menu, Moon, Sun } from 'lucide-react';
 import { useTheme } from '../../../hooks/useTheme';
+import { useAppSelector } from '../../../store/hooks';
 
 const BREADCRUMB_MAP: Record<string, string> = {
   '/admin/dashboard': 'System Dashboard',
@@ -14,6 +15,7 @@ const BREADCRUMB_MAP: Record<string, string> = {
 export const AdminTopbar = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
   const location = useLocation();
   const { toggleTheme, isDark } = useTheme();
+  const { appUser } = useAppSelector((s) => s.auth);
   const currentPage = BREADCRUMB_MAP[location.pathname] ?? 'Admin';
 
   return (
@@ -21,28 +23,16 @@ export const AdminTopbar = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
       <button
         type="button"
         onClick={onOpenMenu}
-        className="md:hidden min-w-11 min-h-11 inline-flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700"
+        className="md:hidden min-w-11 min-h-11 inline-flex items-center justify-center rounded-lg border border-slate-200"
         aria-label="Open admin navigation"
       >
         <Menu size={20} />
       </button>
-      {/* Breadcrumbs */}
       <div>
-        <div className="hidden sm:flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-500">
-          <Link to="/" className="hover:text-slate-800 dark:hover:text-slate-300 transition-colors">
-            Home
-          </Link>
-          <span>/</span>
-          <Link
-            to="/admin/dashboard"
-            className="hover:text-slate-800 dark:hover:text-slate-300 transition-colors"
-          >
-            Admin
-          </Link>
-          <span>/</span>
-          <span className="text-slate-800 dark:text-slate-200 font-semibold">{currentPage}</span>
+        <div className="text-base font-extrabold text-slate-900 dark:text-white">
+          Welcome back, {appUser?.displayName?.split(' ')[0] || 'there'} 👋
         </div>
-        <div className="text-sm font-extrabold text-slate-900 dark:text-white mt-0.5">
+        <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">
           {currentPage}
         </div>
       </div>
@@ -52,7 +42,7 @@ export const AdminTopbar = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
         <button
           type="button"
           onClick={toggleTheme}
-          className="p-2 rounded-lg text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          className="p-2 rounded-lg text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 transition-colors"
           aria-label="Toggle dark mode"
         >
           {isDark ? <Sun size={16} /> : <Moon size={16} />}

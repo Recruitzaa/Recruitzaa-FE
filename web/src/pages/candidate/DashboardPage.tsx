@@ -2,6 +2,7 @@ import { Card } from '../../components/ui/Card';
 import { useAppSelector } from '../../store/hooks';
 import styles from './DashboardPage.module.css';
 import { mapReduxAppToActiveApp } from './DashboardPageUtils';
+import { SEO } from '../../components/seo/SEO';
 import { DashboardLeftCol } from './components/DashboardLeftCol';
 import { DashboardRightCol } from './components/DashboardRightCol';
 import { useJobPreferences } from '../../features/jobs/hooks/useJobPreferences';
@@ -43,7 +44,7 @@ export const DashboardPage = () => {
         profile.professionalSummary.headline,
         profile.skills.length,
         profile.employmentHistory.length,
-        profile.education.degree,
+        profile.education.length,
         profile.projects.length,
       ]
     : [appUser?.email, false, false, false, false, false];
@@ -53,16 +54,30 @@ export const DashboardPage = () => {
 
   return (
     <div className={styles.dashboard}>
-      <p className={styles.demoNotice} role="status">
-        Demo workspace: application stages are illustrative browser data until the employer workflow
-        is connected.
-      </p>
+      <SEO
+        title="Workspace Overview | Recruitzaa"
+        description="Track applications, saved jobs, and profile readiness."
+      />
+      <header className={styles.pageHeader}>
+        <h1 className={styles.pageTitle}>Overview</h1>
+        <p className={styles.pageSubtitle}>
+          Track applications, saved jobs, and profile readiness.
+        </p>
+      </header>
+      {import.meta.env.DEV && (
+        <p className={styles.demoNotice} role="status">
+          Demo workspace: application stages are illustrative browser data until the employer
+          workflow is connected.
+        </p>
+      )}
       {/* KPI Cards */}
       <div className={styles.kpiGrid}>
         <Card className={styles.kpiCard}>
           <div className={styles.kpiHead}>
             <span className={styles.kpiTitle}>Applications Submitted</span>
-            <span className={`${styles.kpiTag} ${styles.tagWarning}`}>Demo data</span>
+            {import.meta.env.DEV && (
+              <span className={`${styles.kpiTag} ${styles.tagWarning}`}>Demo data</span>
+            )}
           </div>
           <div className={styles.kpiValue}>{totalSubmitted}</div>
         </Card>
@@ -70,7 +85,9 @@ export const DashboardPage = () => {
         <Card className={styles.kpiCard}>
           <div className={styles.kpiHead}>
             <span className={styles.kpiTitle}>Saved Jobs</span>
-            <span className={`${styles.kpiTag} ${styles.tagSuccess}`}>Browser saved</span>
+            {import.meta.env.DEV && (
+              <span className={`${styles.kpiTag} ${styles.tagSuccess}`}>Browser saved</span>
+            )}
           </div>
           <div className={styles.kpiValue}>{savedJobIds.length}</div>
         </Card>
@@ -78,7 +95,9 @@ export const DashboardPage = () => {
         <Card className={styles.kpiCard}>
           <div className={styles.kpiHead}>
             <span className={styles.kpiTitle}>Scheduled Interviews</span>
-            <span className={`${styles.kpiTag} ${styles.tagWarning}`}>Demo pipeline</span>
+            {import.meta.env.DEV && (
+              <span className={`${styles.kpiTag} ${styles.tagWarning}`}>Demo pipeline</span>
+            )}
           </div>
           <div className={styles.kpiValue}>{interviewsCount}</div>
         </Card>

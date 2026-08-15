@@ -40,7 +40,7 @@ describe('WorkspaceSwitcher Component', () => {
     store.dispatch(setUser(mockAppUser));
   });
 
-  it('renders Shift To header and lists only the non-active roles', () => {
+  it('renders switch workspace header and lists only the non-active roles', () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
@@ -49,7 +49,7 @@ describe('WorkspaceSwitcher Component', () => {
       </Provider>
     );
 
-    expect(screen.getByText('Shift To...')).toBeInTheDocument();
+    expect(screen.getByText('Switch workspace')).toBeInTheDocument();
 
     // activeRole is CANDIDATE (Job Seeker). So Employer and Tutor should be listed, but Job Seeker should NOT.
     expect(

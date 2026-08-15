@@ -42,9 +42,9 @@ export const ResumeOptimizer: React.FC = () => {
   };
 
   return (
-    <Card className="p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+    <Card className="p-6 bg-white dark:bg-brand-card border border-slate-200">
       <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-1">Resume Optimizer</h2>
-      <p className="text-sm text-slate-500 dark:text-slate-400 mb-5">
+      <p className="text-sm text-slate-500 mb-5">
         Examples only. Replace bracketed prompts with facts you can verify; never copy invented
         metrics.
       </p>
@@ -53,12 +53,12 @@ export const ResumeOptimizer: React.FC = () => {
         {bullets.map((bullet) => (
           <div
             key={bullet.id}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700"
+            className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200"
           >
             {/* Original Text */}
             <div className="flex flex-col justify-between">
               <div>
-                <span className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wide">
+                <span className="text-sm font-bold text-slate-400 uppercase tracking-wide">
                   Original
                 </span>
                 <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 italic">
@@ -68,7 +68,7 @@ export const ResumeOptimizer: React.FC = () => {
             </div>
 
             {/* AI Optimized Text */}
-            <div className="flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-slate-700 pt-3 lg:pt-0 lg:pl-4">
+            <div className="flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-slate-200 pt-3 lg:pt-0 lg:pl-4">
               <div>
                 <span className="text-sm font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-wide">
                   Example rewrite
@@ -76,7 +76,7 @@ export const ResumeOptimizer: React.FC = () => {
                 <p className="text-sm text-slate-900 dark:text-slate-100 font-medium mt-1">
                   "{bullet.optimized}"
                 </p>
-                <div className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-2 flex items-center gap-1">
+                <div className="text-xs text-emerald-600 dark:text-emerald-400 mt-2 flex items-center gap-1">
                   <span className="font-bold">✓ Impact:</span> {bullet.benefit}
                 </div>
               </div>

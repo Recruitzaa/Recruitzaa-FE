@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import styles from '../LandingPage.module.css';
+import { useAppSelector } from '../../../store/hooks';
 
 interface PortalContent {
   title: string;
@@ -27,45 +28,63 @@ interface LandingPageSectionsProps {
 
 export const LandingPageSections = ({ content }: LandingPageSectionsProps) => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const audience = useAppSelector((s) => s.ui.audience);
+  // Cold visitors (no stated preference) see both audiences so employers who
+  // land on the candidate-facing homepage can still discover their path.
+  // Once someone has self-identified via the UtilityBar toggle, stop
+  // cross-promoting the other side on their own homepage.
+  const showSeekerCard = audience !== 'employer';
+  const showEmployerCard = audience !== 'job_seeker';
+  const showBoth = showSeekerCard && showEmployerCard;
 
   return (
     <>
       <section className={styles.section} aria-labelledby="landing-solutions-title">
         <div className={styles.sectionHeader}>
           <p>Tailored Solutions</p>
-          <h2 id="landing-solutions-title">Built for Candidates & Enterprise Employers</h2>
+          <h2 id="landing-solutions-title">
+            {showBoth
+              ? 'Built for Candidates & Enterprise Employers'
+              : showSeekerCard
+                ? 'Built for Candidates'
+                : 'Built for Enterprise Employers'}
+          </h2>
           <span>
             Whether you are scaling a technical team or advancing your career, Recruitzaa provides
             structured tools for clearer workflows.
           </span>
         </div>
 
-        <div className={styles.twoCards}>
-          <article className={styles.portalCard}>
-            <h3>{content.portals.seekers.title}</h3>
-            <p>{content.portals.seekers.description}</p>
-            <ul>
-              {content.portals.seekers.bullets.map((b) => (
-                <li key={b}>{b}</li>
-              ))}
-            </ul>
-            <Link to="/jobs" className={styles.primaryLink} aria-label="Explore all jobs">
-              {content.portals.seekers.cta}
-            </Link>
-          </article>
+        <div className={showBoth ? styles.twoCards : styles.singleCard}>
+          {showSeekerCard && (
+            <article className={styles.portalCard}>
+              <h3>{content.portals.seekers.title}</h3>
+              <p>{content.portals.seekers.description}</p>
+              <ul>
+                {content.portals.seekers.bullets.map((b) => (
+                  <li key={b}>{b}</li>
+                ))}
+              </ul>
+              <Link to="/jobs" className={styles.primaryLink} aria-label="Explore all jobs">
+                {content.portals.seekers.cta}
+              </Link>
+            </article>
+          )}
 
-          <article className={styles.portalCard}>
-            <h3>{content.portals.employers.title}</h3>
-            <p>{content.portals.employers.description}</p>
-            <ul>
-              {content.portals.employers.bullets.map((b) => (
-                <li key={b}>{b}</li>
-              ))}
-            </ul>
-            <Link to="/employers" className={styles.darkLink} aria-label="Start hiring talent">
-              {content.portals.employers.cta}
-            </Link>
-          </article>
+          {showEmployerCard && (
+            <article className={styles.portalCard}>
+              <h3>{content.portals.employers.title}</h3>
+              <p>{content.portals.employers.description}</p>
+              <ul>
+                {content.portals.employers.bullets.map((b) => (
+                  <li key={b}>{b}</li>
+                ))}
+              </ul>
+              <Link to="/employers" className={styles.darkLink} aria-label="Start hiring talent">
+                {content.portals.employers.cta}
+              </Link>
+            </article>
+          )}
         </div>
       </section>
 

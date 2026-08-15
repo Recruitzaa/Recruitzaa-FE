@@ -23,16 +23,18 @@ export const generateAwesomeCV = (profile: ProfileState): string => {
   const location = escapeLatex(personalInfo.location || '');
   const headline = escapeLatex(professionalSummary?.headline || '');
 
-  const experienceItems = employmentHistory && employmentHistory.length > 0
-    ? employmentHistory
-        .map((job: JobHistoryItem) => {
-          const bullets = job.keyResponsibilities && job.keyResponsibilities.length > 0
-            ? job.keyResponsibilities
-                .map((resp: string) => `      \\item {${escapeLatex(resp)}}`)
-                .join('\n')
-            : '';
+  const experienceItems =
+    employmentHistory && employmentHistory.length > 0
+      ? employmentHistory
+          .map((job: JobHistoryItem) => {
+            const bullets =
+              job.keyResponsibilities && job.keyResponsibilities.length > 0
+                ? job.keyResponsibilities
+                    .map((resp: string) => `      \\item {${escapeLatex(resp)}}`)
+                    .join('\n')
+                : '';
 
-          return `  \\cventry
+            return `  \\cventry
     {${escapeLatex(job.designation || '')}} % Job title
     {${escapeLatex(job.company || '')}} % Organization
     {${location}} % Location
@@ -40,14 +42,15 @@ export const generateAwesomeCV = (profile: ProfileState): string => {
     {
 ${bullets ? `      \\begin{cvitems}\n${bullets}\n      \\end{cvitems}` : ''}
     }`;
-        })
-        .join('\n\n')
-    : '';
+          })
+          .join('\n\n')
+      : '';
 
-  const projectsItems = projects && projects.length > 0
-    ? projects
-        .map((p: ProjectItem) => {
-          return `  \\cventry
+  const projectsItems =
+    projects && projects.length > 0
+      ? projects
+          .map((p: ProjectItem) => {
+            return `  \\cventry
     {${escapeLatex(p.client || '')}}
     {${escapeLatex(p.name)}}
     {}
@@ -57,11 +60,23 @@ ${bullets ? `      \\begin{cvitems}\n${bullets}\n      \\end{cvitems}` : ''}
         \\item {${escapeLatex(p.description || '')}}
       \\end{cvitems}
     }`;
-        })
-        .join('\n\n')
-    : '';
+          })
+          .join('\n\n')
+      : '';
 
-  const hasEdu = Boolean(education?.degree || education?.university);
+  const educationItems =
+    education && education.length > 0
+      ? education
+          .map((edu) => {
+            return `  \\cventry
+    {${escapeLatex(edu.degree || '')}}
+    {${escapeLatex(edu.university || '')}}
+    {${location}}
+    {${escapeLatex(edu.duration || '')}}
+    {}`;
+          })
+          .join('\n\n')
+      : '';
 
   return `%-------------------------
 % Awesome CV LaTeX Template
@@ -127,15 +142,10 @@ ${projectsItems}
 }
 
 ${
-  hasEdu
+  educationItems
     ? `\\cvsection{Education}
 \\begin{cventries}
-  \\cventry
-    {${escapeLatex(education?.degree || '')}}
-    {${escapeLatex(education?.university || '')}}
-    {${location}}
-    {${escapeLatex(education?.duration || '')}}
-    {}
+${educationItems}
 \\end{cventries}`
     : ''
 }

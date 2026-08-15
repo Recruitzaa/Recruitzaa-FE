@@ -15,8 +15,11 @@ export const EarningsWidget: React.FC = () => {
     <>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Total Earnings */}
-        <div className="bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm flex items-center gap-4">
-          <div className="p-3.5 bg-[#c14f16]/10 text-[#c14f16] rounded-xl" aria-hidden="true">
+        <div className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm flex items-center gap-4">
+          <div
+            className="p-3.5 bg-brand-primary/10 text-brand-primary rounded-xl"
+            aria-hidden="true"
+          >
             <IndianRupee size={22} />
           </div>
           <div>
@@ -30,7 +33,7 @@ export const EarningsWidget: React.FC = () => {
         </div>
 
         {/* Completed Sessions */}
-        <div className="bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm flex items-center gap-4">
+        <div className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm flex items-center gap-4">
           <div
             className="p-3.5 bg-green-50 dark:bg-green-950/20 text-green-600 rounded-xl"
             aria-hidden="true"
@@ -48,7 +51,7 @@ export const EarningsWidget: React.FC = () => {
         </div>
 
         {/* Pending Payouts */}
-        <div className="bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm flex items-center gap-4">
+        <div className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm flex items-center gap-4">
           <div
             className="p-3.5 bg-amber-50 dark:bg-amber-950/20 text-amber-600 rounded-xl"
             aria-hidden="true"

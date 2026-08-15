@@ -1,17 +1,67 @@
-import { Link } from 'react-router-dom';
+import { type FormEvent, useId } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { RecoveryShell } from '../../components/layout/RecoveryShell/RecoveryShell';
+import { SEO } from '../../components/seo/SEO';
+import { ROUTES } from '../../config/routes';
+import styles from './NotFoundPage.module.css';
 
-export const NotFoundPage = () => (
-  <main className="min-h-screen grid place-content-center gap-4 bg-slate-50 dark:bg-slate-950 px-4 text-center">
-    <p className="text-sm font-bold uppercase tracking-widest text-brand-primary">404</p>
-    <h1 className="text-3xl font-black text-slate-900 dark:text-white">Page not found</h1>
-    <p className="text-sm text-slate-600 dark:text-slate-300">
-      The page may have moved or the address may be incorrect.
-    </p>
-    <Link
-      to="/"
-      className="mx-auto inline-flex min-h-11 items-center rounded-lg bg-brand-primary px-4 py-2 text-sm font-bold text-white"
-    >
-      Return home
-    </Link>
-  </main>
-);
+export const NotFoundPage = () => {
+  const navigate = useNavigate();
+  const searchId = useId();
+
+  const handleSearch = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const query = String(formData.get('q') ?? '').trim();
+    navigate(
+      query ? `${ROUTES.PUBLIC.JOBS}?keyword=${encodeURIComponent(query)}` : ROUTES.PUBLIC.JOBS
+    );
+  };
+
+  return (
+    <RecoveryShell>
+      <SEO
+        title="Page not found | Recruitzaa"
+        description="This Recruitzaa page could not be found. Browse jobs or explore employer hiring tools."
+      />
+      <div className={styles.page}>
+        <div className={styles.container}>
+          <p className={styles.eyebrow}>404</p>
+          <h1>We couldn&apos;t find that page</h1>
+          <p className={styles.lead}>
+            The link may be incorrect or the page may have moved. Try a job search or jump to a
+            popular destination below.
+          </p>
+
+          <form
+            className={styles.search}
+            role="search"
+            aria-label="Job search"
+            onSubmit={handleSearch}
+          >
+            <input
+              id={searchId}
+              name="q"
+              type="search"
+              placeholder="Job title, company, or skills"
+              aria-label="Search jobs"
+            />
+            <button type="submit">Search jobs</button>
+          </form>
+
+          <div className={styles.actions}>
+            <Link to={ROUTES.PUBLIC.JOBS} className={styles.primaryLink}>
+              Browse jobs
+            </Link>
+            <Link to={ROUTES.PUBLIC.EMPLOYERS} className={styles.secondaryLink}>
+              For employers
+            </Link>
+            <Link to={ROUTES.PUBLIC.HOME} className={styles.secondaryLink}>
+              Return home
+            </Link>
+          </div>
+        </div>
+      </div>
+    </RecoveryShell>
+  );
+};

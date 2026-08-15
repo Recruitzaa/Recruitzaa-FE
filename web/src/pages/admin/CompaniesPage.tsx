@@ -22,6 +22,7 @@ import {
   type CompanyStatus,
 } from '../../services/companies.service';
 import styles from './CompaniesPage.module.css';
+import { SEO } from '../../components/seo/SEO';
 
 const PAGE_SIZE = 20;
 
@@ -224,6 +225,10 @@ export const CompaniesPage = () => {
 
   return (
     <div className={styles.page}>
+      <SEO
+        title="Registered Companies | Recruitzaa Admin"
+        description="Manage enterprise employer company accounts and approval status."
+      />
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>Company directory</h1>

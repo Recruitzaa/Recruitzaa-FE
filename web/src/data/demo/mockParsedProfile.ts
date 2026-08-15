@@ -1,5 +1,12 @@
-import type { ProfileState } from '../../../../store/slices/profileSlice';
+import { nanoid } from 'nanoid';
+import type { ProfileState } from '../../store/slices/profileSlice';
 
+/**
+ * Canned "AI resume parser" output. Only ever loaded when the user explicitly
+ * confirms the "Update resume" AI autofill action — never used as the
+ * default state for a new profile (see profileInitialState.ts, which is
+ * genuinely blank).
+ */
 export const getMockParsedProfile = (email: string): ProfileState => ({
   personalInfo: {
     firstName: 'Arjun',
@@ -34,6 +41,7 @@ export const getMockParsedProfile = (email: string): ProfileState => ({
   ],
   employmentHistory: [
     {
+      id: nanoid(),
       designation: 'Lead Mobile Frontend Architect',
       company: 'Microsoft Corporation',
       duration: 'Oct 2024 to Present (1 year 9 months)',
@@ -43,6 +51,7 @@ export const getMockParsedProfile = (email: string): ProfileState => ({
       ],
     },
     {
+      id: nanoid(),
       designation: 'Senior Mobile Engineer',
       company: 'Amazon Web Services',
       duration: 'Jan 2022 to Oct 2024 (2 years 9 months)',
@@ -51,14 +60,29 @@ export const getMockParsedProfile = (email: string): ProfileState => ({
       ],
     },
   ],
-  education: {
-    degree: 'M.Tech / M.E. Computer Science and Engineering',
-    university: 'IIT Madras, Chennai',
-    duration: '2020-2022',
-    type: 'Full Time',
-  },
+  education: [
+    {
+      id: nanoid(),
+      level: 'Post Graduation',
+      degree: 'M.Tech / M.E. Computer Science and Engineering',
+      university: 'IIT Madras, Chennai',
+      duration: '2020-2022',
+      type: 'Full Time',
+      percentage: '8.4 CGPA',
+    },
+    {
+      id: nanoid(),
+      level: 'Graduation',
+      degree: 'B.Tech Computer Science and Engineering',
+      university: 'IIT Madras, Chennai',
+      duration: '2016-2020',
+      type: 'Full Time',
+      percentage: '8.1 CGPA',
+    },
+  ],
   projects: [
     {
+      id: nanoid(),
       name: 'CloudSync IoT Client SDK',
       client: 'AWS Platform Group',
       duration: '2023',
@@ -66,8 +90,20 @@ export const getMockParsedProfile = (email: string): ProfileState => ({
     },
   ],
   itSkills: [
-    { skill: 'React Native', version: '0.74', lastUsed: '2026', experience: '4 Years 0 Months' },
-    { skill: 'TypeScript', version: '5.2', lastUsed: '2026', experience: '6 Years 0 Months' },
+    {
+      id: nanoid(),
+      skill: 'React Native',
+      version: '0.74',
+      lastUsed: '2026',
+      experience: '4 Years 0 Months',
+    },
+    {
+      id: nanoid(),
+      skill: 'TypeScript',
+      version: '5.2',
+      lastUsed: '2026',
+      experience: '6 Years 0 Months',
+    },
   ],
   careerProfile: {
     industry: 'IT Services & Consulting',
@@ -79,14 +115,18 @@ export const getMockParsedProfile = (email: string): ProfileState => ({
     desiredLocations: ['Bangalore', 'Remote', 'Chennai'],
     expectedSalary: '₹ 34,00,000',
     preferredShift: 'Day Shift',
+    workAuthorization: 'Indian Citizen – no visa/sponsorship required',
+    willingToRelocate: 'Yes',
+    preferredWorkMode: 'Hybrid',
   },
   extendedPersonal: {
     gender: 'Male',
     maritalStatus: 'Single / Unmarried',
     dob: '05 Mar 2000',
-    category: 'General / OBC',
     address: 'No 42, 10th Cross, Indiranagar, Bangalore, Karnataka - 560038',
     languages: ['English', 'Hindi', 'Tamil'],
+    nationality: 'Indian',
+    differentlyAbled: 'No',
   },
   accomplishments: {
     onlineProfile: 'https://www.linkedin.com/in/arjun-kumar',
@@ -94,6 +134,19 @@ export const getMockParsedProfile = (email: string): ProfileState => ({
     publication: 'AI-Driven Automated Test Script Generation - IEEE Paper 2024',
     presentation: 'https://slideshare.net/arjun-kumar/mean-stack-optimizations',
     patent: 'System and Method for Hardware-Backed Encrypted Auth Sessions - Patent Pending',
-    certification: 'AWS Certified Solutions Architect – Associate (2025)',
   },
+  references: [],
+  certifications: [
+    {
+      id: nanoid(),
+      name: 'AWS Certified Solutions Architect – Associate',
+      issuer: 'Amazon Web Services',
+      issueDate: '2025',
+      credentialId: 'AWS-SAA-9284712',
+      credentialUrl: 'https://www.credly.com/badges/aws-saa-arjun-kumar',
+      fileName: '',
+      fileSizeLabel: '',
+      fileDataUrl: '',
+    },
+  ],
 });

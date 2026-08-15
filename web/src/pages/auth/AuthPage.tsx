@@ -13,14 +13,16 @@ import {
 } from 'lucide-react';
 import { PageTransition } from '../../components/layout/PageTransition';
 import styles from './AuthPage.module.css';
-import logo from '../../assets/logo.png';
+import { BrandLogo } from '../../components/brand/BrandLogo';
 import { useAppDispatch } from '../../store/hooks';
 import { setAuthLoading } from '../../store/slices/auth.slice';
 import { LoginForm } from './components/LoginForm';
 import { RegisterForm } from './components/RegisterForm';
+import { safeLocalStorage } from '../../lib/safeStorage';
 import { SegmentedControl } from './components/SegmentedControl';
 import { trackEvent } from '../../services/analytics.service';
 import { useTheme } from '../../hooks/useTheme';
+import { ROUTES, isSafeInternalPath } from '../../config/routes';
 
 type Role = 'candidate' | 'employer';
 type Mode = 'login' | 'register';
@@ -33,7 +35,7 @@ const ROLE_OPTIONS = [
 const TRUST_POINTS = [
   { icon: Target, text: 'Profile-based job discovery' },
   { icon: Sparkles, text: 'ATS resume scoring' },
-  { icon: MessageSquareQuote, text: 'Mock interview coach' },
+  { icon: MessageSquareQuote, text: 'AI Career Coach' },
   { icon: ClipboardList, text: 'Structured application tracker' },
 ];
 
@@ -47,9 +49,9 @@ export const AuthPage = () => {
   const intent = searchParams.get('intent');
   const [role, setRole] = useState<Role>(intent === 'employer' ? 'employer' : 'candidate');
   const routeMode: Mode | null =
-    location.pathname === '/login'
+    location.pathname === ROUTES.AUTH.LOGIN
       ? 'login'
-      : location.pathname === '/register'
+      : location.pathname === ROUTES.AUTH.REGISTER
         ? 'register'
         : null;
   const [legacyMode, setLegacyMode] = useState<Mode>(
@@ -64,7 +66,7 @@ export const AuthPage = () => {
   const switchMode = (nextMode: Mode) => {
     if (routeMode) {
       navigate({
-        pathname: nextMode === 'login' ? '/login' : '/register',
+        pathname: nextMode === 'login' ? ROUTES.AUTH.LOGIN : ROUTES.AUTH.REGISTER,
         search: searchParams.toString(),
       });
     } else {
@@ -73,10 +75,10 @@ export const AuthPage = () => {
   };
 
   const handleSuccess = (_uid: string) => {
-    localStorage.setItem('selected_role', role);
+    safeLocalStorage.setItem('selected_role', role);
     dispatch(setAuthLoading(true)); // Force RoleGuard to wait for Firebase listener
     const next = searchParams.get('next');
-    navigate(next?.startsWith('/') && !next.startsWith('//') ? next : '/launchpad');
+    navigate(isSafeInternalPath(next) ? next : '/launchpad');
   };
 
   return (
@@ -85,10 +87,10 @@ export const AuthPage = () => {
         <title>Sign In & Get Started — Recruitzaa Workspace</title>
         <meta
           name="description"
-          content="Access your candidate, employer, or administrator control panel on Recruitzaa."
+          content="Sign in or create a Recruitzaa account as a job seeker or employer."
         />
       </Helmet>
-      <main className={styles.page}>
+      <main className={styles.page} tabIndex={-1}>
         <button
           type="button"
           className={styles.themeToggle}
@@ -101,11 +103,12 @@ export const AuthPage = () => {
         {/* ── Left brand panel (desktop only) ── */}
         <section className={styles.brandPanel}>
           <Link to="/" className={styles.logoContainer} aria-label="Recruitzaa home">
-            <img src={logo} alt="Recruitzaa logo" width="140" height="36" />
+            <BrandLogo size={50} />
           </Link>
 
           <p className={styles.brandCopy}>
-            One workspace for exploring roles, managing candidates, and tracking recruitment work.
+            One workspace for exploring roles, managing candidates, and tracking your hiring
+            pipeline.
           </p>
 
           <ul className={styles.trustPoints}>
@@ -128,7 +131,7 @@ export const AuthPage = () => {
         {/* ── Right form panel ── */}
         <section className={styles.formPanel}>
           <Link to="/" className={styles.mobileLogo} aria-label="Recruitzaa home">
-            <img src={logo} alt="Recruitzaa logo" width="120" height="31" />
+            <BrandLogo size={34} />
           </Link>
 
           <div className={styles.card}>
@@ -157,15 +160,15 @@ export const AuthPage = () => {
                   aria-pressed={mode === 'register'}
                   onClick={() => switchMode('register')}
                 >
-                  Create Account
+                  Create an Account
                 </button>
               </div>
             )}
 
             {role === 'employer' && (
               <p className={styles.verificationNotice}>
-                Employer publishing access requires business-email and company verification after
-                registration.
+                Employer publishing access requires a business email address and company
+                verification after registration.
               </p>
             )}
 

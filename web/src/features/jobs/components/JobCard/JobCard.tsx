@@ -5,6 +5,10 @@ import { useAppSelector } from '../../../../store/hooks';
 import { Bookmark } from 'lucide-react';
 import { useJobPreferences } from '../../hooks/useJobPreferences';
 import { useToast } from '../../../../hooks/useToast';
+import { ROUTES } from '../../../../config/routes';
+import type { JobListNavigationState } from '../../jobListNavigation';
+import { safeSessionStorage } from '../../../../lib/safeStorage';
+import { getReadableTextColor } from '../../../../lib/contrastColor';
 import styles from './JobCard.module.css';
 
 interface JobCardProps {
@@ -12,7 +16,7 @@ interface JobCardProps {
   title: string;
   company: string;
   location: string;
-  type: string;
+  workplace: string;
   salary: string;
   postedAt: string;
   matchScore: number;
@@ -21,6 +25,8 @@ interface JobCardProps {
   avatarColor: string;
   isPriority?: boolean;
   source?: string;
+  /** Full list URL (path + query) for context-preserving back navigation. */
+  listOrigin?: string;
 }
 
 export const JobCard = ({
@@ -28,7 +34,7 @@ export const JobCard = ({
   title,
   company,
   location,
-  type,
+  workplace,
   salary,
   postedAt,
   matchScore,
@@ -37,6 +43,7 @@ export const JobCard = ({
   avatarColor,
   isPriority,
   source,
+  listOrigin,
 }: JobCardProps) => {
   const navigate = useNavigate();
   const toast = useToast();
@@ -46,15 +53,31 @@ export const JobCard = ({
   const isSaved = savedJobIds.includes(id);
   const isPortalView = currentPath.startsWith('/candidate');
   const detailsLink = isPortalView ? `/candidate/jobs/${id}` : `/jobs/${id}`;
+  const detailState: JobListNavigationState | undefined = listOrigin
+    ? { from: listOrigin }
+    : undefined;
+  const rememberScroll = () => {
+    if (listOrigin) {
+      safeSessionStorage.setItem(`scroll:${listOrigin}`, String(window.scrollY));
+    }
+  };
 
   return (
-    <Card className={styles.jobCard} role="article">
+    <Card className={styles.jobCard} role="article" aria-label={`${title} at ${company}`}>
       <div className={styles.topRow}>
-        <div className={styles.avatar} style={{ backgroundColor: avatarColor }}>
+        <div
+          className={styles.avatar}
+          style={{ backgroundColor: avatarColor, color: getReadableTextColor(avatarColor) }}
+        >
           {avatarText}
         </div>
         <div className={styles.mainInfo}>
-          <Link to={detailsLink} className={styles.title}>
+          <Link
+            to={detailsLink}
+            state={detailState}
+            className={styles.title}
+            onClick={rememberScroll}
+          >
             {title}
           </Link>
           <div className={styles.companyInfo}>
@@ -63,7 +86,7 @@ export const JobCard = ({
               &middot;
             </span>{' '}
             {location}
-            {location.toLowerCase().includes(type.toLowerCase()) ? '' : ` (${type})`}
+            {location.toLowerCase().includes(workplace.toLowerCase()) ? '' : ` (${workplace})`}
           </div>
         </div>
         {isAuthenticated ? (
@@ -80,7 +103,7 @@ export const JobCard = ({
           aria-pressed={isSaved}
           onClick={() => {
             if (!isAuthenticated) {
-              navigate(`/login?next=${encodeURIComponent(detailsLink)}`);
+              navigate(ROUTES.AUTH.loginWithNext(detailsLink));
               return;
             }
             toggleSavedJob(id);
@@ -115,18 +138,20 @@ export const JobCard = ({
         </div>
         <div className={styles.actions}>
           <Link
-            to={
+            to={isAuthenticated ? '/candidate/ai-hub' : ROUTES.AUTH.loginWithNext(detailsLink)}
+            aria-label={
               isAuthenticated
-                ? '/candidate/ai-hub'
-                : `/login?next=${encodeURIComponent(detailsLink)}`
+                ? 'Open the AI hub to compare your profile with roles'
+                : `Sign in to see your profile match for ${title} at ${company}`
             }
-            aria-label={`Check ATS fit score for ${title} role at ${company}`}
             className={`${styles.actionBtn} ${styles.outlineAction}`}
           >
             {isAuthenticated ? 'Check profile fit' : 'Sign in for match'}
           </Link>
           <Link
             to={detailsLink}
+            state={detailState}
+            onClick={rememberScroll}
             aria-label={`View details for ${title} role at ${company}`}
             className={`${styles.actionBtn} ${styles.primaryAction}`}
           >

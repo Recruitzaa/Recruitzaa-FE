@@ -3,16 +3,26 @@ import { Card } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import styles from './AdminDashboardPage.module.css';
+import { SEO } from '../../components/seo/SEO';
 
 export const AdminDashboardPage = () => {
   return (
     <div className={styles.dashboard}>
+      <SEO
+        title="Platform Overview | Recruitzaa Admin"
+        description="Track users, active companies, token counts, and system metrics."
+      />
+      <div className="mb-6">
+        <h1 className="text-xl font-extrabold text-slate-900 dark:text-white">Platform Overview</h1>
+      </div>
       {/* KPI Cards */}
       <div className={styles.kpiGrid}>
         <Card className={styles.kpiCard}>
           <div className={styles.kpiHead}>
             <span className={styles.kpiTitle}>Total Users</span>
-            <span className={`${styles.kpiTag} ${styles.tagSuccess}`}>+1.2K This Month</span>
+            {import.meta.env.DEV && (
+              <span className={`${styles.kpiTag} ${styles.tagSuccess}`}>+1.2K This Month</span>
+            )}
           </div>
           <div className={styles.kpiValue}>14,592</div>
         </Card>
@@ -20,7 +30,9 @@ export const AdminDashboardPage = () => {
         <Card className={styles.kpiCard}>
           <div className={styles.kpiHead}>
             <span className={styles.kpiTitle}>Active Companies</span>
-            <span className={`${styles.kpiTag} ${styles.tagSuccess}`}>+12 This Month</span>
+            {import.meta.env.DEV && (
+              <span className={`${styles.kpiTag} ${styles.tagSuccess}`}>+12 This Month</span>
+            )}
           </div>
           <div className={styles.kpiValue}>348</div>
         </Card>
@@ -28,15 +40,19 @@ export const AdminDashboardPage = () => {
         <Card className={styles.kpiCard}>
           <div className={styles.kpiHead}>
             <span className={styles.kpiTitle}>Active Jobs</span>
-            <span className={`${styles.kpiTag} ${styles.tagPrimary}`}>24 Pending</span>
+            {import.meta.env.DEV && (
+              <span className={`${styles.kpiTag} ${styles.tagPrimary}`}>24 Pending</span>
+            )}
           </div>
           <div className={styles.kpiValue}>2,105</div>
         </Card>
 
         <Card className={styles.kpiCard}>
           <div className={styles.kpiHead}>
-            <span className={styles.kpiTitle}>AI Credits Usage</span>
-            <span className={`${styles.kpiTag} ${styles.tagWarning}`}>88% Quota</span>
+            <span className={styles.kpiTitle}>AI Token Usage</span>
+            {import.meta.env.DEV && (
+              <span className={`${styles.kpiTag} ${styles.tagWarning}`}>88% Quota</span>
+            )}
           </div>
           <div className={styles.kpiValue}>4.2M</div>
         </Card>
@@ -115,33 +131,43 @@ export const AdminDashboardPage = () => {
             </div>
 
             <div className={styles.activityFeed}>
-              <div className={styles.activityItem}>
-                <div className={styles.activityIcon}>✓</div>
-                <div className={styles.activityContent}>
-                  <p>
-                    <strong>Arjun Kumar</strong> updated their resume.
-                  </p>
-                  <span className={styles.activityTime}>2 minutes ago</span>
+              {import.meta.env.DEV ? (
+                <>
+                  <div className={styles.activityItem}>
+                    <div className={styles.activityIcon}>✓</div>
+                    <div className={styles.activityContent}>
+                      <p>
+                        <strong>Arjun Kumar</strong> updated their resume.
+                      </p>
+                      <span className={styles.activityTime}>2 minutes ago</span>
+                    </div>
+                  </div>
+                  <div className={styles.activityItem}>
+                    <div className={`${styles.activityIcon} bg-red-600 text-white font-bold`}>
+                      !
+                    </div>
+                    <div className={styles.activityContent}>
+                      <p>
+                        <strong>Razorpay</strong> exceeded their monthly AI screen limit.
+                      </p>
+                      <span className={styles.activityTime}>1 hour ago</span>
+                    </div>
+                  </div>
+                  <div className={styles.activityItem}>
+                    <div className={styles.activityIcon}>+</div>
+                    <div className={styles.activityContent}>
+                      <p>
+                        <strong>New Company Registered:</strong> Zomato Media Ltd.
+                      </p>
+                      <span className={styles.activityTime}>3 hours ago</span>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="p-6 text-center text-slate-500 text-sm">
+                  No recent system alerts.
                 </div>
-              </div>
-              <div className={styles.activityItem}>
-                <div className={`${styles.activityIcon} bg-red-600 text-white font-bold`}>!</div>
-                <div className={styles.activityContent}>
-                  <p>
-                    <strong>Razorpay</strong> exceeded their monthly AI screen limit.
-                  </p>
-                  <span className={styles.activityTime}>1 hour ago</span>
-                </div>
-              </div>
-              <div className={styles.activityItem}>
-                <div className={styles.activityIcon}>+</div>
-                <div className={styles.activityContent}>
-                  <p>
-                    <strong>New Company Registered:</strong> Zomato Media Ltd.
-                  </p>
-                  <span className={styles.activityTime}>3 hours ago</span>
-                </div>
-              </div>
+              )}
             </div>
           </Card>
         </div>
@@ -154,28 +180,32 @@ export const AdminDashboardPage = () => {
             <div className={styles.meterItem}>
               <div className={styles.meterHead}>
                 <span>API Uptime</span>
-                <span className="text-emerald-600 font-bold">99.9%</span>
+                <span className="text-emerald-600 font-bold">100.0%</span>
               </div>
               <div className={styles.meterBar}>
-                <div className={`${styles.meterFill} bg-emerald-600 w-[99.9%]`}></div>
+                <div className={`${styles.meterFill} bg-emerald-600 w-[100%]`}></div>
               </div>
             </div>
             <div className={styles.meterItem}>
               <div className={styles.meterHead}>
-                <span>OpenAI Tokens</span>
-                <span>85%</span>
+                <span>AI Token Usage</span>
+                <span>{import.meta.env.DEV ? '85%' : '0%'}</span>
               </div>
               <div className={styles.meterBar}>
-                <div className={`${styles.meterFill} w-[85%]`}></div>
+                <div
+                  className={`${styles.meterFill} ${import.meta.env.DEV ? 'w-[85%]' : 'w-0'}`}
+                ></div>
               </div>
             </div>
             <div className={styles.meterItem}>
               <div className={styles.meterHead}>
                 <span>Database Load</span>
-                <span>42%</span>
+                <span>{import.meta.env.DEV ? '42%' : 'Normal'}</span>
               </div>
               <div className={styles.meterBar}>
-                <div className={`${styles.meterFill} w-[42%]`}></div>
+                <div
+                  className={`${styles.meterFill} ${import.meta.env.DEV ? 'w-[42%]' : 'w-[5%]'}`}
+                ></div>
               </div>
             </div>
           </Card>

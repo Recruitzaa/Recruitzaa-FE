@@ -1,9 +1,9 @@
 import type { ProfileState } from './profileSlice.types';
 
-/**
- * Clean initial candidate profile state.
- * All fields start empty for new registrations until populated by the user or fetched from the database.
- */
+// Genuinely blank — a brand-new candidate must never see another person's
+// (previously "Arjun Kumar") pre-filled data. Demo/sample data lives under
+// src/data/demo/ and is only loaded via an explicit, confirmed user action
+// (e.g. the AI resume-parser autofill).
 export const initialProfileState: ProfileState = {
   personalInfo: {
     firstName: '',
@@ -11,6 +11,9 @@ export const initialProfileState: ProfileState = {
     email: '',
     phone: '',
     location: '',
+    // Empty until the candidate uploads their own photo. ProfileBannerCard
+    // falls back to the signed-in provider's photo (e.g. Google), then to an
+    // initials placeholder — never a stock photo of an unrelated person.
     avatar: '',
   },
   employmentDetails: {
@@ -26,12 +29,7 @@ export const initialProfileState: ProfileState = {
   },
   skills: [],
   employmentHistory: [],
-  education: {
-    degree: '',
-    university: '',
-    duration: '',
-    type: '',
-  },
+  education: [],
   projects: [],
   itSkills: [],
   careerProfile: {
@@ -44,14 +42,18 @@ export const initialProfileState: ProfileState = {
     desiredLocations: [],
     expectedSalary: '',
     preferredShift: '',
+    workAuthorization: '',
+    willingToRelocate: '',
+    preferredWorkMode: '',
   },
   extendedPersonal: {
     gender: '',
     maritalStatus: '',
     dob: '',
-    category: '',
     address: '',
     languages: [],
+    nationality: '',
+    differentlyAbled: '',
   },
   accomplishments: {
     onlineProfile: '',
@@ -59,6 +61,7 @@ export const initialProfileState: ProfileState = {
     publication: '',
     presentation: '',
     patent: '',
-    certification: '',
   },
+  references: [],
+  certifications: [],
 };

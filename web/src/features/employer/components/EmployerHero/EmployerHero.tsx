@@ -1,6 +1,7 @@
 import styles from './EmployerHero.module.css';
 import { Button } from '../../../../components/ui/Button';
 import { Link } from 'react-router-dom';
+import { ROUTES } from '../../../../config/routes';
 
 export const EmployerHero = () => {
   return (
@@ -15,7 +16,7 @@ export const EmployerHero = () => {
             respond to seasonal demand, and secure professionals who perform.
           </p>
           <div className={styles.actions}>
-            <Link to="/register?intent=employer">
+            <Link to={ROUTES.AUTH.REGISTER_EMPLOYER}>
               <Button size="lg" className={styles.primaryBtn}>
                 Start Hiring
               </Button>

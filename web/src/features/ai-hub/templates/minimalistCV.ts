@@ -16,7 +16,8 @@ export const generateMinimalistCV = (profile: ProfileState): string => {
     accomplishments,
   } = profile;
 
-  const fullName = `${personalInfo.firstName || ''} ${personalInfo.lastName || ''}`.trim() || 'Your Name';
+  const fullName =
+    `${personalInfo.firstName || ''} ${personalInfo.lastName || ''}`.trim() || 'Your Name';
   const email = personalInfo.email || '';
   const phone = personalInfo.phone || '';
   const location = personalInfo.location || '';
@@ -27,26 +28,38 @@ export const generateMinimalistCV = (profile: ProfileState): string => {
     phone ? escapeLatex(phone) : '',
     email ? `\\href{mailto:${escapeLatex(email)}}{${escapeLatex(email)}}` : '',
     linkedin ? `\\href{https://${escapeLatex(linkedin)}}{${escapeLatex(linkedin)}}` : '',
-  ].filter(Boolean).join(' $|$ ');
+  ]
+    .filter(Boolean)
+    .join(' $|$ ');
 
-  const experienceItems = employmentHistory && employmentHistory.length > 0
-    ? employmentHistory
-        .map((job: JobHistoryItem) => {
-          const bullets = job.keyResponsibilities && job.keyResponsibilities.length > 0
-            ? job.keyResponsibilities
-                .map((resp: string) => `  \\item ${escapeLatex(resp)}`)
-                .join('\n')
-            : '';
+  const experienceItems =
+    employmentHistory && employmentHistory.length > 0
+      ? employmentHistory
+          .map((job: JobHistoryItem) => {
+            const bullets =
+              job.keyResponsibilities && job.keyResponsibilities.length > 0
+                ? job.keyResponsibilities
+                    .map((resp: string) => `  \\item ${escapeLatex(resp)}`)
+                    .join('\n')
+                : '';
 
-          return `\\noindent \\textbf{${escapeLatex(job.company || '')}} \\hfill ${escapeLatex(job.duration || '')} \\\\
+            return `\\noindent \\textbf{${escapeLatex(job.company || '')}} \\hfill ${escapeLatex(job.duration || '')} \\\\
 \\textit{${escapeLatex(job.designation || '')}} \\hfill \\textit{${escapeLatex(location)}}
 ${bullets ? `\\begin{itemize}[leftmargin=*,noitemsep,topsep=2pt]\n${bullets}\n\\end{itemize}` : ''}
 \\vspace{6pt}`;
-        })
-        .join('\n\n')
-    : '';
+          })
+          .join('\n\n')
+      : '';
 
-  const hasEdu = Boolean(education?.degree || education?.university);
+  const educationItems =
+    education && education.length > 0
+      ? education
+          .map((edu) => {
+            return `\\noindent \\textbf{${escapeLatex(edu.university || '')}} \\hfill ${escapeLatex(edu.duration || '')} \\\\
+\\textit{${escapeLatex(edu.degree || '')}} \\hfill \\textit{${escapeLatex(location)}}`;
+          })
+          .join('\n\\vspace{4pt}\n')
+      : '';
 
   return `%-------------------------
 % Minimalist Academic/Executive CV
@@ -90,10 +103,9 @@ ${experienceItems}`
 }
 
 ${
-  hasEdu
+  educationItems
     ? `\\noindent \\textbf{\\large Education} \\\\[4pt]
-\\noindent \\textbf{${escapeLatex(education?.university || '')}} \\hfill ${escapeLatex(education?.duration || '')} \\\\
-\\textit{${escapeLatex(education?.degree || '')}} \\hfill \\textit{${escapeLatex(location)}}
+${educationItems}
 \\vspace{8pt}`
     : ''
 }

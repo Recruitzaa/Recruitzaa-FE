@@ -9,11 +9,7 @@ import type {
 } from '../../../store/slices/profileSlice.types';
 import { setFullProfile } from '../../../store/slices/profileSlice';
 import { getCandidateProfile } from '../../../services/profile.service';
-import {
-  LATEX_TEMPLATES,
-  generateLatex,
-  getTemplateById,
-} from '../templates';
+import { LATEX_TEMPLATES, generateLatex, getTemplateById } from '../templates';
 import { ResumeApiService } from '../../../services/resume.service';
 import {
   FileCode2,
@@ -60,7 +56,11 @@ const JakesResumePreview: React.FC<{ profile: ProfileState; candidateName: strin
             {contactItems.map((item, idx) => (
               <React.Fragment key={idx}>
                 {idx > 0 && <span>|</span>}
-                <span className={item.includes('@') || item.includes('.com') ? 'text-blue-700 underline' : ''}>
+                <span
+                  className={
+                    item.includes('@') || item.includes('.com') ? 'text-blue-700 underline' : ''
+                  }
+                >
                   {item}
                 </span>
               </React.Fragment>
@@ -82,20 +82,24 @@ const JakesResumePreview: React.FC<{ profile: ProfileState; candidateName: strin
       )}
 
       {/* Education */}
-      {(profile.education?.degree || profile.education?.university) && (
+      {profile.education.length > 0 && (
         <div className="mb-4">
           <h2 className="text-xs font-bold uppercase tracking-widest border-b border-slate-900 pb-0.5 mb-1.5 text-slate-900 font-sans">
             Education
           </h2>
-          <div className="flex justify-between items-baseline text-xs font-bold">
-            <span>{profile.education.university}</span>
-            <span className="font-normal text-slate-600">{profile.education.duration}</span>
-          </div>
-          {profile.education.degree && (
-            <div className="text-xs text-slate-700 italic mt-0.5">
-              {profile.education.degree} {profile.education.type ? `(${profile.education.type})` : ''}
+          {profile.education.map((edu, idx) => (
+            <div key={idx} className={idx > 0 ? 'mt-2' : undefined}>
+              <div className="flex justify-between items-baseline text-xs font-bold">
+                <span>{edu.university}</span>
+                <span className="font-normal text-slate-600">{edu.duration}</span>
+              </div>
+              {edu.degree && (
+                <div className="text-xs text-slate-700 italic mt-0.5">
+                  {edu.degree} {edu.type ? `(${edu.type})` : ''}
+                </div>
+              )}
             </div>
-          )}
+          ))}
         </div>
       )}
 
@@ -114,7 +118,8 @@ const JakesResumePreview: React.FC<{ profile: ProfileState; candidateName: strin
                   <span className="font-normal text-slate-600">{job.duration}</span>
                 </div>
                 <div className="italic text-slate-700 mb-1">
-                  {job.company} {profile.personalInfo.location ? `— ${profile.personalInfo.location}` : ''}
+                  {job.company}{' '}
+                  {profile.personalInfo.location ? `— ${profile.personalInfo.location}` : ''}
                 </div>
                 {job.keyResponsibilities && job.keyResponsibilities.length > 0 && (
                   <ul className="list-disc pl-4 space-y-0.5 text-slate-700 leading-relaxed">
@@ -143,7 +148,12 @@ const JakesResumePreview: React.FC<{ profile: ProfileState; candidateName: strin
             {profile.projects.map((proj: ProjectItem, idx: number) => (
               <div key={idx} className="text-xs">
                 <div className="flex justify-between items-baseline font-bold">
-                  <span>{proj.name} {proj.client && <span className="font-normal italic text-slate-600">| {proj.client}</span>}</span>
+                  <span>
+                    {proj.name}{' '}
+                    {proj.client && (
+                      <span className="font-normal italic text-slate-600">| {proj.client}</span>
+                    )}
+                  </span>
                   <span className="font-normal text-slate-600">{proj.duration}</span>
                 </div>
                 <p className="text-slate-700 mt-0.5 leading-relaxed">{proj.description}</p>
@@ -154,7 +164,9 @@ const JakesResumePreview: React.FC<{ profile: ProfileState; candidateName: strin
       )}
 
       {/* Technical Skills */}
-      {(profile.skills.length > 0 || profile.itSkills.length > 0 || profile.accomplishments?.certification) && (
+      {(profile.skills.length > 0 ||
+        profile.itSkills.length > 0 ||
+        profile.certifications.length > 0) && (
         <div className="mb-2 pt-1">
           <h2 className="text-xs font-bold uppercase tracking-widest border-b border-slate-900 pb-0.5 mb-2 text-slate-900 font-sans">
             Technical Skills
@@ -169,13 +181,19 @@ const JakesResumePreview: React.FC<{ profile: ProfileState; candidateName: strin
             {profile.itSkills.length > 0 && (
               <div>
                 <strong className="font-semibold text-slate-900">Tools & Frameworks: </strong>
-                <span className="text-slate-700">{profile.itSkills.map((i: ITSkillItem) => `${i.skill} (${i.experience || 'Proficient'})`).join(', ')}</span>
+                <span className="text-slate-700">
+                  {profile.itSkills
+                    .map((i: ITSkillItem) => `${i.skill} (${i.experience || 'Proficient'})`)
+                    .join(', ')}
+                </span>
               </div>
             )}
-            {profile.accomplishments?.certification && (
+            {profile.certifications.length > 0 && (
               <div>
                 <strong className="font-semibold text-slate-900">Certifications: </strong>
-                <span className="text-slate-700">{profile.accomplishments.certification}</span>
+                <span className="text-slate-700">
+                  {profile.certifications.map((c) => c.name).join(', ')}
+                </span>
               </div>
             )}
           </div>
@@ -197,9 +215,7 @@ const ModernCVPreview: React.FC<{ profile: ProfileState; candidateName: string }
       {/* Top Corporate Banner Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start pb-4 mb-4 border-b-2 border-sky-600 gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-sky-800 tracking-tight">
-            {candidateName}
-          </h1>
+          <h1 className="text-2xl font-extrabold text-sky-800 tracking-tight">{candidateName}</h1>
           {profile.professionalSummary.headline && (
             <p className="text-sm font-semibold text-slate-600 mt-0.5">
               {profile.professionalSummary.headline}
@@ -257,7 +273,8 @@ const ModernCVPreview: React.FC<{ profile: ProfileState; candidateName: string }
                 </div>
                 <div className="col-span-9 pl-2 border-l border-slate-200">
                   <div className="font-bold text-slate-900">
-                    {job.designation} <span className="font-normal text-slate-500">at {job.company}</span>
+                    {job.designation}{' '}
+                    <span className="font-normal text-slate-500">at {job.company}</span>
                   </div>
                   {profile.personalInfo.location && (
                     <div className="text-slate-500 text-[11px] mb-1">
@@ -281,28 +298,35 @@ const ModernCVPreview: React.FC<{ profile: ProfileState; candidateName: string }
       </div>
 
       {/* Education */}
-      {(profile.education?.degree || profile.education?.university) && (
+      {profile.education.length > 0 && (
         <div className="mb-4">
           <h2 className="text-xs font-bold uppercase tracking-wider text-sky-700 border-b border-sky-200 pb-1 mb-2 flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-sky-600"></span>
             Education
           </h2>
-          <div className="grid grid-cols-12 gap-2 text-xs pl-1">
-            <div className="col-span-3 font-semibold text-sky-900 text-[11.5px]">
-              {profile.education.duration}
-            </div>
-            <div className="col-span-9 pl-2 border-l border-slate-200">
-              <div className="font-bold text-slate-900">{profile.education.degree}</div>
-              <div className="text-slate-600 italic text-[11.5px]">
-                {profile.education.university} {profile.education.type ? `(${profile.education.type})` : ''}
+          {profile.education.map((edu, idx) => (
+            <div
+              key={idx}
+              className={`grid grid-cols-12 gap-2 text-xs pl-1 ${idx > 0 ? 'mt-2' : ''}`}
+            >
+              <div className="col-span-3 font-semibold text-sky-900 text-[11.5px]">
+                {edu.duration}
+              </div>
+              <div className="col-span-9 pl-2 border-l border-slate-200">
+                <div className="font-bold text-slate-900">{edu.degree}</div>
+                <div className="text-slate-600 italic text-[11.5px]">
+                  {edu.university} {edu.type ? `(${edu.type})` : ''}
+                </div>
               </div>
             </div>
-          </div>
+          ))}
         </div>
       )}
 
       {/* Skills */}
-      {(profile.skills.length > 0 || profile.itSkills.length > 0 || profile.accomplishments?.certification) && (
+      {(profile.skills.length > 0 ||
+        profile.itSkills.length > 0 ||
+        profile.certifications.length > 0) && (
         <div className="mb-2">
           <h2 className="text-xs font-bold uppercase tracking-wider text-sky-700 border-b border-sky-200 pb-1 mb-2 flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-sky-600"></span>
@@ -318,13 +342,17 @@ const ModernCVPreview: React.FC<{ profile: ProfileState; candidateName: string }
             {profile.itSkills.length > 0 && (
               <div>
                 <strong className="font-semibold text-slate-900">Tools: </strong>
-                <span className="text-slate-700">{profile.itSkills.map((i: ITSkillItem) => i.skill).join(', ')}</span>
+                <span className="text-slate-700">
+                  {profile.itSkills.map((i: ITSkillItem) => i.skill).join(', ')}
+                </span>
               </div>
             )}
-            {profile.accomplishments?.certification && (
+            {profile.certifications.length > 0 && (
               <div>
                 <strong className="font-semibold text-slate-900">Certifications: </strong>
-                <span className="text-slate-700">{profile.accomplishments.certification}</span>
+                <span className="text-slate-700">
+                  {profile.certifications.map((c) => c.name).join(', ')}
+                </span>
               </div>
             )}
           </div>
@@ -372,14 +400,18 @@ const DeedyCVPreview: React.FC<{ profile: ProfileState; candidateName: string }>
         {/* ── LEFT COLUMN (35% Width) ── */}
         <div className="col-span-4 border-r border-slate-200 pr-4 space-y-4">
           {/* Education */}
-          {(profile.education?.degree || profile.education?.university) && (
+          {profile.education.length > 0 && (
             <div>
               <h2 className="text-[11px] font-black uppercase tracking-wider text-purple-900 border-b border-purple-400 pb-0.5 mb-1.5">
                 Education
               </h2>
-              <div className="font-bold text-xs text-slate-900">{profile.education.university}</div>
-              <div className="text-[11px] text-purple-700 font-medium">{profile.education.degree}</div>
-              <div className="text-[10.5px] text-slate-500">{profile.education.duration}</div>
+              {profile.education.map((edu, idx) => (
+                <div key={idx} className={idx > 0 ? 'mt-2' : undefined}>
+                  <div className="font-bold text-xs text-slate-900">{edu.university}</div>
+                  <div className="text-[11px] text-purple-700 font-medium">{edu.degree}</div>
+                  <div className="text-[10.5px] text-slate-500">{edu.duration}</div>
+                </div>
+              ))}
             </div>
           )}
 
@@ -421,13 +453,15 @@ const DeedyCVPreview: React.FC<{ profile: ProfileState; candidateName: string }>
         {/* ── RIGHT COLUMN (65% Width) ── */}
         <div className="col-span-8 space-y-4">
           {/* Summary */}
-          {(profile.professionalSummary.detailedSummary || profile.professionalSummary.headline) && (
+          {(profile.professionalSummary.detailedSummary ||
+            profile.professionalSummary.headline) && (
             <div>
               <h2 className="text-[11px] font-black uppercase tracking-wider text-purple-900 border-b border-purple-400 pb-0.5 mb-1.5">
                 Profile
               </h2>
               <p className="text-xs text-slate-700 leading-relaxed">
-                {profile.professionalSummary.detailedSummary || profile.professionalSummary.headline}
+                {profile.professionalSummary.detailedSummary ||
+                  profile.professionalSummary.headline}
               </p>
             </div>
           )}
@@ -442,7 +476,10 @@ const DeedyCVPreview: React.FC<{ profile: ProfileState; candidateName: string }>
                 {profile.employmentHistory.map((job: JobHistoryItem, idx: number) => (
                   <div key={idx} className="text-xs">
                     <div className="flex justify-between items-baseline font-bold">
-                      <span className="text-slate-900">{job.company} <span className="font-semibold text-purple-800">| {job.designation}</span></span>
+                      <span className="text-slate-900">
+                        {job.company}{' '}
+                        <span className="font-semibold text-purple-800">| {job.designation}</span>
+                      </span>
                       <span className="text-[11px] font-normal text-slate-500">{job.duration}</span>
                     </div>
                     {job.keyResponsibilities && job.keyResponsibilities.length > 0 && (
@@ -501,7 +538,9 @@ const AwesomeCVPreview: React.FC<{ profile: ProfileState; candidateName: string 
             {contactItems.map((item, idx) => (
               <React.Fragment key={idx}>
                 {idx > 0 && <span>•</span>}
-                <span className={item.includes('@') ? 'text-emerald-700 font-medium underline' : ''}>
+                <span
+                  className={item.includes('@') ? 'text-emerald-700 font-medium underline' : ''}
+                >
                   {item}
                 </span>
               </React.Fragment>
@@ -541,7 +580,8 @@ const AwesomeCVPreview: React.FC<{ profile: ProfileState; candidateName: string 
                   )}
                 </div>
                 <div className="font-semibold text-slate-700 text-xs mb-1">
-                  {job.company} {profile.personalInfo.location ? `(${profile.personalInfo.location})` : ''}
+                  {job.company}{' '}
+                  {profile.personalInfo.location ? `(${profile.personalInfo.location})` : ''}
                 </div>
                 {job.keyResponsibilities && job.keyResponsibilities.length > 0 && (
                   <ul className="list-disc pl-4 space-y-0.5 text-slate-700 leading-relaxed">
@@ -602,7 +642,11 @@ const MinimalistCVPreview: React.FC<{ profile: ProfileState; candidateName: stri
             {contactItems.map((item, idx) => (
               <React.Fragment key={idx}>
                 {idx > 0 && <span>·</span>}
-                <span className={item.includes('@') || item.includes('.com') ? 'text-slate-900 underline' : ''}>
+                <span
+                  className={
+                    item.includes('@') || item.includes('.com') ? 'text-slate-900 underline' : ''
+                  }
+                >
                   {item}
                 </span>
               </React.Fragment>
@@ -639,7 +683,8 @@ const MinimalistCVPreview: React.FC<{ profile: ProfileState; candidateName: stri
                   <span className="text-slate-500 font-mono text-[11px]">{job.duration}</span>
                 </div>
                 <div className="italic text-slate-700 text-xs mb-1">
-                  {job.designation} {profile.personalInfo.location ? `— ${profile.personalInfo.location}` : ''}
+                  {job.designation}{' '}
+                  {profile.personalInfo.location ? `— ${profile.personalInfo.location}` : ''}
                 </div>
                 {job.keyResponsibilities && job.keyResponsibilities.length > 0 && (
                   <ul className="list-disc pl-4 space-y-0.5 text-slate-700">
@@ -657,16 +702,20 @@ const MinimalistCVPreview: React.FC<{ profile: ProfileState; candidateName: stri
       </div>
 
       {/* Education */}
-      {(profile.education?.degree || profile.education?.university) && (
+      {profile.education.length > 0 && (
         <div className="mb-4">
           <h2 className="text-xs font-bold uppercase tracking-widest text-slate-800 mb-1">
             Education
           </h2>
-          <div className="flex justify-between items-baseline text-xs">
-            <strong className="text-slate-900">{profile.education.university}</strong>
-            <span className="text-slate-500 font-mono text-[11px]">{profile.education.duration}</span>
-          </div>
-          <div className="text-slate-700 italic text-xs">{profile.education.degree}</div>
+          {profile.education.map((edu, idx) => (
+            <div key={idx} className={idx > 0 ? 'mt-2' : undefined}>
+              <div className="flex justify-between items-baseline text-xs">
+                <strong className="text-slate-900">{edu.university}</strong>
+                <span className="text-slate-500 font-mono text-[11px]">{edu.duration}</span>
+              </div>
+              <div className="text-slate-700 italic text-xs">{edu.degree}</div>
+            </div>
+          ))}
         </div>
       )}
 
@@ -676,9 +725,7 @@ const MinimalistCVPreview: React.FC<{ profile: ProfileState; candidateName: stri
           <h2 className="text-xs font-bold uppercase tracking-widest text-slate-800 mb-1">
             Skills & Competencies
           </h2>
-          <p className="text-xs text-slate-800 leading-relaxed">
-            {profile.skills.join(' · ')}
-          </p>
+          <p className="text-xs text-slate-800 leading-relaxed">{profile.skills.join(' · ')}</p>
         </div>
       )}
     </div>
@@ -712,11 +759,13 @@ export const LatexResumeMaker = () => {
           const merged: any = {
             personalInfo: dbProfile.personalInfo || {
               firstName: appUser?.displayName ? appUser.displayName.split(' ')[0] : '',
-              lastName: appUser?.displayName ? appUser.displayName.split(' ').slice(1).join(' ') : '',
+              lastName: appUser?.displayName
+                ? appUser.displayName.split(' ').slice(1).join(' ')
+                : '',
               email: appUser?.email || '',
               phone: appUser?.phone || '',
               location: appUser?.location || '',
-              avatar: appUser?.photoURL || '',
+              avatar: appUser?.photoUrl || '',
             },
             employmentDetails: dbProfile.employmentStatus
               ? {
@@ -737,18 +786,24 @@ export const LatexResumeMaker = () => {
               headline: dbProfile.headline || '',
               detailedSummary: dbProfile.summary || dbProfile.bio || '',
             },
-            skills: (dbProfile.skills && dbProfile.skills.length > 0)
-              ? dbProfile.skills.map((s: any) => (typeof s === 'string' ? s : s.name))
-              : (dbProfile.skillsFlat || []),
+            skills:
+              dbProfile.skills && dbProfile.skills.length > 0
+                ? dbProfile.skills.map((s: any) => (typeof s === 'string' ? s : s.name))
+                : dbProfile.skillsFlat || [],
             employmentHistory: dbProfile.experience || [],
-            education: (dbProfile.education && Array.isArray(dbProfile.education) && dbProfile.education.length > 0)
-              ? {
-                  degree: dbProfile.education[0].degree || '',
-                  university: dbProfile.education[0].institution || '',
-                  duration: dbProfile.education[0].graduationYear ? String(dbProfile.education[0].graduationYear) : '',
-                  type: 'Full Time',
-                }
-              : (dbProfile.education || { degree: '', university: '', duration: '', type: '' }),
+            education:
+              dbProfile.education &&
+              Array.isArray(dbProfile.education) &&
+              dbProfile.education.length > 0
+                ? {
+                    degree: dbProfile.education[0].degree || '',
+                    university: dbProfile.education[0].institution || '',
+                    duration: dbProfile.education[0].graduationYear
+                      ? String(dbProfile.education[0].graduationYear)
+                      : '',
+                    type: 'Full Time',
+                  }
+                : dbProfile.education || { degree: '', university: '', duration: '', type: '' },
             projects: dbProfile.projects || [],
             itSkills: dbProfile.itSkills || [],
             careerProfile: dbProfile.careerProfile || {
@@ -759,7 +814,9 @@ export const LatexResumeMaker = () => {
               desiredJobType: '',
               desiredEmploymentType: '',
               desiredLocations: dbProfile.preferredLocations || [],
-              expectedSalary: dbProfile.salaryExpectation?.min ? String(dbProfile.salaryExpectation.min) : '',
+              expectedSalary: dbProfile.salaryExpectation?.min
+                ? String(dbProfile.salaryExpectation.min)
+                : '',
               preferredShift: '',
             },
             extendedPersonal: dbProfile.extendedPersonal || {
@@ -790,7 +847,9 @@ export const LatexResumeMaker = () => {
               personalInfo: {
                 ...profile.personalInfo,
                 firstName: appUser.displayName ? appUser.displayName.split(' ')[0] : '',
-                lastName: appUser.displayName ? appUser.displayName.split(' ').slice(1).join(' ') : '',
+                lastName: appUser.displayName
+                  ? appUser.displayName.split(' ').slice(1).join(' ')
+                  : '',
                 email: appUser.email || '',
                 phone: appUser.phone || '',
                 location: appUser.location || '',
@@ -815,7 +874,10 @@ export const LatexResumeMaker = () => {
   const currentLatexCode = customLatex !== null ? customLatex : autoGeneratedLatex;
   const currentTemplate = getTemplateById(selectedTemplateId);
 
-  const candidateName = `${profile.personalInfo.firstName || ''} ${profile.personalInfo.lastName || ''}`.trim() || appUser?.displayName || 'Candidate Name';
+  const candidateName =
+    `${profile.personalInfo.firstName || ''} ${profile.personalInfo.lastName || ''}`.trim() ||
+    appUser?.displayName ||
+    'Candidate Name';
 
   const handleTemplateChange = (templateId: string) => {
     setSelectedTemplateId(templateId);
@@ -962,11 +1024,11 @@ export const LatexResumeMaker = () => {
                 Live Database Profile
               </span>
             </div>
-            <h2 className="text-2xl font-bold font-sans">
-              LaTeX Resume Builder
-            </h2>
+            <h2 className="text-2xl font-bold font-sans">LaTeX Resume Builder</h2>
             <p className="text-sm text-blue-100/80 mt-1 max-w-2xl">
-              Instantly compiles your profile data ({profile.skills.length} skills, {profile.employmentHistory.length} experiences, {profile.projects.length} projects) into production-ready LaTeX source code.
+              Instantly compiles your profile data ({profile.skills.length} skills,{' '}
+              {profile.employmentHistory.length} experiences, {profile.projects.length} projects)
+              into production-ready LaTeX source code.
             </p>
           </div>
 
@@ -989,7 +1051,8 @@ export const LatexResumeMaker = () => {
             Choose Resume Template ({LATEX_TEMPLATES.length})
           </h3>
           <span className="text-xs text-slate-500 dark:text-slate-400">
-            Active: <strong className="text-slate-800 dark:text-slate-200">{currentTemplate.name}</strong>
+            Active:{' '}
+            <strong className="text-slate-800 dark:text-slate-200">{currentTemplate.name}</strong>
           </span>
         </div>
 
@@ -1189,7 +1252,13 @@ export const LatexResumeMaker = () => {
               <span className="font-semibold uppercase tracking-wider">
                 Live Document Simulation: {currentTemplate.name}
               </span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold" style={{ backgroundColor: `${currentTemplate.accentColor}18`, color: currentTemplate.accentColor }}>
+              <span
+                className="px-2 py-0.5 rounded-full text-[10px] font-bold"
+                style={{
+                  backgroundColor: `${currentTemplate.accentColor}18`,
+                  color: currentTemplate.accentColor,
+                }}
+              >
                 {currentTemplate.tag}
               </span>
             </div>

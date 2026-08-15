@@ -1,4 +1,11 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { loadPersisted } from '../../lib/persist';
+import {
+  EMPLOYER_PROFILE_STORAGE_KEY,
+  EMPLOYER_PROFILE_STORAGE_VERSION,
+  companyProfilePartialSchema,
+  identityMigrate,
+} from '../persistedState.schemas';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -78,16 +85,13 @@ const defaultProfile: CompanyProfile = {
 
 // ─── Hydrate from localStorage ────────────────────────────────────────────────
 const loadPersistedProfile = (): CompanyProfile => {
-  try {
-    const raw = localStorage.getItem('employer_profile_state');
-    if (raw) {
-      const parsed = JSON.parse(raw) as Partial<CompanyProfile>;
-      return { ...defaultProfile, ...parsed };
-    }
-  } catch {
-    /* ignore */
-  }
-  return defaultProfile;
+  const parsed = loadPersisted({
+    key: EMPLOYER_PROFILE_STORAGE_KEY,
+    version: EMPLOYER_PROFILE_STORAGE_VERSION,
+    schema: companyProfilePartialSchema,
+    migrate: identityMigrate,
+  });
+  return parsed ? { ...defaultProfile, ...parsed } : defaultProfile;
 };
 
 const initialState: EmployerProfileState = {

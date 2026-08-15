@@ -6,6 +6,9 @@ import { logOut } from '../../../services/auth.service';
 import { WorkspaceSwitcher } from '../WorkspaceSwitcher';
 import styles from './PortalSidebar.module.css';
 import { useFocusTrap } from '../../../hooks/useFocusTrap';
+import { ROUTES } from '../../../config/routes';
+import { UserAvatar } from '../../ui/UserAvatar/UserAvatar';
+import { BrandLogo } from '../../brand/BrandLogo';
 
 interface PortalSidebarProps {
   isOpen: boolean;
@@ -26,19 +29,10 @@ export const PortalSidebar = ({ isOpen, onClose }: PortalSidebarProps) => {
   const handleSignOut = async () => {
     try {
       await logOut();
-      navigate('/login');
+      navigate(ROUTES.AUTH.LOGIN);
     } catch (err) {
       console.error('Logout failed:', err);
     }
-  };
-
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map((n) => n[0])
-      .slice(0, 2)
-      .join('')
-      .toUpperCase();
   };
 
   return (
@@ -58,15 +52,13 @@ export const PortalSidebar = ({ isOpen, onClose }: PortalSidebarProps) => {
         tabIndex={-1}
       >
         <div className={styles.brand}>
-          <Link to={isEmployer ? '/employers' : '/'}>
-            <span className={styles.logoText}>
-              Recruitzaa{' '}
-              {isEmployer && (
-                <span className="text-xs text-[#c14f16] font-bold ml-1 uppercase tracking-wider">
-                  Employer
-                </span>
-              )}
-            </span>
+          <Link to={isEmployer ? '/employers' : '/'} className="flex items-center gap-2">
+            <BrandLogo size={34} tagline={false} />
+            {isEmployer && (
+              <span className="text-[10px] bg-blue-600 text-white font-bold px-1.5 py-0.5 rounded uppercase tracking-wider shrink-0 mt-[0.5em]">
+                Employer
+              </span>
+            )}
           </Link>
           <button
             type="button"
@@ -116,7 +108,7 @@ export const PortalSidebar = ({ isOpen, onClose }: PortalSidebarProps) => {
                   className={`${styles.link} ${isActive('/employer/candidates') ? styles.active : ''}`}
                 >
                   <span>Candidate Pipeline</span>
-                  <span className={`${styles.badge} bg-[#c14f16] text-white`}>14</span>
+                  <span className={`${styles.badge} bg-brand-primary text-white`}>14</span>
                 </Link>
               </li>
               <li>
@@ -172,7 +164,7 @@ export const PortalSidebar = ({ isOpen, onClose }: PortalSidebarProps) => {
                   className={`${styles.link} ${isActive('/candidate/pipeline') ? styles.active : ''}`}
                 >
                   <span>Application Pipeline</span>
-                  <span className={`${styles.badge} bg-[#c14f16] text-white`}>7</span>
+                  <span className={`${styles.badge} bg-brand-primary text-white`}>7</span>
                 </Link>
               </li>
 
@@ -219,7 +211,7 @@ export const PortalSidebar = ({ isOpen, onClose }: PortalSidebarProps) => {
           <div
             className={`${styles.avatar} ${isEmployer ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-800 dark:bg-slate-850 dark:text-slate-100'}`}
           >
-            {appUser ? getInitials(appUser.displayName) : 'U'}
+            <UserAvatar photoUrl={appUser?.photoUrl} name={appUser?.displayName} />
           </div>
           <div className={styles.userInfo}>
             <div className={styles.userName}>{appUser ? appUser.displayName : 'Loading...'}</div>

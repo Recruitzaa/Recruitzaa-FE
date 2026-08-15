@@ -5,7 +5,7 @@ import type {
 } from '../../features/applications/types/kanban.types';
 import { MOCK_KANBAN_APPLICATIONS } from '../../data/mockKanban';
 
-interface KanbanState {
+export interface KanbanState {
   applications: ApplicationCard[];
 }
 

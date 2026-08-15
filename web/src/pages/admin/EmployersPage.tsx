@@ -17,6 +17,7 @@ import {
   type EmployerAccount,
 } from '../../services/companies.service';
 import styles from './UsersPage.module.css';
+import { SEO } from '../../components/seo/SEO';
 
 const PAGE_SIZE = 20;
 
@@ -198,6 +199,10 @@ export const EmployersPage = () => {
 
   return (
     <div className={styles.page}>
+      <SEO
+        title="Employer Accounts | Recruitzaa Admin"
+        description="Verify employer profile registrations and workspaces."
+      />
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>Employer accounts</h1>

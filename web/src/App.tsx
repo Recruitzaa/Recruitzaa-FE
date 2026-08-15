@@ -10,16 +10,18 @@ import { queryClient } from './config/queryClient';
 import { Spinner } from './components/ui/Spinner/Spinner';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { AppRoutes } from './routes/AppRoutes';
+import { JobPreferencesProvider } from './features/jobs/hooks/useJobPreferences';
+import { ThemeProvider } from './hooks/useTheme';
 
-// Loading Fallback Component
 const LoadingSpinner = () => (
   <main
-    className="flex h-screen w-screen flex-col items-center justify-center bg-slate-50 dark:bg-slate-950"
+    className="flex h-screen w-screen flex-col items-center justify-center bg-slate-50 dark:bg-brand-surface"
     aria-label="Loading Recruitzaa"
+    tabIndex={-1}
   >
-    <div className="flex flex-col items-center gap-4">
-      <Spinner className="w-12 h-12 text-[#c14f16] border-4 border-[#c14f16] border-t-transparent rounded-full animate-spin" />
-      <p className="text-sm font-semibold text-slate-500">Loading Recruitzaa...</p>
+    <div className="flex flex-col items-center gap-4" role="status" aria-live="polite">
+      <Spinner className="w-12 h-12 text-brand-primary border-4 border-brand-primary border-t-transparent rounded-full animate-spin" />
+      <p className="text-sm font-semibold text-slate-500">Loading Recruitzaa…</p>
     </div>
   </main>
 );
@@ -48,19 +50,23 @@ const FocusOnRouteChange = () => {
 function App() {
   return (
     <ErrorBoundary>
-      <HelmetProvider>
-        <Provider store={store}>
-          <QueryClientProvider client={queryClient}>
-            <HashRouter>
-              <FocusOnRouteChange />
-              <Suspense fallback={<LoadingSpinner />}>
-                <AppRoutes />
-              </Suspense>
-              <ToastContainer />
-            </HashRouter>
-          </QueryClientProvider>
-        </Provider>
-      </HelmetProvider>
+      <ThemeProvider>
+        <HelmetProvider>
+          <Provider store={store}>
+            <QueryClientProvider client={queryClient}>
+              <JobPreferencesProvider>
+                <HashRouter>
+                  <FocusOnRouteChange />
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <AppRoutes />
+                  </Suspense>
+                  <ToastContainer />
+                </HashRouter>
+              </JobPreferencesProvider>
+            </QueryClientProvider>
+          </Provider>
+        </HelmetProvider>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 }

@@ -48,7 +48,7 @@ lerna-debug.log*
 * 3.*
 * 4.*
 * 5.*
-# Local audit, readiness, status reports & proposal docs
+# Local audit, readiness, status reports & proposal docs (but track AI instructions)
 PRODUCTION_READINESS.md
 UI_UX_AUDIT.md
 UI_UX_FIX_STATUS.md
@@ -59,7 +59,20 @@ UI_UX_FIX_STATUS.md
 implementation_plan*
 recruitzaa_proposal.md
 
-graphify-out/
+# AI development config files (TRACKED ✅)
+!.github/copilot-instructions.md
+!.codeium/config.json
+
+# Graphify cache & generated files (but keep wiki/ for documentation)
+graphify-out/graph.json
+graphify-out/graph.html
+graphify-out/GRAPH_REPORT.md
+graphify-out/manifest.json
+graphify-out/cache/
+graphify-out/20*/
+graphify-out/.graphify*
+.agents/rules/graphify.md
+.agents/workflows/graphify.md
 
 # Test coverage reports
 coverage/

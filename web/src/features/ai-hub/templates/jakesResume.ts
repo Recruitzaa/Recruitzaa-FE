@@ -16,9 +16,11 @@ export const generateJakesResume = (profile: ProfileState): string => {
     projects,
     itSkills,
     accomplishments,
+    certifications,
   } = profile;
 
-  const fullName = `${personalInfo.firstName || ''} ${personalInfo.lastName || ''}`.trim() || 'Your Name';
+  const fullName =
+    `${personalInfo.firstName || ''} ${personalInfo.lastName || ''}`.trim() || 'Your Name';
   const email = personalInfo.email || '';
   const phone = personalInfo.phone || '';
   const location = personalInfo.location || '';
@@ -28,54 +30,71 @@ export const generateJakesResume = (profile: ProfileState): string => {
   const headerParts = [
     phone ? escapeLatex(phone) : '',
     email ? `\\href{mailto:${escapeLatex(email)}}{\\underline{${escapeLatex(email)}}}` : '',
-    linkedin ? `\\href{https://${escapeLatex(linkedin)}}{\\underline{${escapeLatex(linkedin)}}}` : '',
+    linkedin
+      ? `\\href{https://${escapeLatex(linkedin)}}{\\underline{${escapeLatex(linkedin)}}}`
+      : '',
     github ? `\\href{https://${escapeLatex(github)}}{\\underline{${escapeLatex(github)}}}` : '',
     location ? escapeLatex(location) : '',
   ].filter(Boolean);
 
   const skillsList = skills && skills.length > 0 ? skills.map(escapeLatex).join(', ') : '';
-  const itSkillsList = itSkills && itSkills.length > 0
-    ? itSkills.map((item: ITSkillItem) => `${escapeLatex(item.skill)} (${escapeLatex(item.experience || 'Proficient')})`).join(', ')
-    : '';
+  const itSkillsList =
+    itSkills && itSkills.length > 0
+      ? itSkills
+          .map(
+            (item: ITSkillItem) =>
+              `${escapeLatex(item.skill)} (${escapeLatex(item.experience || 'Proficient')})`
+          )
+          .join(', ')
+      : '';
 
   // Experience Subheadings
-  const experienceLatex = employmentHistory && employmentHistory.length > 0
-    ? employmentHistory
-        .map((job: JobHistoryItem) => {
-          const bullets = job.keyResponsibilities && job.keyResponsibilities.length > 0
-            ? job.keyResponsibilities
-                .map((resp: string) => `        \\resumeItem{${escapeLatex(resp)}}`)
-                .join('\n')
-            : '';
+  const experienceLatex =
+    employmentHistory && employmentHistory.length > 0
+      ? employmentHistory
+          .map((job: JobHistoryItem) => {
+            const bullets =
+              job.keyResponsibilities && job.keyResponsibilities.length > 0
+                ? job.keyResponsibilities
+                    .map((resp: string) => `        \\resumeItem{${escapeLatex(resp)}}`)
+                    .join('\n')
+                : '';
 
-          return `    \\resumeSubheading
+            return `    \\resumeSubheading
       {${escapeLatex(job.designation || 'Role')}}{${escapeLatex(job.duration || '')}}
       {${escapeLatex(job.company || 'Company')}}{${escapeLatex(location)}}
       \\resumeItemListStart
 ${bullets || '        \\resumeItem{Key responsibilities and achievements.}'}
       \\resumeItemListEnd`;
-        })
-        .join('\n\n')
-    : '';
+          })
+          .join('\n\n')
+      : '';
 
   // Projects Subheadings
-  const projectsLatex = projects && projects.length > 0
-    ? projects
-        .map((proj: ProjectItem) => {
-          return `    \\resumeProjectHeading
+  const projectsLatex =
+    projects && projects.length > 0
+      ? projects
+          .map((proj: ProjectItem) => {
+            return `    \\resumeProjectHeading
           {\\textbf{${escapeLatex(proj.name || 'Project')}} $|$ \\emph{${escapeLatex(proj.client || '')}}}{${escapeLatex(proj.duration || '')}}
           \\resumeItemListStart
             \\resumeItem{${escapeLatex(proj.description || '')}}
           \\resumeItemListEnd`;
-        })
-        .join('\n\n')
-    : '';
+          })
+          .join('\n\n')
+      : '';
 
   // Education Section
-  const eduDegree = education?.degree ? escapeLatex(education.degree) : '';
-  const eduUni = education?.university ? escapeLatex(education.university) : '';
-  const eduDuration = education?.duration ? escapeLatex(education.duration) : '';
-  const hasEducation = Boolean(eduDegree || eduUni);
+  const educationItems =
+    education && education.length > 0
+      ? education
+          .map((edu) => {
+            return `    \\resumeSubheading
+      {${escapeLatex(edu.university || '')}}{${escapeLatex(edu.duration || '')}}
+      {${escapeLatex(edu.degree || '')}}{${escapeLatex(location)}}`;
+          })
+          .join('\n')
+      : '';
 
   return `%-------------------------
 % Resume in LaTeX — Technical ATS Template
@@ -175,13 +194,11 @@ ${
 }
 
 ${
-  hasEducation
+  educationItems
     ? `%-----------EDUCATION-----------
 \\section{Education}
   \\resumeSubHeadingListStart
-    \\resumeSubheading
-      {${eduUni}}{${eduDuration}}
-      {${eduDegree}}{${escapeLatex(location)}}
+${educationItems}
   \\resumeSubHeadingListEnd`
     : ''
 }
@@ -211,14 +228,14 @@ ${projectsLatex}
 }
 
 ${
-  skillsList || itSkillsList || accomplishments?.certification
+  skillsList || itSkillsList || (certifications && certifications.length > 0)
     ? `%-----------TECHNICAL SKILLS-----------
 \\section{Technical Skills}
  \\begin{itemize}[leftmargin=0.15in, label={}]
     \\small{\\item{
      ${skillsList ? `\\textbf{Core Technologies}{: ${skillsList}} \\\\` : ''}
      ${itSkillsList ? `\\textbf{Tools \\& Frameworks}{: ${itSkillsList}} \\\\` : ''}
-     ${accomplishments?.certification ? `\\textbf{Certifications}{: ${escapeLatex(accomplishments.certification)}} \\\\` : ''}
+     ${certifications && certifications.length > 0 ? `\\textbf{Certifications}{: ${escapeLatex(certifications.map((c) => c.name).join(', '))}} \\\\` : ''}
     }}
  \\end{itemize}`
     : ''

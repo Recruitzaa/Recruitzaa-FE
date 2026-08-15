@@ -4,6 +4,7 @@ import './styles/global.css';
 import App from './App.tsx';
 
 import { initAxeAccessibility } from './lib/axe';
+import { safeSessionStorage } from './lib/safeStorage';
 
 // Initialize axe-core for accessibility auditing in development mode
 initAxeAccessibility();
@@ -14,11 +15,11 @@ if (typeof window !== 'undefined') {
     event.preventDefault();
     console.warn('Intercepted Vite CSS/module preload error:', event);
     const reloadKey = 'recruitzaa_vite_preload_reload';
-    const lastReload = sessionStorage.getItem(reloadKey);
+    const lastReload = safeSessionStorage.getItem(reloadKey);
     const now = Date.now();
 
     if (!lastReload || now - parseInt(lastReload, 10) > 10000) {
-      sessionStorage.setItem(reloadKey, now.toString());
+      safeSessionStorage.setItem(reloadKey, now.toString());
       window.location.reload();
     }
   });

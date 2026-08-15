@@ -29,7 +29,7 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({ data, onChange }) => {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wide mb-2">
+      <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wide mb-2">
         Step 4: Skills & Expertise
       </h3>
 
@@ -44,7 +44,7 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({ data, onChange }) => {
             onChange={(e) => setSkillInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="e.g. React Native, TypeScript, Python"
-            className="flex-1 text-sm p-2.5 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none focus:border-indigo-600 text-slate-900 dark:text-slate-100"
+            className="flex-1 text-sm p-2.5 border border-slate-200 bg-white dark:bg-slate-900 rounded outline-none focus:border-indigo-600 text-slate-900 dark:text-slate-100"
           />
           <button
             type="button"
@@ -77,7 +77,7 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({ data, onChange }) => {
             </span>
           ))}
           {data.length === 0 && (
-            <span className="text-sm text-slate-400 dark:text-slate-500 self-center">
+            <span className="text-sm text-slate-400 self-center">
               Type a skill above and click Add to start populating your profile.
             </span>
           )}

@@ -1,109 +1,107 @@
-import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
+import { useEffect, useRef, useState } from 'react';
+import { useAppDispatch } from '../../../../store/hooks';
 import { useToast } from '../../../../hooks/useToast';
 import { updateUserProfile } from '../../../../store/slices/auth.slice';
 import { addSkill, removeSkill, setFullProfile } from '../../../../store/slices/profileSlice';
-import { getMockParsedProfile } from '../utils/mockParsedProfile';
-import { updateCandidateProfile } from '../../../../services/profile.service';
-import type { RootState } from '../../../../store';
+import { getMockParsedProfile } from '../../../../data/demo/mockParsedProfile';
 
-export const useProfileSkillAndResume = (appUser: any) => {
+const MAX_SKILL_LENGTH = 60;
+
+export const useProfileSkillAndResume = (skills: string[], appUser: any) => {
   const dispatch = useAppDispatch();
   const toast = useToast();
-  const currentSkills = useAppSelector((state: RootState) => state.profile.skills);
 
   const [newSkill, setNewSkill] = useState('');
   const [isParsing, setIsParsing] = useState(false);
-  const [resumeFileName, setResumeFileName] = useState(
-    appUser?.displayName
-      ? `${appUser.displayName.replace(/\s+/g, '_')}_Resume.pdf`
-      : 'Resume.pdf'
-  );
-  const [resumeFileSize, setResumeFileSize] = useState('124 KB');
+  const [isAIParsingConfirmOpen, setIsAIParsingConfirmOpen] = useState(false);
+  // No resume exists until the user uploads one or runs AI autofill.
+  // Fabricated filename/size defaults previously told every new user a
+  // document was already on file when none was.
+  const [resumeFileName, setResumeFileName] = useState<string | null>(null);
+  const [resumeFileSize, setResumeFileSize] = useState<string | null>(null);
 
-  const handleAddSkill = async (e: React.FormEvent) => {
+  const parsingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (parsingTimeoutRef.current) {
+        clearTimeout(parsingTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleAddSkill = (e: React.FormEvent) => {
     e.preventDefault();
-    const skillTrimmed = newSkill.trim();
-    if (!skillTrimmed) return;
-    if (currentSkills.includes(skillTrimmed)) {
-      toast.info('Skill already added.');
+    const skill = newSkill.trim();
+    if (!skill) return;
+
+    if (skill.length > MAX_SKILL_LENGTH) {
+      toast.error(`Skill names must be ${MAX_SKILL_LENGTH} characters or fewer.`);
       return;
     }
-    const updatedSkills = [...currentSkills, skillTrimmed];
-    dispatch(addSkill(skillTrimmed));
+
+    if (skills.some((existing) => existing.toLowerCase() === skill.toLowerCase())) {
+      // The reducer silently drops duplicates — telling the user "Skill
+      // added" here would confirm an action that never happened.
+      toast.info(`"${skill}" is already on your profile.`);
+      setNewSkill('');
+      return;
+    }
+
+    dispatch(addSkill(skill));
     setNewSkill('');
     toast.success('Skill added.');
-
-    try {
-      await updateCandidateProfile({
-        skillsFlat: updatedSkills,
-      } as any);
-    } catch {
-      // Ignored for local fallback
-    }
   };
 
-  const handleRemoveSkill = async (skill: string) => {
-    const updatedSkills = currentSkills.filter((s) => s !== skill);
+  const handleRemoveSkill = (skill: string) => {
     dispatch(removeSkill(skill));
-    toast.info('Removed skill.');
-
-    try {
-      await updateCandidateProfile({
-        skillsFlat: updatedSkills,
-      } as any);
-    } catch {
-      // Ignored for local fallback
-    }
+    toast.info(`Removed "${skill}".`);
   };
 
-  const handleTriggerAIParsing = () => {
+  // Overwrites every profile section, so it must be an explicit,
+  // confirmed action rather than a single accidental click.
+  const requestAIParsing = () => {
+    setIsAIParsingConfirmOpen(true);
+  };
+
+  const cancelAIParsing = () => {
+    setIsAIParsingConfirmOpen(false);
+  };
+
+  const confirmAIParsing = () => {
+    setIsAIParsingConfirmOpen(false);
     setIsParsing(true);
-    toast.info('AI Resume Parser scanning document layout...');
 
-    setTimeout(async () => {
-      const parsedProfile = getMockParsedProfile(appUser?.email || '');
-      dispatch(setFullProfile(parsedProfile));
-      setResumeFileName(`${(appUser?.displayName || 'User').replace(/\s+/g, '_')}_Parsed_CV.pdf`);
-      setResumeFileSize('186 KB');
-
-      dispatch(
-        updateUserProfile({
-          phone: parsedProfile.personalInfo.phone,
-          location: parsedProfile.personalInfo.location,
-          currentCompany: parsedProfile.employmentDetails.currentCompany,
-          currentRole: parsedProfile.employmentDetails.currentDesignation,
-          currentSalary: parsedProfile.employmentDetails.currentCTC,
-          noticePeriod: parsedProfile.employmentDetails.noticePeriod,
-          summary: parsedProfile.professionalSummary.detailedSummary,
-          skills: parsedProfile.skills,
-        })
-      );
-
+    parsingTimeoutRef.current = setTimeout(() => {
       try {
-        await updateCandidateProfile({
-          personalInfo: parsedProfile.personalInfo,
-          headline: parsedProfile.professionalSummary.headline,
-          summary: parsedProfile.professionalSummary.detailedSummary,
-          skillsFlat: parsedProfile.skills,
-          experience: parsedProfile.employmentHistory.map((h) => ({
-            role: h.designation,
-            company: h.company,
-            startDate: h.duration,
-            description: (h.keyResponsibilities || []).join('\n'),
-          })),
-          projects: parsedProfile.projects,
-          itSkills: parsedProfile.itSkills,
-          careerProfile: parsedProfile.careerProfile,
-          extendedPersonal: parsedProfile.extendedPersonal,
-          accomplishments: parsedProfile.accomplishments,
-        } as any);
-      } catch {
-        // Ignored
-      }
+        const parsedProfile = getMockParsedProfile(appUser?.email || '');
+        dispatch(setFullProfile(parsedProfile));
+        setResumeFileName('Sample_Parsed_Resume.pdf');
+        setResumeFileSize('186 KB');
 
-      setIsParsing(false);
-      toast.success('AI parsed resume successfully! Populated profile blocks and saved to DB.');
+        dispatch(
+          updateUserProfile({
+            phone: parsedProfile.personalInfo.phone,
+            location: parsedProfile.personalInfo.location,
+            currentCompany: parsedProfile.employmentDetails.currentCompany,
+            currentRole: parsedProfile.employmentDetails.currentDesignation,
+            currentSalary: parsedProfile.employmentDetails.currentCTC,
+            noticePeriod: parsedProfile.employmentDetails.noticePeriod,
+            summary: parsedProfile.professionalSummary.detailedSummary,
+            skills: parsedProfile.skills,
+          })
+        );
+
+        // Honest disclosure: no resume was actually parsed. Claiming
+        // "AI parsed resume successfully" asserted work that never happened.
+        toast.warning(
+          'Your profile was filled with sample data for demonstration. Review every section before applying.'
+        );
+      } catch {
+        toast.error('Something went wrong loading the sample profile. Please try again.');
+      } finally {
+        setIsParsing(false);
+      }
     }, 2000);
   };
 
@@ -111,10 +109,13 @@ export const useProfileSkillAndResume = (appUser: any) => {
     newSkill,
     setNewSkill,
     isParsing,
+    isAIParsingConfirmOpen,
     resumeFileName,
     resumeFileSize,
     handleAddSkill,
     handleRemoveSkill,
-    handleTriggerAIParsing,
+    requestAIParsing,
+    cancelAIParsing,
+    confirmAIParsing,
   };
 };

@@ -14,7 +14,7 @@ export const ApplicationRow: React.FC<ApplicationRowProps> = ({ application, onV
       case 'REJECTED':
         return 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/20 dark:text-rose-400 dark:border-rose-900/40';
       case 'INTERVIEWING':
-        return 'bg-orange-50 text-[#c14f16] border-orange-200 dark:bg-orange-950/20 dark:text-orange-400 dark:border-orange-900/40';
+        return 'bg-brand-primary-light text-brand-primary border-brand-primary/30';
       case 'SCREENING':
         return 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/20 dark:text-amber-400 dark:border-amber-900/40';
       default:
@@ -28,7 +28,7 @@ export const ApplicationRow: React.FC<ApplicationRowProps> = ({ application, onV
         <div className="text-sm font-bold text-slate-900 dark:text-white">
           {application.jobTitle}
         </div>
-        <div className="text-sm text-slate-500 dark:text-slate-400">{application.companyName}</div>
+        <div className="text-sm text-slate-500">{application.companyName}</div>
       </td>
       <td className="py-4 px-4 text-sm text-slate-650 dark:text-slate-400">
         {application.updatedAt}
@@ -50,7 +50,7 @@ export const ApplicationRow: React.FC<ApplicationRowProps> = ({ application, onV
       <td className="py-4 px-4 text-right">
         <button
           onClick={() => onViewDetails(application.id)}
-          className="text-sm font-bold text-[#c14f16] hover:text-[#a94210] transition-colors"
+          className="text-sm font-bold text-brand-primary hover:text-brand-primary-hover transition-colors"
         >
           {application.nextAction}
         </button>

@@ -5,10 +5,11 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from '../../store/slices/auth.slice';
+import uiReducer from '../../store/slices/ui.slice';
 import { LandingPage } from './LandingPage';
 
 const renderLandingPage = (initialEntry = '/') => {
-  const store = configureStore({ reducer: { auth: authReducer } });
+  const store = configureStore({ reducer: { auth: authReducer, ui: uiReducer } });
   return render(
     <HelmetProvider>
       <Provider store={store}>

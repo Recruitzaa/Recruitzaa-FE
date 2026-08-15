@@ -1,7 +1,7 @@
 {
   "name": "web",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.6.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -29,6 +29,7 @@
     "firebase": "^12.16.0",
     "framer-motion": "^12.42.2",
     "lucide-react": "^1.24.0",
+    "nanoid": "^5.1.16",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-dropzone": "^15.0.0",
@@ -39,7 +40,6 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@axe-core/react": "^4.12.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
@@ -49,6 +49,7 @@
     "@vitejs/plugin-react": "^6.0.3",
     "@vitest/coverage-v8": "^4.1.10",
     "autoprefixer": "^10.5.2",
+    "axe-core": "^4.13.0",
     "gh-pages": "^6.3.0",
     "jsdom": "^29.1.1",
     "oxlint": "^1.71.0",

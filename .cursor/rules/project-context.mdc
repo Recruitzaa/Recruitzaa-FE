@@ -1,0 +1,50 @@
+---
+description: Recruitzaa-FE project context — stack, routes, patterns
+alwaysApply: true
+---
+
+Recruitzaa-FE v0.5.0. Full context: [CLAUDE.md](../../CLAUDE.md)
+
+## Stack
+
+React 18 | TypeScript | Redux Toolkit + RTK Query | Tailwind CSS
+Auth: Firebase + custom role guard (candidate/employer/admin)
+API: RTK Query (GET) + Axios (POST/PUT) + Zod validation
+Forms: React Hook Form + Zod schemas
+Testing: Vitest + React Testing Library
+Build: Vite (port 5173)
+
+## Commands
+
+- `npm run dev` — start dev server (5173)
+- `npm run verify` — lint + test + build (run before every commit)
+- `npm run test` — vitest watch mode
+
+## Key Files by Role
+
+**Candidate:** routes `/candidate/jobs`, `/candidate/profile`, `/candidate/dashboard` — entry `src/pages/candidate/JobListingsPage.tsx` — state `jobs`, `profile`, `applications` slices — auth role `candidate` in `RoleGuard.tsx`
+
+**Employer:** routes `/employer/dashboard`, `/employer/companies`, `/employer/profile` — entry `src/pages/employer/DashboardPage.tsx` — state `employer` slice — auth role `employer` (requires company verification)
+
+**Admin:** routes `/admin/users`, `/admin/companies` — entry `src/pages/admin/UsersPage.tsx` — auth role `admin` only
+
+## Critical Patterns
+
+- Redux: use `useAppSelector(selectMyState)`, never direct store access
+- API: validate every response with Zod at the boundary, never trust backend blindly
+- Forms: React Hook Form + Zod, not raw uncontrolled inputs
+- Dark mode: add `dark:` Tailwind prefix to every color/bg class
+- Tests: cover auth and form flows, don't skip
+
+## Common Tasks
+
+- **Add job filter:** `src/features/jobs/jobsSlice.ts` (reducer) + `JobFilterPanel.tsx` (UI)
+- **New auth role:** `auth.slice.ts` + `RoleGuard.tsx` + `routes.meta.ts`
+- **Connect API endpoint:** `api.service.ts` + Zod schema in `lib/validation.ts` → Redux slice → component hook
+- **Validate form input:** Zod schema in `lib/validation.ts` → form component → inline field errors
+
+## Full References
+
+- Routing map, Redux shape, API layer, testing, troubleshooting: [CLAUDE.md](../../CLAUDE.md)
+- Navigation by role/feature/tech: [graphify-out/wiki/INDEX.md](../../graphify-out/wiki/INDEX.md)
+- Graphify usage rules: see `graphify.mdc` and `token-efficiency.mdc` in this directory

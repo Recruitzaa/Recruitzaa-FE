@@ -58,20 +58,21 @@ export const InboxPage: React.FC = () => {
     <>
       <PageTransition>
         <SEO
-          title="Central Messaging Hub | recruitZaa"
+          title="Central Messaging Hub | Recruitzaa"
           description="Send direct chat updates to recruitment managers and expert coaches."
         />
         <div className="max-w-7xl mx-auto px-4 py-8 space-y-6 w-full">
           <div>
             <h1 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-              <MessageSquare className="text-[#c14f16]" size={20} /> Messaging Hub
+              <MessageSquare className="text-brand-primary" size={20} /> Messaging Hub
             </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Direct chat communications with hiring teams, candidate applicants, and FAANG mentors.
+            <p className="text-sm text-slate-500 mt-1">
+              Direct chat communications with hiring teams, candidate applicants, and career
+              mentors.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-[#131924] shadow-sm overflow-hidden h-[600px]">
+          <div className="grid grid-cols-1 md:grid-cols-3 border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-brand-card shadow-sm overflow-hidden h-[600px]">
             {/* Left Thread Selection Column */}
             <div className="md:col-span-1 border-r border-slate-200 dark:border-slate-800 flex flex-col h-full overflow-y-auto">
               <span className="text-sm font-bold text-slate-400 uppercase tracking-wider p-4 border-b border-slate-100 dark:border-slate-850">
@@ -82,7 +83,7 @@ export const InboxPage: React.FC = () => {
                   <button
                     key={thread.id}
                     onClick={() => setActiveThread(thread)}
-                    className={`w-full p-4 text-left flex items-start justify-between gap-3 hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] ${
+                    className={`w-full p-4 text-left flex items-start justify-between gap-3 hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-primary ${
                       activeThread.id === thread.id ? 'bg-slate-50 dark:bg-slate-900/40' : ''
                     }`}
                   >
@@ -94,12 +95,10 @@ export const InboxPage: React.FC = () => {
                         <span className="text-sm font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
                           {thread.name}
                           {thread.unread && (
-                            <span className="w-1.5 h-1.5 bg-[#c14f16] rounded-full shrink-0" />
+                            <span className="w-1.5 h-1.5 bg-brand-primary rounded-full shrink-0" />
                           )}
                         </span>
-                        <span className="text-[9px] text-slate-400 dark:text-slate-500 block mt-0.5">
-                          {thread.role}
-                        </span>
+                        <span className="text-xs text-slate-400 block mt-0.5">{thread.role}</span>
                         <span className="text-sm text-slate-500 line-clamp-1 mt-1 block">
                           {thread.lastMessage}
                         </span>
@@ -118,7 +117,7 @@ export const InboxPage: React.FC = () => {
                 <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">
                   {activeThread.name}
                 </span>
-                <span className="text-[9px] text-[#c14f16] font-bold block">
+                <span className="text-xs text-brand-primary font-bold block">
                   {activeThread.role}
                 </span>
               </div>
@@ -132,13 +131,13 @@ export const InboxPage: React.FC = () => {
                       <div
                         className={`max-w-xs md:max-w-md rounded-xl p-3.5 space-y-1 ${
                           isMe
-                            ? 'bg-[#c14f16] text-white rounded-br-none'
-                            : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-850 text-slate-800 dark:text-slate-100 rounded-bl-none shadow-sm'
+                            ? 'bg-brand-primary text-white rounded-br-none'
+                            : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-850 text-slate-800 rounded-bl-none shadow-sm'
                         }`}
                       >
                         <p className="text-sm leading-relaxed">{msg.text}</p>
                         <span
-                          className={`text-[8px] block text-right ${isMe ? 'text-white/80' : 'text-slate-400 dark:text-slate-500'}`}
+                          className={`text-xs block text-right ${isMe ? 'text-white/80' : 'text-slate-400'}`}
                         >
                           {msg.time}
                         </span>
@@ -151,7 +150,7 @@ export const InboxPage: React.FC = () => {
               {/* Chat Input form */}
               <form
                 onSubmit={handleSendMessage}
-                className="p-4 border-t border-slate-200 dark:border-slate-800 flex gap-3 bg-white dark:bg-[#131924] shrink-0 items-center"
+                className="p-4 border-t border-slate-200 dark:border-slate-800 flex gap-3 bg-white dark:bg-brand-card shrink-0 items-center"
               >
                 <input
                   type="text"
@@ -159,12 +158,13 @@ export const InboxPage: React.FC = () => {
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   placeholder={`Type a message to ${activeThread.name}...`}
-                  className="flex-1 border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus-visible:outline-2 focus-visible:outline-[#c14f16] min-h-[44px]"
+                  aria-label={`Message to ${activeThread.name}`}
+                  className="flex-1 border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-2 text-sm bg-white dark:bg-slate-900 text-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-brand-primary min-h-[44px]"
                 />
                 <button
                   type="submit"
                   aria-label="Send message"
-                  className="bg-[#c14f16] hover:bg-[#a94210] text-white p-2.5 rounded-lg transition-colors flex items-center justify-center min-h-[44px] min-w-[44px] focus-visible:outline-2 focus-visible:outline-[#c14f16]"
+                  className="bg-brand-primary hover:bg-brand-primary-hover text-white p-2.5 rounded-lg transition-colors flex items-center justify-center min-h-[44px] min-w-[44px] focus-visible:outline-2 focus-visible:outline-brand-primary"
                 >
                   <Send size={15} aria-hidden="true" />
                 </button>

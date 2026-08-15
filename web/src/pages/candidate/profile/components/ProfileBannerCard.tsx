@@ -1,7 +1,10 @@
-import React from 'react';
-import { MapPin, Briefcase, Phone, Mail, Edit2 } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { MapPin, Briefcase, Phone, Mail, Edit2, Camera } from 'lucide-react';
 import type { ProfileState } from '../../../../store/slices/profileSlice';
+import type { AppUser } from '../../../../types/auth.types';
 import { PersonalDetailsEditForm } from './PersonalDetailsEditForm';
+import { PhotoUploadModal } from '../../../../components/ui/PhotoUploadModal';
+import { UserAvatar } from '../../../../components/ui/UserAvatar/UserAvatar';
 
 interface PersonalFormState {
   firstName: string;
@@ -19,37 +22,73 @@ interface PersonalFormState {
 
 interface ProfileBannerCardProps {
   profile: ProfileState;
+  appUser?: AppUser | null;
   isEditingPersonal: boolean;
   setIsEditingPersonal: (val: boolean) => void;
   personalForm: PersonalFormState;
   setPersonalForm: React.Dispatch<React.SetStateAction<PersonalFormState>>;
+  personalErrors: Record<string, string>;
   startEditingPersonal: () => void;
   savePersonalDetails: () => void;
+  handleAvatarUpload: (dataUrl: string) => void;
 }
 
 export const ProfileBannerCard = ({
   profile,
+  appUser,
   isEditingPersonal,
   setIsEditingPersonal,
   personalForm,
   setPersonalForm,
+  personalErrors,
   startEditingPersonal,
   savePersonalDetails,
+  handleAvatarUpload,
 }: ProfileBannerCardProps) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPendingFile(file);
+      setIsPhotoModalOpen(true);
+    }
+    e.target.value = '';
+  };
+
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 space-y-6">
+    <div className="bg-white dark:bg-slate-850 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-6 space-y-6">
       <div className="flex flex-col md:flex-row items-center md:items-start gap-6 relative">
-        <img
-          src={profile.personalInfo.avatar}
-          alt={`${profile.personalInfo.firstName} ${profile.personalInfo.lastName}`}
-          width="96"
-          height="96"
-          className="w-24 h-24 rounded-full object-cover border-4 border-slate-100 shadow-inner shrink-0"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src =
-              'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256';
-          }}
-        />
+        <div className="relative w-24 h-24 shrink-0 group">
+          <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-slate-100 dark:border-slate-700 shadow-inner bg-slate-100 dark:bg-brand-card flex items-center justify-center text-2xl font-bold text-slate-500 dark:text-slate-300">
+            <UserAvatar
+              photoUrl={profile.personalInfo.avatar || appUser?.photoUrl}
+              name={
+                `${profile.personalInfo.firstName} ${profile.personalInfo.lastName}`.trim() ||
+                appUser?.displayName
+              }
+            />
+          </div>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/png,image/jpeg,image/webp,image/gif"
+            onChange={handleFileChange}
+            className="sr-only"
+            aria-hidden="true"
+            tabIndex={-1}
+          />
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            aria-label="Upload profile photo"
+            className="absolute inset-0 flex items-center justify-center rounded-full bg-black/0 group-hover:bg-black/40 text-transparent group-hover:text-white transition-colors focus-visible:bg-black/40 focus-visible:text-white outline-none"
+          >
+            <Camera size={22} />
+          </button>
+        </div>
 
         <div className="flex-1 text-center md:text-left space-y-3">
           <div>
@@ -59,29 +98,29 @@ export const ProfileBannerCard = ({
             <p className="text-sm font-semibold text-brand-primary mt-0.5 font-sans">
               {profile.employmentDetails.currentDesignation}
             </p>
-            <p className="text-sm font-medium text-slate-500 mt-0.5">
+            <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mt-0.5">
               {profile.employmentDetails.currentCompany}
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600">
+          <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600 dark:text-slate-300">
             <span className="flex items-center gap-1">
-              <MapPin size={14} className="text-slate-400" />
+              <MapPin size={14} className="text-slate-400 dark:text-slate-500" />
               {profile.personalInfo.location}
             </span>
             <span className="flex items-center gap-1">
-              <Briefcase size={14} className="text-slate-400" />
+              <Briefcase size={14} className="text-slate-400 dark:text-slate-500" />
               {profile.employmentDetails.totalExperience} Exp
             </span>
           </div>
 
           <div className="flex flex-wrap justify-center md:justify-start gap-2 pt-2">
-            <span className="inline-flex items-center gap-1 px-3 py-1 bg-slate-50 text-slate-700 rounded-full border text-sm">
-              <Phone size={12} className="text-slate-400" />
+            <span className="inline-flex items-center gap-1 px-3 py-1 bg-slate-50 dark:bg-brand-card text-slate-700 dark:text-slate-300 rounded-full border text-sm">
+              <Phone size={12} className="text-slate-400 dark:text-slate-500" />
               {profile.personalInfo.phone}
             </span>
-            <span className="inline-flex items-center gap-1 px-3 py-1 bg-slate-50 text-slate-700 rounded-full border text-sm">
-              <Mail size={12} className="text-slate-400" />
+            <span className="inline-flex items-center gap-1 px-3 py-1 bg-slate-50 dark:bg-brand-card text-slate-700 dark:text-slate-300 rounded-full border text-sm">
+              <Mail size={12} className="text-slate-400 dark:text-slate-500" />
               {profile.personalInfo.email}
             </span>
           </div>
@@ -91,7 +130,7 @@ export const ProfileBannerCard = ({
           <button
             type="button"
             onClick={startEditingPersonal}
-            className="absolute right-0 top-0 inline-flex min-w-11 min-h-11 items-center justify-center rounded-lg text-slate-400 hover:text-brand-primary hover:bg-slate-50 transition-colors"
+            className="absolute right-0 top-0 inline-flex min-w-11 min-h-11 items-center justify-center rounded-lg text-slate-400 dark:text-slate-500 hover:text-brand-primary hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
             aria-label="Edit personal details"
           >
             <Edit2 size={16} />
@@ -99,9 +138,9 @@ export const ProfileBannerCard = ({
         )}
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-100 text-sm">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-100 dark:border-slate-700 text-sm">
         <div>
-          <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
+          <div className="text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider text-sm">
             Current CTC
           </div>
           <div className="font-bold text-brand-charcoal mt-0.5">
@@ -109,7 +148,7 @@ export const ProfileBannerCard = ({
           </div>
         </div>
         <div>
-          <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
+          <div className="text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider text-sm">
             Notice Period
           </div>
           <div className="font-bold text-brand-charcoal mt-0.5">
@@ -117,7 +156,7 @@ export const ProfileBannerCard = ({
           </div>
         </div>
         <div className="col-span-2 sm:col-span-1">
-          <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
+          <div className="text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider text-sm">
             Job Search Status
           </div>
           <div className="font-bold text-green-600 mt-0.5">Active & Interviewing</div>
@@ -128,10 +167,38 @@ export const ProfileBannerCard = ({
         <PersonalDetailsEditForm
           personalForm={personalForm}
           setPersonalForm={setPersonalForm}
+          personalErrors={personalErrors}
           setIsEditingPersonal={setIsEditingPersonal}
           savePersonalDetails={savePersonalDetails}
         />
       )}
+
+      <PhotoUploadModal
+        isOpen={isPhotoModalOpen}
+        onClose={() => {
+          setIsPhotoModalOpen(false);
+          setPendingFile(null);
+        }}
+        onSave={(dataUrl) => {
+          handleAvatarUpload(dataUrl);
+          setPendingFile(null);
+        }}
+        onRemove={() => {
+          handleAvatarUpload('');
+          setIsPhotoModalOpen(false);
+          setPendingFile(null);
+        }}
+        currentImage={profile.personalInfo.avatar}
+        initialFile={pendingFile}
+        shape="circle"
+        title="Update profile photo"
+        description="Drag to reposition and zoom to frame your photo, then save."
+        previewContexts={[
+          { label: 'Profile header', size: 72 },
+          { label: 'Application card', size: 40 },
+          { label: 'Navigation', size: 28 },
+        ]}
+      />
     </div>
   );
 };

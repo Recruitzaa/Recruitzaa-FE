@@ -1,6 +1,7 @@
 import { Edit2, Award, Link as LinkIcon } from 'lucide-react';
 import { useId } from 'react';
 import type { Accomplishments } from '../../../../store/slices/profileSlice';
+import { toSafeHref } from '../../../../lib/sanitizeUrl';
 
 interface AccomplishmentsCardProps {
   accomplishments: Accomplishments;
@@ -9,6 +10,7 @@ interface AccomplishmentsCardProps {
   startEditingAccomplishments: () => void;
   accomplishmentsForm: Accomplishments;
   setAccomplishmentsForm: (form: Accomplishments) => void;
+  accomplishmentsErrors: Record<string, string>;
   saveAccomplishments: () => void;
 }
 
@@ -19,6 +21,7 @@ export const AccomplishmentsCard = ({
   startEditingAccomplishments,
   accomplishmentsForm,
   setAccomplishmentsForm,
+  accomplishmentsErrors,
   saveAccomplishments,
 }: AccomplishmentsCardProps) => {
   const id = useId();
@@ -27,12 +30,11 @@ export const AccomplishmentsCard = ({
   const publicationId = `${id}-publication`;
   const presentationId = `${id}-presentation`;
   const patentId = `${id}-patent`;
-  const certificationId = `${id}-certification`;
 
   return (
     <div
       id="accomplishments"
-      className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 space-y-4 scroll-mt-24"
+      className="bg-white dark:bg-slate-850 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-6 space-y-4 scroll-mt-24"
     >
       <div className="flex justify-between items-center pb-2 border-b">
         <h3 className="text-sm font-bold text-brand-charcoal">Accomplishments</h3>
@@ -40,7 +42,7 @@ export const AccomplishmentsCard = ({
           <button
             type="button"
             onClick={startEditingAccomplishments}
-            className="inline-flex min-w-11 min-h-11 items-center justify-center rounded-lg text-slate-400 hover:text-brand-primary hover:bg-slate-50 transition-colors"
+            className="inline-flex min-w-11 min-h-11 items-center justify-center rounded-lg text-slate-400 dark:text-slate-500 hover:text-brand-primary hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
             aria-label="Edit accomplishments"
           >
             <Edit2 size={16} />
@@ -49,85 +51,111 @@ export const AccomplishmentsCard = ({
       </div>
 
       {!isEditingAccomplishments ? (
-        <div className="space-y-5 text-sm text-slate-700">
+        <div className="space-y-5 text-sm text-slate-700 dark:text-slate-300">
           <div className="flex items-start gap-3">
-            <LinkIcon size={16} className="text-slate-400 shrink-0 mt-0.5" aria-hidden="true" />
+            <LinkIcon
+              size={16}
+              className="text-slate-400 dark:text-slate-500 shrink-0 mt-0.5"
+              aria-hidden="true"
+            />
             <div>
-              <div className="font-semibold text-slate-500 uppercase tracking-wider text-[9px]">
+              <div className="font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-xs">
                 Online Profiles
               </div>
-              <a
-                href={accomplishments.onlineProfile}
-                target="_blank"
-                rel="noreferrer"
-                className="text-brand-primary font-bold hover:underline block mt-0.5"
-              >
-                {accomplishments.onlineProfile}
-              </a>
+              {toSafeHref(accomplishments.onlineProfile) ? (
+                <a
+                  href={toSafeHref(accomplishments.onlineProfile)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-brand-primary font-bold hover:underline block mt-0.5"
+                >
+                  {accomplishments.onlineProfile}
+                </a>
+              ) : (
+                <span className="text-slate-400 dark:text-slate-500 block mt-0.5">Not added</span>
+              )}
             </div>
           </div>
 
           <div className="flex items-start gap-3">
-            <LinkIcon size={16} className="text-slate-400 shrink-0 mt-0.5" aria-hidden="true" />
+            <LinkIcon
+              size={16}
+              className="text-slate-400 dark:text-slate-500 shrink-0 mt-0.5"
+              aria-hidden="true"
+            />
             <div>
-              <div className="font-semibold text-slate-500 uppercase tracking-wider text-[9px]">
+              <div className="font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-xs">
                 Work Samples
               </div>
-              <a
-                href={accomplishments.workSample}
-                target="_blank"
-                rel="noreferrer"
-                className="text-brand-primary font-bold hover:underline block mt-0.5"
-              >
-                {accomplishments.workSample}
-              </a>
+              {toSafeHref(accomplishments.workSample) ? (
+                <a
+                  href={toSafeHref(accomplishments.workSample)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-brand-primary font-bold hover:underline block mt-0.5"
+                >
+                  {accomplishments.workSample}
+                </a>
+              ) : (
+                <span className="text-slate-400 dark:text-slate-500 block mt-0.5">Not added</span>
+              )}
             </div>
           </div>
 
           <div className="flex items-start gap-3">
-            <Award size={16} className="text-slate-400 shrink-0 mt-0.5" aria-hidden="true" />
+            <Award
+              size={16}
+              className="text-slate-400 dark:text-slate-500 shrink-0 mt-0.5"
+              aria-hidden="true"
+            />
             <div>
-              <div className="font-semibold text-slate-500 uppercase tracking-wider text-[9px]">
+              <div className="font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-xs">
                 Publications
               </div>
-              <div className="font-bold text-slate-800 mt-0.5">{accomplishments.publication}</div>
+              <div className="font-bold text-slate-800 dark:text-slate-100 mt-0.5">
+                {accomplishments.publication}
+              </div>
             </div>
           </div>
 
           <div className="flex items-start gap-3">
-            <LinkIcon size={16} className="text-slate-400 shrink-0 mt-0.5" aria-hidden="true" />
+            <LinkIcon
+              size={16}
+              className="text-slate-400 dark:text-slate-500 shrink-0 mt-0.5"
+              aria-hidden="true"
+            />
             <div>
-              <div className="font-semibold text-slate-500 uppercase tracking-wider text-[9px]">
+              <div className="font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-xs">
                 Presentations
               </div>
-              <a
-                href={accomplishments.presentation}
-                target="_blank"
-                rel="noreferrer"
-                className="text-brand-primary font-bold hover:underline block mt-0.5"
-              >
-                {accomplishments.presentation}
-              </a>
+              {toSafeHref(accomplishments.presentation) ? (
+                <a
+                  href={toSafeHref(accomplishments.presentation)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-brand-primary font-bold hover:underline block mt-0.5"
+                >
+                  {accomplishments.presentation}
+                </a>
+              ) : (
+                <span className="text-slate-400 dark:text-slate-500 block mt-0.5">Not added</span>
+              )}
             </div>
           </div>
 
           <div className="flex items-start gap-3">
-            <Award size={16} className="text-slate-400 shrink-0 mt-0.5" aria-hidden="true" />
+            <Award
+              size={16}
+              className="text-slate-400 dark:text-slate-500 shrink-0 mt-0.5"
+              aria-hidden="true"
+            />
             <div>
-              <div className="font-semibold text-slate-500 uppercase tracking-wider text-[9px]">
+              <div className="font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-xs">
                 Patents
               </div>
-              <div className="font-bold text-slate-800 mt-0.5">{accomplishments.patent}</div>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3">
-            <Award size={16} className="text-slate-400 shrink-0 mt-0.5" aria-hidden="true" />
-            <div>
-              <div className="font-semibold text-slate-500 uppercase tracking-wider text-[9px]">
-                Certifications
+              <div className="font-bold text-slate-800 dark:text-slate-100 mt-0.5">
+                {accomplishments.patent}
               </div>
-              <div className="font-bold text-slate-800 mt-0.5">{accomplishments.certification}</div>
             </div>
           </div>
         </div>
@@ -137,7 +165,7 @@ export const AccomplishmentsCard = ({
             <div className="space-y-1">
               <label
                 htmlFor={onlineProfileId}
-                className="text-sm font-bold text-slate-500 uppercase block"
+                className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase block"
               >
                 Online Profile URL
               </label>
@@ -148,13 +176,19 @@ export const AccomplishmentsCard = ({
                 onChange={(e) =>
                   setAccomplishmentsForm({ ...accomplishmentsForm, onlineProfile: e.target.value })
                 }
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                aria-invalid={Boolean(accomplishmentsErrors.onlineProfile)}
               />
+              {accomplishmentsErrors.onlineProfile && (
+                <p className="text-xs text-red-600 dark:text-red-400">
+                  {accomplishmentsErrors.onlineProfile}
+                </p>
+              )}
             </div>
             <div className="space-y-1">
               <label
                 htmlFor={workSampleId}
-                className="text-sm font-bold text-slate-500 uppercase block"
+                className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase block"
               >
                 Work Sample URL
               </label>
@@ -165,13 +199,19 @@ export const AccomplishmentsCard = ({
                 onChange={(e) =>
                   setAccomplishmentsForm({ ...accomplishmentsForm, workSample: e.target.value })
                 }
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                aria-invalid={Boolean(accomplishmentsErrors.workSample)}
               />
+              {accomplishmentsErrors.workSample && (
+                <p className="text-xs text-red-600 dark:text-red-400">
+                  {accomplishmentsErrors.workSample}
+                </p>
+              )}
             </div>
             <div className="space-y-1">
               <label
                 htmlFor={publicationId}
-                className="text-sm font-bold text-slate-500 uppercase block"
+                className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase block"
               >
                 Publications
               </label>
@@ -182,13 +222,13 @@ export const AccomplishmentsCard = ({
                 onChange={(e) =>
                   setAccomplishmentsForm({ ...accomplishmentsForm, publication: e.target.value })
                 }
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
               />
             </div>
             <div className="space-y-1">
               <label
                 htmlFor={presentationId}
-                className="text-sm font-bold text-slate-500 uppercase block"
+                className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase block"
               >
                 Presentations URL
               </label>
@@ -199,13 +239,19 @@ export const AccomplishmentsCard = ({
                 onChange={(e) =>
                   setAccomplishmentsForm({ ...accomplishmentsForm, presentation: e.target.value })
                 }
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                aria-invalid={Boolean(accomplishmentsErrors.presentation)}
               />
+              {accomplishmentsErrors.presentation && (
+                <p className="text-xs text-red-600 dark:text-red-400">
+                  {accomplishmentsErrors.presentation}
+                </p>
+              )}
             </div>
             <div className="space-y-1">
               <label
                 htmlFor={patentId}
-                className="text-sm font-bold text-slate-500 uppercase block"
+                className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase block"
               >
                 Patents
               </label>
@@ -216,33 +262,23 @@ export const AccomplishmentsCard = ({
                 onChange={(e) =>
                   setAccomplishmentsForm({ ...accomplishmentsForm, patent: e.target.value })
                 }
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
-              />
-            </div>
-            <div className="space-y-1">
-              <label
-                htmlFor={certificationId}
-                className="text-sm font-bold text-slate-500 uppercase block"
-              >
-                Certifications
-              </label>
-              <input
-                id={certificationId}
-                type="text"
-                value={accomplishmentsForm.certification}
-                onChange={(e) =>
-                  setAccomplishmentsForm({ ...accomplishmentsForm, certification: e.target.value })
-                }
-                className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+                className="w-full border border-slate-200 dark:border-slate-700 rounded px-2.5 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
               />
             </div>
           </div>
+          <p className="text-sm text-slate-400 dark:text-slate-500">
+            Manage certifications with credential links and proof documents in the{' '}
+            <span className="font-semibold text-slate-500 dark:text-slate-400">
+              Certifications &amp; Licenses
+            </span>{' '}
+            section below.
+          </p>
 
           <div className="flex gap-2 justify-end">
             <button
               type="button"
               onClick={() => setIsEditingAccomplishments(false)}
-              className="px-3 py-1.5 border rounded text-sm hover:bg-slate-100 font-semibold"
+              className="px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold"
             >
               Cancel
             </button>
