@@ -44,10 +44,7 @@ export const PortalTopbar = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
               <span className={styles.active}>{currentPage}</span>
             </>
           ) : (
-            <>
-              <Link to="/candidate/dashboard">Candidate Workspace</Link> <span>/</span>{' '}
-              <span className={styles.active}>Overview Dashboard</span>
-            </>
+            <span className={styles.active}>Overview Dashboard</span>
           )}
         </div>
         <div className={styles.greeting}>
