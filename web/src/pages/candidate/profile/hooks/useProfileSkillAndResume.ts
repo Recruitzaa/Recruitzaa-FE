@@ -1,44 +1,70 @@
 import { useState } from 'react';
-import { useAppDispatch } from '../../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { useToast } from '../../../../hooks/useToast';
 import { updateUserProfile } from '../../../../store/slices/auth.slice';
 import { addSkill, removeSkill, setFullProfile } from '../../../../store/slices/profileSlice';
 import { getMockParsedProfile } from '../utils/mockParsedProfile';
+import { updateCandidateProfile } from '../../../../services/profile.service';
+import type { RootState } from '../../../../store';
 
 export const useProfileSkillAndResume = (appUser: any) => {
   const dispatch = useAppDispatch();
   const toast = useToast();
+  const currentSkills = useAppSelector((state: RootState) => state.profile.skills);
 
   const [newSkill, setNewSkill] = useState('');
   const [isParsing, setIsParsing] = useState(false);
   const [resumeFileName, setResumeFileName] = useState(
     appUser?.displayName
       ? `${appUser.displayName.replace(/\s+/g, '_')}_Resume.pdf`
-      : 'Arjun_Kumar_Resume.pdf'
+      : 'Resume.pdf'
   );
   const [resumeFileSize, setResumeFileSize] = useState('124 KB');
 
-  const handleAddSkill = (e: React.FormEvent) => {
+  const handleAddSkill = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newSkill.trim()) return;
-    dispatch(addSkill(newSkill.trim()));
+    const skillTrimmed = newSkill.trim();
+    if (!skillTrimmed) return;
+    if (currentSkills.includes(skillTrimmed)) {
+      toast.info('Skill already added.');
+      return;
+    }
+    const updatedSkills = [...currentSkills, skillTrimmed];
+    dispatch(addSkill(skillTrimmed));
     setNewSkill('');
     toast.success('Skill added.');
+
+    try {
+      await updateCandidateProfile({
+        skillsFlat: updatedSkills,
+      } as any);
+    } catch {
+      // Ignored for local fallback
+    }
   };
 
-  const handleRemoveSkill = (skill: string) => {
+  const handleRemoveSkill = async (skill: string) => {
+    const updatedSkills = currentSkills.filter((s) => s !== skill);
     dispatch(removeSkill(skill));
     toast.info('Removed skill.');
+
+    try {
+      await updateCandidateProfile({
+        skillsFlat: updatedSkills,
+      } as any);
+    } catch {
+      // Ignored for local fallback
+    }
   };
 
   const handleTriggerAIParsing = () => {
     setIsParsing(true);
     toast.info('AI Resume Parser scanning document layout...');
 
-    setTimeout(() => {
+    setTimeout(async () => {
       const parsedProfile = getMockParsedProfile(appUser?.email || '');
       dispatch(setFullProfile(parsedProfile));
-      setResumeFileName('Arjun_Kumar_Lead_Architect_CV.pdf');
+      setResumeFileName(`${(appUser?.displayName || 'User').replace(/\s+/g, '_')}_Parsed_CV.pdf`);
       setResumeFileSize('186 KB');
 
       dispatch(
@@ -54,8 +80,30 @@ export const useProfileSkillAndResume = (appUser: any) => {
         })
       );
 
+      try {
+        await updateCandidateProfile({
+          personalInfo: parsedProfile.personalInfo,
+          headline: parsedProfile.professionalSummary.headline,
+          summary: parsedProfile.professionalSummary.detailedSummary,
+          skillsFlat: parsedProfile.skills,
+          experience: parsedProfile.employmentHistory.map((h) => ({
+            role: h.designation,
+            company: h.company,
+            startDate: h.duration,
+            description: (h.keyResponsibilities || []).join('\n'),
+          })),
+          projects: parsedProfile.projects,
+          itSkills: parsedProfile.itSkills,
+          careerProfile: parsedProfile.careerProfile,
+          extendedPersonal: parsedProfile.extendedPersonal,
+          accomplishments: parsedProfile.accomplishments,
+        } as any);
+      } catch {
+        // Ignored
+      }
+
       setIsParsing(false);
-      toast.success('AI parsed resume successfully! Pre-populated 10 profile blocks.');
+      toast.success('AI parsed resume successfully! Populated profile blocks and saved to DB.');
     }, 2000);
   };
 

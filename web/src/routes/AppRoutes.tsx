@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { PublicLayout } from '../components/layout/PublicLayout/PublicLayout';
 import { PortalLayout } from '../components/layout/PortalLayout/PortalLayout';
 import { AdminLayout } from '../components/layout/AdminLayout/AdminLayoutV2';
@@ -22,6 +22,8 @@ export const AppRoutes = () => {
 
       {/* ── AUTH ── */}
       <Route path="/auth" element={<Pages.AuthPage />} />
+      <Route path="/login" element={<Navigate to="/auth" replace />} />
+      <Route path="/signup" element={<Navigate to="/auth" replace />} />
 
       {/* ── ENTERPRISE LAUNCHPAD ── */}
       <Route

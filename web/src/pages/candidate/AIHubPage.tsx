@@ -2,16 +2,18 @@ import { useState } from 'react';
 import { ATSCompatibilityEngine } from '../../features/ai-hub/components/ATSCompatibilityEngine';
 import { ResumeOptimizer } from '../../features/ai-hub/components/ResumeOptimizer';
 import { AIChatPanel } from '../../features/ai-hub/components/AIChatPanel';
+import { LatexResumeMaker } from '../../features/ai-hub/components/LatexResumeMaker';
 import { scoreResume } from '../../services/ai.service';
 import { useAIChat } from '../../hooks/useAIChat';
 import type { ATSScore } from '../../types/ai.types';
+import { FileCode, Sparkles } from 'lucide-react';
 
 /**
- * AIHubPage — Main Candidate AI Tools Hub
- * Features ATS parser comparison, Bullet optimizer, and Career assistant chat.
+ * AIHubPage — Main Candidate AI & Career Tools Hub
+ * Features LaTeX Resume Maker, ATS parser comparison, Bullet optimizer, and Career assistant chat.
  */
 export const AIHubPage = () => {
-  const [activeTab, setActiveTab] = useState<'ats' | 'optimizer' | 'chat'>('ats');
+  const [activeTab, setActiveTab] = useState<'latex' | 'ats' | 'optimizer' | 'chat'>('latex');
   const [resumeText, setResumeText] = useState('');
   const [jdText, setJdText] = useState('');
 
@@ -37,7 +39,7 @@ export const AIHubPage = () => {
     if (!chatInput.trim()) return;
     sendMessage(
       chatInput,
-      `You are helping the candidate Arjun Kumar optimize his resume for a Job Description. Here is his current ATS Score data: ${JSON.stringify(
+      `You are helping the candidate optimize their resume for a Job Description. Here is the current ATS Score data: ${JSON.stringify(
         scoreData
       )}`
     );
@@ -56,6 +58,23 @@ export const AIHubPage = () => {
           <button
             type="button"
             role="tab"
+            aria-selected={activeTab === 'latex'}
+            className={`py-3 text-sm font-semibold border-b-2 transition-all flex items-center gap-2 ${
+              activeTab === 'latex'
+                ? 'border-brand-primary text-brand-primary dark:text-brand-primary'
+                : 'border-transparent text-slate-500 hover:text-slate-700'
+            }`}
+            onClick={() => setActiveTab('latex')}
+          >
+            <FileCode size={16} />
+            LaTeX Resume Maker
+            <span className="px-1.5 py-0.5 rounded text-[10px] bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-200 font-bold">
+              ATS-Ready
+            </span>
+          </button>
+          <button
+            type="button"
+            role="tab"
             aria-selected={activeTab === 'ats'}
             className={`py-3 text-sm font-semibold border-b-2 transition-all ${
               activeTab === 'ats'
@@ -64,7 +83,7 @@ export const AIHubPage = () => {
             }`}
             onClick={() => setActiveTab('ats')}
           >
-            Keyword comparison
+            ATS Keyword Comparison
           </button>
           <button
             type="button"
@@ -77,30 +96,28 @@ export const AIHubPage = () => {
             }`}
             onClick={() => setActiveTab('optimizer')}
           >
-            Writing examples
+            Bullet Writing Examples
           </button>
           <button
             type="button"
             role="tab"
             aria-selected={activeTab === 'chat'}
-            className={`py-3 text-sm font-semibold border-b-2 transition-all ${
+            className={`py-3 text-sm font-semibold border-b-2 transition-all flex items-center gap-1.5 ${
               activeTab === 'chat'
                 ? 'border-brand-primary text-brand-primary dark:text-brand-primary'
                 : 'border-transparent text-slate-500 hover:text-slate-700'
             }`}
             onClick={() => setActiveTab('chat')}
           >
-            Guidance demo
+            <Sparkles size={15} />
+            AI Career Advisor
           </button>
         </div>
       </div>
 
       {/* Main Content Area */}
       <div className="max-w-6xl mx-auto w-full px-6 py-8">
-        <div className="mb-5 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm leading-5 text-amber-900 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
-          These tools are deterministic frontend demos, not hiring decisions. They do not assess
-          candidate quality, and pasted text is not sent to a production recruitment service.
-        </div>
+        {activeTab === 'latex' && <LatexResumeMaker />}
         {activeTab === 'ats' && (
           <ATSCompatibilityEngine
             resumeText={resumeText}

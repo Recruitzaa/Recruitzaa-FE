@@ -10,6 +10,7 @@ import {
   type ITSkillItem,
 } from '../../../../store/slices/profileSlice';
 import type { JobHistoryItem } from '../components/EmploymentTimeline';
+import { updateCandidateProfile } from '../../../../services/profile.service';
 
 export const useProfileListEdit = (profile: ProfileState) => {
   const dispatch = useAppDispatch();
@@ -43,7 +44,7 @@ export const useProfileListEdit = (profile: ProfileState) => {
   const startEditingHistory = (index: number) => {
     const item = profile.employmentHistory[index];
     setHistoryForm({ ...item });
-    setHistoryResponsibilitiesText(item.keyResponsibilities.join('\n'));
+    setHistoryResponsibilitiesText((item.keyResponsibilities || []).join('\n'));
     setEditingHistoryIndex(index);
   };
 
@@ -61,10 +62,10 @@ export const useProfileListEdit = (profile: ProfileState) => {
 
   const addNewHistoryItem = () => {
     const newItem = {
-      designation: 'Designation Role',
-      company: 'Company Name',
-      duration: 'Duration (e.g. 2023 - 2024)',
-      keyResponsibilities: ['Key responsibility 1', 'Key responsibility 2'],
+      designation: '',
+      company: '',
+      duration: '',
+      keyResponsibilities: [],
     };
     dispatch(updateEmploymentHistory([newItem, ...profile.employmentHistory]));
     startEditingHistory(0);
@@ -72,10 +73,10 @@ export const useProfileListEdit = (profile: ProfileState) => {
 
   const addNewProjectItem = () => {
     const newItem = {
-      name: 'Project Name',
-      client: 'Client Name',
-      duration: 'Duration',
-      description: 'Brief description of the work.',
+      name: '',
+      client: '',
+      duration: '',
+      description: '',
     };
     dispatch(updateProjects([newItem, ...profile.projects]));
     startEditingProject(0);
@@ -83,17 +84,17 @@ export const useProfileListEdit = (profile: ProfileState) => {
 
   const addNewITSkillItem = () => {
     const newItem = {
-      skill: 'Skill Name',
-      version: '1.0',
-      lastUsed: '2026',
-      experience: '1 Year 0 Months',
+      skill: '',
+      version: '',
+      lastUsed: '',
+      experience: '',
     };
     const updated = [...profile.itSkills, newItem];
     dispatch(updateITSkills(updated));
     startEditingITSkill(updated.length - 1);
   };
 
-  const saveHistoryItem = (index: number) => {
+  const saveHistoryItem = async (index: number) => {
     const updatedHistory = [...profile.employmentHistory];
     updatedHistory[index] = {
       ...historyForm,
@@ -104,44 +105,102 @@ export const useProfileListEdit = (profile: ProfileState) => {
     };
     dispatch(updateEmploymentHistory(updatedHistory));
     setEditingHistoryIndex(null);
-    toast.success('Employment record updated.');
+
+    try {
+      await updateCandidateProfile({
+        experience: updatedHistory.map((h) => ({
+          role: h.designation,
+          company: h.company,
+          startDate: h.duration,
+          description: (h.keyResponsibilities || []).join('\n'),
+        })),
+      } as any);
+      toast.success('Employment record saved to database.');
+    } catch {
+      toast.info('Employment record updated locally.');
+    }
   };
 
-  const deleteHistoryItem = (index: number) => {
+  const deleteHistoryItem = async (index: number) => {
     const updatedHistory = profile.employmentHistory.filter((_, i) => i !== index);
     dispatch(updateEmploymentHistory(updatedHistory));
     setEditingHistoryIndex(null);
-    toast.info('Removed employment record.');
+
+    try {
+      await updateCandidateProfile({
+        experience: updatedHistory.map((h) => ({
+          role: h.designation,
+          company: h.company,
+          startDate: h.duration,
+          description: (h.keyResponsibilities || []).join('\n'),
+        })),
+      } as any);
+      toast.info('Removed employment record.');
+    } catch {
+      toast.info('Removed employment record locally.');
+    }
   };
 
-  const saveProjectItem = (index: number) => {
+  const saveProjectItem = async (index: number) => {
     const updatedProjects = [...profile.projects];
     updatedProjects[index] = { ...projectForm };
     dispatch(updateProjects(updatedProjects));
     setEditingProjectIndex(null);
-    toast.success('Project details saved.');
+
+    try {
+      await updateCandidateProfile({
+        projects: updatedProjects,
+      } as any);
+      toast.success('Project details saved to database.');
+    } catch {
+      toast.info('Project details updated locally.');
+    }
   };
 
-  const deleteProjectItem = (index: number) => {
+  const deleteProjectItem = async (index: number) => {
     const updatedProjects = profile.projects.filter((_, i) => i !== index);
     dispatch(updateProjects(updatedProjects));
     setEditingProjectIndex(null);
-    toast.info('Project record deleted.');
+
+    try {
+      await updateCandidateProfile({
+        projects: updatedProjects,
+      } as any);
+      toast.info('Project record deleted.');
+    } catch {
+      toast.info('Project deleted locally.');
+    }
   };
 
-  const saveITSkillItem = (index: number) => {
+  const saveITSkillItem = async (index: number) => {
     const updatedITSkills = [...profile.itSkills];
     updatedITSkills[index] = { ...itSkillForm };
     dispatch(updateITSkills(updatedITSkills));
     setEditingITSkillIndex(null);
-    toast.success('IT Skill updated.');
+
+    try {
+      await updateCandidateProfile({
+        itSkills: updatedITSkills,
+      } as any);
+      toast.success('IT Skill saved to database.');
+    } catch {
+      toast.info('IT Skill updated locally.');
+    }
   };
 
-  const deleteITSkillItem = (index: number) => {
+  const deleteITSkillItem = async (index: number) => {
     const updatedITSkills = profile.itSkills.filter((_, i) => i !== index);
     dispatch(updateITSkills(updatedITSkills));
     setEditingITSkillIndex(null);
-    toast.info('IT Skill removed.');
+
+    try {
+      await updateCandidateProfile({
+        itSkills: updatedITSkills,
+      } as any);
+      toast.info('IT Skill removed.');
+    } catch {
+      toast.info('IT Skill removed locally.');
+    }
   };
 
   return {
