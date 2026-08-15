@@ -1,0 +1,1 @@
+import{_t as e,vt as t}from"./index-BgWF1pjE.js";var n=()=>{let n=t();return{success:t=>n(e({type:`success`,message:t})),error:t=>n(e({type:`error`,message:t})),warning:t=>n(e({type:`warning`,message:t})),info:t=>n(e({type:`info`,message:t}))}};export{n as t};

@@ -2,54 +2,37 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="apple-touch-icon" href="/favicon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#c14f16" />
     <meta name="description" content="Recruitzaa helps candidates discover roles and employers manage job listings." />
     <title>Recruitzaa — Find work with clarity</title>
-    <script type="module" crossorigin src="/assets/index-Bh9U-u7G.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/jsx-runtime-D8nDyRPw.js">
-    <link rel="modulepreload" crossorigin href="/assets/react-dom-CrK8yE57.js">
-    <link rel="modulepreload" crossorigin href="/assets/hooks-DGUMzJvN.js">
-    <link rel="modulepreload" crossorigin href="/assets/components-AX8cQI7o.js">
-    <link rel="modulepreload" crossorigin href="/assets/lib-BRZ97_P2.js">
-    <link rel="modulepreload" crossorigin href="/assets/createLucideIcon-CQoDxQG3.js">
-    <link rel="modulepreload" crossorigin href="/assets/bookmark-BFCT3-Za.js">
-    <link rel="modulepreload" crossorigin href="/assets/briefcase-D3P6jLNk.js">
-    <link rel="modulepreload" crossorigin href="/assets/building-2-Bp_Wkthe.js">
-    <link rel="modulepreload" crossorigin href="/assets/calendar-AlbfqJjO.js">
-    <link rel="modulepreload" crossorigin href="/assets/chevron-down-BCkxSchs.js">
-    <link rel="modulepreload" crossorigin href="/assets/circle-check-big-CLfF76k6.js">
-    <link rel="modulepreload" crossorigin href="/assets/graduation-cap-C2S2gAvC.js">
-    <link rel="modulepreload" crossorigin href="/assets/indian-rupee-D6txn1aV.js">
-    <link rel="modulepreload" crossorigin href="/assets/useTheme-DUKdYbY6.js">
-    <link rel="modulepreload" crossorigin href="/assets/refresh-cw-Bp-sFLWa.js">
-    <link rel="modulepreload" crossorigin href="/assets/shield-check-CRZ68yXk.js">
-    <link rel="modulepreload" crossorigin href="/assets/sparkles-Dn7c4i0z.js">
-    <link rel="modulepreload" crossorigin href="/assets/square-check-big-BOwf6YW2.js">
-    <link rel="modulepreload" crossorigin href="/assets/triangle-alert-DDoHaRLW.js">
-    <link rel="modulepreload" crossorigin href="/assets/users-CbymUZLi.js">
-    <link rel="modulepreload" crossorigin href="/assets/x-CXfJoqxa.js">
-    <link rel="modulepreload" crossorigin href="/assets/hooks-Dr_a-Th-.js">
-    <link rel="modulepreload" crossorigin href="/assets/redux-toolkit.modern-CFKDYB9R.js">
-    <link rel="modulepreload" crossorigin href="/assets/ui.slice-DXnhiHtV.js">
-    <link rel="modulepreload" crossorigin href="/assets/index.esm-DMCDXRBc.js">
-    <link rel="modulepreload" crossorigin href="/assets/QueryClientProvider-DZ6JAkFP.js">
-    <link rel="modulepreload" crossorigin href="/assets/auth.slice-2zAdDaS2.js">
-    <link rel="modulepreload" crossorigin href="/assets/kanbanSlice-DNlTK0Su.js">
-    <link rel="modulepreload" crossorigin href="/assets/jobsSlice-B3Cq80ei.js">
-    <link rel="modulepreload" crossorigin href="/assets/profileSlice-Cc9UpYZL.js">
-    <link rel="modulepreload" crossorigin href="/assets/expertSlice-Bg0Gda9v.js">
-    <link rel="modulepreload" crossorigin href="/assets/employerProfileSlice-CMXMvOyz.js">
-    <link rel="modulepreload" crossorigin href="/assets/Spinner-_Kwh13fX.js">
-    <link rel="modulepreload" crossorigin href="/assets/Button-NNZ3Y6qz.js">
-    <link rel="modulepreload" crossorigin href="/assets/content-FDtxc-Ms.js">
-    <link rel="modulepreload" crossorigin href="/assets/axios-CZgM7yKD.js">
-    <link rel="modulepreload" crossorigin href="/assets/api.service-Dif3mBMU.js">
-    <link rel="modulepreload" crossorigin href="/assets/useFocusTrap-D-Yz6D1d.js">
-    <link rel="stylesheet" crossorigin href="/assets/Spinner-x1XGuNl0.css">
-    <link rel="stylesheet" crossorigin href="/assets/Button-DkmFCwXu.css">
-    <link rel="stylesheet" crossorigin href="/assets/index-pt76JeLC.css">
+    <script>
+      // Apply the persisted theme before first paint so dark-mode token
+      // overrides are active immediately. Without this, the .dark class only
+      // appears once the lazy-loaded Navbar mounts (~seconds), leaving the
+      // page in a mismatched state (dark backgrounds, light text) that fails
+      // axe color-contrast audits and flashes incorrectly for users.
+      (function () {
+        try {
+          if (localStorage.getItem('recruitzaa-theme-v2') === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.documentElement.dataset.theme = 'dark';
+            document.documentElement.style.colorScheme = 'dark';
+          }
+        } catch (e) { /* localStorage unavailable */ }
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-BgWF1pjE.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/index.esm-wZL5JX3d.js">
+    <link rel="modulepreload" crossorigin href="/assets/components-CDDBCM1n.js">
+    <link rel="modulepreload" crossorigin href="/assets/createLucideIcon-COp8Phu3.js">
+    <link rel="modulepreload" crossorigin href="/assets/safeStorage-C8eEY-rV.js">
+    <link rel="modulepreload" crossorigin href="/assets/schemas-CBD3OlDq.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-DuaIug9z.css">
   </head>
   <body>
     <div id="root"></div>

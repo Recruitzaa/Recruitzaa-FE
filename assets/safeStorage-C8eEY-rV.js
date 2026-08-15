@@ -1,0 +1,1 @@
+var e=e=>({getItem(t){try{return e().getItem(t)}catch{return null}},setItem(t,n){try{return e().setItem(t,n),!0}catch{return!1}},removeItem(t){try{return e().removeItem(t),!0}catch{return!1}},clear(){try{return e().clear(),!0}catch{return!1}}}),t=e(()=>window.localStorage),n=e(()=>window.sessionStorage);export{n,t};

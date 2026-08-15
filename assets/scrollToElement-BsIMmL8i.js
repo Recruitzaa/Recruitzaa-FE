@@ -1,0 +1,1 @@
+function e(e,t){if(!e)return;let n=typeof window<`u`&&window.matchMedia?.(`(prefers-reduced-motion: reduce)`).matches;e.scrollIntoView({...t,behavior:n?`auto`:`smooth`})}function t(t,n){typeof document>`u`||e(document.getElementById(t),n)}export{t as n,e as t};

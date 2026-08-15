@@ -1,1 +1,0 @@
-import{t as e}from"./jsx-runtime-D8nDyRPw.js";var t={spinner:`_spinner_1pl2f_1`},n=e(),r=({children:e,className:r,...i})=>(0,n.jsx)(`div`,{className:[t.spinner,r].filter(Boolean).join(` `),...i,children:e});export{r as t};

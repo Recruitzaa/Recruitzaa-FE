@@ -1,0 +1,1 @@
+import{t as e}from"./safeStorage-C8eEY-rV.js";var t=(t,n={})=>{if(typeof window>`u`)return;window.dispatchEvent(new CustomEvent(`recruitzaa:analytics`,{detail:{name:t,properties:n}}));let r=window;e.getItem(`recruitzaa:analytics-consent`)===`granted`&&r.gtag?.(`event`,t,n)};export{t};
