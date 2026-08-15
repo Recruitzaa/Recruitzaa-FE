@@ -70,6 +70,11 @@ export const DashboardLayout = () => {
                 Employee
               </span>
             )}
+            {appUser?.activeRole === 'EXPERT' && (
+              <span className="text-[10px] bg-indigo-600 text-white font-bold px-1.5 py-0.5 rounded uppercase tracking-wider shrink-0 mt-[0.5em]">
+                Tutor
+              </span>
+            )}
           </Link>
           <button
             type="button"

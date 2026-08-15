@@ -11,6 +11,7 @@ import { Spinner } from './components/ui/Spinner/Spinner';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { AppRoutes } from './routes/AppRoutes';
 import { JobPreferencesProvider } from './features/jobs/hooks/useJobPreferences';
+import { ThemeProvider } from './hooks/useTheme';
 
 const LoadingSpinner = () => (
   <main
@@ -49,21 +50,23 @@ const FocusOnRouteChange = () => {
 function App() {
   return (
     <ErrorBoundary>
-      <HelmetProvider>
-        <Provider store={store}>
-          <QueryClientProvider client={queryClient}>
-            <JobPreferencesProvider>
-              <HashRouter>
-                <FocusOnRouteChange />
-                <Suspense fallback={<LoadingSpinner />}>
-                  <AppRoutes />
-                </Suspense>
-                <ToastContainer />
-              </HashRouter>
-            </JobPreferencesProvider>
-          </QueryClientProvider>
-        </Provider>
-      </HelmetProvider>
+      <ThemeProvider>
+        <HelmetProvider>
+          <Provider store={store}>
+            <QueryClientProvider client={queryClient}>
+              <JobPreferencesProvider>
+                <HashRouter>
+                  <FocusOnRouteChange />
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <AppRoutes />
+                  </Suspense>
+                  <ToastContainer />
+                </HashRouter>
+              </JobPreferencesProvider>
+            </QueryClientProvider>
+          </Provider>
+        </HelmetProvider>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 }

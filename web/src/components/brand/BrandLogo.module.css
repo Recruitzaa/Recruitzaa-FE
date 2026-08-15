@@ -13,8 +13,10 @@
 .textGroup {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
   line-height: 1;
+  text-align: left;
 }
 
 .wordmark {

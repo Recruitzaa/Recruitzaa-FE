@@ -53,7 +53,12 @@ export const PortalSidebar = ({ isOpen, onClose }: PortalSidebarProps) => {
       >
         <div className={styles.brand}>
           <Link to={isEmployer ? '/employers' : '/'} className="flex items-center gap-2">
-            <BrandLogo size={34} />
+            <BrandLogo size={34} tagline={false} />
+            {isEmployer && (
+              <span className="text-[10px] bg-blue-600 text-white font-bold px-1.5 py-0.5 rounded uppercase tracking-wider shrink-0 mt-[0.5em]">
+                Employer
+              </span>
+            )}
           </Link>
           <button
             type="button"

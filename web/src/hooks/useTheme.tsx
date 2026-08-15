@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import { safeLocalStorage } from '../lib/safeStorage';
 
 export type Theme = 'light' | 'dark';
@@ -63,13 +63,21 @@ const updateFaviconTheme = (theme: Theme) => {
   });
 };
 
+interface ThemeContextValue {
+  theme: Theme;
+  toggleTheme: () => void;
+  isDark: boolean;
+}
+
+const ThemeContext = createContext<ThemeContextValue | null>(null);
+
 /**
- * useTheme — React hook to manage light and dark mode state.
- * - Defaults first-time visitors to light mode.
- * - Persists theme selection to localStorage.
- * - Dynamically toggles the `.dark` class on the <html> element to trigger Tailwind.
+ * ThemeProvider — holds the single, app-wide light/dark state.
+ * Every `useTheme()` call reads from this one source, so toggling
+ * the theme anywhere re-renders every consumer immediately — no
+ * stale components left showing the old theme until their next mount.
  */
-export const useTheme = () => {
+export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setTheme] = useState<Theme>(() => {
     const savedTheme = safeLocalStorage.getItem(THEME_STORAGE_KEY);
     return savedTheme === 'dark' ? 'dark' : 'light';
@@ -88,5 +96,21 @@ export const useTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
 
-  return { theme, toggleTheme, isDark: theme === 'dark' };
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme, isDark: theme === 'dark' }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+
+/**
+ * useTheme — React hook to read/toggle the app-wide light/dark theme.
+ * Must be used within a <ThemeProvider> (mounted once at the app root).
+ */
+export const useTheme = () => {
+  const ctx = useContext(ThemeContext);
+  if (!ctx) {
+    throw new Error('useTheme must be used within a ThemeProvider');
+  }
+  return ctx;
 };

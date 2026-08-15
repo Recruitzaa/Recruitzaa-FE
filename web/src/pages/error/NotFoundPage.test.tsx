@@ -7,6 +7,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import authReducer from '../../store/slices/auth.slice';
 import uiReducer from '../../store/slices/ui.slice';
+import { ThemeProvider } from '../../hooks/useTheme';
 import { NotFoundPage } from './NotFoundPage';
 
 vi.mock('../../hooks/useAuth', () => ({
@@ -22,14 +23,16 @@ const renderNotFound = () => {
   const store = configureStore({ reducer: { auth: authReducer, ui: uiReducer } });
   return render(
     <HelmetProvider>
-      <Provider store={store}>
-        <MemoryRouter initialEntries={['/does-not-exist']}>
-          <Routes>
-            <Route path="/jobs" element={<LocationDisplay />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </MemoryRouter>
-      </Provider>
+      <ThemeProvider>
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/does-not-exist']}>
+            <Routes>
+              <Route path="/jobs" element={<LocationDisplay />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </MemoryRouter>
+        </Provider>
+      </ThemeProvider>
     </HelmetProvider>
   );
 };
