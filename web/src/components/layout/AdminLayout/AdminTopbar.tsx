@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Menu, Moon, Sun } from 'lucide-react';
 import { useTheme } from '../../../hooks/useTheme';
 
@@ -26,26 +26,7 @@ export const AdminTopbar = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
       >
         <Menu size={20} />
       </button>
-      {/* Breadcrumbs */}
-      <div>
-        <div className="hidden sm:flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-500">
-          <Link to="/" className="hover:text-slate-800 dark:hover:text-slate-300 transition-colors">
-            Home
-          </Link>
-          <span>/</span>
-          <Link
-            to="/admin/dashboard"
-            className="hover:text-slate-800 dark:hover:text-slate-300 transition-colors"
-          >
-            Admin
-          </Link>
-          <span>/</span>
-          <span className="text-slate-800 dark:text-slate-200 font-semibold">{currentPage}</span>
-        </div>
-        <div className="text-sm font-extrabold text-slate-900 dark:text-white mt-0.5">
-          {currentPage}
-        </div>
-      </div>
+      <div className="text-sm font-extrabold text-slate-900 dark:text-white">{currentPage}</div>
 
       {/* Actions */}
       <div className="flex items-center gap-3">
