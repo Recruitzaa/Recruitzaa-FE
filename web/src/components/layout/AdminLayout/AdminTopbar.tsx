@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { Menu, Moon, Sun } from 'lucide-react';
 import { useTheme } from '../../../hooks/useTheme';
+import { useAppSelector } from '../../../store/hooks';
 
 const BREADCRUMB_MAP: Record<string, string> = {
   '/admin/dashboard': 'System Dashboard',
@@ -14,6 +15,7 @@ const BREADCRUMB_MAP: Record<string, string> = {
 export const AdminTopbar = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
   const location = useLocation();
   const { toggleTheme, isDark } = useTheme();
+  const { appUser } = useAppSelector((s) => s.auth);
   const currentPage = BREADCRUMB_MAP[location.pathname] ?? 'Admin';
 
   return (
@@ -26,7 +28,14 @@ export const AdminTopbar = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
       >
         <Menu size={20} />
       </button>
-      <div className="text-sm font-extrabold text-slate-900 dark:text-white">{currentPage}</div>
+      <div>
+        <div className="text-base font-extrabold text-slate-900 dark:text-white">
+          Welcome back, {appUser?.displayName?.split(' ')[0] || 'there'} 👋
+        </div>
+        <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+          {currentPage}
+        </div>
+      </div>
 
       {/* Actions */}
       <div className="flex items-center gap-3">

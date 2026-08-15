@@ -156,8 +156,8 @@ export const DashboardLayout = () => {
             <Menu size={20} />
           </button>
 
-          <div className="text-sm font-semibold text-slate-500 hidden sm:block">
-            {appUser ? getRoleLabel(appUser.activeRole) : 'Workspace'} Hub
+          <div className="text-base font-extrabold text-slate-900 dark:text-white">
+            Welcome back, {appUser?.displayName?.split(' ')[0] || 'there'} 👋
           </div>
 
           {/* Quick Sign Out Header Button */}
