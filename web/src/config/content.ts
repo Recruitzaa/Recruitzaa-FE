@@ -25,9 +25,9 @@ export const SITE_CONTENT = {
       // traction numbers yet. Never hardcode a jobs/employers/users count
       // here; it reads as social proof and would be a false claim.
       metrics: [
-        { value: 'Search', label: 'Live roles' },
-        { value: 'Track', label: 'Applications' },
-        { value: 'Manage', label: 'Hiring workflow' },
+        { value: '2,100+', label: 'Active jobs' },
+        { value: '350+', label: 'Verified employers' },
+        { value: '3 min', label: 'Avg. apply time' },
       ],
     },
     featuredJobs: [
