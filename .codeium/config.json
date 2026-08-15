@@ -1,0 +1,80 @@
+{
+  "projectMetadata": {
+    "name": "Recruitzaa-FE",
+    "version": "0.5.0",
+    "description": "React + TypeScript web app for job seekers, employers, admins",
+    "type": "react-typescript"
+  },
+  "stack": {
+    "framework": "React 18",
+    "language": "TypeScript (strict mode)",
+    "stateManagement": "Redux Toolkit + RTK Query",
+    "styling": "Tailwind CSS + CSS modules",
+    "forms": "React Hook Form + Zod",
+    "auth": "Firebase + custom role guard",
+    "testing": "Vitest + React Testing Library",
+    "build": "Vite"
+  },
+  "keyFiles": {
+    "auth": "src/features/auth/auth.slice.ts",
+    "jobs": "src/features/jobs/jobsSlice.ts",
+    "profile": "src/features/profile/profile.slice.ts",
+    "api": "src/services/api.service.ts",
+    "types": "src/config/types.ts",
+    "routing": "src/config/routes.meta.ts",
+    "validation": "src/lib/validation.ts"
+  },
+  "patterns": {
+    "redux": "Use selectors: useAppSelector(selectMyState), never direct store access",
+    "api": "RTK Query for GET (caches), Axios for POST/PUT, validate with Zod",
+    "forms": "React Hook Form + Zod validation, inline field errors",
+    "darkMode": "Add dark: Tailwind prefixes, toggle stored in ui.slice.ts",
+    "auth": "Firebase login → auth.slice.ts → RoleGuard.tsx checks backend role",
+    "testing": "Unit tests in __tests__ sibling, test auth & form flows"
+  },
+  "commands": {
+    "dev": "npm run dev (start 5173)",
+    "verify": "npm run verify (lint+test+build)",
+    "test": "npm run test (watch mode)",
+    "build": "npm run build (production)"
+  },
+  "routes": {
+    "candidate": {
+      "path": "/candidate/*",
+      "pages": ["jobs", "jobs/:id", "profile", "dashboard"],
+      "auth": "role=candidate"
+    },
+    "employer": {
+      "path": "/employer/*",
+      "pages": ["dashboard", "companies", "profile"],
+      "auth": "role=employer"
+    },
+    "admin": {
+      "path": "/admin/*",
+      "pages": ["users", "companies"],
+      "auth": "role=admin"
+    }
+  },
+  "documentation": {
+    "fullContext": "CLAUDE.md",
+    "navigation": "graphify-out/wiki/INDEX.md",
+    "routing": "CLAUDE.md#routing",
+    "redux": "CLAUDE.md#redux",
+    "api": "CLAUDE.md#api",
+    "troubleshooting": "CLAUDE.md#troubleshooting"
+  },
+  "rules": [
+    "Always run npm run verify before committing",
+    "Use Redux selectors, never direct store access",
+    "Validate API responses with Zod at boundary",
+    "Add dark: Tailwind prefixes for dark mode",
+    "Write tests for auth and form flows",
+    "Check graphify first: graphify query '<question>'"
+  ],
+  "meta": {
+    "lastUpdated": "2026-08-15",
+    "branch": "feature/UI-touch-ups",
+    "tokenOptimized": true,
+    "configTokenCost": "~150 tokens (compressed references, no prose)"
+  }
+}
