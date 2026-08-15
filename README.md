@@ -4,9 +4,24 @@ The frontend codebase for recruitZaa, featuring a React Native (TypeScript) mobi
 
 ## Version History
 
-**Current Version: `v0.6.1`**
+**Current Version: `v0.6.2`**
 
 ### Changelog
+
+**[v0.6.2] - 2026-08-15** _(Branch: `feature/UI-touch-ups`)_
+
+Logo redesign, a theme-sync architecture fix, color-palette consistency audit, and a second removal of the fabricated hero stats that regressed back in.
+
+- **Re-fixed the Fabricated Landing Stats (Again)**: A same-day commit that swept up several unrelated in-progress changes also reverted the v0.6.1 fix, putting `2,100+ Active jobs` / `350+ Verified employers` / `3 min Avg. apply time` back into the hero section — one line below a comment in the same file warning not to. Reverted a second time to the qualitative `Search` / `Track` / `Manage` labels.
+- **Logo Redesign — Tagline Was Unreadable**: `BrandLogo` rendered a single flattened image (icon + wordmark + tagline baked in), so at its actual display sizes (~31–40px tall) the "Your Next Great Hire Starts Here" tagline scaled down to 2–3px and was illegible everywhere it appeared. Rebuilt as an icon image (newly cropped `logo-icon.png`/`logo-dark-icon.png`) plus real, independently-sized wordmark and tagline text, with a 9px tagline floor so it stays legible at every size in the app instead of scaling proportionally into nothing.
+- **Theme Toggle Stopped Working Without a Refresh**: `useTheme` was a plain hook — every component calling it held its own independent `useState`, synced only to `localStorage` and the DOM class, never to each other. Toggling dark mode in one place only updated that component; everything else showed the stale theme until a full page reload remounted it. Converted to a `ThemeContext`/`ThemeProvider` mounted once at the app root, so every consumer shares one state and re-renders together the instant the theme changes.
+- **Employer Portal Had No Theme Toggle**: `PortalLayout` (the employer-only layout) never had one implemented at all, unlike every other role. Added it to `PortalTopbar`, kept visible on mobile where the other header actions intentionally collapse.
+- **Unified the "Welcome Back" Greeting**: Only the employer topbar showed a personalized greeting; `DashboardLayout` (candidate/employee/tutor) and `AdminTopbar` showed a bare page title instead — two header designs built separately that never converged. All three now greet by name; Admin keeps its page name as a subtitle underneath, since it has several distinct pages where that context still matters.
+- **Restored Missing Role Badges**: `PortalSidebar`'s "Employer" badge had been silently dropped during an earlier logo refactor, and `DashboardLayout`'s badge logic only ever checked for the `EMPLOYEE` role, leaving the Tutor (`EXPERT`) sidebar with no role indicator at all. Restored both.
+- **Fixed a Logo Layout Bug**: The wordmark's "Recruitzaa" text was pulling to the center instead of sitting flush against the icon on pages with `text-align: center` ancestors (e.g. Launchpad). Root cause: the text stack used `flex-direction: column` with the default `align-items: stretch`, so the shorter wordmark line stretched to match the wider tagline's width, and the inherited center alignment then centered the text within that stretched box. Fixed with `align-items: flex-start`.
+- **Color Palette Consistency Audit**: A user-reported "button colors look off" led to a full sweep. Found and fixed: 6 files with a hardcoded button hover color (`#a94210`) that never adapted for dark mode, where it should lighten to `#e06422` instead of staying dark; ~100 instances across ~40 files using three different non-tokenized dark "card" background shades (`#131924`, `slate-800`, `slate-950` in page-shell contexts) instead of the existing `--color-card`/`--color-surface` tokens; and ~7 places mixing hardcoded brand-orange hex with generic Tailwind `orange-*`/`amber-*` utilities that don't match the brand palette. Added `brand-card`, `brand-surface`, `brand-primary-contrast`, and `brand-border` to `tailwind.config.js` as reusable, token-backed utilities.
+- **"Create Your Workspace" Hover Redesign**: Replaced a plain underline-on-hover with a lift, tinted shadow, and solid-fill color transition, plus a proper `:focus-visible` outline it didn't have before.
+- **Testing**: `AppRoutes.test.tsx` and `NotFoundPage.test.tsx` build their own provider tree rather than rendering `<App/>`, so both needed `ThemeProvider` added after the context conversion or every test touching a theme-aware component would throw. All 256 tests, lint, and `tsc -b && vite build` pass clean; every fix was also verified live in the browser across light/dark mode and all five workspace roles.
 
 **[v0.6.1] - 2026-08-15** _(Branch: `feature/UI-touch-ups`)_
 
