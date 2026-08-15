@@ -2,6 +2,8 @@ import { useState, useEffect, useId } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { updateCompanyProfile } from '../../../store/slices/employerProfileSlice';
 import type { CompanyProfile } from '../../../store/slices/employerProfileSlice';
+import { useToast } from '../../../hooks/useToast';
+import { scrollToElement } from '../../../lib/scrollToElement';
 
 export const SECTIONS = [
   { id: 'company-hero', label: 'Company Branding' },
@@ -15,6 +17,7 @@ export const SECTIONS = [
 export const useEmployerProfileForm = () => {
   const dispatch = useAppDispatch();
   const profile = useAppSelector((s) => s.employerProfile.profile);
+  const toast = useToast();
   const id = useId();
 
   const [editingSection, setEditingSection] = useState<string | null>(null);
@@ -26,7 +29,7 @@ export const useEmployerProfileForm = () => {
     setActiveSection(sectionId);
     const el = document.getElementById(sectionId);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+      scrollToElement(el);
       el.setAttribute('tabindex', '-1');
       el.focus({ preventScroll: true });
     }
@@ -88,6 +91,13 @@ export const useEmployerProfileForm = () => {
     setDraft((d) => ({ ...d, perks }));
   };
 
+  // `dataUrl` arrives already cropped/resized by PhotoUploadModal; an empty
+  // string means the user chose to remove the current logo.
+  const handleLogoUpload = (dataUrl: string) => {
+    dispatch(updateCompanyProfile({ logoUrl: dataUrl }));
+    toast.success(dataUrl ? 'Company logo updated.' : 'Company logo removed.');
+  };
+
   const field = (key: keyof CompanyProfile) => ({
     value: (draft[key] as string) ?? (profile[key] as string),
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -108,6 +118,7 @@ export const useEmployerProfileForm = () => {
     saveEdit,
     handleAddPerk,
     handleRemovePerk,
+    handleLogoUpload,
     field,
   };
 };

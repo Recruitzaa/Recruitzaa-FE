@@ -1,6 +1,6 @@
-import { useCallback, useId, useMemo, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState, type FormEvent } from 'react';
 import { Bell, SlidersHorizontal } from 'lucide-react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { PageTransition } from '../../components/layout/PageTransition';
 import { SEO } from '../../components/seo/SEO';
 import { Drawer } from '../../components/ui/Drawer';
@@ -10,13 +10,16 @@ import { useJobPreferences } from '../../features/jobs/hooks/useJobPreferences';
 import { useToast } from '../../hooks/useToast';
 import { useAppSelector } from '../../store/hooks';
 import styles from './JobListingsPage.module.css';
+import { ROUTES } from '../../config/routes';
 import { trackEvent } from '../../services/analytics.service';
+import { safeSessionStorage } from '../../lib/safeStorage';
 
 type SortOption = 'newest' | 'match' | 'salary';
 const PAGE_SIZE = 6;
 
 export const JobListingsPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const toast = useToast();
   const { jobsList } = useAppSelector((state) => state.jobs);
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
@@ -25,12 +28,22 @@ export const JobListingsPage = () => {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [frequency, setFrequency] = useState<'daily' | 'weekly'>('weekly');
+  const resultsRef = useRef<HTMLElement>(null);
   const keywordId = useId();
   const locationId = useId();
   const experienceId = useId();
   const workplace = searchParams.get('workplace') ?? '';
   const sort = (searchParams.get('sort') as SortOption) || 'newest';
   const requestedPage = Math.max(1, Number(searchParams.get('page') ?? 1) || 1);
+  const listOrigin = `${location.pathname}${location.search}`;
+
+  useEffect(() => {
+    const savedScroll = safeSessionStorage.getItem(`scroll:${listOrigin}`);
+    if (savedScroll) {
+      window.scrollTo(0, Number(savedScroll));
+      safeSessionStorage.removeItem(`scroll:${listOrigin}`);
+    }
+  }, [listOrigin]);
 
   const filteredJobs = useMemo(() => {
     const keyword = searchParams.get('keyword')?.trim().toLowerCase() ?? '';
@@ -42,17 +55,16 @@ export const JobListingsPage = () => {
       const searchable = `${job.title} ${job.company} ${job.tags.join(' ')}`.toLowerCase();
       const matchesExperience =
         !experience ||
-        job.tags.some((tag) => {
-          const years = Number(tag.match(/\d+/)?.[0] ?? 0);
-          if (experience === '3-6') return years >= 3 && years <= 6;
-          if (experience === '6-10') return years >= 6 && years <= 10;
-          return years >= 10;
-        });
+        (experience === '3-6'
+          ? job.experienceMax >= 3 && job.experienceMin <= 6
+          : experience === '6-10'
+            ? job.experienceMax >= 6 && job.experienceMin <= 10
+            : job.experienceMax >= 10);
       return (
         job.status === 'Active' &&
         (!keyword || searchable.includes(keyword)) &&
-        (!location || `${job.location} ${job.type}`.toLowerCase().includes(location)) &&
-        (!workplace || job.type.toLowerCase() === workplace.toLowerCase()) &&
+        (!location || `${job.location} ${job.workplace}`.toLowerCase().includes(location)) &&
+        (!workplace || job.workplace.toLowerCase() === workplace.toLowerCase()) &&
         (!priorityOnly || job.isPriority) &&
         (!highMatchOnly || job.matchScore >= 90) &&
         matchesExperience
@@ -60,11 +72,8 @@ export const JobListingsPage = () => {
     });
     return [...results].sort((a, b) => {
       if (sort === 'match') return b.matchScore - a.matchScore;
-      if (sort === 'salary') {
-        const salary = (value: string) => Number(value.match(/₹(\d+)/)?.[1] ?? 0);
-        return salary(b.salary) - salary(a.salary);
-      }
-      return a.id.localeCompare(b.id, undefined, { numeric: true });
+      if (sort === 'salary') return b.salaryMax - a.salaryMax;
+      return new Date(b.postedAtIso).getTime() - new Date(a.postedAtIso).getTime();
     });
   }, [jobsList, searchParams, sort, workplace]);
 
@@ -99,11 +108,14 @@ export const JobListingsPage = () => {
       hasLocation: Boolean(next.get('location')),
       hasExperience: Boolean(next.get('experience')),
     });
+    // Move focus to the results so keyboard/screen-reader users land on the
+    // outcome of their search instead of staying at the top of the form.
+    resultsRef.current?.focus();
   };
 
   const openAlert = () => {
     if (!isAuthenticated) {
-      navigate(`/login?next=${encodeURIComponent(`/jobs?${searchParams}`)}`);
+      navigate(ROUTES.AUTH.loginWithNext(`/jobs?${searchParams}`));
       return;
     }
     setAlertOpen(true);
@@ -167,17 +179,10 @@ export const JobListingsPage = () => {
   return (
     <PageTransition>
       <SEO
-        title="Search Jobs | Recruitzaa"
-        description="Search the roles currently available in the Recruitzaa job catalogue."
+        title="Browse Software & Engineering Jobs | Recruitzaa"
+        description="Search active engineering, product, and tech roles in the Recruitzaa job catalogue. Filter by location, remote work options, salary, and experience levels."
       />
       <div className={styles.page}>
-        <nav className={styles.breadcrumb} aria-label="Breadcrumb">
-          <div className={styles.container}>
-            <Link to="/">Home</Link>
-            <span aria-hidden="true">/</span>
-            <span aria-current="page">Job search</span>
-          </div>
-        </nav>
         <section className={styles.hero} aria-labelledby="job-search-title">
           <div className={styles.container}>
             <div className={styles.heroTop}>
@@ -185,7 +190,7 @@ export const JobListingsPage = () => {
                 <p>Current job catalogue</p>
                 <h1 id="job-search-title">Find a role that fits</h1>
               </div>
-              <Link to="/register?intent=candidate" className={styles.heroCta}>
+              <Link to={ROUTES.AUTH.REGISTER_CANDIDATE} className={styles.heroCta}>
                 Create a candidate profile
               </Link>
             </div>
@@ -254,19 +259,20 @@ export const JobListingsPage = () => {
                 Create search alert
               </button>
               {isAuthenticated && (
-                <Link className={styles.manageLink} to="/candidate/saved">
+                <Link className={styles.manageLink} to="/candidate/saved-jobs">
                   Manage saved jobs and searches
                 </Link>
               )}
             </aside>
             <section
+              ref={resultsRef}
               className={styles.feed}
               id="job-results"
               tabIndex={-1}
               aria-label="Job results"
             >
-              <div className={styles.feedHeader} aria-live="polite">
-                <div>
+              <div className={styles.feedHeader}>
+                <div aria-live="polite">
                   <strong>{filteredJobs.length}</strong>{' '}
                   {filteredJobs.length === 1 ? 'opportunity' : 'opportunities'} found
                 </div>
@@ -277,21 +283,23 @@ export const JobListingsPage = () => {
                     onChange={(event) => updateParam('sort', event.target.value)}
                   >
                     <option value="newest">Newest</option>
-                    <option value="match">Profile match</option>
+                    <option value="match">Best match</option>
                     <option value="salary">Salary</option>
                   </select>
                 </label>
               </div>
-              <p className={styles.dataNotice}>
-                Listings shown here are demo catalogue data until the production jobs API is
-                connected.
-              </p>
+              {import.meta.env.DEV && (
+                <p className={styles.dataNotice}>
+                  Listings shown here are demo catalogue data until the production jobs API is
+                  connected.
+                </p>
+              )}
               {filteredJobs.length > 0 ? (
                 <>
                   <ul className={styles.list}>
                     {visibleJobs.map((job) => (
                       <li key={job.id}>
-                        <JobCard {...job} />
+                        <JobCard {...job} listOrigin={listOrigin} />
                       </li>
                     ))}
                   </ul>
@@ -347,13 +355,18 @@ export const JobListingsPage = () => {
         isOpen={alertOpen}
         onClose={closeAlert}
         title="Save this search"
-        description="The criteria will be stored in this browser. Production email delivery is not connected."
+        description={
+          import.meta.env.DEV
+            ? 'The criteria will be stored in this browser. Production email delivery is not connected.'
+            : 'Save this search to easily run it again from your workspace.'
+        }
       >
         <fieldset className={styles.frequency}>
-          <legend>Reminder preference</legend>
+          <legend>Alert frequency</legend>
           <label>
             <input
               type="radio"
+              name="alert-frequency"
               checked={frequency === 'daily'}
               onChange={() => setFrequency('daily')}
             />
@@ -362,6 +375,7 @@ export const JobListingsPage = () => {
           <label>
             <input
               type="radio"
+              name="alert-frequency"
               checked={frequency === 'weekly'}
               onChange={() => setFrequency('weekly')}
             />
@@ -369,7 +383,7 @@ export const JobListingsPage = () => {
           </label>
         </fieldset>
         <button type="button" className={styles.saveAlertButton} onClick={handleSaveAlert}>
-          Save search preference
+          Save Search
         </button>
       </Modal>
     </PageTransition>

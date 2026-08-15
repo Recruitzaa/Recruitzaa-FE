@@ -53,23 +53,11 @@
   width: fit-content;
 }
 
-.logoContainer img {
-  height: 50px;
-  width: auto;
-  object-fit: contain;
-}
-
 /* ── Mobile-only logo (brand panel is desktop-only) ── */
 .mobileLogo {
   display: flex;
   justify-content: center;
   margin-bottom: 1.25rem;
-}
-
-.mobileLogo img {
-  height: 34px;
-  width: auto;
-  object-fit: contain;
 }
 
 .brandCopy {

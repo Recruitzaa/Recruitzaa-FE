@@ -8,6 +8,8 @@ import styles from './LandingPage.module.css';
 import { SITE_CONTENT } from '../../config/content';
 import { LandingPageSections } from './components/LandingPageSections';
 import { useAppSelector } from '../../store/hooks';
+import { ROUTES } from '../../config/routes';
+import { scrollToElementId } from '../../lib/scrollToElement';
 
 const content = SITE_CONTENT.landingPage;
 
@@ -71,7 +73,7 @@ export const LandingPage = () => {
       : activeRole === 'EXPERT'
         ? {
             title: 'Manage your availability',
-            description: 'Review calendar connections and session availability.',
+            description: 'Review calendar sync connections and session timings.',
             action: 'Open calendar',
             to: '/expert/calendar-settings',
           }
@@ -131,22 +133,22 @@ export const LandingPage = () => {
       ]
     : [
         {
-          title: 'Discover opportunities',
-          description: 'Search roles by title, location, workplace, and experience.',
-          action: 'Browse jobs',
-          to: '/jobs',
+          title: 'Remote jobs',
+          description: 'Browse roles with remote or hybrid workplace options.',
+          action: 'View remote',
+          to: '/jobs?workplace=Remote',
         },
         {
-          title: 'Build your professional profile',
-          description: 'Keep skills, experience, and application information in one workspace.',
-          action: 'Get started',
-          to: '/register?intent=candidate',
+          title: 'Engineering roles',
+          description: 'Explore software, platform, and product engineering openings.',
+          action: 'View engineering',
+          to: '/jobs?keyword=engineer',
         },
         {
-          title: 'Explore Job Opportunities',
-          description: 'Discover the latest job openings and find your dream career.',
-          action: 'Explore Jobs',
-          to: '/jobs',
+          title: 'Fresher opportunities',
+          description: 'Discover early-career roles suited to new graduates.',
+          action: 'View fresher jobs',
+          to: '/jobs?keyword=fresher',
         },
       ];
 
@@ -167,11 +169,9 @@ export const LandingPage = () => {
     const handleHashScroll = () => {
       const hash = window.location.hash;
       if (hash.includes('#about')) {
-        const el = document.getElementById('about');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        scrollToElementId('about');
       } else if (hash.includes('#services')) {
-        const el = document.getElementById('services');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        scrollToElementId('services');
       }
     };
 
@@ -184,7 +184,7 @@ export const LandingPage = () => {
     <PageTransition>
       <SEO
         title="Recruitzaa — Job Search and Hiring Workspaces"
-        description="Explore jobs or manage a structured hiring workflow in Recruitzaa."
+        description="Explore jobs, manage candidate application status, and streamline team hiring with the Recruitzaa unified workspace."
         schema={[organizationSchema, websiteSchema, faqSchema]}
       />
       <div className={styles.page}>
@@ -208,7 +208,7 @@ export const LandingPage = () => {
                   id={keywordId}
                   name="keyword"
                   defaultValue=""
-                  placeholder="e.g. React Native Developer, Data Engineer"
+                  placeholder="Job title, company, or skills"
                   autoComplete="off"
                 />
               </div>
@@ -244,7 +244,7 @@ export const LandingPage = () => {
                   ? `Welcome back${appUser?.displayName ? `, ${appUser.displayName.split(' ')[0]}` : ''}`
                   : 'Explore Recruitzaa'}
               </span>
-              <Link to={isAuthenticated ? workspaceRoute : '/register?intent=candidate'}>
+              <Link to={isAuthenticated ? workspaceRoute : ROUTES.AUTH.REGISTER_CANDIDATE}>
                 {isAuthenticated ? 'Open workspace' : 'Create your workspace'}
               </Link>
             </div>

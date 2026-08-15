@@ -39,7 +39,7 @@ export const ExperienceStep: React.FC<ExperienceStepProps> = ({ data, onChange }
 
   return (
     <div className="space-y-4">
-      <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wide mb-2">
+      <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wide mb-2">
         Step 3: Work Experience
       </h3>
 
@@ -50,14 +50,14 @@ export const ExperienceStep: React.FC<ExperienceStepProps> = ({ data, onChange }
             value={company}
             onChange={(e) => setCompany(e.target.value)}
             placeholder="Company Name"
-            className="text-sm p-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
+            className="text-sm p-2 border border-slate-200 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
           />
           <input
             type="text"
             value={position}
             onChange={(e) => setPosition(e.target.value)}
             placeholder="Role/Position"
-            className="text-sm p-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
+            className="text-sm p-2 border border-slate-200 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
           />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -66,21 +66,21 @@ export const ExperienceStep: React.FC<ExperienceStepProps> = ({ data, onChange }
             value={start}
             onChange={(e) => setStart(e.target.value)}
             placeholder="Start Year (e.g. 2022)"
-            className="text-sm p-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
+            className="text-sm p-2 border border-slate-200 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
           />
           <input
             type="text"
             value={end}
             onChange={(e) => setEnd(e.target.value)}
             placeholder="End Year (or Present)"
-            className="text-sm p-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
+            className="text-sm p-2 border border-slate-200 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100"
           />
         </div>
         <textarea
           value={desc}
           onChange={(e) => setDesc(e.target.value)}
           placeholder="Brief description of work..."
-          className="w-full text-sm p-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100 resize-none min-h-[50px]"
+          className="w-full text-sm p-2 border border-slate-200 bg-white dark:bg-slate-900 rounded outline-none text-slate-900 dark:text-slate-100 resize-none min-h-[50px]"
         />
         <Button
           onClick={handleAdd}
@@ -102,7 +102,7 @@ export const ExperienceStep: React.FC<ExperienceStepProps> = ({ data, onChange }
               <div className="text-sm font-bold text-slate-900 dark:text-white">
                 {exp.position} at {exp.company}
               </div>
-              <div className="text-[11px] text-slate-500 dark:text-slate-400">
+              <div className="text-xs text-slate-500">
                 {exp.startDate} - {exp.endDate || 'Present'}
               </div>
             </div>

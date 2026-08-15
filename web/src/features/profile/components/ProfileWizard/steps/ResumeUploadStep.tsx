@@ -21,12 +21,12 @@ export const ResumeUploadStep: React.FC<ResumeUploadStepProps> = ({
 
   return (
     <div className="space-y-4">
-      <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wide mb-3">
+      <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wide mb-3">
         Step 6: Resume Upload
       </h3>
 
       <div className="bg-slate-50 dark:bg-slate-900/50 p-6 border border-dashed border-slate-200 dark:border-slate-800 rounded-lg text-center">
-        <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
+        <p className="text-sm text-slate-500 mb-4">
           Upload your resume (PDF/DOCX) to enable AI job matching and score analysis.
         </p>
 
@@ -59,7 +59,7 @@ export const ResumeUploadStep: React.FC<ResumeUploadStepProps> = ({
         )}
       </div>
 
-      <div className="p-3 bg-amber-50/60 dark:bg-amber-950/20 border border-amber-200/50 dark:border-amber-900/30 rounded text-[11px] text-amber-800 dark:text-amber-300 leading-normal">
+      <div className="p-3 bg-amber-50/60 dark:bg-amber-950/20 border border-amber-200/50 dark:border-amber-900/30 rounded text-xs text-amber-800 dark:text-amber-300 leading-normal">
         <span className="font-bold">💡 Note:</span> Uploading a detailed resume helps our AI match
         algorithms compute highly accurate job suitability scores.
       </div>

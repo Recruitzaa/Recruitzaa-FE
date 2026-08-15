@@ -3,10 +3,15 @@ import { Button } from '../../components/ui/Button';
 import { Badge } from '../../components/ui/Badge';
 import { Input } from '../../components/ui/Input';
 import styles from './JobApprovalsPage.module.css';
+import { SEO } from '../../components/seo/SEO';
 
 export const JobApprovalsPage = () => {
   return (
     <div className={styles.page}>
+      <SEO
+        title="Job Approvals | Recruitzaa Admin"
+        description="Approve or reject newly submitted employer job postings."
+      />
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>Job Approvals</h1>
@@ -22,7 +27,7 @@ export const JobApprovalsPage = () => {
             <Input placeholder="Search by company or job title..." />
           </div>
           <div className={styles.filters}>
-            <select className={styles.select}>
+            <select className={styles.select} aria-label="Filter approvals by status">
               <option>Status: Pending</option>
               <option>Status: Approved</option>
               <option>Status: Rejected</option>

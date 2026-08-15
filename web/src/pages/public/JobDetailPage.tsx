@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Bookmark, Flag, Share2 } from 'lucide-react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Badge } from '../../components/ui/Badge';
+import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs';
 import { Button } from '../../components/ui/Button';
 import { PageTransition } from '../../components/layout/PageTransition';
 import { SEO } from '../../components/seo/SEO';
@@ -9,7 +10,12 @@ import { useAppSelector } from '../../store/hooks';
 import { useJobPreferences } from '../../features/jobs/hooks/useJobPreferences';
 import { useToast } from '../../hooks/useToast';
 import styles from './JobDetailPage.module.css';
+import { ROUTES } from '../../config/routes';
 import { trackEvent } from '../../services/analytics.service';
+import {
+  isJobListOrigin,
+  type JobListNavigationState,
+} from '../../features/jobs/jobListNavigation';
 
 export const JobDetailPage = () => {
   const { id } = useParams();
@@ -21,8 +27,23 @@ export const JobDetailPage = () => {
   const profile = useAppSelector((state) => state.profile);
   const { savedJobIds, toggleSavedJob } = useJobPreferences();
   const [reportOpen, setReportOpen] = useState(false);
+  const reportTriggerRef = useRef<HTMLButtonElement>(null);
+  const reportPanelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (reportOpen) {
+      reportPanelRef.current?.focus();
+    }
+  }, [reportOpen]);
   const isPortalView = location.pathname.startsWith('/candidate');
-  const backLink = isPortalView ? '/candidate/jobs' : '/jobs';
+  const fallbackBackLink = isPortalView ? '/candidate/jobs' : '/jobs';
+  const listState = location.state as JobListNavigationState | null;
+  const canUseHistoryBack = isJobListOrigin(listState?.from, isPortalView);
+
+  const handleBack = () => {
+    if (canUseHistoryBack) navigate(-1);
+    else navigate(fallbackBackLink);
+  };
 
   useEffect(() => {
     if (job) trackEvent('job_detail_viewed', { jobId: job.id, authenticated: isAuthenticated });
@@ -39,7 +60,7 @@ export const JobDetailPage = () => {
           <p className={styles.eyebrow}>Listing unavailable</p>
           <h1>This job could not be found</h1>
           <p>It may have closed or the link may be incorrect.</p>
-          <Link to={backLink}>Browse available jobs</Link>
+          <Link to={fallbackBackLink}>Browse available jobs</Link>
         </section>
       </PageTransition>
     );
@@ -66,7 +87,7 @@ export const JobDetailPage = () => {
 
   const handleSave = () => {
     if (!isAuthenticated) {
-      navigate(`/login?next=${encodeURIComponent(nextPath)}`);
+      navigate(ROUTES.AUTH.loginWithNext(nextPath));
       return;
     }
     toggleSavedJob(job.id);
@@ -89,17 +110,32 @@ export const JobDetailPage = () => {
         toast.error('The job link could not be shared.');
     }
   };
+  const validThrough = new Date(
+    new Date(job.postedAtIso).getTime() + 30 * 24 * 60 * 60 * 1000
+  ).toISOString();
   const jobSchema = {
     '@context': 'https://schema.org/',
     '@type': 'JobPosting',
     title: job.title,
     description: `${job.title} at ${job.company}. Skills include ${job.tags.join(', ')}.`,
     identifier: { '@type': 'PropertyValue', name: job.company, value: applicationId },
-    employmentType: job.type.toUpperCase().replace('-', '_'),
+    datePosted: job.postedAtIso,
+    validThrough,
+    employmentType: job.employmentType,
     hiringOrganization: { '@type': 'Organization', name: job.company },
     jobLocation: {
       '@type': 'Place',
       address: { '@type': 'PostalAddress', addressLocality: displayLocation },
+    },
+    baseSalary: {
+      '@type': 'MonetaryAmount',
+      currency: 'INR',
+      value: {
+        '@type': 'QuantitativeValue',
+        minValue: job.salaryMin,
+        maxValue: job.salaryMax,
+        unitText: 'YEAR',
+      },
     },
   };
 
@@ -107,29 +143,33 @@ export const JobDetailPage = () => {
     <PageTransition>
       <SEO
         title={`${job.title} | ${job.company} | Recruitzaa`}
-        description={`View ${job.title} at ${job.company} in ${displayLocation}.`}
+        description={`Apply for the ${job.title} position at ${job.company} in ${displayLocation}. Salary range: ${job.salary}. Learn about core responsibilities and application requirements.`}
         type="job"
         schema={jobSchema}
       />
       <div className={styles.page}>
-        <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+        <div className={styles.backRow}>
           <div className={styles.container}>
-            <Link to={backLink}>← Back to job listings</Link>
+            {canUseHistoryBack ? (
+              <button type="button" className={styles.backLink} onClick={handleBack}>
+                ← Back to job listings
+              </button>
+            ) : (
+              <Link to={fallbackBackLink}>← Back to job listings</Link>
+            )}
           </div>
-        </nav>
+        </div>
+        <Breadcrumbs currentLabel={job.title} />
         <header className={styles.header}>
           <div className={styles.container}>
-            <p className={styles.eyebrow}>Demo catalogue listing</p>
+            {import.meta.env.DEV && <p className={styles.eyebrow}>Demo catalogue listing</p>}
             <h1>{job.title}</h1>
             <p>
-              {job.company} · {displayLocation} · {job.type} · Posted {job.postedAt}
+              {job.company} · {displayLocation} · {job.workplace} · Posted {job.postedAt}
             </p>
             <div className={styles.headerActions}>
               {!isAuthenticated ? (
-                <Link
-                  className={styles.headerApply}
-                  to={`/login?next=${encodeURIComponent(nextPath)}`}
-                >
+                <Link className={styles.headerApply} to={ROUTES.AUTH.loginWithNext(nextPath)}>
                   Sign in to apply
                 </Link>
               ) : isCandidate ? (
@@ -137,9 +177,13 @@ export const JobDetailPage = () => {
                   type="button"
                   className={styles.headerApply}
                   disabled
-                  title="Applications require the production application service."
+                  title={
+                    import.meta.env.DEV
+                      ? 'Applications are unavailable until the production application service is connected.'
+                      : 'This feature is currently offline.'
+                  }
                 >
-                  Applications unavailable in demo
+                  Apply (Coming Soon)
                 </button>
               ) : (
                 <Link className={styles.headerApply} to="/launchpad">
@@ -155,26 +199,52 @@ export const JobDetailPage = () => {
                 Share
               </button>
               <button
+                ref={reportTriggerRef}
                 type="button"
                 onClick={() => setReportOpen((open) => !open)}
                 aria-expanded={reportOpen}
+                aria-controls="report-panel"
               >
                 <Flag size={18} aria-hidden="true" />
                 Report
               </button>
             </div>
             {reportOpen && (
-              <div className={styles.reportPanel} role="status">
+              <div
+                id="report-panel"
+                ref={reportPanelRef}
+                className={styles.reportPanel}
+                tabIndex={-1}
+                onKeyDown={(event) => {
+                  if (event.key === 'Escape') {
+                    event.preventDefault();
+                    setReportOpen(false);
+                    reportTriggerRef.current?.focus();
+                  }
+                }}
+              >
                 <strong>Report a listing concern</strong>
-                <p>
-                  The production moderation endpoint is not connected. Email{' '}
-                  <a
-                    href={`mailto:support@recruitzaa.com?subject=${encodeURIComponent(`Job listing concern: ${job.title} (${job.id})`)}`}
-                  >
-                    support@recruitzaa.com
-                  </a>{' '}
-                  with the listing ID and concern.
-                </p>
+                {import.meta.env.DEV ? (
+                  <p>
+                    The production moderation endpoint is not connected. Email{' '}
+                    <a
+                      href={`mailto:support@recruitzaa.com?subject=${encodeURIComponent(`Job listing concern: ${job.title} (${job.id})`)}`}
+                    >
+                      support@recruitzaa.com
+                    </a>{' '}
+                    with the listing ID and concern.
+                  </p>
+                ) : (
+                  <p>
+                    Please contact support at{' '}
+                    <a
+                      href={`mailto:support@recruitzaa.com?subject=${encodeURIComponent(`Job listing concern: ${job.title} (${job.id})`)}`}
+                    >
+                      support@recruitzaa.com
+                    </a>{' '}
+                    with the job listing details.
+                  </p>
+                )}
               </div>
             )}
           </div>
@@ -199,28 +269,28 @@ export const JobDetailPage = () => {
                 <ul>
                   {(job.requirements?.length
                     ? job.requirements
-                    : [
-                        'A current candidate profile',
-                        'A resume or work history',
-                        'Employer-specific screening answers when the production service is connected',
-                      ]
+                    : ['A current candidate profile', 'A resume or work history']
                   ).map((requirement) => (
                     <li key={requirement}>{requirement}</li>
                   ))}
                 </ul>
-                <h2>Listing source</h2>
-                <p>
-                  <strong>{job.source ?? 'Source unavailable'}</strong>
-                  <br />
-                  {job.verifiedAt ?? 'Verification timestamp unavailable'}. This role is
-                  illustrative and is not represented as a direct employer posting.
-                </p>
-                <h2>Before you apply</h2>
-                <p>
-                  Employer-authored responsibilities, qualifications, benefits, and closing dates
-                  must come from the production jobs service. They are intentionally not invented in
-                  this demo listing.
-                </p>
+                {import.meta.env.DEV && (
+                  <>
+                    <h2>Listing source</h2>
+                    <p>
+                      <strong>{job.source ?? 'Source unavailable'}</strong>
+                      <br />
+                      {job.verifiedAt ?? 'Verification timestamp unavailable'}. This role is
+                      representative and is not direct employer-posted data.
+                    </p>
+                    <h2>Before you apply</h2>
+                    <p>
+                      Employer-authored responsibilities, qualifications, benefits, and closing
+                      dates must come from the production jobs service. They are intentionally not
+                      invented in this demo listing.
+                    </p>
+                  </>
+                )}
               </section>
             </div>
 
@@ -248,12 +318,12 @@ export const JobDetailPage = () => {
                       </div>
                       <div>
                         <dt>Work mode</dt>
-                        <dd>{job.type}</dd>
+                        <dd>{job.workplace}</dd>
                       </div>
                     </dl>
                     <p className={styles.matchDisclosure}>
-                      This deterministic comparison assists discovery only. It does not assess
-                      candidate quality or make hiring decisions. Update stale data in{' '}
+                      This comparison is based on keyword overlap only and does not assess your full
+                      candidacy. Update stale data in{' '}
                       <Link to="/candidate/profile">your profile</Link>.
                     </p>
                   </div>
@@ -278,7 +348,7 @@ export const JobDetailPage = () => {
                 </div>
                 <div className={styles.fact}>
                   <strong>Workplace</strong>
-                  <span>{job.type}</span>
+                  <span>{job.workplace}</span>
                 </div>
                 <div className={styles.fact}>
                   <strong>Location</strong>
@@ -291,10 +361,7 @@ export const JobDetailPage = () => {
                 </div>
                 <div className={styles.applyArea}>
                   {!isAuthenticated ? (
-                    <Link
-                      className={styles.applyLink}
-                      to={`/login?next=${encodeURIComponent(nextPath)}`}
-                    >
+                    <Link className={styles.applyLink} to={ROUTES.AUTH.loginWithNext(nextPath)}>
                       Sign in to continue
                     </Link>
                   ) : !isCandidate ? (
@@ -307,13 +374,21 @@ export const JobDetailPage = () => {
                         variant="primary"
                         className="w-full py-3 px-4 text-sm font-bold"
                         disabled
+                        title={
+                          import.meta.env.DEV
+                            ? 'Applications are unavailable until the production application service is connected.'
+                            : 'Online applications are temporarily offline.'
+                        }
+                        aria-describedby="apply-unavailable-note"
                       >
-                        Applications unavailable in demo
+                        Apply (Coming Soon)
                       </Button>
-                      <p className={styles.serviceNotice}>
-                        No application has been submitted. Connect the production application API to
-                        enable this action.
-                      </p>
+                      {import.meta.env.DEV && (
+                        <p id="apply-unavailable-note" className={styles.serviceNotice}>
+                          No application has been submitted. Connect the production application API
+                          to enable this action.
+                        </p>
+                      )}
                     </>
                   )}
                 </div>

@@ -8,7 +8,7 @@ export const AdminLayout = () => {
   const openSidebar = useCallback(() => setSidebarOpen(true), []);
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
   return (
-    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
+    <div className="flex min-h-screen bg-slate-50 dark:bg-brand-surface">
       <AdminSidebar isOpen={sidebarOpen} onClose={closeSidebar} />
       <div className="flex-1 md:ml-[260px] min-w-0 flex flex-col min-h-screen">
         <AdminTopbar onOpenMenu={openSidebar} />

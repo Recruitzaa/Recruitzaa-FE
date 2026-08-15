@@ -6,7 +6,7 @@ import type { UserRole } from '../../types/auth.types';
 import { PageTransition } from '../../components/layout/PageTransition';
 import { SEO } from '../../components/seo/SEO';
 import { Shield, Briefcase, GraduationCap, Laptop, FileText, Moon, Sun } from 'lucide-react';
-import logo from '../../assets/logo.png';
+import { BrandLogo } from '../../components/brand/BrandLogo';
 import { useTheme } from '../../hooks/useTheme';
 
 const ROLE_META: Record<
@@ -21,19 +21,19 @@ const ROLE_META: Record<
   },
   EMPLOYER: {
     title: 'Employer Workspace',
-    desc: 'Create demo positions, review candidate screens, and manage company information.',
+    desc: 'Create job positions, review candidate screens, and manage company information.',
     path: '/employer/dashboard',
     icon: Laptop,
   },
   EXPERT: {
-    title: 'Tutor Workspace',
+    title: 'Expert Workspace',
     desc: 'Set availability calendars, review candidate pre-session briefs, and manage earnings.',
     path: '/expert/dashboard',
     icon: GraduationCap,
   },
   EMPLOYEE: {
     title: 'Employee Workspace',
-    desc: 'View the employee workspace; payroll and timesheet integrations are not yet connected.',
+    desc: 'Track timesheets, view payroll details, and access enterprise internal tools.',
     path: '/employee/dashboard',
     icon: FileText,
   },
@@ -79,27 +79,30 @@ export const LaunchpadPage: React.FC = () => {
           title="Select Workspace — Recruitzaa Enterprise"
           description="Choose your active profile workspace to get started on Recruitzaa."
         />
-        <main className="relative min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center px-4 py-8 lg:py-10">
+        <main
+          className="relative min-h-screen bg-slate-50 dark:bg-brand-surface flex flex-col items-center px-4 py-8 lg:py-10"
+          tabIndex={-1}
+        >
           <button
             type="button"
             onClick={toggleTheme}
             aria-label={isDark ? 'Use light theme' : 'Use dark theme'}
             title={isDark ? 'Use light theme' : 'Use dark theme'}
-            className="absolute top-4 right-4 inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 shadow-sm transition-colors hover:border-[#c14f16] hover:bg-[#fef3ee] hover:text-[#a94210] dark:border-slate-700 dark:bg-slate-850 dark:text-slate-200 dark:hover:border-orange-500 dark:hover:bg-orange-950/30 dark:hover:text-orange-300"
+            className="absolute top-4 right-4 inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 shadow-sm transition-colors hover:border-brand-primary hover:bg-brand-primary-light hover:text-brand-primary-hover dark:border-slate-700 dark:bg-slate-850 dark:text-slate-200"
           >
             {isDark ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
           </button>
           <div className="max-w-5xl w-full space-y-6 my-auto">
             {/* Header branding */}
             <div className="text-center space-y-3">
-              <img src={logo} alt="Recruitzaa Logo" className="h-10 mx-auto" />
+              <BrandLogo size={40} className="mx-auto justify-center" />
               <h1 className="text-2xl font-black text-[#1e2229] dark:text-white tracking-tight">
-                Enterprise Launchpad
+                Choose Your Workspace
               </h1>
-              <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto">
+              <p className="text-sm text-slate-500 max-w-md mx-auto">
                 Welcome back,{' '}
-                <span className="font-extrabold text-[#c14f16]">{appUser.displayName}</span>. Please
-                choose which profile workspace you want to enter for this session.
+                <span className="font-extrabold text-brand-primary">{appUser.displayName}</span>.
+                Please choose which profile workspace you want to enter for this session.
               </p>
             </div>
 
@@ -115,23 +118,23 @@ export const LaunchpadPage: React.FC = () => {
                     key={role}
                     type="button"
                     onClick={() => handleSelectRole(role)}
-                    className="group bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-6 text-left shadow-sm hover:shadow-md hover:border-[#c14f16] dark:hover:border-[#c14f16] transition-all flex flex-col justify-between min-h-52 w-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c14f16] focus-visible:outline-offset-2"
+                    className="group bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl p-6 text-left shadow-sm hover:shadow-md hover:border-brand-primary dark:hover:border-brand-primary transition-all flex flex-col justify-between min-h-52 w-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-primary focus-visible:outline-offset-2"
                   >
                     <div className="space-y-3">
-                      <div className="p-3 bg-slate-50 dark:bg-slate-900 group-hover:bg-[#fef3ee] text-slate-500 dark:text-slate-400 group-hover:text-[#c14f16] rounded-lg w-fit transition-colors">
+                      <div className="p-3 bg-slate-50 dark:bg-slate-900 group-hover:bg-brand-primary-light text-slate-500 group-hover:text-brand-primary rounded-lg w-fit transition-colors">
                         <IconComponent size={20} aria-hidden="true" />
                       </div>
                       <div>
                         <h2 className="text-sm font-extrabold text-slate-900 dark:text-white leading-snug">
                           {meta.title}
                         </h2>
-                        <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed line-clamp-3">
+                        <p className="text-xs text-slate-500 mt-1.5 leading-relaxed line-clamp-3">
                           {meta.desc}
                         </p>
                       </div>
                     </div>
-                    <span className="text-sm font-extrabold uppercase tracking-wider text-slate-400 group-hover:text-[#c14f16] transition-colors mt-4 block">
-                      Enter Portal &rarr;
+                    <span className="text-sm font-extrabold uppercase tracking-wider text-slate-400 group-hover:text-brand-primary transition-colors mt-4 block">
+                      Open Workspace &rarr;
                     </span>
                   </button>
                 );

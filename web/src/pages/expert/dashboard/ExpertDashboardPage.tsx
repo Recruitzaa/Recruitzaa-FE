@@ -4,12 +4,14 @@ import { cancelSession, completeSession } from '../../../store/slices/expertSlic
 import { EarningsWidget } from './EarningsWidget';
 import { ServiceTiersCard } from './ServiceTiersCard';
 import { SEO } from '../../../components/seo/SEO';
+import { BRAND } from '../../../config/content';
 import { PageTransition } from '../../../components/layout/PageTransition';
 import { useToast } from '../../../hooks/useToast';
 import { Badge } from '../../../components/ui/Badge';
 import { Button } from '../../../components/ui/Button';
 import { Calendar, User, Compass } from 'lucide-react';
 import { ConfirmDialog } from '../../../components/ui/ConfirmDialog/ConfirmDialog';
+import { Link } from 'react-router-dom';
 
 export const ExpertDashboardPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -33,7 +35,7 @@ export const ExpertDashboardPage: React.FC = () => {
     <>
       <PageTransition>
         <SEO
-          title="Mentor Dashboard | recruitZaa Hub"
+          title={`Expert Dashboard | ${BRAND.name} Hub`}
           description="Manage pending mentorship sessions, timezone sync schedules, and track monthly mentoring earnings."
         />
         <div className="max-w-7xl mx-auto px-4 py-8 space-y-8 w-full">
@@ -41,9 +43,9 @@ export const ExpertDashboardPage: React.FC = () => {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
               <h1 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-                <Compass className="text-[#c14f16]" size={20} /> Mentorship Control Room
+                <Compass className="text-brand-primary" size={20} /> Expert Workspace
               </h1>
-              <p className="text-sm text-slate-505 dark:text-slate-400 mt-1">
+              <p className="text-sm text-slate-500 mt-1">
                 Track live bookings, completed sessions, and payouts.
               </p>
             </div>
@@ -55,16 +57,16 @@ export const ExpertDashboardPage: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             {/* Bookings Queue */}
             <div className="lg:col-span-2 space-y-6">
-              <div className="bg-white dark:bg-[#131924] border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm">
+              <div className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm">
                 <h3 className="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2 mb-4">
-                  <Calendar size={16} className="text-[#c14f16]" /> Mentorship Bookings Queue
+                  <Calendar size={16} className="text-brand-primary" /> Mentorship Bookings Queue
                 </h3>
 
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-sm border-collapse">
                     <thead>
-                      <tr className="border-b border-slate-100 dark:border-slate-850 text-slate-450 uppercase text-[9px] font-bold tracking-wider">
-                        <th className="pb-3 font-semibold">Job Seeker</th>
+                      <tr className="border-b border-slate-100 dark:border-slate-850 text-slate-450 uppercase text-xs font-bold tracking-wider">
+                        <th className="pb-3 font-semibold">Candidate</th>
                         <th className="pb-3 font-semibold">Service Type</th>
                         <th className="pb-3 font-semibold">Scheduled Date</th>
                         <th className="pb-3 font-semibold text-right">Actions</th>
@@ -74,7 +76,13 @@ export const ExpertDashboardPage: React.FC = () => {
                       {bookings.length === 0 ? (
                         <tr>
                           <td colSpan={4} className="py-6 text-center text-slate-500">
-                            No mentorship sessions booked yet.
+                            No sessions booked yet.{' '}
+                            <Link
+                              to="/expert/calendar-settings"
+                              className="font-semibold text-brand-primary underline"
+                            >
+                              Set your availability
+                            </Link>
                           </td>
                         </tr>
                       ) : (
@@ -83,10 +91,10 @@ export const ExpertDashboardPage: React.FC = () => {
                             <td className="py-4">
                               <div className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                                 <User size={12} className="text-slate-400" />{' '}
-                                {booking.preSessionBrief ? 'Arjun Kumar' : 'Mentee'}
+                                {booking.candidateName || 'Mentee'}
                               </div>
                               <div
-                                className="text-sm text-slate-400 dark:text-slate-500 mt-0.5 max-w-xs truncate"
+                                className="text-sm text-slate-400 mt-0.5 max-w-xs truncate"
                                 title={booking.preSessionBrief}
                               >
                                 {booking.preSessionBrief}
@@ -94,7 +102,7 @@ export const ExpertDashboardPage: React.FC = () => {
                             </td>
                             <td className="py-4 font-semibold text-slate-700 dark:text-slate-350">
                               <div>{booking.serviceTierName}</div>
-                              <div className="text-[9px] text-[#c14f16] mt-0.5">
+                              <div className="text-xs text-brand-primary mt-0.5">
                                 ₹{booking.price}
                               </div>
                             </td>
@@ -120,7 +128,12 @@ export const ExpertDashboardPage: React.FC = () => {
                                   <>
                                     <Button
                                       size="sm"
-                                      onClick={() => handleComplete(booking.id, 'Arjun Kumar')}
+                                      onClick={() =>
+                                        handleComplete(
+                                          booking.id,
+                                          booking.candidateName || 'Mentee'
+                                        )
+                                      }
                                       className="bg-green-600 hover:bg-green-700 font-semibold px-2.5 min-h-[36px]"
                                     >
                                       Complete
@@ -128,7 +141,9 @@ export const ExpertDashboardPage: React.FC = () => {
                                     <Button
                                       size="sm"
                                       variant="outline"
-                                      onClick={() => handleCancel(booking.id, 'Arjun Kumar')}
+                                      onClick={() =>
+                                        handleCancel(booking.id, booking.candidateName || 'Mentee')
+                                      }
                                       className="font-semibold px-2.5 min-h-[36px] hover:text-red-600 hover:border-red-300"
                                     >
                                       Cancel

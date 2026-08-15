@@ -57,7 +57,7 @@ export const Select: React.FC<CustomSelectProps> = ({
       {label && (
         <label
           htmlFor={selectId}
-          className="text-sm font-bold text-slate-500 uppercase tracking-wider block"
+          className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block"
         >
           {label}
         </label>
@@ -67,26 +67,34 @@ export const Select: React.FC<CustomSelectProps> = ({
           id={selectId}
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center justify-between w-full border border-slate-200 hover:border-brand-primary rounded-lg px-3 py-2 text-sm bg-white text-slate-800 outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all shadow-sm min-h-[36px]"
+          className="flex items-center justify-between w-full border border-slate-200 dark:border-slate-700 hover:border-brand-primary rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100 outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all shadow-sm min-h-[36px]"
           aria-haspopup="listbox"
           aria-expanded={isOpen}
         >
-          <span className={selectedOption ? 'text-slate-800' : 'text-slate-400'}>
+          <span
+            className={
+              selectedOption
+                ? 'text-slate-800 dark:text-slate-100'
+                : 'text-slate-400 dark:text-slate-500'
+            }
+          >
             {selectedOption ? selectedOption.label : placeholder}
           </span>
           <ChevronDown
             size={14}
-            className={`text-slate-400 transition-transform duration-250 ${isOpen ? 'rotate-180' : ''}`}
+            className={`text-slate-400 dark:text-slate-500 transition-transform duration-250 ${isOpen ? 'rotate-180' : ''}`}
           />
         </button>
 
         {isOpen && (
           <ul
-            className="absolute z-50 w-full mt-1.5 bg-white border border-slate-200 rounded-lg shadow-lg max-h-60 overflow-y-auto py-1"
+            className="absolute z-50 w-full mt-1.5 bg-white dark:bg-slate-850 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg max-h-60 overflow-y-auto py-1"
             role="listbox"
           >
             {normalizedOptions.length === 0 ? (
-              <li className="px-3 py-2 text-sm text-slate-400">No options available</li>
+              <li className="px-3 py-2 text-sm text-slate-400 dark:text-slate-500">
+                No options available
+              </li>
             ) : (
               normalizedOptions.map((opt) => {
                 const isSelected = opt.value === value;
@@ -97,7 +105,7 @@ export const Select: React.FC<CustomSelectProps> = ({
                     className={`flex items-center justify-between px-3 py-2 text-sm cursor-pointer select-none transition-colors ${
                       isSelected
                         ? 'bg-brand-primary-light text-brand-primary font-semibold'
-                        : 'text-slate-700 hover:bg-slate-50'
+                        : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
                     }`}
                     role="option"
                     aria-selected={isSelected}

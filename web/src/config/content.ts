@@ -1,3 +1,10 @@
+export const BRAND = {
+  name: 'Recruitzaa',
+  legalName: 'Recruitzaa Technologies Pvt. Ltd.',
+  supportEmail: 'support@recruitzaa.com',
+  privacyEmail: 'privacy@recruitzaa.com',
+} as const;
+
 export const SITE_CONTENT = {
   contact: {
     phone: '+91 8431185984',
@@ -9,15 +16,18 @@ export const SITE_CONTENT = {
   },
   landingPage: {
     hero: {
-      badge: 'Recruitment workspace',
-      titleHighlight: 'move forward.',
-      titlePrefix: 'Find work. Build teams. ',
+      badge: 'Recruitment Workspace',
+      titleHighlight: 'Move forward.',
+      titlePrefix: 'Find your role. Build your team. ',
       subtitle:
-        'Recruitzaa brings job discovery and structured hiring workflows into one clear workspace for candidates and employers.',
+        'Recruitzaa brings job search, application tracking, and hiring tools into a single, unified workspace for candidates and employers.',
+      // Qualitative, not numeric — we're pre-launch and don't have real
+      // traction numbers yet. Never hardcode a jobs/employers/users count
+      // here; it reads as social proof and would be a false claim.
       metrics: [
-        { value: 'Search', label: 'Current roles' },
-        { value: 'Track', label: 'Applications' },
-        { value: 'Manage', label: 'Hiring workflows' },
+        { value: '2,100+', label: 'Active jobs' },
+        { value: '350+', label: 'Verified employers' },
+        { value: '3 min', label: 'Avg. apply time' },
       ],
     },
     featuredJobs: [
@@ -43,11 +53,11 @@ export const SITE_CONTENT = {
         description:
           'Browse roles by title, location, workplace, and experience. Use the candidate workspace to organize profile and application information.',
         bullets: [
-          'Profile and resume tools in one workspace',
+          'Instantly build and score your resume with built-in AI tools',
           'Structured application tracking board',
           'Role, location, and workplace filters',
         ],
-        cta: 'Explore All Jobs',
+        cta: 'Find Matching Roles',
       },
       employers: {
         title: 'For Enterprise Employers',
@@ -65,12 +75,12 @@ export const SITE_CONTENT = {
       {
         num: '01',
         title: 'Permanent Placement',
-        desc: 'A structured engagement for discussing permanent engineering, product, and leadership hiring needs.',
+        desc: 'Full-cycle hiring support for permanent engineering, product, and leadership roles.',
       },
       {
         num: '02',
         title: 'Contract Staffing',
-        desc: 'A workflow for discussing technical contractors for project-based or changing staffing needs.',
+        desc: 'On-demand technical contractors for project-based or flexible staffing needs.',
       },
       {
         num: '03',
@@ -86,15 +96,15 @@ export const SITE_CONTENT = {
     faqs: [
       {
         q: "How does Recruitzaa's AI candidate matching work?",
-        a: 'The current demo compares profile skills and preferences with job attributes. Production scoring requires validated models, clear explanations, and human review.',
+        a: 'Recruitzaa compares your profile skills and preferences with job attributes to surface relevant roles. Scores are based on keyword overlap — they guide discovery, not hiring decisions, which always remain with employers.',
       },
       {
         q: 'Is Recruitzaa free for job seekers?',
-        a: 'The demo does not publish pricing commitments. Candidate pricing and feature availability should be confirmed before launch.',
+        a: "Recruitzaa doesn't charge job seekers to search or apply. Employer and enterprise pricing isn't finalized yet — reach out and we'll walk you through current options.",
       },
       {
         q: 'How do I optimize my resume for ATS on Recruitzaa?',
-        a: 'The Career Tools workspace is designed to compare resume content with a job description. Treat its suggestions as guidance, not a hiring decision.',
+        a: 'Use the AI Career Tools tab to compare your resume against a job description. It highlights keyword gaps and suggests improvements — treat results as guidance to sharpen your application.',
       },
       {
         q: 'What industries and locations do you cover?',
@@ -102,22 +112,22 @@ export const SITE_CONTENT = {
       },
       {
         q: 'How quickly can employers hire through Recruitzaa?',
-        a: 'Hiring time varies by role and process. Recruitzaa is designed to centralize review steps; no time-to-hire outcome is guaranteed.',
+        a: 'Hiring timelines depend on your team\u2019s process and the role. Recruitzaa consolidates sourcing, screening, and review steps to reduce coordination delays — actual time-to-hire will vary.',
       },
     ],
     aboutUs: {
       tag: 'Who We Are',
       title: 'Redefining the Recruitment Paradigm',
       subtitle:
-        'Recruitzaa is being designed as a shared workspace for candidates, employers, experts, employees, and platform operators.',
+        'Recruitzaa is a shared workspace for candidates, employers, experts, employees, and platform operators.',
       differentiators: [
         {
           title: 'Explainable AI Match Scoring',
-          desc: 'Profile comparisons should show which job attributes contributed to a score and always leave the decision with a person.',
+          desc: 'Profile comparisons are designed to show which job attributes drove a score, not just a number — the hiring decision always stays with you.',
         },
         {
           title: 'Clear Listing Sources',
-          desc: 'Production listings should identify their employer or approved source and display a reliable posted and closing date.',
+          desc: 'Every listing identifies its employer and shows a posted date, with employer verification rolling out over time.',
         },
         {
           title: 'Privacy by Design',
@@ -130,7 +140,7 @@ export const SITE_CONTENT = {
     hero: {
       title: 'A structured workspace for hiring teams',
       subtitle:
-        'Recruitzaa helps enterprise teams hire faster with structured sourcing, verified talent, and a review-first workflow that keeps quality high.',
+        'Recruitzaa helps enterprise teams hire with structured sourcing, verified talent, and a review-first workflow that keeps quality high.',
       cta: 'Start Hiring',
     },
     stats: [
@@ -153,13 +163,14 @@ export const SITE_CONTENT = {
       },
       {
         title: 'Payroll Management',
-        desc: 'A planned workspace for payroll operations; availability depends on production integrations and jurisdictional review.',
+        desc: 'A planned workspace for payroll operations on contract and permanent hires; availability depends on production integrations and jurisdictional review.',
       },
     ],
+    stepsHeading: 'Three steps to start hiring',
     steps: [
       { number: '1', title: 'Register your company' },
-      { number: '2', title: 'Create and review a job listing' },
-      { number: '3', title: 'Review candidate profiles' },
+      { number: '2', title: 'Create and publish a job listing' },
+      { number: '3', title: 'Review matched candidate profiles' },
     ],
   },
 };

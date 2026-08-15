@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "default": "prompt",
+    "allowlist": [
+      "bash:npm",
+      "bash:git",
+      "bash:find",
+      "bash:grep",
+      "bash:ls",
+      "read",
+      "edit",
+      "write"
+    ]
+  },
+  "files": {
+    "exclude": [
+      "node_modules/**",
+      "dist/**",
+      "dist-ssr/**",
+      "graphify-out/graph.json",
+      "graphify-out/graph.html",
+      "graphify-out/manifest.json",
+      "graphify-out/cache/**",
+      "graphify-out/20*/**",
+      "coverage/**",
+      "build/**",
+      ".git/**",
+      "*.apk",
+      ".DS_Store"
+    ],
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.tsx",
+      "src/**/*.json",
+      "web/**/*.ts",
+      "web/**/*.tsx",
+      "**/*.md"
+    ]
+  },
+  "model": "claude-opus-5"
+}

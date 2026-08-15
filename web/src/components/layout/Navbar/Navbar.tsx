@@ -5,7 +5,7 @@ import { useAppSelector } from '../../../store/hooks';
 import { logOut } from '../../../services/auth.service';
 import { useFocusTrap } from '../../../hooks/useFocusTrap';
 import styles from './Navbar.module.css';
-import logo from '../../../assets/logo.png';
+import { BrandLogo } from '../../brand/BrandLogo';
 import { ROUTES } from '../../../config/routes';
 import { useTheme } from '../../../hooks/useTheme';
 
@@ -18,6 +18,7 @@ export const Navbar = () => {
   const [openMenu, setOpenMenu] = useState<MenuName>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { isDark, toggleTheme } = useTheme();
+  const audience = useAppSelector((s) => s.ui.audience);
   const mobilePanelRef = useRef<HTMLDivElement>(null);
   const navMenuRef = useRef<HTMLElement>(null);
   const closeMobile = useCallback(() => setMobileOpen(false), []);
@@ -50,7 +51,7 @@ export const Navbar = () => {
   const handleSignOut = async () => {
     try {
       await logOut();
-      navigate('/login');
+      navigate(ROUTES.AUTH.LOGIN);
     } catch (err) {
       console.error('Logout failed:', err);
     }
@@ -58,7 +59,7 @@ export const Navbar = () => {
 
   const getDashboardRoute = () => {
     const role = appUser?.activeRole ?? appUser?.role;
-    if (!role) return '/login';
+    if (!role) return ROUTES.AUTH.LOGIN;
     if (role === 'SUPER_ADMIN') return '/admin/dashboard';
     if (role === 'EMPLOYER') return ROUTES.EMPLOYER.DASHBOARD;
     if (role === 'EXPERT') return '/expert/dashboard';
@@ -66,12 +67,47 @@ export const Navbar = () => {
     return ROUTES.CANDIDATE.DASHBOARD;
   };
 
-  const authLink = (intent: 'signin' | 'candidate' | 'employer') =>
-    intent === 'signin' ? '/login' : `/register?intent=${intent}`;
   const userRole = appUser?.activeRole ?? appUser?.role;
-  const canSeeJobs = !isAuthenticated || userRole !== 'EMPLOYER';
+  const isEmployerContext =
+    location.pathname.startsWith('/employers') ||
+    location.pathname.startsWith('/employer') ||
+    location.search.includes('intent=employer');
+  // The homepage '/' is the canonical job-seeker landing — treat it the same
+  // as /jobs and /candidate so a persisted 'employer' audience preference
+  // never hides Find Jobs / Career Tools when a visitor navigates back to '/'.
+  const isJobSeekerContext =
+    location.pathname === '/' ||
+    location.pathname.startsWith('/jobs') ||
+    location.pathname.startsWith('/candidate') ||
+    location.search.includes('intent=candidate');
+  // Sign In should land on the account-type tab that matches where the visitor
+  // currently is (or their saved audience preference), not always "Job Seeker".
+  const signInIntent: 'candidate' | 'employer' = isEmployerContext
+    ? 'employer'
+    : isJobSeekerContext
+      ? 'candidate'
+      : audience === 'employer'
+        ? 'employer'
+        : 'candidate';
+  const authLink = (intent: 'signin' | 'candidate' | 'employer') =>
+    intent === 'signin'
+      ? ROUTES.AUTH.loginWithIntent(signInIntent)
+      : ROUTES.AUTH.registerWithIntent(intent);
+  // Once a guest has self-identified via the UtilityBar toggle, stop
+  // cross-promoting the other audience in the primary nav — but never hide
+  // the section a visitor is currently standing on, even if it conflicts
+  // with a stale preference from an earlier visit. Each override must check
+  // its OWN context (job-seeker pages keep Jobs visible, employer pages keep
+  // Employer Services visible) — checking the other one hides the wrong link.
+  const canSeeJobs =
+    (!isAuthenticated || userRole !== 'EMPLOYER') &&
+    (audience !== 'employer' || isJobSeekerContext);
   // Employer tab is a pre-login marketing element — hide it for ALL authenticated users
-  const canSeeEmployers = !isAuthenticated;
+  const canSeeEmployers = !isAuthenticated && (audience !== 'job_seeker' || isEmployerContext);
+
+  const guestPrimaryCta = isEmployerContext
+    ? { label: 'Post a Job', to: authLink('employer'), style: styles.dark }
+    : { label: 'Create Account', to: authLink('candidate'), style: styles.primary };
 
   const primaryLinks = (
     <>
@@ -108,7 +144,7 @@ export const Navbar = () => {
     <header className={styles.header}>
       <div className={styles.container}>
         <Link to="/" className={styles.brand} aria-label="Recruitzaa home">
-          <img src={logo} alt="" width="140" height="36" />
+          <BrandLogo />
         </Link>
 
         <nav ref={navMenuRef} className={styles.navMenu} aria-label="Primary navigation">
@@ -272,11 +308,8 @@ export const Navbar = () => {
               <Link to={authLink('signin')} className={`${styles.button} ${styles.outline}`}>
                 Sign In
               </Link>
-              <Link to={authLink('employer')} className={`${styles.button} ${styles.dark}`}>
-                Post a Job
-              </Link>
-              <Link to={authLink('candidate')} className={`${styles.button} ${styles.primary}`}>
-                Create Account
+              <Link to={guestPrimaryCta.to} className={`${styles.button} ${guestPrimaryCta.style}`}>
+                {guestPrimaryCta.label}
               </Link>
             </>
           )}
@@ -343,11 +376,11 @@ export const Navbar = () => {
                 </>
               ) : (
                 <>
-                  <Link to={authLink('candidate')} className={`${styles.button} ${styles.primary}`}>
-                    Create candidate account
-                  </Link>
-                  <Link to={authLink('employer')} className={`${styles.button} ${styles.dark}`}>
-                    Create employer account
+                  <Link
+                    to={guestPrimaryCta.to}
+                    className={`${styles.button} ${guestPrimaryCta.style}`}
+                  >
+                    {isEmployerContext ? 'Create employer account' : 'Create candidate account'}
                   </Link>
                   <Link to={authLink('signin')} className={`${styles.button} ${styles.outline}`}>
                     Sign in

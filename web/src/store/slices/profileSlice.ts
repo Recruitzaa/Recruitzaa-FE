@@ -8,6 +8,8 @@ import type {
   CareerProfile,
   ExtendedPersonalInfo,
   Accomplishments,
+  ReferenceItem,
+  CertificationItem,
   ProfileState,
 } from './profileSlice.types';
 
@@ -19,6 +21,8 @@ export type {
   CareerProfile,
   ExtendedPersonalInfo,
   Accomplishments,
+  ReferenceItem,
+  CertificationItem,
   ProfileState,
 };
 
@@ -57,7 +61,7 @@ const profileSlice = createSlice({
     updateEmploymentHistory(state, action: PayloadAction<JobHistoryItem[]>) {
       state.employmentHistory = action.payload;
     },
-    updateEducation(state, action: PayloadAction<EducationDetails>) {
+    updateEducation(state, action: PayloadAction<EducationDetails[]>) {
       state.education = action.payload;
     },
     updateProjects(state, action: PayloadAction<ProjectItem[]>) {
@@ -74,6 +78,12 @@ const profileSlice = createSlice({
     },
     updateAccomplishments(state, action: PayloadAction<Accomplishments>) {
       state.accomplishments = action.payload;
+    },
+    updateReferences(state, action: PayloadAction<ReferenceItem[]>) {
+      state.references = action.payload;
+    },
+    updateCertifications(state, action: PayloadAction<CertificationItem[]>) {
+      state.certifications = action.payload;
     },
   },
 });
@@ -92,6 +102,8 @@ export const {
   updateCareerProfile,
   updateExtendedPersonal,
   updateAccomplishments,
+  updateReferences,
+  updateCertifications,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

@@ -2,6 +2,23 @@
   /* container styles are handled by PortalLayout wrapper */
 }
 
+.pageHeader {
+  margin-bottom: 1.25rem;
+}
+
+.pageTitle {
+  color: var(--color-dark);
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.pageSubtitle {
+  color: var(--color-slate);
+  font-size: 0.875rem;
+  margin: 0.35rem 0 0;
+}
+
 .demoNotice {
   margin: 0 0 1.25rem;
   padding: 0.875rem 1rem;

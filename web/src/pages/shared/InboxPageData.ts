@@ -26,7 +26,7 @@ export const defaultThreads: Record<string, Thread[]> = {
         {
           id: 'm1',
           sender: 'Sarah',
-          text: 'Hi Arjun, thanks for applying to the software role.',
+          text: 'Hi, thanks for applying to the software role.',
           time: '10:00 AM',
         },
         {
@@ -46,7 +46,7 @@ export const defaultThreads: Record<string, Thread[]> = {
     {
       id: 't2',
       name: 'Anjali Sharma',
-      role: 'FAANG Tech Mentor (Expert)',
+      role: 'Verified Expert',
       lastMessage: 'Let me know if you want another resume refactor review session.',
       unread: false,
       messages: [
@@ -68,7 +68,7 @@ export const defaultThreads: Record<string, Thread[]> = {
   EMPLOYER: [
     {
       id: 't3',
-      name: 'Arjun Kumar',
+      name: 'Applicant User',
       role: 'Candidate applicant',
       lastMessage: 'Hi Sarah, I just updated my coding portfolio with the billing streams.',
       unread: true,
@@ -85,8 +85,8 @@ export const defaultThreads: Record<string, Thread[]> = {
   EXPERT: [
     {
       id: 't4',
-      name: 'Arjun Kumar',
-      role: 'Candidate mentee',
+      name: 'Mentee User',
+      role: 'Candidate',
       lastMessage: 'Looking forward to our mock interview session tomorrow!',
       unread: true,
       messages: [

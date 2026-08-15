@@ -44,7 +44,9 @@
 .badge,
 .sectionHeader p,
 .index {
-  color: var(--color-primary);
+  /* --color-primary fails contrast on dark-mode surfaces; the *-hover
+     token is tuned per-theme to stay above 4.5:1, matching LandingPage. */
+  color: var(--color-primary-hover);
   text-transform: uppercase;
   font-size: 0.75rem;
   font-weight: 700;
@@ -108,6 +110,10 @@
   max-width: var(--container-max);
   margin: 0 auto;
   padding: 4rem 2rem;
+}
+
+.servicesAnchor {
+  scroll-margin-top: var(--navbar-height);
 }
 
 .sectionAlt {
@@ -177,7 +183,7 @@
   height: 2rem;
   border-radius: 50%;
   background: var(--color-primary-light);
-  color: var(--color-primary);
+  color: var(--color-primary-hover);
   display: inline-flex;
   align-items: center;
   justify-content: center;

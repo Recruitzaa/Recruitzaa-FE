@@ -9,16 +9,7 @@ import {
   GraduationCap,
   Bookmark,
 } from 'lucide-react';
-
-export const getInitials = (name?: string) => {
-  if (!name) return 'U';
-  return name
-    .split(' ')
-    .map((n) => n[0])
-    .slice(0, 2)
-    .join('')
-    .toUpperCase();
-};
+import { ROUTES } from '../../config/routes';
 
 export const getRoleLabel = (role?: string) => {
   switch (role) {
@@ -55,8 +46,8 @@ export const getNavItems = (activeRole: string) => {
   }
   return [
     { label: 'Overview', path: '/candidate/dashboard', icon: LayoutDashboard },
-    { label: 'Verified Job Search', path: '/jobs', icon: Briefcase },
-    { label: 'Saved Jobs & Searches', path: '/candidate/saved', icon: Bookmark },
+    { label: 'Verified Job Search', path: ROUTES.CANDIDATE.JOBS, icon: Briefcase },
+    { label: 'Saved Jobs & Searches', path: '/candidate/saved-jobs', icon: Bookmark },
     { label: 'Application Pipeline', path: '/candidate/pipeline', icon: Kanban },
     { label: 'AI Career Hub', path: '/candidate/ai-hub', icon: Sparkles },
     { label: 'Expert Mentors', path: '/candidate/expert-hub', icon: GraduationCap },

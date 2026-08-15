@@ -1,108 +1,67 @@
 import type { ProfileState } from './profileSlice.types';
 
+// Genuinely blank — a brand-new candidate must never see another person's
+// (previously "Arjun Kumar") pre-filled data. Demo/sample data lives under
+// src/data/demo/ and is only loaded via an explicit, confirmed user action
+// (e.g. the AI resume-parser autofill).
 export const initialProfileState: ProfileState = {
   personalInfo: {
-    firstName: 'Arjun',
-    lastName: 'Kumar',
-    email: 'arjun.kumar@gmail.com',
-    phone: '+91 95001 22889',
-    location: 'Bangalore, India',
-    avatar:
-      'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=200',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    location: '',
+    // Empty until the candidate uploads their own photo. ProfileBannerCard
+    // falls back to the signed-in provider's photo (e.g. Google), then to an
+    // initials placeholder — never a stock photo of an unrelated person.
+    avatar: '',
   },
   employmentDetails: {
-    currentCompany: 'Infosys Limited',
-    currentDesignation: 'Senior Systems Engineer',
-    totalExperience: '3 Years 3 Months',
-    currentCTC: '₹ 4,50,000',
-    noticePeriod: '1 Month notice period',
+    currentCompany: '',
+    currentDesignation: '',
+    totalExperience: '',
+    currentCTC: '',
+    noticePeriod: '',
   },
   professionalSummary: {
-    headline:
-      'MEAN Stack Developer (Angular & Node.js) | 3 Years Exp at Infosys | API Optimization & Scalable Architecture',
-    detailedSummary:
-      'Software Engineer with 3+ years of experience building enterprise-grade web applications for clients at Infosys. Specialized in Node.js, Express, Angular, and MongoDB with a focus on performance tuning and complex workflow automation. Proven track record of optimizing database queries and reducing server response latency by 30%.',
+    headline: '',
+    detailedSummary: '',
   },
-  skills: [
-    'Angular',
-    'Node.js',
-    'MongoDB',
-    'TypeScript',
-    'REST API Design',
-    'Express',
-    'Microservices',
-    'Docker',
-    'Jenkins',
-    'Performance Tuning',
-  ],
-  employmentHistory: [
-    {
-      designation: 'Senior Systems Engineer',
-      company: 'Infosys',
-      duration: 'Aug 2023 to Present (1 year 3 months)',
-      keyResponsibilities: [
-        'Lead full stack development for telecom client AT&T projects.',
-        'Designed and deployed 20+ secure REST APIs using Node.js and Express.',
-        'Optimized MongoDB indexes and reduced API response time by 30%.',
-        'Mentored junior engineers and conducted strict code reviews.',
-      ],
-    },
-    {
-      designation: 'Systems Engineer',
-      company: 'Infosys',
-      duration: 'Aug 2022 to Aug 2023 (1 year)',
-      keyResponsibilities: [
-        'Collaborated on Angular-based frontend dashboards.',
-        'Integrated third-party APIs for billing validation modules.',
-        'Resolved 150+ high-severity bugs in testing environments.',
-      ],
-    },
-  ],
-  education: {
-    degree: 'B.Tech / B.E. Computer Science and Engineering',
-    university: 'Andhra University, Visakhapatnam',
-    duration: '2018-2022',
-    type: 'Full Time',
-  },
-  projects: [
-    {
-      name: 'Field Studio — Telecom Engineering Platform',
-      client: 'AT&T Client',
-      duration: 'Mar 2023 to Present',
-      description:
-        'An internal engineering platform used by AT&T field teams for 5G site design, equipment ordering, and workflow automation. Built the frontend architecture using Angular 14+ and optimized client-side rendering times by 25%.',
-    },
-  ],
-  itSkills: [
-    { skill: 'Node.js', version: '18', lastUsed: '2026', experience: '3 Years 0 Months' },
-    { skill: 'MongoDB', version: '8', lastUsed: '2026', experience: '3 Years 0 Months' },
-    { skill: 'Angular', version: '12', lastUsed: '2025', experience: '3 Years 2 Months' },
-  ],
+  skills: [],
+  employmentHistory: [],
+  education: [],
+  projects: [],
+  itSkills: [],
   careerProfile: {
-    industry: 'IT Services & Consulting',
-    department: 'Engineering - Software & QA',
-    roleCategory: 'Software Development',
-    jobRole: 'Full Stack Developer',
-    desiredJobType: 'Permanent',
-    desiredEmploymentType: 'Full Time',
-    desiredLocations: ['Bangalore', 'Hyderabad', 'Mumbai'],
-    expectedSalary: '₹ 10,00,000',
-    preferredShift: 'Day Shift',
+    industry: '',
+    department: '',
+    roleCategory: '',
+    jobRole: '',
+    desiredJobType: '',
+    desiredEmploymentType: '',
+    desiredLocations: [],
+    expectedSalary: '',
+    preferredShift: '',
+    workAuthorization: '',
+    willingToRelocate: '',
+    preferredWorkMode: '',
   },
   extendedPersonal: {
-    gender: 'Male',
-    maritalStatus: 'Single / Unmarried',
-    dob: '05 Mar 2000',
-    category: 'General / OBC',
-    address: 'No 42, 10th Cross, Indiranagar, Bangalore, Karnataka - 560038',
-    languages: ['English (Expert)', 'Hindi (Fluent)', 'Kannada (Native)'],
+    gender: '',
+    maritalStatus: '',
+    dob: '',
+    address: '',
+    languages: [],
+    nationality: '',
+    differentlyAbled: '',
   },
   accomplishments: {
-    onlineProfile: 'https://www.linkedin.com/in/arjun-kumar',
-    workSample: 'https://github.com/arjun-kumar-dev',
-    publication: 'AI-Driven Automated Test Script Generation - IEEE Paper 2024',
-    presentation: 'https://slideshare.net/arjun-kumar/mean-stack-optimizations',
-    patent: 'System and Method for Hardware-Backed Encrypted Auth Sessions - Patent Pending',
-    certification: 'AWS Certified Solutions Architect – Associate (2025)',
+    onlineProfile: '',
+    workSample: '',
+    publication: '',
+    presentation: '',
+    patent: '',
   },
+  references: [],
+  certifications: [],
 };

@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { Shield, Key, Bell, Globe, Database, RefreshCw, CheckCircle2, Copy } from 'lucide-react';
 import { SEO } from '../../components/seo/SEO';
+import { BRAND } from '../../config/content';
 
-const MOCK_API_KEY = 'rz_prod_sk_9f2a3b7c4d1e8f6a0b5c2d9e4f7a1b3c';
+const MOCK_API_KEY = 'rz_demo_sk_9f2a3b7c4d1e8f6a0b5c2d9e4f7a1b3c';
 
 const SETTINGS = [
   {
@@ -10,7 +11,7 @@ const SETTINGS = [
     label: 'General',
     icon: Globe,
     fields: [
-      { label: 'Platform Name', value: 'recruitZaa', type: 'text' },
+      { label: 'Platform Name', value: BRAND.name, type: 'text' },
       { label: 'Support Email', value: 'support@recruitzaa.com', type: 'email' },
       { label: 'Default Language', value: 'en', type: 'text' },
     ],
@@ -21,7 +22,7 @@ const SETTINGS = [
     icon: Bell,
     fields: [
       { label: 'Admin Alert Email', value: 'admin@recruitzaa.com', type: 'email' },
-      { label: 'System Alert Slack Webhook', value: 'https://hooks.slack.com/...', type: 'text' },
+      { label: 'System Alert Slack Webhook', value: 'Not configured', type: 'text' },
     ],
   },
   {
@@ -36,6 +37,7 @@ const SETTINGS = [
 ];
 
 export const AdminSettingsPage = () => {
+  const idPrefix = useId();
   const [copied, setCopied] = useState(false);
   const [masked, setMasked] = useState(true);
 
@@ -48,7 +50,7 @@ export const AdminSettingsPage = () => {
   return (
     <>
       <SEO
-        title="Settings & API | recruitZaa Admin"
+        title={`Settings & API | ${BRAND.name} Admin`}
         description="Manage platform configuration, API keys, security settings and system preferences."
       />
 
@@ -56,43 +58,43 @@ export const AdminSettingsPage = () => {
         {/* Header */}
         <div>
           <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white">Settings & API</h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-sm text-slate-500 mt-1">
             Manage platform configuration, API access, and system integrations.
           </p>
         </div>
 
         {/* API Keys Card */}
-        <section className="bg-white dark:bg-[#131924] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+        <section className="bg-white dark:bg-brand-card rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
           <div className="flex items-center gap-3 px-6 py-4 border-b border-slate-100 dark:border-slate-800">
-            <div className="p-1.5 bg-[#fef3ee] dark:bg-[#c14f16]/20 rounded-lg">
-              <Key size={15} className="text-[#c14f16]" />
+            <div className="p-1.5 bg-brand-primary-light dark:bg-brand-primary/20 rounded-lg">
+              <Key size={15} className="text-brand-primary" />
             </div>
             <div>
               <h2 className="text-sm font-bold text-slate-900 dark:text-white">API Credentials</h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
-                Your production API key for server-to-server integration.
+              <p className="text-sm text-slate-500">
+                Your API credential for local development integrations.
               </p>
             </div>
           </div>
 
           <div className="p-6 space-y-4">
-            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
+            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border border-slate-200">
               <div className="flex items-center justify-between gap-3">
-                <code className="text-sm font-mono text-slate-700 dark:text-slate-300 break-all flex-1">
+                <code className="text-sm font-mono text-slate-700 break-all flex-1">
                   {masked ? '•'.repeat(MOCK_API_KEY.length) : MOCK_API_KEY}
                 </code>
                 <div className="flex items-center gap-2 shrink-0">
                   <button
                     type="button"
                     onClick={() => setMasked(!masked)}
-                    className="text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white border border-slate-200 dark:border-slate-700 rounded px-2 py-1 transition-colors"
+                    className="text-sm font-bold text-slate-500 hover:text-slate-800 dark:hover:text-white border border-slate-200 rounded px-2 py-1 transition-colors"
                   >
                     {masked ? 'Reveal' : 'Hide'}
                   </button>
                   <button
                     type="button"
                     onClick={handleCopy}
-                    className="flex items-center gap-1 text-sm font-bold text-[#c14f16] border border-[#c14f16]/30 rounded px-2 py-1 hover:bg-[#fef3ee] dark:hover:bg-[#c14f16]/10 transition-colors"
+                    className="flex items-center gap-1 text-sm font-bold text-brand-primary border border-brand-primary/30 rounded px-2 py-1 hover:bg-brand-primary-light dark:hover:bg-brand-primary/10 transition-colors"
                   >
                     {copied ? <CheckCircle2 size={11} /> : <Copy size={11} />}
                     {copied ? 'Copied!' : 'Copy'}
@@ -103,27 +105,27 @@ export const AdminSettingsPage = () => {
             <div className="flex items-center gap-3">
               <button
                 type="button"
-                className="flex items-center gap-1.5 text-sm font-bold text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 border border-red-200 dark:border-red-900/40 rounded-lg px-3 py-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                className="flex items-center gap-1.5 text-sm font-bold text-red-600 hover:text-red-800 dark:hover:text-red-300 border border-red-200 dark:border-red-900/40 rounded-lg px-3 py-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
               >
                 <RefreshCw size={11} />
                 Regenerate Key
               </button>
-              <p className="text-sm text-slate-400 dark:text-slate-500">
-                ⚠ Regenerating will immediately invalidate the old key.
+              <p className="text-sm text-slate-400">
+                Regenerating this key will disconnect all active API clients immediately.
               </p>
             </div>
           </div>
         </section>
 
         {/* Security Card */}
-        <section className="bg-white dark:bg-[#131924] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+        <section className="bg-white dark:bg-brand-card rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
           <div className="flex items-center gap-3 px-6 py-4 border-b border-slate-100 dark:border-slate-800">
-            <div className="p-1.5 bg-[#fef3ee] dark:bg-[#c14f16]/20 rounded-lg">
-              <Shield size={15} className="text-[#c14f16]" />
+            <div className="p-1.5 bg-brand-primary-light dark:bg-brand-primary/20 rounded-lg">
+              <Shield size={15} className="text-brand-primary" />
             </div>
             <div>
               <h2 className="text-sm font-bold text-slate-900 dark:text-white">Security</h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
+              <p className="text-sm text-slate-500">
                 Access control and authentication configuration.
               </p>
             </div>
@@ -159,12 +161,10 @@ export const AdminSettingsPage = () => {
                   <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
                     {setting.label}
                   </p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-                    {setting.desc}
-                  </p>
+                  <p className="text-sm text-slate-500 mt-0.5">{setting.desc}</p>
                 </div>
                 <div
-                  className={`relative w-9 h-5 rounded-full transition-colors cursor-pointer shrink-0 ${setting.enabled ? 'bg-[#c14f16]' : 'bg-slate-300 dark:bg-slate-700'}`}
+                  className={`relative w-9 h-5 rounded-full transition-colors cursor-pointer shrink-0 ${setting.enabled ? 'bg-brand-primary' : 'bg-slate-300 dark:bg-slate-700'}`}
                 >
                   <div
                     className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-all ${setting.enabled ? 'left-4' : 'left-0.5'}`}
@@ -181,34 +181,41 @@ export const AdminSettingsPage = () => {
           return (
             <section
               key={section.id}
-              className="bg-white dark:bg-[#131924] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden"
+              className="bg-white dark:bg-brand-card rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden"
             >
               <div className="flex items-center gap-3 px-6 py-4 border-b border-slate-100 dark:border-slate-800">
-                <div className="p-1.5 bg-[#fef3ee] dark:bg-[#c14f16]/20 rounded-lg">
-                  <Icon size={15} className="text-[#c14f16]" />
+                <div className="p-1.5 bg-brand-primary-light dark:bg-brand-primary/20 rounded-lg">
+                  <Icon size={15} className="text-brand-primary" />
                 </div>
                 <h2 className="text-sm font-bold text-slate-900 dark:text-white">
                   {section.label}
                 </h2>
               </div>
               <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {section.fields.map((field) => (
-                  <div key={field.label} className="space-y-1">
-                    <label className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                      {field.label}
-                    </label>
-                    <input
-                      type={field.type}
-                      defaultValue={field.value}
-                      className="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-[#c14f16] transition-colors"
-                    />
-                  </div>
-                ))}
+                {section.fields.map((field) => {
+                  const fieldId = `${idPrefix}-${section.id}-${field.label}`;
+                  return (
+                    <div key={field.label} className="space-y-1">
+                      <label
+                        htmlFor={fieldId}
+                        className="text-sm font-bold text-slate-400 uppercase tracking-wider"
+                      >
+                        {field.label}
+                      </label>
+                      <input
+                        id={fieldId}
+                        type={field.type}
+                        defaultValue={field.value}
+                        className="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-brand-primary transition-colors"
+                      />
+                    </div>
+                  );
+                })}
               </div>
               <div className="px-6 pb-5">
                 <button
                   type="button"
-                  className="text-sm font-bold text-white bg-[#c14f16] hover:bg-[#a94210] px-4 py-2 rounded-lg transition-colors"
+                  className="text-sm font-bold text-white bg-brand-primary hover:bg-brand-primary-hover px-4 py-2 rounded-lg transition-colors"
                 >
                   Save {section.label}
                 </button>

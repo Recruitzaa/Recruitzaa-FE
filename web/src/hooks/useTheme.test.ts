@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { useTheme } from './useTheme';
+import { useTheme, ThemeProvider } from './useTheme';
 
 describe('useTheme Hook', () => {
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('useTheme Hook', () => {
       dispatchEvent: vi.fn(),
     }));
 
-    const { result } = renderHook(() => useTheme());
+    const { result } = renderHook(() => useTheme(), { wrapper: ThemeProvider });
 
     expect(result.current.theme).toBe('light');
     expect(result.current.isDark).toBe(false);
@@ -40,7 +40,7 @@ describe('useTheme Hook', () => {
       dispatchEvent: vi.fn(),
     }));
 
-    const { result } = renderHook(() => useTheme());
+    const { result } = renderHook(() => useTheme(), { wrapper: ThemeProvider });
 
     expect(result.current.theme).toBe('light');
     expect(result.current.isDark).toBe(false);
@@ -50,7 +50,7 @@ describe('useTheme Hook', () => {
   it('should initialize with an explicitly saved theme', () => {
     localStorage.setItem('recruitzaa-theme-v2', 'dark');
 
-    const { result } = renderHook(() => useTheme());
+    const { result } = renderHook(() => useTheme(), { wrapper: ThemeProvider });
 
     expect(result.current.theme).toBe('dark');
     expect(result.current.isDark).toBe(true);
@@ -69,7 +69,7 @@ describe('useTheme Hook', () => {
       dispatchEvent: vi.fn(),
     }));
 
-    const { result } = renderHook(() => useTheme());
+    const { result } = renderHook(() => useTheme(), { wrapper: ThemeProvider });
 
     expect(result.current.theme).toBe('light');
 

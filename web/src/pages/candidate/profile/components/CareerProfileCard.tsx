@@ -13,6 +13,9 @@ interface CareerFormType {
   desiredLocationsText: string;
   expectedSalary: string;
   preferredShift: string;
+  workAuthorization: string;
+  willingToRelocate: string;
+  preferredWorkMode: string;
 }
 
 interface CareerProfileCardProps {
@@ -22,6 +25,7 @@ interface CareerProfileCardProps {
   startEditingCareer: () => void;
   careerForm: CareerFormType;
   setCareerForm: (form: CareerFormType) => void;
+  careerErrors: Record<string, string>;
   saveCareerProfile: () => void;
 }
 
@@ -32,12 +36,13 @@ export const CareerProfileCard = ({
   startEditingCareer,
   careerForm,
   setCareerForm,
+  careerErrors,
   saveCareerProfile,
 }: CareerProfileCardProps) => {
   return (
     <div
       id="career-profile"
-      className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 space-y-4 scroll-mt-24"
+      className="bg-white dark:bg-slate-850 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-6 space-y-4 scroll-mt-24"
     >
       <div className="flex justify-between items-center pb-2 border-b">
         <h3 className="text-sm font-bold text-brand-charcoal">Career Profile</h3>
@@ -45,7 +50,7 @@ export const CareerProfileCard = ({
           <button
             type="button"
             onClick={startEditingCareer}
-            className="inline-flex min-w-11 min-h-11 items-center justify-center rounded-lg text-slate-400 hover:text-brand-primary hover:bg-slate-50 transition-colors"
+            className="inline-flex min-w-11 min-h-11 items-center justify-center rounded-lg text-slate-400 dark:text-slate-500 hover:text-brand-primary hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
             aria-label="Edit career profile"
           >
             <Edit2 size={16} />
@@ -54,66 +59,104 @@ export const CareerProfileCard = ({
       </div>
 
       {!isEditingCareer ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 text-sm text-slate-700">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 text-sm text-slate-700 dark:text-slate-300">
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
+            <div className="text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider text-sm">
               Current Industry
             </div>
-            <div className="font-semibold text-slate-800 mt-1">{careerProfile.industry}</div>
+            <div className="font-semibold text-slate-800 dark:text-slate-100 mt-1">
+              {careerProfile.industry}
+            </div>
           </div>
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
+            <div className="text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider text-sm">
               Functional Department
             </div>
-            <div className="font-semibold text-slate-800 mt-1">{careerProfile.department}</div>
+            <div className="font-semibold text-slate-800 dark:text-slate-100 mt-1">
+              {careerProfile.department}
+            </div>
           </div>
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
+            <div className="text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider text-sm">
               Role Category
             </div>
-            <div className="font-semibold text-slate-800 mt-1">{careerProfile.roleCategory}</div>
+            <div className="font-semibold text-slate-800 dark:text-slate-100 mt-1">
+              {careerProfile.roleCategory}
+            </div>
           </div>
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
+            <div className="text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider text-sm">
               Desired Job Role
             </div>
-            <div className="font-semibold text-slate-800 mt-1">{careerProfile.jobRole}</div>
+            <div className="font-semibold text-slate-800 dark:text-slate-100 mt-1">
+              {careerProfile.jobRole}
+            </div>
           </div>
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
+            <div className="text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider text-sm">
               Desired Job Type
             </div>
-            <div className="font-semibold text-slate-800 mt-1">{careerProfile.desiredJobType}</div>
+            <div className="font-semibold text-slate-800 dark:text-slate-100 mt-1">
+              {careerProfile.desiredJobType}
+            </div>
           </div>
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
+            <div className="text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider text-sm">
               Employment Type
             </div>
-            <div className="font-semibold text-slate-800 mt-1">
+            <div className="font-semibold text-slate-800 dark:text-slate-100 mt-1">
               {careerProfile.desiredEmploymentType}
             </div>
           </div>
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
+            <div className="text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider text-sm">
               Expected Annual Salary
             </div>
-            <div className="font-semibold text-slate-800 mt-1">{careerProfile.expectedSalary}</div>
+            <div className="font-semibold text-slate-800 dark:text-slate-100 mt-1">
+              {careerProfile.expectedSalary}
+            </div>
           </div>
           <div>
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
+            <div className="text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider text-sm">
               Preferred Shift
             </div>
-            <div className="font-semibold text-slate-800 mt-1">{careerProfile.preferredShift}</div>
+            <div className="font-semibold text-slate-800 dark:text-slate-100 mt-1">
+              {careerProfile.preferredShift}
+            </div>
+          </div>
+          <div>
+            <div className="text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider text-sm">
+              Preferred Work Mode
+            </div>
+            <div className="font-semibold text-slate-800 dark:text-slate-100 mt-1">
+              {careerProfile.preferredWorkMode}
+            </div>
+          </div>
+          <div>
+            <div className="text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider text-sm">
+              Willing to Relocate
+            </div>
+            <div className="font-semibold text-slate-800 dark:text-slate-100 mt-1">
+              {careerProfile.willingToRelocate}
+            </div>
+          </div>
+          <div>
+            <div className="text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider text-sm">
+              Work Authorization
+            </div>
+            <div className="font-semibold text-slate-800 dark:text-slate-100 mt-1">
+              {careerProfile.workAuthorization}
+            </div>
           </div>
           <div className="sm:col-span-2">
-            <div className="text-slate-400 font-medium uppercase tracking-wider text-sm">
+            <div className="text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider text-sm">
               Preferred Work Locations
             </div>
             <div className="flex flex-wrap gap-1.5 mt-1.5">
               {careerProfile.desiredLocations.map((loc) => (
                 <span
                   key={loc}
-                  className="px-2.5 py-0.5 bg-slate-50 text-slate-700 rounded text-[11px] border"
+                  className="px-2.5 py-0.5 bg-slate-50 dark:bg-brand-card text-slate-700 dark:text-slate-300 rounded text-xs border"
                 >
                   {loc}
                 </span>
@@ -125,6 +168,7 @@ export const CareerProfileCard = ({
         <CareerProfileEditForm
           careerForm={careerForm}
           setCareerForm={setCareerForm}
+          careerErrors={careerErrors}
           setIsEditingCareer={setIsEditingCareer}
           saveCareerProfile={saveCareerProfile}
         />

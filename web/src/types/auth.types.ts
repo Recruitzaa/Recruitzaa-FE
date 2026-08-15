@@ -8,18 +8,18 @@ export interface AppUser {
   availableRoles: UserRole[]; // Now required — comes from Backend
   activeRole?: UserRole;
   displayName: string;
-  photoURL?: string;
-  phone?: string;
-  location?: string;
-  bio?: string;
-  isCurrentlyEmployed?: boolean;
-  currentCompany?: string;
-  currentRole?: string;
-  currentSalary?: string;
-  noticePeriod?: string;
-  summary?: string;
-  skills?: string[];
-  resumeFileName?: string;
-  resumeFileSize?: string;
-  isActive?: boolean;
+  photoUrl?: string | null;
+  phone?: string | null;
+  location?: string | null;
+  bio?: string | null;
+  isCurrentlyEmployed?: boolean | null;
+  currentCompany?: string | null;
+  currentRole?: string | null;
+  currentSalary?: string | null;
+  noticePeriod?: string | null;
+  summary?: string | null;
+  skills?: string[] | null;
+  resumeFileName?: string | null;
+  resumeFileSize?: string | null;
+  isActive?: boolean | null;
 }

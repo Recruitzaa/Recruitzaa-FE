@@ -13,12 +13,19 @@ import { ProjectsCard } from './profile/components/ProjectsCard';
 import { CareerProfileCard } from './profile/components/CareerProfileCard';
 import { PersonalDetailsCard } from './profile/components/PersonalDetailsCard';
 import { AccomplishmentsCard } from './profile/components/AccomplishmentsCard';
+import { ReferencesCard } from './profile/components/ReferencesCard';
+import { CertificationsCard } from './profile/components/CertificationsCard';
+import { SEO } from '../../components/seo/SEO';
 
 export const ProfilePage = () => {
   const form = useProfileForm();
 
   return (
     <div className={styles.page}>
+      <SEO
+        title="My Profile | Recruitzaa"
+        description="Update details, professional summary, and key technical skills."
+      />
       <div className={styles.container}>
         {/* Header Title Block */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
@@ -27,13 +34,13 @@ export const ProfilePage = () => {
               My Professional Profile
             </h1>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Verify credentials, configure employment metrics, and sync resume structures.
+              Update your skills, work history, and preferences to get better matched roles.
             </p>
           </div>
 
           <button
             type="button"
-            onClick={form.handleTriggerAIParsing}
+            onClick={form.requestAIParsing}
             disabled={form.isParsing}
             className="flex items-center gap-2 bg-brand-primary hover:bg-brand-primary-hover text-white font-bold text-sm py-2.5 px-4 rounded-lg shadow-sm border border-transparent transition-all self-stretch md:self-auto justify-center"
           >
@@ -63,12 +70,15 @@ export const ProfilePage = () => {
             {/* ─── BANNER CARD ─────────────────────────────────────────────────── */}
             <ProfileBannerCard
               profile={form.profile}
+              appUser={form.appUser}
               isEditingPersonal={form.isEditingPersonal}
               setIsEditingPersonal={form.setIsEditingPersonal}
               personalForm={form.personalForm}
               setPersonalForm={form.setPersonalForm}
+              personalErrors={form.personalErrors}
               startEditingPersonal={form.startEditingPersonal}
               savePersonalDetails={form.savePersonalDetails}
+              handleAvatarUpload={form.handleAvatarUpload}
             />
 
             {/* Resume File Upload Card */}
@@ -76,7 +86,10 @@ export const ProfilePage = () => {
               resumeFileName={form.resumeFileName}
               resumeFileSize={form.resumeFileSize}
               isParsing={form.isParsing}
-              handleTriggerAIParsing={form.handleTriggerAIParsing}
+              isAIParsingConfirmOpen={form.isAIParsingConfirmOpen}
+              requestAIParsing={form.requestAIParsing}
+              cancelAIParsing={form.cancelAIParsing}
+              confirmAIParsing={form.confirmAIParsing}
             />
 
             {/* ─── RESUME HEADLINE & PROFESSIONAL SUMMARY ────────────────────────── */}
@@ -86,6 +99,7 @@ export const ProfilePage = () => {
               setIsEditingSummary={form.setIsEditingSummary}
               summaryForm={form.summaryForm}
               setSummaryForm={form.setSummaryForm}
+              summaryErrors={form.summaryErrors}
               startEditingSummary={form.startEditingSummary}
               saveSummary={form.saveSummary}
             />
@@ -102,13 +116,14 @@ export const ProfilePage = () => {
             {/* ─── EMPLOYMENT HISTORY TIMELINE ──────────────────────────────────── */}
             <EmploymentTimeline
               employmentHistory={form.profile.employmentHistory}
-              editingHistoryIndex={form.editingHistoryIndex}
-              setEditingHistoryIndex={form.setEditingHistoryIndex}
+              editingHistoryId={form.editingHistoryId}
+              cancelHistoryEditing={form.cancelHistoryEditing}
               startEditingHistory={form.startEditingHistory}
               historyForm={form.historyForm}
               setHistoryForm={form.setHistoryForm}
               historyResponsibilitiesText={form.historyResponsibilitiesText}
               setHistoryResponsibilitiesText={form.setHistoryResponsibilitiesText}
+              historyErrors={form.historyErrors}
               saveHistoryItem={form.saveHistoryItem}
               deleteHistoryItem={form.deleteHistoryItem}
               addNewHistoryItem={form.addNewHistoryItem}
@@ -117,11 +132,12 @@ export const ProfilePage = () => {
             {/* ─── IT SKILLS CARD (TABULAR LAYOUT) ───────────────────────────────── */}
             <ITSkillsCard
               itSkills={form.profile.itSkills}
-              editingITSkillIndex={form.editingITSkillIndex}
-              setEditingITSkillIndex={form.setEditingITSkillIndex}
+              editingITSkillId={form.editingITSkillId}
+              cancelITSkillEditing={form.cancelITSkillEditing}
               startEditingITSkill={form.startEditingITSkill}
               itSkillForm={form.itSkillForm}
               setITSkillForm={form.setITSkillForm}
+              itSkillErrors={form.itSkillErrors}
               saveITSkillItem={form.saveITSkillItem}
               deleteITSkillItem={form.deleteITSkillItem}
               addNewITSkillItem={form.addNewITSkillItem}
@@ -130,11 +146,12 @@ export const ProfilePage = () => {
             {/* ─── PROJECTS CARD ───────────────────────────────────────────────── */}
             <ProjectsCard
               projects={form.profile.projects}
-              editingProjectIndex={form.editingProjectIndex}
-              setEditingProjectIndex={form.setEditingProjectIndex}
+              editingProjectId={form.editingProjectId}
+              cancelProjectEditing={form.cancelProjectEditing}
               startEditingProject={form.startEditingProject}
               projectForm={form.projectForm}
               setProjectForm={form.setProjectForm}
+              projectErrors={form.projectErrors}
               saveProjectItem={form.saveProjectItem}
               deleteProjectItem={form.deleteProjectItem}
               addNewProjectItem={form.addNewProjectItem}
@@ -143,12 +160,15 @@ export const ProfilePage = () => {
             {/* ─── EDUCATION CARD ──────────────────────────────────────────────── */}
             <EducationCard
               education={form.profile.education}
-              isEditingEducation={form.isEditingEducation}
-              setIsEditingEducation={form.setIsEditingEducation}
+              editingEducationId={form.editingEducationId}
+              cancelEducationEditing={form.cancelEducationEditing}
+              startEditingEducationItem={form.startEditingEducationItem}
               educationForm={form.educationForm}
               setEducationForm={form.setEducationForm}
-              saveEducation={form.saveEducation}
-              startEditingEducation={form.startEditingEducation}
+              educationErrors={form.educationErrors}
+              saveEducationItem={form.saveEducationItem}
+              deleteEducationItem={form.deleteEducationItem}
+              addNewEducationItem={form.addNewEducationItem}
             />
 
             {/* ─── CAREER PROFILE CARD ──────────────────────────────────────────── */}
@@ -159,6 +179,7 @@ export const ProfilePage = () => {
               startEditingCareer={form.startEditingCareer}
               careerForm={form.careerForm}
               setCareerForm={form.setCareerForm}
+              careerErrors={form.careerErrors}
               saveCareerProfile={form.saveCareerProfile}
             />
 
@@ -170,6 +191,7 @@ export const ProfilePage = () => {
               startEditingExtendedPersonal={form.startEditingExtendedPersonal}
               extendedPersonalForm={form.extendedPersonalForm}
               setExtendedPersonalForm={form.setExtendedPersonalForm}
+              extendedPersonalErrors={form.extendedPersonalErrors}
               saveExtendedPersonal={form.saveExtendedPersonal}
             />
 
@@ -181,7 +203,39 @@ export const ProfilePage = () => {
               startEditingAccomplishments={form.startEditingAccomplishments}
               accomplishmentsForm={form.accomplishmentsForm}
               setAccomplishmentsForm={form.setAccomplishmentsForm}
+              accomplishmentsErrors={form.accomplishmentsErrors}
               saveAccomplishments={form.saveAccomplishments}
+            />
+
+            {/* ─── CERTIFICATIONS & LICENSES CARD ─────────────────────────────────── */}
+            <CertificationsCard
+              certifications={form.profile.certifications}
+              editingCertificationId={form.editingCertificationId}
+              cancelCertificationEditing={form.cancelCertificationEditing}
+              startEditingCertification={form.startEditingCertification}
+              certificationForm={form.certificationForm}
+              setCertificationForm={form.setCertificationForm}
+              certificationErrors={form.certificationErrors}
+              saveCertificationItem={form.saveCertificationItem}
+              deleteCertificationItem={form.deleteCertificationItem}
+              addNewCertificationItem={form.addNewCertificationItem}
+              isUploadingCertificateFile={form.isUploadingCertificateFile}
+              handleCertificateFileUpload={form.handleCertificateFileUpload}
+              removeCertificateFile={form.removeCertificateFile}
+            />
+
+            {/* ─── BLOCK 11: PROFESSIONAL REFERENCES CARD ─────────────────────────── */}
+            <ReferencesCard
+              references={form.profile.references}
+              editingReferenceId={form.editingReferenceId}
+              cancelReferenceEditing={form.cancelReferenceEditing}
+              startEditingReference={form.startEditingReference}
+              referenceForm={form.referenceForm}
+              setReferenceForm={form.setReferenceForm}
+              referenceErrors={form.referenceErrors}
+              saveReferenceItem={form.saveReferenceItem}
+              deleteReferenceItem={form.deleteReferenceItem}
+              addNewReferenceItem={form.addNewReferenceItem}
             />
           </div>
         </div>
