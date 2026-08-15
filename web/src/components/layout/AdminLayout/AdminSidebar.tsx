@@ -19,6 +19,7 @@ import { useFocusTrap } from '../../../hooks/useFocusTrap';
 import { ROUTES } from '../../../config/routes';
 import { BRAND } from '../../../config/content';
 import { UserAvatar } from '../../ui/UserAvatar/UserAvatar';
+import { BrandLogo } from '../../brand/BrandLogo';
 
 const NAV = [
   {
@@ -74,17 +75,11 @@ export const AdminSidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
         aria-label="Admin navigation"
         tabIndex={-1}
       >
-        {/* Brand */}
         <div className={styles.brand}>
-          <Link to="/admin/dashboard" className="flex items-center gap-2.5">
-            <div className="w-6 h-6 rounded-md bg-red-600 flex items-center justify-center shrink-0">
-              <ShieldCheck size={12} className="text-white" />
-            </div>
-            <span className={styles.logoText}>
-              {BRAND.name}{' '}
-              <span className="text-sm text-red-600 font-bold ml-1 uppercase tracking-wide">
-                Admin
-              </span>
+          <Link to="/admin/dashboard" className="flex items-center gap-2">
+            <BrandLogo width={120} height={31} />
+            <span className="text-[10px] bg-red-600 text-white font-bold px-1.5 py-0.5 rounded uppercase tracking-wider mt-[0.5em]">
+              Admin
             </span>
           </Link>
           <button

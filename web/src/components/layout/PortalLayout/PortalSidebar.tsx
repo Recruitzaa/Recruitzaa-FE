@@ -8,6 +8,7 @@ import styles from './PortalSidebar.module.css';
 import { useFocusTrap } from '../../../hooks/useFocusTrap';
 import { ROUTES } from '../../../config/routes';
 import { UserAvatar } from '../../ui/UserAvatar/UserAvatar';
+import { BrandLogo } from '../../brand/BrandLogo';
 
 interface PortalSidebarProps {
   isOpen: boolean;
@@ -51,15 +52,8 @@ export const PortalSidebar = ({ isOpen, onClose }: PortalSidebarProps) => {
         tabIndex={-1}
       >
         <div className={styles.brand}>
-          <Link to={isEmployer ? '/employers' : '/'}>
-            <span className={styles.logoText}>
-              Recruitzaa{' '}
-              {isEmployer && (
-                <span className="text-xs text-[#c14f16] font-bold ml-1 uppercase tracking-wider">
-                  Employer
-                </span>
-              )}
-            </span>
+          <Link to={isEmployer ? '/employers' : '/'} className="flex items-center gap-2">
+            <BrandLogo width={130} height={34} />
           </Link>
           <button
             type="button"

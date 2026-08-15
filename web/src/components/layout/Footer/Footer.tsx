@@ -32,7 +32,7 @@ export const Footer = () => {
       <div className={styles.container}>
         <div className={styles.grid}>
           <div className={styles.brand}>
-            <BrandLogo forceVariant="dark" />
+            <BrandLogo />
             <p>
               {BRAND.name} brings job discovery and structured hiring workflows into role-based
               workspaces.

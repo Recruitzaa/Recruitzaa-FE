@@ -1,6 +1,6 @@
 import logo from '../../assets/logo.png';
 import logoDark from '../../assets/logo-dark.png';
-import { useTheme } from '../../hooks/useTheme';
+import styles from './BrandLogo.module.css';
 
 interface BrandLogoProps {
   width?: number;
@@ -21,16 +21,39 @@ export const BrandLogo = ({
   className,
   forceVariant,
 }: BrandLogoProps) => {
-  const { isDark } = useTheme();
-  const useDark = forceVariant ? forceVariant === 'dark' : isDark;
+  const containerStyle: React.CSSProperties = {
+    display: 'inline-flex',
+    overflow: 'hidden',
+    width: `${width}px`,
+    height: `${height}px`,
+  };
+
+  const imageStyle: React.CSSProperties = {
+    display: 'block',
+    width: '100%',
+    height: 'auto',
+  };
+
+  if (forceVariant === 'dark') {
+    return (
+      <span style={containerStyle} className={className}>
+        <img src={logoDark} alt="Recruitzaa" style={imageStyle} />
+      </span>
+    );
+  }
+
+  if (forceVariant === 'light') {
+    return (
+      <span style={containerStyle} className={className}>
+        <img src={logo} alt="Recruitzaa" style={imageStyle} />
+      </span>
+    );
+  }
 
   return (
-    <img
-      src={useDark ? logoDark : logo}
-      alt="Recruitzaa"
-      width={width}
-      height={height}
-      className={className}
-    />
+    <span style={containerStyle} className={`${styles.logoWrapper} ${className || ''}`}>
+      <img src={logo} alt="Recruitzaa" style={imageStyle} className={styles.logoLight} />
+      <img src={logoDark} alt="Recruitzaa" style={imageStyle} className={styles.logoDark} />
+    </span>
   );
 };

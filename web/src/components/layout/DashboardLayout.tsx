@@ -63,8 +63,13 @@ export const DashboardLayout = () => {
         }`}
       >
         <div className="h-16 flex items-center justify-between px-6 border-b border-slate-200 dark:border-slate-800">
-          <Link to="/" className="flex items-center" onClick={() => setIsMobileOpen(false)}>
-            <BrandLogo width={163} height={42} />
+          <Link to="/" className="flex items-center gap-2" onClick={() => setIsMobileOpen(false)}>
+            <BrandLogo width={130} height={34} />
+            {appUser?.activeRole === 'EMPLOYEE' && (
+              <span className="text-[10px] bg-amber-600 text-white font-bold px-1.5 py-0.5 rounded uppercase tracking-wider shrink-0 mt-[0.5em]">
+                Employee
+              </span>
+            )}
           </Link>
           <button
             type="button"
