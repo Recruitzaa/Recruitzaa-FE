@@ -21,10 +21,13 @@ export const SITE_CONTENT = {
       titlePrefix: 'Find your role. Build your team. ',
       subtitle:
         'Recruitzaa brings job search, application tracking, and hiring tools into a single, unified workspace for candidates and employers.',
+      // Qualitative, not numeric — we're pre-launch and don't have real
+      // traction numbers yet. Never hardcode a jobs/employers/users count
+      // here; it reads as social proof and would be a false claim.
       metrics: [
-        { value: '2,100+', label: 'Active jobs' },
-        { value: '350+', label: 'Verified employers' },
-        { value: '3 min', label: 'Avg. apply time' },
+        { value: 'Search', label: 'Live roles' },
+        { value: 'Track', label: 'Applications' },
+        { value: 'Manage', label: 'Hiring workflow' },
       ],
     },
     featuredJobs: [
@@ -97,7 +100,7 @@ export const SITE_CONTENT = {
       },
       {
         q: 'Is Recruitzaa free for job seekers?',
-        a: 'Recruitzaa is completely free for job seekers. Employer and enterprise subscription options are available on request.',
+        a: "Recruitzaa doesn't charge job seekers to search or apply. Employer and enterprise pricing isn't finalized yet — reach out and we'll walk you through current options.",
       },
       {
         q: 'How do I optimize my resume for ATS on Recruitzaa?',
@@ -120,11 +123,11 @@ export const SITE_CONTENT = {
       differentiators: [
         {
           title: 'Explainable AI Match Scoring',
-          desc: 'Profile comparisons show which job attributes contributed to your score — final decisions always stay with you.',
+          desc: 'Profile comparisons are designed to show which job attributes drove a score, not just a number — the hiring decision always stays with you.',
         },
         {
           title: 'Clear Listing Sources',
-          desc: 'Every listing shows its verified employer source, posted date, and salary range.',
+          desc: 'Every listing identifies its employer and shows a posted date, with employer verification rolling out over time.',
         },
         {
           title: 'Privacy by Design',
@@ -160,7 +163,7 @@ export const SITE_CONTENT = {
       },
       {
         title: 'Payroll Management',
-        desc: 'Integrated payroll operations for contract and permanent hires, including disbursement tracking and compliance reporting.',
+        desc: 'A planned workspace for payroll operations on contract and permanent hires; availability depends on production integrations and jurisdictional review.',
       },
     ],
     stepsHeading: 'Three steps to start hiring',
